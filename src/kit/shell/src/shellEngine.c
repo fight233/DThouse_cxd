@@ -30,11 +30,11 @@
 #include <regex.h>
 
 /**************** Global variables ****************/
-char      CLIENT_VERSION[] = "Welcome to the DThouse shell from %s, Client Version:%s\n"
+char      CLIENT_VERSION[] = "Welcome to the TDengine shell from %s, Client Version:%s\n"
                              "Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.\n\n";
-char      PROMPT_HEADER[] = "taos> ";
-char      CONTINUE_PROMPT[] = "   -> ";
-int       prompt_size = 6;
+char      PROMPT_HEADER[] = "dthouse> ";
+char      CONTINUE_PROMPT[] = "      -> ";
+int       prompt_size = 9;
 
 int64_t result = 0;
 SShellHistory   history;
