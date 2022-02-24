@@ -1,0 +1,32 @@
+name: Go
+
+on: [ push ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          path: 'driver-go'
+      - name: checkout TDengine
+        uses: actions/checkout@v2
+        with:
+          repository: 'taosdata/TDengine'
+          path: 'TDengine'
+          ref: 'develop'
+
+      - name: install TDengine
+        run: cd TDengine && mkdir debug && cd debug && cmake .. -DBUILD_JDBC=false -DBUILD_TOOLS=false && make && sudo make install
+
+      - name: start taosd
+        run: nohup sudo taosd &
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.14
+
+      - name: Test
+        run: cd ./driver-go && go test -v ./...
