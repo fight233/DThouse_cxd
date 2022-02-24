@@ -1,12 +1,12 @@
 import fetch from 'node-fetch'
-import {TDengineRestResultSet} from '../src/restResult'
+import {DThouseRestResultSet} from '../src/restResult'
 
 /**
  * this class is core of restful js connector
- * this class resends http request to the TDengine server
+ * this class resends http request to the DThouse server
  * and receive the response.
  */
-export class TDengineRestCursor {
+export class DThouseRestCursor {
   /**
    * constructor,used to get the connection info
    * @param connection
@@ -18,7 +18,7 @@ export class TDengineRestCursor {
     if (connection != null) {
       this._connection = connection
     } else {
-      throw new Error("A TDengineRestConnection object is required to be passed to the TDengineRestCursor")
+      throw new Error("A DThouseRestConnection object is required to be passed to the DThouseRestCursor")
     }
   }
 
@@ -41,9 +41,9 @@ export class TDengineRestCursor {
   }
 
   /**
-   * Used fetch to send http request， and return the response as an object of TDengineRestResultSet
+   * Used fetch to send http request， and return the response as an object of DThouseRestResultSet
    * @param sql
-   * @returns {Promise<TDengineRestResultSet>}
+   * @returns {Promise<DThouseRestResultSet>}
    */
   async query(sql) {
     try {
@@ -53,7 +53,7 @@ export class TDengineRestCursor {
         headers: {'Authorization': this._token()}
       })
       // if (response.status == 'succ') {
-      return await new TDengineRestResultSet(await response.json())
+      return await new DThouseRestResultSet(await response.json())
       // } else {
       //   throw new Error(response.desc)
       // }

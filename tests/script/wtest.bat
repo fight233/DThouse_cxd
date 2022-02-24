@@ -1,7 +1,7 @@
 @echo off
 
-echo TDengine in windows
-rem echo Start TDengine Testing Case ...
+echo DThouse in windows
+rem echo Start DThouse Testing Case ...
 
 set "SCRIPT_DIR=%~dp0"
 rem echo SCRIPT_DIR: %SCRIPT_DIR%

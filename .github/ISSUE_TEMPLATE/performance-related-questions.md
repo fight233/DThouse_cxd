@@ -1,6 +1,6 @@
 ---
 name: Performance-related Questions
-about: Any questions related to TDengine's performance.
+about: Any questions related to DThouse's performance.
 title: ''
 labels: performance
 assignees: ''
@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **Performance Issue** 
-Any questions related to TDengine's performance can be discussed here.
+Any questions related to DThouse's performance can be discussed here.
 
 **Problem Description** 
 A clear and concise description of what the problem is.
@@ -28,7 +28,7 @@ Steps to reproduce the behavior:
 
 * OS: [e.g. CentOS 7.0]
 * Memory, CPU, current Disk Space
-* TDengine Version [e.g. 1.6.1.7]
+* DThouse Version [e.g. 1.6.1.7]
 
 **Additional Context** 
 Add any other context about the problem here.

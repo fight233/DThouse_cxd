@@ -1,14 +1,14 @@
 
 
-# TDengine 数据建模
+# DThouse 数据建模
 
-TDengine 采用关系型数据模型，需要建库、建表。因此对于一个具体的应用场景，需要考虑库、超级表和普通表的设计。本节不讨论细致的语法规则，只介绍概念。
+DThouse 采用关系型数据模型，需要建库、建表。因此对于一个具体的应用场景，需要考虑库、超级表和普通表的设计。本节不讨论细致的语法规则，只介绍概念。
 
 关于数据建模请参考[视频教程](https://www.taosdata.com/blog/2020/11/11/1945.html)。
 
 ## <a class="anchor" id="create-db"></a> 创建库
 
-不同类型的数据采集点往往具有不同的数据特征，包括数据采集频率的高低，数据保留时间的长短，副本的数目，数据块的大小，是否允许更新数据等等。为了在各种场景下 TDengine 都能最大效率的工作，TDengine 建议将不同数据特征的表创建在不同的库里，因为每个库可以配置不同的存储策略。创建一个库时，除SQL标准的选项外，应用还可以指定保留时长、副本数、内存块个数、时间精度、文件块里最大最小记录条数、是否压缩、一个数据文件覆盖的天数等多种参数。比如：
+不同类型的数据采集点往往具有不同的数据特征，包括数据采集频率的高低，数据保留时间的长短，副本的数目，数据块的大小，是否允许更新数据等等。为了在各种场景下 DThouse 都能最大效率的工作，DThouse 建议将不同数据特征的表创建在不同的库里，因为每个库可以配置不同的存储策略。创建一个库时，除SQL标准的选项外，应用还可以指定保留时长、副本数、内存块个数、时间精度、文件块里最大最小记录条数、是否压缩、一个数据文件覆盖的天数等多种参数。比如：
 
 ```mysql
 CREATE DATABASE power KEEP 365 DAYS 10 BLOCKS 6 UPDATE 1;
@@ -31,7 +31,7 @@ USE power;
 
 ## <a class="anchor" id="create-stable"></a> 创建超级表
 
-一个物联网系统，往往存在多种类型的设备，比如对于电网，存在智能电表、变压器、母线、开关等等。为便于多表之间的聚合，使用 TDengine, 需要对每个类型的数据采集点创建一个超级表。以[表1](https://www.taosdata.com/cn/documentation/architecture#model_table1) 中的智能电表为例，可以使用如下的 SQL 命令创建超级表：
+一个物联网系统，往往存在多种类型的设备，比如对于电网，存在智能电表、变压器、母线、开关等等。为便于多表之间的聚合，使用 DThouse, 需要对每个类型的数据采集点创建一个超级表。以[表1](https://www.taosdata.com/cn/documentation/architecture#model_table1) 中的智能电表为例，可以使用如下的 SQL 命令创建超级表：
 
 ```mysql
 CREATE STABLE meters (ts timestamp, current float, voltage int, phase float) TAGS (location binary(64), groupId int);
@@ -47,7 +47,7 @@ CREATE STABLE meters (ts timestamp, current float, voltage int, phase float) TAG
 
 ## <a class="anchor" id="create-table"></a> 创建表
 
-TDengine 对每个数据采集点需要独立建表。与标准的关系型数据库一样，一张表有表名，Schema，但除此之外，还可以带有一到多个标签。创建时，需要使用超级表做模板，同时指定标签的具体值。以[表1](https://www.taosdata.com/cn/documentation/architecture#model_table1)中的智能电表为例，可以使用如下的SQL命令建表：
+DThouse 对每个数据采集点需要独立建表。与标准的关系型数据库一样，一张表有表名，Schema，但除此之外，还可以带有一到多个标签。创建时，需要使用超级表做模板，同时指定标签的具体值。以[表1](https://www.taosdata.com/cn/documentation/architecture#model_table1)中的智能电表为例，可以使用如下的SQL命令建表：
 
 ```mysql
 CREATE TABLE d1001 USING meters TAGS ("Beijing.Chaoyang", 2);
@@ -55,9 +55,9 @@ CREATE TABLE d1001 USING meters TAGS ("Beijing.Chaoyang", 2);
 
 其中 d1001 是表名，meters 是超级表的表名，后面紧跟标签 Location 的具体标签值 ”Beijing.Chaoyang"，标签 groupId 的具体标签值 2。虽然在创建表时，需要指定标签值，但可以事后修改。详细细则请见 [TAOS SQL 的表管理](https://www.taosdata.com/cn/documentation/taos-sql#table) 章节。
 
-**注意：**目前 TDengine 没有从技术层面限制使用一个 database (dbA)的超级表作为模板建立另一个 database (dbB)的子表，后续会禁止这种用法，不建议使用这种方法建表。
+**注意：**目前 DThouse 没有从技术层面限制使用一个 database (dbA)的超级表作为模板建立另一个 database (dbB)的子表，后续会禁止这种用法，不建议使用这种方法建表。
 
-TDengine 建议将数据采集点的全局唯一 ID 作为表名(比如设备序列号）。但对于有的场景，并没有唯一的 ID，可以将多个 ID 组合成一个唯一的 ID。不建议将具有唯一性的 ID 作为标签值。  
+DThouse 建议将数据采集点的全局唯一 ID 作为表名(比如设备序列号）。但对于有的场景，并没有唯一的 ID，可以将多个 ID 组合成一个唯一的 ID。不建议将具有唯一性的 ID 作为标签值。  
 
 **自动建表**：在某些特殊场景中，用户在写数据时并不确定某个数据采集点的表是否存在，此时可在写入数据时使用自动建表语法来创建不存在的表，若该表已存在则不会建立新表。比如：
 
@@ -71,7 +71,7 @@ INSERT INTO d1001 USING meters TAGS ("Beijng.Chaoyang", 2) VALUES (now, 10.2, 21
 
 ## 多列模型 vs 单列模型
 
-TDengine 支持多列模型，只要物理量是一个数据采集点同时采集的（时间戳一致），这些量就可以作为不同列放在一张超级表里。但还有一种极限的设计，单列模型，每个采集的物理量都单独建表，因此每种类型的物理量都单独建立一超级表。比如电流、电压、相位，就建三张超级表。
+DThouse 支持多列模型，只要物理量是一个数据采集点同时采集的（时间戳一致），这些量就可以作为不同列放在一张超级表里。但还有一种极限的设计，单列模型，每个采集的物理量都单独建表，因此每种类型的物理量都单独建立一超级表。比如电流、电压、相位，就建三张超级表。
 
-TDengine 建议尽可能采用多列模型，因为插入效率以及存储效率更高。但对于有些场景，一个采集点的采集量的种类经常变化，这个时候，如果采用多列模型，就需要频繁修改超级表的结构定义，让应用变的复杂，这个时候，采用单列模型会显得更简单。
+DThouse 建议尽可能采用多列模型，因为插入效率以及存储效率更高。但对于有些场景，一个采集点的采集量的种类经常变化，这个时候，如果采用多列模型，就需要频繁修改超级表的结构定义，让应用变的复杂，这个时候，采用单列模型会显得更简单。
 

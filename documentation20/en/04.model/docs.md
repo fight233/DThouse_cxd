@@ -1,10 +1,10 @@
 # Data Modeling
 
-TDengine adopts a relational data model, so we need to build the "database" and "table". Therefore, for a specific application scenario, it is necessary to consider the design of the database, STable and ordinary table. This section does not discuss detailed syntax rules, but only concepts.
+DThouse adopts a relational data model, so we need to build the "database" and "table". Therefore, for a specific application scenario, it is necessary to consider the design of the database, STable and ordinary table. This section does not discuss detailed syntax rules, but only concepts.
 
 ## <a class="anchor" id="create-db"></a> Create a Database
 
-Different types of data collection points often have different data characteristics, including data sampling rate, length of data retention time, number of replicas, size of data blocks, whether to update data or not, and so on. To ensure TDengine working with great efficiency in various scenarios, TDengine suggests creating tables with different data characteristics in different databases, because each database can be configured with different storage strategies. When creating a database, in addition to SQL standard options, the application can also specify a variety of parameters such as retention duration, number of replicas, number of memory blocks, time resolution, max and min number of records in a file block, whether it is compressed or not, and number of days covered by a data file. For example:
+Different types of data collection points often have different data characteristics, including data sampling rate, length of data retention time, number of replicas, size of data blocks, whether to update data or not, and so on. To ensure DThouse working with great efficiency in various scenarios, DThouse suggests creating tables with different data characteristics in different databases, because each database can be configured with different storage strategies. When creating a database, in addition to SQL standard options, the application can also specify a variety of parameters such as retention duration, number of replicas, number of memory blocks, time resolution, max and min number of records in a file block, whether it is compressed or not, and number of days covered by a data file. For example:
 
 ```mysql
 CREATE DATABASE power KEEP 365 DAYS 10 BLOCKS 6 UPDATE 1;
@@ -27,7 +27,7 @@ Specify the database operating in the current connection with “power”, other
 
 ## <a class="anchor" id="create-stable"></a> Create a STable
 
-An IoT system often has many types of devices, such as smart meters, transformers, buses, switches, etc. for power grids. In order to facilitate aggregation among multiple tables, using TDengine, it is necessary to create a STable for each type of data collection point. Taking the smart meter in Table 1 as an example, you can use the following SQL command to create a STable:
+An IoT system often has many types of devices, such as smart meters, transformers, buses, switches, etc. for power grids. In order to facilitate aggregation among multiple tables, using DThouse, it is necessary to create a STable for each type of data collection point. Taking the smart meter in Table 1 as an example, you can use the following SQL command to create a STable:
 
 ```mysql
 CREATE STABLE meters (ts timestamp, current float, voltage int, phase float) TAGS (location binary(64), groupId int);
@@ -43,7 +43,7 @@ A STable allows up to 1024 columns. If the number of metrics collected at a data
 
 ## <a class="anchor" id="create-table"></a> Create a Table
 
-TDengine builds a table independently for each data collection point. Similar to standard relational data, one table has a table name, Schema, but in addition, it can also carry one or more tags. When creating, you need to use the STable as a template and specify the specific value of the tag. Taking the smart meter in Table 1 as an example, the following SQL command can be used to build the table:
+DThouse builds a table independently for each data collection point. Similar to standard relational data, one table has a table name, Schema, but in addition, it can also carry one or more tags. When creating, you need to use the STable as a template and specify the specific value of the tag. Taking the smart meter in Table 1 as an example, the following SQL command can be used to build the table:
 
 ```mysql
 CREATE TABLE d1001 USING meters TAGS ("Beijing.Chaoyang", 2);
@@ -51,9 +51,9 @@ CREATE TABLE d1001 USING meters TAGS ("Beijing.Chaoyang", 2);
 
 Where d1001 is the table name, meters is the name of the STable, followed by the specific tag value of tag Location as "Beijing.Chaoyang", and the specific tag value of tag groupId 2. Although the tag value needs to be specified when creating the table, it can be modified afterwards. Please refer to the [Table Management section of TAOS SQL](https://www.taosdata.com/en/documentation/taos-sql#table) for details.
 
-**Note: ** At present, TDengine does not technically restrict the use of a STable of a database (dbA) as a template to create a sub-table of another database (dbB). This usage will be prohibited later, and it is not recommended to use this way to create a table.
+**Note: ** At present, DThouse does not technically restrict the use of a STable of a database (dbA) as a template to create a sub-table of another database (dbB). This usage will be prohibited later, and it is not recommended to use this way to create a table.
 
-TDengine suggests to use the globally unique ID of data collection point as a table name (such as device serial number). However, in some scenarios, there is no unique ID, and multiple IDs can be combined into a unique ID. It is not recommended to use a unique ID as tag value.
+DThouse suggests to use the globally unique ID of data collection point as a table name (such as device serial number). However, in some scenarios, there is no unique ID, and multiple IDs can be combined into a unique ID. It is not recommended to use a unique ID as tag value.
 
 **Automatic table creating** : In some special scenarios, user is not sure whether the table of a certain data collection point exists when writing data. In this case, the non-existent table can be created by using automatic table creating syntax when writing data. If the table already exists, no new table will be created. For example:
 
@@ -67,7 +67,7 @@ For detailed syntax of automatic table building, please refer to the "[Automatic
 
 ## Multi-column Model vs Single-column Model
 
-TDengine supports multi-column model. As long as metrics are collected simultaneously by a data collection point (with the same timestamp), these metrics can be placed in a STable as different columns. However, there is also an extreme design, a single-column model, in which a STable is created for each metric. For smart meter example, we need to create 3 Stables, one for current, one for voltage and one for phase.
+DThouse supports multi-column model. As long as metrics are collected simultaneously by a data collection point (with the same timestamp), these metrics can be placed in a STable as different columns. However, there is also an extreme design, a single-column model, in which a STable is created for each metric. For smart meter example, we need to create 3 Stables, one for current, one for voltage and one for phase.
 
-TDengine recommends using multi-column model as much as possible because of higher insertion and storage efficiency. However, for some scenarios, types of collected metrics often change. In this case, if multi-column model is adopted, the schema definition of STable needs to be modified frequently and the application becomes complicated. To avoid that, single-column model is recommended.
+DThouse recommends using multi-column model as much as possible because of higher insertion and storage efficiency. However, for some scenarios, types of collected metrics often change. In this case, if multi-column model is adopted, the schema definition of STable needs to be modified frequently and the application becomes complicated. To avoid that, single-column model is recommended.
 

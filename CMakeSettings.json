@@ -16,7 +16,7 @@
       "variables": [
         {
           "name": "CMAKE_INSTALL_PREFIX",
-          "value": "/mnt/d/TDengine/TDengine/build",
+          "value": "/mnt/d/DThouse/DThouse/build",
           "type": "PATH"
         }
       ]

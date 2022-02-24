@@ -67,7 +67,7 @@ function clean_service_on_systemd() {
     taosd_service_config="${service_config_dir}/${taos_service_name}.service"
 
     if systemctl is-active --quiet ${taos_service_name}; then
-        echo "TDengine taosd is running, stopping it..."
+        echo "DThouse taosd is running, stopping it..."
         ${csudo}systemctl stop ${taos_service_name} &> /dev/null || echo &> /dev/null
     fi
     ${csudo}systemctl disable ${taos_service_name} &> /dev/null || echo &> /dev/null
@@ -83,7 +83,7 @@ function clean_service_on_sysvinit() {
     #${csudo}sed -i "\|${restart_config_str}|d" /etc/inittab || :
 
     if pidof taosd &> /dev/null; then
-        echo "TDengine taosd is running, stopping it..."
+        echo "DThouse taosd is running, stopping it..."
         ${csudo}service taosd stop || :
     fi
 
@@ -139,4 +139,4 @@ if ((${service_mod}==2)); then
     kill_taosd
 fi
 
-echo -e "${GREEN}TDengine is removed successfully!${NC}"
+echo -e "${GREEN}DThouse is removed successfully!${NC}"

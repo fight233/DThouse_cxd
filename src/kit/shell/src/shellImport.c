@@ -245,7 +245,7 @@ static void shellRunImportThreads(SShellArguments* _args)
     pThread->totalThreads = _args->threadNum;
     pThread->taos = taos_connect(_args->host, _args->user, _args->password, _args->database, tsDnodeShellPort);
     if (pThread->taos == NULL) {
-      fprintf(stderr, "ERROR: thread:%d failed connect to TDengine, error:%s\n", pThread->threadIndex, "null taos"/*taos_errstr(pThread->taos)*/);
+      fprintf(stderr, "ERROR: thread:%d failed connect to DThouse, error:%s\n", pThread->threadIndex, "null taos"/*taos_errstr(pThread->taos)*/);
       exit(0);
     }
 

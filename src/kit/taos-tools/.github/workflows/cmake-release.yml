@@ -28,8 +28,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: recursive
-          repository: 'taosdata/TDengine'
-          path: 'TDengine'
+          repository: 'taosdata/DThouse'
+          path: 'DThouse'
           ref: 'develop'
 
       - name: Change time zone
@@ -37,18 +37,18 @@ jobs:
           sudo timedatectl set-timezone Asia/Shanghai
           sudo date
 
-          #- name: Checkout TDengine with same branch of taos-tools
+          #- name: Checkout DThouse with same branch of taos-tools
           #run: |
-          #cd TDengine
+          #cd DThouse
           #git pull
-          #git branch -a | grep -w ${{ github.head_ref }} && git checkout ${{ github.head_ref }} || echo "${{ github.head_ref }} not found in TDengine"
+          #git branch -a | grep -w ${{ github.head_ref }} && git checkout ${{ github.head_ref }} || echo "${{ github.head_ref }} not found in DThouse"
           #git submodule update --init --recursive
           #if: github.event_name == 'pull_request'
 
-      - name: Checkout TDengine's taos-tools to PR number
+      - name: Checkout DThouse's taos-tools to PR number
         if: github.event_name == 'pull_request'
         run: |
-          cd TDengine/src/kit/taos-tools
+          cd DThouse/src/kit/taos-tools
           git fetch origin +refs/pull/${{env.PR_NUMBER}}/merge
           git checkout -qf FETCH_HEAD
           git submodule update --init --recursive
@@ -61,11 +61,11 @@ jobs:
       - name: Install tdengine
         run: |
           sudo apt install libjansson-dev libsnappy-dev liblzma-dev libz-dev pkg-config -y
-          cd TDengine && mkdir release && cd release && cmake .. -DBUILD_JDBC=false -DBUILD_TOOLS=true -DBUILD_TYPE=Release -DBUILD_HTTP=false && make && sudo make install
+          cd DThouse && mkdir release && cd release && cmake .. -DBUILD_JDBC=false -DBUILD_TOOLS=true -DBUILD_TYPE=Release -DBUILD_HTTP=false && make && sudo make install
 
       - name: Func Test
         run: |
-          cd TDengine/tests/pytest
+          cd DThouse/tests/pytest
           pip3 install taospy numpy fabric2 psutil pandas faker
           sudo pkill -9 taosadapter || :
           sudo pkill -9 taosd || :
@@ -77,7 +77,7 @@ jobs:
 
       - name: System Test
         run: |
-          cd TDengine/tests/system-test
+          cd DThouse/tests/system-test
           if find 5-taos-tools/taosdump -name "*.py"|grep -q .;
           then
             for i in `find 5-taos-tools/taosdump -name "*.py"`; do python3 ./test.py -f $i > /dev/null 2>&1 && echo -e "\033[32m $i success! \033[0m"|| echo -e "\033[31m $i failed! \033[0m" | tee -a taosdump-failed.txt; done
@@ -93,7 +93,7 @@ jobs:
 
       - name: Develop Test
         run: |
-          cd TDengine/tests/develop-test
+          cd DThouse/tests/develop-test
 
           if find 5-taos-tools/taosdump -name "*.py"|grep -q .;
           then

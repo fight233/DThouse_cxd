@@ -64,9 +64,9 @@ var taosDriverName = "taosSql"
 var url string
 
 func init() {
-	flag.StringVar(&configPara.hostName, "h", "127.0.0.1", "The host to connect to TDengine server.")
-	flag.IntVar(&configPara.serverPort, "p", 6030, "The TCP/IP port number to use for the connection to TDengine server.")
-	flag.StringVar(&configPara.user, "u", "root", "The TDengine user name to use when connecting to the server.")
+	flag.StringVar(&configPara.hostName, "h", "127.0.0.1", "The host to connect to DThouse server.")
+	flag.IntVar(&configPara.serverPort, "p", 6030, "The TCP/IP port number to use for the connection to DThouse server.")
+	flag.StringVar(&configPara.user, "u", "root", "The DThouse user name to use when connecting to the server.")
 	flag.StringVar(&configPara.password, "P", "taosdata", "The password to use when connecting to the server.")
 	flag.StringVar(&configPara.dbName, "d", "test", "Destination database.")
 	flag.StringVar(&configPara.tablePrefix, "m", "d", "Table prefix name.")

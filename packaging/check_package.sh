@@ -204,19 +204,19 @@ function check_data_path() {
 	echo -e "Check data path:\033[32mOK\033[0m!"
 }
 
-function install_TDengine() {
+function install_DThouse() {
 	cd ${script_dir}
 	tar zxf $1
   temp_version=$(get_package_name $1)
 	cd $(get_package_name $1)
-  echo -e "\033[32muninstall TDengine && install TDengine...\033[0m"
+  echo -e "\033[32muninstall DThouse && install DThouse...\033[0m"
 	rmtaos >/dev/null 2>&1 || echo 'taosd not installed' && echo -e '\n\n' |./install.sh >/dev/null 2>&1
-  echo -e "\033[32mTDengine has been installed!\033[0m"
-  echo -e "\033[32mTDengine is starting...\033[0m"
+  echo -e "\033[32mDThouse has been installed!\033[0m"
+  echo -e "\033[32mDThouse is starting...\033[0m"
   kill_process taos && systemctl start taosd && sleep 10
 }
 
-function test_TDengine() {
+function test_DThouse() {
     check_main_path
     check_bin_path
     check_lib_path
@@ -227,12 +227,12 @@ function test_TDengine() {
     check_data_path
     result=`taos -s 'create database test ;create table test.tt(ts timestamp ,i int);insert into test.tt values(now,11);select * from test.tt' 2>&1 ||:`
     if [[ $result =~ "Unable to establish" ]];then
-        echo -e "\033[31mTDengine connect failed\033[0m"
+        echo -e "\033[31mDThouse connect failed\033[0m"
         fin_result=$fin_result"\033[31m$temp_version\033[0m test failed!\n"
         echo -e $fin_result
         exit 8
     fi
-    echo -e "Check TDengine connect:\033[32mOK\033[0m!"
+    echo -e "Check DThouse connect:\033[32mOK\033[0m!"
     fin_result=$fin_result"\033[32m$temp_version\033[0m test OK!\n"
 }
 # ## ==============================Main program starts from here============================
@@ -245,8 +245,8 @@ for i in $TD_package_name;do
 		verMode=""
 	fi
   cd $temp
-	install_TDengine $i
-	test_TDengine
+	install_DThouse $i
+	test_DThouse
 done
 echo "============================================================"
 echo -e $fin_result

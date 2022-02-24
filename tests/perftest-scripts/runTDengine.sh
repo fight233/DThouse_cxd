@@ -27,17 +27,17 @@ function do_prepare {
 	echo
 
 	echo 
-	echo "Prepare data for TDengine...."
+	echo "Prepare data for DThouse...."
 
-	# bin/bulk_data_gen -seed 123 -format tdengine -tdschema-file config/TDengineSchema.toml -scale-var 100 -use-case devops -timestamp-start "2018-01-01T00:00:00Z" -timestamp-end "2018-01-02T00:00:00Z"  > $DATA_DIR/tdengine.dat
+	# bin/bulk_data_gen -seed 123 -format tdengine -tdschema-file config/DThouseSchema.toml -scale-var 100 -use-case devops -timestamp-start "2018-01-01T00:00:00Z" -timestamp-end "2018-01-02T00:00:00Z"  > $DATA_DIR/tdengine.dat
 	echo "bin/bulk_data_gen -seed 123 -format tdengine -sampling-interval $interval_s \
-		-tdschema-file config/TDengineSchema.toml -scale-var $scalevar \
+		-tdschema-file config/DThouseSchema.toml -scale-var $scalevar \
 		-use-case devops -timestamp-start $TIME_START \ 
 		-timestamp-end $TIME_END \ 
 	       	> $DATA_FILE"
 
 	bin/bulk_data_gen -seed 123 -format tdengine -sampling-interval $interval_s \
-		-tdschema-file config/TDengineSchema.toml -scale-var $scalevar \
+		-tdschema-file config/DThouseSchema.toml -scale-var $scalevar \
 		-use-case devops -timestamp-start $TIME_START \
 		-timestamp-end $TIME_END  \
 		> $DATA_FILE
@@ -51,7 +51,7 @@ function do_write {
 		--batch-size $batch -do-load -report-tags n1 -workers 20 -fileout=false| grep loaded`
 
 	echo
-	echo -e "${GREEN}TDengine writing result:${NC}"
+	echo -e "${GREEN}DThouse writing result:${NC}"
 	echo -e "${GREEN}$TDENGINERES${NC}"
 	DATA=`echo $TDENGINERES|awk '{print($2)}'`
 	TMP=`echo $TDENGINERES|awk '{print($5)}'`
@@ -66,7 +66,7 @@ function do_query {
 	echo
 
 	echo 
-	echo  "start query test, query max from 8 hosts group by 1 hour, TDengine"
+	echo  "start query test, query max from 8 hosts group by 1 hour, DThouse"
 	echo
 
 #Test case 1
@@ -81,7 +81,7 @@ function do_query {
 		-scale-var $scalevar -queries 1000 | bin/query_benchmarker_tdengine  \
 		-urls="http://127.0.0.1:6020" -workers 50 -print-interval 0|grep wall`
 	echo
-	echo -e "${GREEN}TDengine query test case 1 result:${NC}"
+	echo -e "${GREEN}DThouse query test case 1 result:${NC}"
 	echo -e "${GREEN}$TDQS1${NC}"
 	TMP=`echo $TDQS1|awk '{print($4)}'`
 	TDQ1=`echo ${TMP%s*}`
@@ -99,7 +99,7 @@ function do_query {
 		-urls="http://127.0.0.1:6020" -workers 50 -print-interval 0|grep wall`
 
 	echo
-	echo -e "${GREEN}TDengine query test case 2 result:${NC}"
+	echo -e "${GREEN}DThouse query test case 2 result:${NC}"
 	echo -e "${GREEN}$TDQS2${NC}"
 	TMP=`echo $TDQS2|awk '{print($4)}'`
 	TDQ2=`echo ${TMP%s*}`
@@ -116,7 +116,7 @@ function do_query {
 		-scale-var $scalevar -queries 1000 | bin/query_benchmarker_tdengine  \
 		-urls="http://127.0.0.1:6020" -workers 50 -print-interval 0|grep wall`
 	echo
-	echo -e "${GREEN}TDengine query test case 3 result:${NC}"
+	echo -e "${GREEN}DThouse query test case 3 result:${NC}"
 	echo -e "${GREEN}$TDQS3${NC}"
 	TMP=`echo $TDQS3|awk '{print($4)}'`
 	TDQ3=`echo ${TMP%s*}`
@@ -133,7 +133,7 @@ function do_query {
 		-scale-var $scalevar -queries 1000 | bin/query_benchmarker_tdengine  \
 		-urls="http://127.0.0.1:6020" -workers 50 -print-interval 0|grep wall`
 	echo
-	echo -e "${GREEN}TDengine query test case 4 result:${NC}"
+	echo -e "${GREEN}DThouse query test case 4 result:${NC}"
 	echo -e "${GREEN}$TDQS4${NC}"
 	TMP=`echo $TDQS4|awk '{print($4)}'`
 	TDQ4=`echo ${TMP%s*}`
@@ -229,13 +229,13 @@ echo
 
 if $dowrite;
 then
-	echo -e "Start test TDengine writting, result in ${GREEN}Green line${NC}"
+	echo -e "Start test DThouse writting, result in ${GREEN}Green line${NC}"
 	do_write
 fi
 
 if $doquery;
 then
-	echo -e "Start test TDengine query, result in ${GREEN}Green line${NC}"
+	echo -e "Start test DThouse query, result in ${GREEN}Green line${NC}"
 	do_query
 fi
 
@@ -247,7 +247,7 @@ echo    "======================================================"
 if $dowrite;
 then
 	echo -e "       Writing $DATA records test takes:          "
-	printf  "       TDengine           |       %-4.5f Seconds    \n" $TDWTM
+	printf  "       DThouse           |       %-4.5f Seconds    \n" $TDWTM
 	echo    "------------------------------------------------------"
 fi
 
@@ -257,23 +257,23 @@ then
 	echo    " case 1: select the max(value) from all data    "
 	echo    " filtered out 8 hosts                                 "
 	echo    "       Query test case 1 takes:                      "
-	printf  "       TDengine           |       %-4.5f Seconds    \n" $TDQ1
+	printf  "       DThouse           |       %-4.5f Seconds    \n" $TDQ1
 	echo    "------------------------------------------------------"
 	echo    " case 2: select the max(value) from all data          "
 	echo    " filtered out 8 hosts with an interval of 1 hour     "
 	echo    " case 2 takes:                                       "
-	printf  "       TDengine           |       %-4.5f Seconds    \n" $TDQ2
+	printf  "       DThouse           |       %-4.5f Seconds    \n" $TDQ2
 	echo    "------------------------------------------------------"
 	echo    " case 3: select the max(value) from random 12 hours"
 	echo    " data filtered out 8 hosts with an interval of 10 min         "
 	echo    " filtered out 8 hosts interval(1h)                   "
 	echo    " case 3 takes:                                       "
-	printf  "       TDengine           |       %-4.5f Seconds    \n" $TDQ3
+	printf  "       DThouse           |       %-4.5f Seconds    \n" $TDQ3
 	echo    "------------------------------------------------------"
 	echo    " case 4: select the max(value) from random 1 hour data  "
 	echo    " data filtered out 8 hosts with an interval of 1 min         "
 	echo    " case 4 takes:                                        "
-	printf  "       TDengine           |       %-4.5f Seconds    \n" $TDQ4
+	printf  "       DThouse           |       %-4.5f Seconds    \n" $TDQ4
 	echo    "------------------------------------------------------"
 fi
 

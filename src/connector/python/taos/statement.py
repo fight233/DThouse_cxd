@@ -4,7 +4,7 @@ from taos.result import *
 
 
 class TaosStmt(object):
-    """TDengine STMT interface"""
+    """DThouse STMT interface"""
 
     def __init__(self, stmt, conn = None):
         self._conn = conn

@@ -6,16 +6,16 @@ The taos-jdbcdriver is implemented in two forms: JDBC-JNI and JDBC-RESTful (supp
 
 ![tdengine-connector](../../images/tdengine-jdbc-connector.png)
 
-The figure above shows the three ways Java applications can access the TDengine:
+The figure above shows the three ways Java applications can access the DThouse:
 
 * JDBC-JNI: The Java application uses JDBC-JNI's API on physical node1 (pnode1) and directly calls the client API (libtaos.so or taos.dll) to send write or query requests to the taosd instance on physical node2 (pnode2).
 * RESTful: The Java application sends the SQL to the RESTful connector on physical node2 (pnode2), which then calls the client API (libtaos.so).
 * JDBC-RESTful: The Java application uses the JDBC-restful API to encapsulate SQL into a RESTful request and send it to the RESTful connector of physical node 2.
 
-In terms of implementation, the JDBC driver of TDengine is as consistent as possible with the behavior of the relational database driver. However, due to the differences between TDengine and relational database in the object and technical characteristics of services, there are some differences between taos-jdbcdriver and traditional relational database JDBC driver. The following points should be watched:
+In terms of implementation, the JDBC driver of DThouse is as consistent as possible with the behavior of the relational database driver. However, due to the differences between DThouse and relational database in the object and technical characteristics of services, there are some differences between taos-jdbcdriver and traditional relational database JDBC driver. The following points should be watched:
 
-* deleting a record is not supported in TDengine.
-* transaction is not supported in TDengine.
+* deleting a record is not supported in DThouse.
+* transaction is not supported in DThouse.
 
 ### Difference between JDBC-JNI and JDBC-restful
 
@@ -52,9 +52,9 @@ In terms of implementation, the JDBC driver of TDengine is as consistent as poss
 INSERT INTO test.t1 USING test.weather (ts, temperature) TAGS('beijing') VALUES(now, 24.6);
 ```
 
-## JDBC driver version and supported TDengine and JDK versions
+## JDBC driver version and supported DThouse and JDK versions
 
-| taos-jdbcdriver | TDengine           | JDK    |
+| taos-jdbcdriver | DThouse           | JDK    |
 | --------------- |--------------------|--------|
 | 2.0.36          | 2.4.0 and above    | 1.8.x  |
 | 2.0.35          | 2.3.0 and above    | 1.8.x  |
@@ -67,11 +67,11 @@ INSERT INTO test.t1 USING test.weather (ts, temperature) TAGS('beijing') VALUES(
 | 1.0.2           | 1.6.1.x and above  | 1.8.x  |
 | 1.0.1           | 1.6.1.x and above  | 1.8.x  |
 
-## DataType in TDengine and Java connector
+## DataType in DThouse and Java connector
 
-The TDengine supports the following data types and Java data types:
+The DThouse supports the following data types and Java data types:
 
-| TDengine DataType | JDBCType (driver version < 2.0.24) | JDBCType (driver version >= 2.0.24) |
+| DThouse DataType | JDBCType (driver version < 2.0.24) | JDBCType (driver version >= 2.0.24) |
 |-------------------|------------------------------------| ----------------------------------- |
 | TIMESTAMP         | java.lang.Long                     | java.sql.Timestamp                  |
 | INT               | java.lang.Integer                  | java.lang.Integer                   |
@@ -89,22 +89,22 @@ The TDengine supports the following data types and Java data types:
 
 ### Runtime Requirements
 
-To run TDengine's Java connector, the following requirements shall be met:
+To run DThouse's Java connector, the following requirements shall be met:
 
 1. A Linux or Windows System
 
 2. Java Runtime Environment 1.8 or later
 
-3. TDengine client (required for JDBC-JNI, not required for JDBC-restful)
+3. DThouse client (required for JDBC-JNI, not required for JDBC-restful)
 
 **Note**:
 
-* After the TDengine client is successfully installed on Linux, the libtaos.so file is automatically copied to /usr/lib/libtaos.so, which is included in the Linux automatic scan path and does not need to be specified separately.
-* After the TDengine client is installed on Windows, the taos.dll file that the driver package depends on is automatically copied to the default search path C:/Windows/System32. You do not need to specify it separately.
+* After the DThouse client is successfully installed on Linux, the libtaos.so file is automatically copied to /usr/lib/libtaos.so, which is included in the Linux automatic scan path and does not need to be specified separately.
+* After the DThouse client is installed on Windows, the taos.dll file that the driver package depends on is automatically copied to the default search path C:/Windows/System32. You do not need to specify it separately.
 
 ### Obtain JDBC driver by maven
 
-To Java delevopers, TDengine provides `taos-jdbcdriver` according to the JDBC(3.0) API. Users can find and download it through [Sonatype Repository](https://search.maven.org/artifact/com.taosdata.jdbc/taos-jdbcdriver). Add the following dependencies in pom.xml for your maven projects.
+To Java delevopers, DThouse provides `taos-jdbcdriver` according to the JDBC(3.0) API. Users can find and download it through [Sonatype Repository](https://search.maven.org/artifact/com.taosdata.jdbc/taos-jdbcdriver). Add the following dependencies in pom.xml for your maven projects.
 
 ```xml
 <dependencies>
@@ -118,11 +118,11 @@ To Java delevopers, TDengine provides `taos-jdbcdriver` according to the JDBC(3.
 
 ### Obtain JDBC driver by compiling source code
 
-You can download the TDengine source code and compile the latest version of the JDBC Connector.
+You can download the DThouse source code and compile the latest version of the JDBC Connector.
 
  ```shell
- git clone https://github.com/taosdata/TDengine.git
- cd TDengine/src/connector/jdbc
+ git clone https://github.com/taosdata/DThouse.git
+ cd DThouse/src/connector/jdbc
  mvn clean package -Dmaven.test.skip=true
  ```
 
@@ -156,9 +156,9 @@ String jdbcUrl = "jdbc:TAOS://taosdemo.com:6030/test?user=root&password=taosdata
 Connection conn = DriverManager.getConnection(jdbcUrl);
 ```
 
-In the example above, The JDBC-JNI driver is used to establish a connection to the hostname of 'taosdemo.com', port 6030 (TDengine's default port), and database name of 'test'. This URL specifies the user name as 'root' and the password as 'taosdata'.
+In the example above, The JDBC-JNI driver is used to establish a connection to the hostname of 'taosdemo.com', port 6030 (DThouse's default port), and database name of 'test'. This URL specifies the user name as 'root' and the password as 'taosdata'.
 
-<!-- You can also see the JDBC-JNI video tutorial: [JDBC connector of TDengine](https://www.taosdata.com/blog/2020/11/11/1955.html) -->
+<!-- You can also see the JDBC-JNI video tutorial: [JDBC connector of DThouse](https://www.taosdata.com/blog/2020/11/11/1955.html) -->
 
 The format of JDBC URL is: 
 
@@ -168,9 +168,9 @@ jdbc:[TAOS|TAOS-RS]://[host_name]:[port]/[database_name]?[user={user}|&password=
 
 The configuration parameters in the URL are as follows:
 
-* user: user name for logging in to the TDengine. The default value is 'root'.
+* user: user name for logging in to the DThouse. The default value is 'root'.
 * password: the user login password. The default value is 'taosdata'.
-* cfgdir: directory of the client configuration file. It is valid only for JDBC-JNI. The default value is `/etc/taos` on Linux and `C:/TDengine/cfg` on Windows.
+* cfgdir: directory of the client configuration file. It is valid only for JDBC-JNI. The default value is `/etc/taos` on Linux and `C:/DThouse/cfg` on Windows.
 * charset: character set used by the client. The default value is the system character set.
 * locale: client locale. The default value is the current system locale.
 * timezone: timezone used by the client. The default value is the current timezone of the system.
@@ -199,9 +199,9 @@ In the example above, JDBC-JNI is used to establish a connection to hostname of 
 
 The configuration parameters in properties are as follows:
 
-* TSDBDriver.PROPERTY_KEY_USER: user name for logging in to the TDengine. The default value is 'root'.
+* TSDBDriver.PROPERTY_KEY_USER: user name for logging in to the DThouse. The default value is 'root'.
 * TSDBDriver.PROPERTY_KEY_PASSWORD: the user login password. The default value is 'taosdata'.
-* TSDBDriver.PROPERTY_KEY_CONFIG_DIR: directory of the client configuration file. It is valid only for JDBC-JNI. The default value is `/etc/taos` on Linux and `C:/TDengine/cfg on Windows`.
+* TSDBDriver.PROPERTY_KEY_CONFIG_DIR: directory of the client configuration file. It is valid only for JDBC-JNI. The default value is `/etc/taos` on Linux and `C:/DThouse/cfg on Windows`.
 * TSDBDriver.PROPERTY_KEY_CHARSET: character set used by the client. The default value is the system character set.
 * TSDBDriver.PROPERTY_KEY_LOCALE: client locale. The default value is the current system locale.
 * TSDBDriver.PROPERTY_KEY_TIME_ZONE: timezone used by the client. The default value is the current timezone of the system.
@@ -211,7 +211,7 @@ The configuration parameters in properties are as follows:
 
 #### Establishing a connection with configuration file
 
-When JDBC-JNI is used to connect to the TDengine cluster, you can specify firstEp and secondEp parameters of the cluster in the client configuration file. As follows:
+When JDBC-JNI is used to connect to the DThouse cluster, you can specify firstEp and secondEp parameters of the cluster in the client configuration file. As follows:
 
 1. The hostname and port are not specified in Java applications
 
@@ -230,15 +230,15 @@ public Connection getConn() throws Exception{
 2. Specify firstEp and secondEp in the configuration file
 
 ```txt
-# first fully qualified domain name (FQDN) for TDengine system
+# first fully qualified domain name (FQDN) for DThouse system
 firstEp               cluster_node1:6030
-# second fully qualified domain name (FQDN) for TDengine system, for cluster only
+# second fully qualified domain name (FQDN) for DThouse system, for cluster only
 secondEp              cluster_node2:6030
 ```
 
-In the above example, JDBC driver uses the client configuration file to establish a connection to the hostname of 'cluster_node1', port 6030, and database name of 'test'. When the firstEp node in the cluster fails, JDBC will try to connect to the cluster using secondEp. In the TDengine, as long as one node in firstEp and secondEp is valid, the connection to the cluster can be established.
+In the above example, JDBC driver uses the client configuration file to establish a connection to the hostname of 'cluster_node1', port 6030, and database name of 'test'. When the firstEp node in the cluster fails, JDBC will try to connect to the cluster using secondEp. In the DThouse, as long as one node in firstEp and secondEp is valid, the connection to the cluster can be established.
 
-**Note**: In this case, the configuration file belongs to TDengine client which is running inside a Java application. default file path of Linux OS is '/etc/taos/taos.cfg', and default file path of Windows OS is 'C://TDengine/cfg/taos.cfg'.
+**Note**: In this case, the configuration file belongs to DThouse client which is running inside a Java application. default file path of Linux OS is '/etc/taos/taos.cfg', and default file path of Windows OS is 'C://DThouse/cfg/taos.cfg'.
 
 #### Priority of the parameters
 
@@ -307,13 +307,13 @@ try (Statement statement = connection.createStatement()) {
 }
 ```
 
-The Java connector may report three types of error codes: JDBC Driver (error codes ranging from 0x2301 to 0x2350), JNI method (error codes ranging from 0x2351 to 0x2400), and TDengine Error. For details about the error code, see:
+The Java connector may report three types of error codes: JDBC Driver (error codes ranging from 0x2301 to 0x2350), JNI method (error codes ranging from 0x2351 to 0x2400), and DThouse Error. For details about the error code, see:
 
-- https://github.com/taosdata/TDengine/blob/develop/src/connector/jdbc/src/main/java/com/taosdata/jdbc/TSDBErrorNumbers.java
-- https://github.com/taosdata/TDengine/blob/develop/src/inc/taoserror.h
+- https://github.com/taosdata/DThouse/blob/develop/src/connector/jdbc/src/main/java/com/taosdata/jdbc/TSDBErrorNumbers.java
+- https://github.com/taosdata/DThouse/blob/develop/src/inc/taoserror.h
 
 ### Write data through parameter binding
-Starting with version 2.1.2.0, TDengine's JDBC-JNI implementation significantly improves support for data write (INSERT) scenarios with Parameter-Binding. When writing data in this way, you can avoid the resource consumption of SQL parsing, which can significantly improve write performance in many cases.
+Starting with version 2.1.2.0, DThouse's JDBC-JNI implementation significantly improves support for data write (INSERT) scenarios with Parameter-Binding. When writing data in this way, you can avoid the resource consumption of SQL parsing, which can significantly improve write performance in many cases.
 Note:
 * Jdbc-restful implementations do not provide Parameter-Binding
 * The following sample code is based on taos-jdbcdriver-2.0.36
@@ -579,7 +579,7 @@ public void setString(int columnIndex, ArrayList<String> list, int size) throws 
 public void setNString(int columnIndex, ArrayList<String> list, int size) throws SQLException
 ```
 ### Set client configuration in JDBC
-Starting with TDEngine-2.3.5.0, JDBC Driver supports setting TDengine client parameters on the first connection of a Java application. The Driver supports jdbcUrl and Properties to set client parameters in JDBC-JNI mode.
+Starting with TDEngine-2.3.5.0, JDBC Driver supports setting DThouse client parameters on the first connection of a Java application. The Driver supports jdbcUrl and Properties to set client parameters in JDBC-JNI mode.
 
 Note:
 * JDBC-RESTful does not support setting client parameters.
@@ -739,7 +739,7 @@ public static void main(String[] args) throws Exception {
 
 **Note**：
 
-As of TDengine V1.6.4.1, the function select server_status() is supported specifically for heartbeat detection, so it is recommended to use select server_status() for Validation queries when using connection pools.
+As of DThouse V1.6.4.1, the function select server_status() is supported specifically for heartbeat detection, so it is recommended to use select server_status() for Validation queries when using connection pools.
 
 Select server_status() returns 1 on success, as shown below.
 
@@ -753,12 +753,12 @@ Query OK, 1 row(s) in set (0.000141s)
 
 ## Integrated with framework
 
-- Please refer to [SpringJdbcTemplate](https://github.com/taosdata/TDengine/tree/develop/tests/examples/JDBC/SpringJdbcTemplate) if using taos-jdbcdriver in Spring JdbcTemplate.
-- Please refer to [springbootdemo](https://github.com/taosdata/TDengine/tree/develop/tests/examples/JDBC/springbootdemo) if using taos-jdbcdriver in Spring JdbcTemplate.
+- Please refer to [SpringJdbcTemplate](https://github.com/taosdata/DThouse/tree/develop/tests/examples/JDBC/SpringJdbcTemplate) if using taos-jdbcdriver in Spring JdbcTemplate.
+- Please refer to [springbootdemo](https://github.com/taosdata/DThouse/tree/develop/tests/examples/JDBC/springbootdemo) if using taos-jdbcdriver in Spring JdbcTemplate.
 
 ## Example Codes
 
-you see sample code here: [JDBC example](https://github.com/taosdata/TDengine/tree/develop/tests/examples/JDBC)
+you see sample code here: [JDBC example](https://github.com/taosdata/DThouse/tree/develop/tests/examples/JDBC)
 
 ## FAQ
 
@@ -766,13 +766,13 @@ you see sample code here: [JDBC example](https://github.com/taosdata/TDengine/tr
 
   **Cause**：The application program cannot find Library function *taos*
 
-  **Answer**：Copy `C:\TDengine\driver\taos.dll` to `C:\Windows\System32\` on Windows and make a soft link through `ln -s /usr/local/taos/driver/libtaos.so.x.x.x.x /usr/lib/libtaos.so` on Linux.
+  **Answer**：Copy `C:\DThouse\driver\taos.dll` to `C:\Windows\System32\` on Windows and make a soft link through `ln -s /usr/local/taos/driver/libtaos.so.x.x.x.x /usr/lib/libtaos.so` on Linux.
 
 - java.lang.UnsatisfiedLinkError: taos.dll Can't load AMD 64 bit on a IA 32-bit platform
 
-  **Cause**：Currently TDengine only support 64bit JDK
+  **Cause**：Currently DThouse only support 64bit JDK
 
   **Answer**：re-install 64bit JDK.
 
-- For other questions, please refer to [Issues](https://github.com/taosdata/TDengine/issues)
+- For other questions, please refer to [Issues](https://github.com/taosdata/DThouse/issues)
 

@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A1FB5B66-E32F-4789-9BE9-042E5BD21087}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDengineDriver", "src\TDengineDriver\TDengineDriver.csproj", "{5BED7402-0A65-4ED9-A491-C56BFB518045}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DThouseDriver", "src\DThouseDriver\DThouseDriver.csproj", "{5BED7402-0A65-4ED9-A491-C56BFB518045}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{CB8E6458-31E1-4351-B704-1B918E998654}"
 EndProject

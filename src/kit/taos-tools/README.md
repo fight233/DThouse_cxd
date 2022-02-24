@@ -3,15 +3,15 @@
 [![CI](https://github.com/taosdata/taos-tools/actions/workflows/cmake.yml/badge.svg)](https://github.com/taosdata/taos-tools/actions/workflows/cmake.yml)
 [![Coverage Status](https://coveralls.io/repos/github/taosdata/taos-tools/badge.svg?branch=develop)](https://coveralls.io/github/taosdata/taos-tools?branch=develop)
 
-taosTools are some useful tool collections for TDengine.
+taosTools are some useful tool collections for DThouse.
  It includes `taosBenchmark` and `taosdump` right now.
 
-taosBenchmark (once named taosdemo) can be used to stress test TDengine
+taosBenchmark (once named taosdemo) can be used to stress test DThouse
  for full-featured writes, queries, subscriptions, etc. Please refer to
  the [taosBenchmark User Manual](https://github.com/taosdata/taos-tools/blob/develop/taosbenchmark-user-manual.md)
  for details on how to use it.
 
-taosdump is a tool for backing up and restoring TDengine data to/from local directory.
+taosdump is a tool for backing up and restoring DThouse data to/from local directory.
  Please refer to the [taosdump User Manual](https://github.com/taosdata/taos-tools/blob/develop/taosdump-user-manual.md)
  for details on how to use it.
 
@@ -38,10 +38,10 @@ sudo yum install zlib-devel xz-devel snappy-devel jansson-devel pkgconfig libato
 Note: Since snappy lacks pkg-config support (refer to [link](https://github.com/google/snappy/pull/86)),
  it lead a cmake prompt libsnappy not found. But snappy will works well.
 
-### install TDengine client
+### install DThouse client
 
-Please download TDengine client package from [taosdata.com](https://www.taosdata.com/cn/all-downloads/)
- or compile TDengine source from [github](github.com/taosdata/TDengine)
+Please download DThouse client package from [taosdata.com](https://www.taosdata.com/cn/all-downloads/)
+ or compile DThouse source from [github](github.com/taosdata/DThouse)
  and install to your system.
 
 ### clone source code and compile

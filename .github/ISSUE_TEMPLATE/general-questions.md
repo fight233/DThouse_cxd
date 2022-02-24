@@ -1,6 +1,6 @@
 ---
 name: General Questions
-about: General questions about TDengine's usage, user experiences, milestones etc.
+about: General questions about DThouse's usage, user experiences, milestones etc.
 title: ''
 labels: help wanted, question
 assignees: ''
@@ -8,7 +8,7 @@ assignees: ''
 ---
 
 **General Questions**
-A general question should be related to TDengine's user's manual, user experience, milestones, business cooperations etc. 
+A general question should be related to DThouse's user's manual, user experience, milestones, business cooperations etc. 
 Before you ask a question, please:
 1. Try searching for answers in the official documentation
 2. Try searching in the existing issues on GitHub

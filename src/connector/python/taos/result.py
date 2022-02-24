@@ -7,7 +7,7 @@ from ctypes import c_void_p
 
 
 class TaosResult(object):
-    """TDengine result interface"""
+    """DThouse result interface"""
 
     def __init__(self, result, close_after=False, conn=None):
         # type: (c_void_p, bool, TaosConnection) -> TaosResult
@@ -171,7 +171,7 @@ class TaosResult(object):
 
 
 class TaosRows:
-    """TDengine result rows iterator"""
+    """DThouse result rows iterator"""
 
     def __init__(self, result, num_of_rows=None):
         self._result = result
@@ -248,7 +248,7 @@ class TaosRow:
 
 
 class TaosBlocks:
-    """TDengine result blocks iterator"""
+    """DThouse result blocks iterator"""
 
     def __init__(self, result):
         self._result = result

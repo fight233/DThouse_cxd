@@ -243,7 +243,7 @@ function install_service_on_systemd() {
     tarbitratord_service_config="${service_config_dir}/tarbitratord.service"
 
     ${csudo}bash -c "echo '[Unit]'                                  >> ${tarbitratord_service_config}"
-    ${csudo}bash -c "echo 'Description=TDengine arbitrator service' >> ${tarbitratord_service_config}"
+    ${csudo}bash -c "echo 'Description=DThouse arbitrator service' >> ${tarbitratord_service_config}"
     ${csudo}bash -c "echo 'After=network-online.target'             >> ${tarbitratord_service_config}"
     ${csudo}bash -c "echo 'Wants=network-online.target'             >> ${tarbitratord_service_config}"
     ${csudo}bash -c "echo                                           >> ${tarbitratord_service_config}"
@@ -275,9 +275,9 @@ function install_service() {
     fi
 }
 
-function update_TDengine() {
+function update_DThouse() {
     # Start to update
-    echo -e "${GREEN}Start to update TDengine's arbitrator ...${NC}"
+    echo -e "${GREEN}Start to update DThouse's arbitrator ...${NC}"
     # Stop the service if running
     if pidof tarbitrator &> /dev/null; then
         if ((${service_mod}==0)); then
@@ -305,12 +305,12 @@ function update_TDengine() {
         echo -e "${GREEN_DARK}To start arbitrator     ${NC}: ./tarbitrator${NC}"
     fi
     echo
-    echo -e "\033[44;32;1mTDengine's arbitrator is updated successfully!${NC}"
+    echo -e "\033[44;32;1mDThouse's arbitrator is updated successfully!${NC}"
 }
 
-function install_TDengine() {
+function install_DThouse() {
     # Start to install
-    echo -e "${GREEN}Start to install TDengine's arbitrator ...${NC}"
+    echo -e "${GREEN}Start to install DThouse's arbitrator ...${NC}"
 
     install_main_path
     #install_header
@@ -327,7 +327,7 @@ function install_TDengine() {
         echo -e "${GREEN_DARK}To start arbitrator     ${NC}: tarbitrator${NC}"
     fi
 
-    echo -e "\033[44;32;1mTDengine's arbitrator is installed successfully!${NC}"
+    echo -e "\033[44;32;1mDThouse's arbitrator is installed successfully!${NC}"
     echo
 }
 
@@ -336,8 +336,8 @@ function install_TDengine() {
 # Install server and client
 if [ -x ${bin_dir}/tarbitrator ]; then
     update_flag=1
-    update_TDengine
+    update_DThouse
 else
-    install_TDengine
+    install_DThouse
 fi
 

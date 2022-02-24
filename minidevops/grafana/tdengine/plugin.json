@@ -1,5 +1,5 @@
 {
-  "name": "TDengine",
+  "name": "DThouse",
   "id": "tdengine",
   "type": "datasource",
 
@@ -12,7 +12,7 @@
   "alerting": true,
 
   "info": {
-    "description": "TDengine datasource",
+    "description": "DThouse datasource",
     "author": {
       "name": "Taosdata Inc.",
       "url": "https://www.taosdata.com"

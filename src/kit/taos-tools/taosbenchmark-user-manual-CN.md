@@ -2,7 +2,7 @@
 
 ## 简介
 
-taosBenchmark 是TDengine进行性能测试的工具应用程序，可以进行TDengine的写入、查询和订阅功能的性能测试；也可以模拟大量设备产生海量数据的场景，能通过参数灵活控制表的列数、数据类型、并发线程数量等。taosBenchmark支持两种配置参数的方法，一种是命令行，另一种是配置json文件。
+taosBenchmark 是DThouse进行性能测试的工具应用程序，可以进行DThouse的写入、查询和订阅功能的性能测试；也可以模拟大量设备产生海量数据的场景，能通过参数灵活控制表的列数、数据类型、并发线程数量等。taosBenchmark支持两种配置参数的方法，一种是命令行，另一种是配置json文件。
 
 原来的taosdemo现在已经更名为taosBenchmark ，安装包同时提供了作为 taosBenchmark 软
 连接的 taosdemo，以兼容之前的用户习惯，建议后续使用 taosBenchmark。
@@ -230,7 +230,7 @@ taosBenchmark 是TDengine进行性能测试的工具应用程序，可以进行T
 
 "data_source": 插入数据来源，"rand"：实例随机生成；"sample"：从样例文件中读取，近当insert_mode为taosc和rest时有效。可选项。缺省是"rand"。
 
-"insert_mode": 插入数据接口，"taosc"：调用TDengine的c接口；"rest"：使用restful接口；"stmt"：使用 stmt （参数绑定）接口; "sml": 使用schemaless 。可选项。缺省是“taosc”。
+"insert_mode": 插入数据接口，"taosc"：调用DThouse的c接口；"rest"：使用restful接口；"stmt"：使用 stmt （参数绑定）接口; "sml": 使用schemaless 。可选项。缺省是“taosc”。
 
 "line_protocol": 只有在insert_mode为sml时生效，可选项为"line", "telnet", "json", 默认为"line"。
 
@@ -351,7 +351,7 @@ taosBenchmark 是TDengine进行性能测试的工具应用程序，可以进行T
 
 "query_times": 每种查询类型的查询次数
 
-"query_mode": 查询数据接口，"taosc"：调用TDengine的c接口；“rest”：使用restfule接口。可选项。缺省是“taosc”。
+"query_mode": 查询数据接口，"taosc"：调用DThouse的c接口；“rest”：使用restfule接口。可选项。缺省是“taosc”。
 
 "specified_table_query": { 指定表的查询
 

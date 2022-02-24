@@ -1,6 +1,6 @@
 # 构建 taosAdapter
 
-我们强烈建议将 taosAdapter 和 TDengine 服务端共同部署在同一个系统上，并使用官方 TDengine 安装包安装 taosAdapter。如果您想对 taosAdapter 进行调试或贡献代码，您也可以单独构建它。
+我们强烈建议将 taosAdapter 和 DThouse 服务端共同部署在同一个系统上，并使用官方 DThouse 安装包安装 taosAdapter。如果您想对 taosAdapter 进行调试或贡献代码，您也可以单独构建它。
 
 ## 设置 golang 开发环境
 
@@ -13,13 +13,13 @@ go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
-## 作为 TDengine 的一个组件构建 taosAdapter
+## 作为 DThouse 的一个组件构建 taosAdapter
 
-taosAdapter 的源代码是作为一个独立的代码库托管的，也通过子模块的方式存在于 TDengine 中。您可以下载 TDengine 的源代码并同时构建它们。步骤如下：
+taosAdapter 的源代码是作为一个独立的代码库托管的，也通过子模块的方式存在于 DThouse 中。您可以下载 DThouse 的源代码并同时构建它们。步骤如下：
 
 ```shell
-git clone https://github.com/taosdata/TDengine
-cd TDengine
+git clone https://github.com/taosdata/DThouse
+cd DThouse
 git submodule update --init --recursive
 mkdir debug
 cd debug
@@ -28,15 +28,15 @@ make
 sudo make install
 ```
 
-一旦 `make install` 完成，taosAdapter 和它的 systemd 服务文件就会被安装到有 TDengine 服务端软件的系统中。您可以使用 `sudo systemctl start taosd` 和 `sudo systemctl stop taosd` 来启动它们。
+一旦 `make install` 完成，taosAdapter 和它的 systemd 服务文件就会被安装到有 DThouse 服务端软件的系统中。您可以使用 `sudo systemctl start taosd` 和 `sudo systemctl stop taosd` 来启动它们。
 
 ## 单独构建 taosAdapter
 
-如果您已经部署了 TDengine 服务器 v2.3.0.0 或以上的版本，taosAdapter 也可以作为一个独立的应用程序被构建。
+如果您已经部署了 DThouse 服务器 v2.3.0.0 或以上的版本，taosAdapter 也可以作为一个独立的应用程序被构建。
 
-### 安装 TDengine 服务器或客户端安装包
+### 安装 DThouse 服务器或客户端安装包
 
-请从官方网站下载 TDengine 服务器或客户端安装包。
+请从官方网站下载 DThouse 服务器或客户端安装包。
 
 ### 从源码构建 taosAdapter
 

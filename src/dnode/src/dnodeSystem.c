@@ -107,7 +107,7 @@ int32_t main(int32_t argc, char *argv[]) {
     taosReadGlobalLogCfg();
 
     if (!taosReadGlobalCfg()) {
-      printf("TDengine read global config failed");
+      printf("DThouse read global config failed");
       exit(EXIT_FAILURE);
     }
 
@@ -130,18 +130,18 @@ int32_t main(int32_t argc, char *argv[]) {
   taosSetSignal(SIGBREAK, sigintHandler);
 
   // Open /var/log/syslog file to record information.
-  openlog("TDengine:", LOG_PID | LOG_CONS | LOG_NDELAY, LOG_LOCAL1);
-  syslog(LOG_INFO, "Starting TDengine service...");
+  openlog("DThouse:", LOG_PID | LOG_CONS | LOG_NDELAY, LOG_LOCAL1);
+  syslog(LOG_INFO, "Starting DThouse service...");
 
   // Initialize the system
   if (dnodeInitSystem() < 0) {
-    syslog(LOG_ERR, "Error initialize TDengine system");
-    dInfo("Failed to start TDengine, please check the log at:%s", tsLogDir);
+    syslog(LOG_ERR, "Error initialize DThouse system");
+    dInfo("Failed to start DThouse, please check the log at:%s", tsLogDir);
     closelog();
     exit(EXIT_FAILURE);
   }
 
-  syslog(LOG_INFO, "Started TDengine service successfully.");
+  syslog(LOG_INFO, "Started DThouse service successfully.");
 
   if (tsem_wait(&exitSem) != 0) {
     syslog(LOG_ERR, "failed to wait exit semphore: %s", strerror(errno));
@@ -149,8 +149,8 @@ int32_t main(int32_t argc, char *argv[]) {
 
   dnodeCleanUpSystem();
   // close the syslog
-  syslog(LOG_INFO, "Shut down TDengine service successfully");
-  dInfo("TDengine is shut down!");
+  syslog(LOG_INFO, "Shut down DThouse service successfully");
+  dInfo("DThouse is shut down!");
   closelog();
 
 #ifdef WINDOWS
@@ -181,7 +181,7 @@ static void sigintHandler(int32_t signum, void *sigInfo, void *context) {
 #endif
 
   syslog(LOG_INFO, "Shut down signal is %d", signum);
-  syslog(LOG_INFO, "Shutting down TDengine service...");
+  syslog(LOG_INFO, "Shutting down DThouse service...");
 
   dnodeExit = true;
 

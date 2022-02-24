@@ -1,14 +1,14 @@
-import {TDengineRestCursor} from '../src/restCursor'
+import {DThouseRestCursor} from '../src/restCursor'
 
 /**
  *this class collect basic information that can be used to build
  * a restful connection.
  */
-export class TDengineRestConnection {
+export class DThouseRestConnection {
   /**
    * constructor,give variables some default values
    * @param options
-   * @returns {TDengineRestConnection}
+   * @returns {DThouseRestConnection}
    */
   constructor(options) {
     this.host = 'localhost'
@@ -44,12 +44,12 @@ export class TDengineRestConnection {
   }
 
   /**
-   * cursor will return an object of TDengineRestCursor, which can send restful(http) request and get
+   * cursor will return an object of DThouseRestCursor, which can send restful(http) request and get
    * the response from server.
-   * @returns {TDengineRestCursor}
+   * @returns {DThouseRestCursor}
    */
   cursor() {
-    return new TDengineRestCursor(this)
+    return new DThouseRestCursor(this)
   }
 }
 

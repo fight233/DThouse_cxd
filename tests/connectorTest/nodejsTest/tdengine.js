@@ -1,4 +1,4 @@
-var TDengineConnection = require('./nodetaos/connection.js')
+var DThouseConnection = require('./nodetaos/connection.js')
 module.exports.connect = function (connection={}) {
-  return new TDengineConnection(connection);
+  return new DThouseConnection(connection);
 }

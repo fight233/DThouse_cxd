@@ -91,7 +91,7 @@ while : ; do
   esac
 done
 
-WORK_DIR=/mnt/root/TDengine
+WORK_DIR=/mnt/root/DThouse
 TSDBTEST_DIR=$WORK_DIR/tests/comparisonTest/opentsdb
 
 runTest

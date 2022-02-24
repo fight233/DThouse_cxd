@@ -4,7 +4,7 @@ from .error import *
 
 
 class TaosSubscription(object):
-    """TDengine subscription object"""
+    """DThouse subscription object"""
 
     def __init__(self, sub, with_callback = False):
         self._sub = sub

@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang='cn'><head><title>文档 | 涛思数据</title><meta name='description' content='TDengine是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。'><meta name='keywords' content='大数据，Big Data，开源，物联网，车联网，工业互联网，IT运维, 时序数据库，缓存，数据订阅，消息队列，流式计算，开源，涛思数据，TAOS Data, TDengine'><meta name='title' content='文档 | 涛思数据'><meta property='og:site_name' content='涛思数据'/><meta property='og:title' content='文档 | 涛思数据'/><meta property='og:type' content='article'/><meta property='og:url' content='https://www.taosdata.com/cn/documentation/taos-sql-ch/index.php'/><meta property='og:description' content='TDengine是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。' /><link rel='canonical' href='https://www.taosdata.com/cn/documentation/taos-sql-ch/index.php'/><script src='../lib/jquery-3.4.1.min.js' type='application/javascript'></script><link href='../lib/bootstrap.min.css' rel='stylesheet'><link href='../styles/base.min.css' rel='stylesheet'><link rel='stylesheet' href='../lib/docs/taosdataprettify.css'><link rel='stylesheet' href='../lib/docs/docs.css'><script src='../lib/docs/prettify.js'></script><script src='../lib/docs/prettyprint-sql.js'></script></head><body><script>$('#documentation-href').addClass('active')</script><div class='container-fluid'><main class='content-wrapper'><section class='documentation'><a href='../index.html'>回去</a><h1>TAOS SQL</h1>
-<p>TDengine提供类似SQL语法，用户可以在TDengine Shell中使用SQL语句操纵数据库，也可以通过C/C++, Java(JDBC), Python, Go等各种程序来执行SQL语句。 </p>
+<!DOCTYPE html><html lang='cn'><head><title>文档 | 涛思数据</title><meta name='description' content='DThouse是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。'><meta name='keywords' content='大数据，Big Data，开源，物联网，车联网，工业互联网，IT运维, 时序数据库，缓存，数据订阅，消息队列，流式计算，开源，涛思数据，TAOS Data, DThouse'><meta name='title' content='文档 | 涛思数据'><meta property='og:site_name' content='涛思数据'/><meta property='og:title' content='文档 | 涛思数据'/><meta property='og:type' content='article'/><meta property='og:url' content='https://www.taosdata.com/cn/documentation/taos-sql-ch/index.php'/><meta property='og:description' content='DThouse是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。' /><link rel='canonical' href='https://www.taosdata.com/cn/documentation/taos-sql-ch/index.php'/><script src='../lib/jquery-3.4.1.min.js' type='application/javascript'></script><link href='../lib/bootstrap.min.css' rel='stylesheet'><link href='../styles/base.min.css' rel='stylesheet'><link rel='stylesheet' href='../lib/docs/taosdataprettify.css'><link rel='stylesheet' href='../lib/docs/docs.css'><script src='../lib/docs/prettify.js'></script><script src='../lib/docs/prettyprint-sql.js'></script></head><body><script>$('#documentation-href').addClass('active')</script><div class='container-fluid'><main class='content-wrapper'><section class='documentation'><a href='../index.html'>回去</a><h1>TAOS SQL</h1>
+<p>DThouse提供类似SQL语法，用户可以在DThouse Shell中使用SQL语句操纵数据库，也可以通过C/C++, Java(JDBC), Python, Go等各种程序来执行SQL语句。 </p>
 <p>本章节SQL语法遵循如下约定：</p>
 <ul>
 <li>< > 里的内容是用户需要输入的，但不要输入&lt;&gt;本身</li>
@@ -8,7 +8,7 @@
 <li>… 表示前面的项可重复多个</li>
 </ul>
 <a class='anchor' id='支持的数据类型'></a><h2>支持的数据类型</h2>
-<p>使用TDengine，最重要的是时间戳。创建并插入记录、查询历史记录的时候，均需要指定时间戳。时间戳有如下规则：</p>
+<p>使用DThouse，最重要的是时间戳。创建并插入记录、查询历史记录的时候，均需要指定时间戳。时间戳有如下规则：</p>
 <ul>
 <li>时间格式为YYYY-MM-DD HH:mm:ss.MS, 默认时间分辨率为毫秒。比如：2017-08-12 18:25:58.128</li>
 <li>内部函数now是服务器的当前时间</li>
@@ -16,8 +16,8 @@
 <li>Epoch Time: 时间戳也可以是一个长整数，表示从1970-01-01 08:00:00.000开始的毫秒数</li>
 <li>时间可以加减，比如 now-2h，表明查询时刻向前推2个小时(最近2小时)。数字后面的时间单位：a(毫秒), s(秒), m(分), h(小时), d(天)，w(周), n(月), y(年)。比如select * from t1 where ts &gt; now-2w and ts &lt;= now-1w, 表示查询两周前整整一周的数据</li>
 </ul>
-<p>TDengine缺省的时间戳是毫秒精度，但通过修改配置参数enableMicrosecond就可支持微秒。</p>
-<p>在TDengine中，普通表的数据模型中可使用以下10种数据类型。 </p>
+<p>DThouse缺省的时间戳是毫秒精度，但通过修改配置参数enableMicrosecond就可支持微秒。</p>
+<p>在DThouse中，普通表的数据模型中可使用以下10种数据类型。 </p>
 <figure><table>
 <thead>
 <tr>
@@ -90,7 +90,7 @@
 </tr>
 </tbody>
 </table></figure>
-<p><strong>Tips</strong>: TDengine对SQL语句中的英文字符不区分大小写，自动转化为小写执行。因此用户大小写敏感的字符串及密码，需要使用单引号将字符串引起来。</p>
+<p><strong>Tips</strong>: DThouse对SQL语句中的英文字符不区分大小写，自动转化为小写执行。因此用户大小写敏感的字符串及密码，需要使用单引号将字符串引起来。</p>
 <a class='anchor' id='数据库管理'></a><h2>数据库管理</h2>
 <ul>
 <li><p><strong>创建数据库</strong>  </p>
@@ -239,7 +239,7 @@ SELECT function_list FROM tb_name
 </ul>
 <a class='anchor' id='SQL函数'></a><h2>SQL函数</h2>
 <a class='anchor' id='聚合函数'></a><h3>聚合函数</h3>
-<p>TDengine支持针对数据的聚合查询。提供支持的聚合和提取函数如下表：</p>
+<p>DThouse支持针对数据的聚合查询。提供支持的聚合和提取函数如下表：</p>
 <ul>
 <li><p><strong>COUNT</strong></p>
 <pre><code class="mysql language-mysql">SELECT COUNT([*|field_name]) FROM tb_name [WHERE clause]</code></pre>
@@ -351,7 +351,7 @@ SELECT function_list FROM tb_name
 说明：1）支持两列或多列之间进行计算，可使用括号控制计算优先级;2）NULL字段不参与计算，如果参与计算的某行中包含NULL，该行的计算结果为NULL。</p></li>
 </ul>
 <a class='anchor' id='时间维度聚合'></a><h2>时间维度聚合</h2>
-<p>TDengine支持按时间段进行聚合，可以将表中数据按照时间段进行切割后聚合生成结果，比如温度传感器每秒采集一次数据，但需查询每隔10分钟的温度平均值。这个聚合适合于降维(down sample)操作, 语法如下：</p>
+<p>DThouse支持按时间段进行聚合，可以将表中数据按照时间段进行切割后聚合生成结果，比如温度传感器每秒采集一次数据，但需查询每隔10分钟的温度平均值。这个聚合适合于降维(down sample)操作, 语法如下：</p>
 <pre><code class="mysql language-mysql">SELECT function_list FROM tb_name 
   [WHERE where_condition]
   INTERVAL (interval)

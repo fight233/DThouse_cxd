@@ -1,13 +1,13 @@
 # encoding:UTF-8
 
-"""Constants in TDengine python
+"""Constants in DThouse python
 """
 
 import ctypes, struct
 
 
 class FieldType(object):
-    """TDengine Field Types"""
+    """DThouse Field Types"""
 
     # type_code
     C_NULL = 0

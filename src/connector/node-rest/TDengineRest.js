@@ -1,5 +1,5 @@
-import {TDengineRestConnection} from './src/restConnect'
+import {DThouseRestConnection} from './src/restConnect'
 
 export function TDRestConnection(connection = {}) {
-  return new TDengineRestConnection(connection)
+  return new DThouseRestConnection(connection)
 }

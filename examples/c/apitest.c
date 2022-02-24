@@ -1,4 +1,4 @@
-// sample code to verify all TDengine API
+// sample code to verify all DThouse API
 // to compile: gcc -o apitest apitest.c -ltaos
 
 #include "taoserror.h"

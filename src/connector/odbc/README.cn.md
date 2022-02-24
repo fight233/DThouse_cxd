@@ -75,7 +75,7 @@ SQLTransact
 - **持续更新中**...
 
 # 编译和测试使用
-**Note**: 下述所有步骤都在TDengine项目的根目录下进行
+**Note**: 下述所有步骤都在DThouse项目的根目录下进行
 **Note**: 请先确保src/connector/odbc如下所示，被包含在src/CMakeLists.txt源文件中
 ```
 ...
@@ -103,7 +103,7 @@ rm -rf debug && cmake -B debug && cmake --build debug && cmake --install debug &
 - `cmake --build debug`
 - `cmake --install debug`
 - 以管理员身份打开`命令提示符`
-- 安装ODBC驱动: 在上述打开的提示符下执行 `odbcconf /A {INSTALLDRIVER "TAOS | Driver=C:/TDengine/driver/todbc.dll | ConnectFunctions=YYN | DriverODBCVer=03.00"}`
+- 安装ODBC驱动: 在上述打开的提示符下执行 `odbcconf /A {INSTALLDRIVER "TAOS | Driver=C:/DThouse/driver/todbc.dll | ConnectFunctions=YYN | DriverODBCVer=03.00"}`
 - 新增一个数据源DSN: 执行 `odbcconf /A {CONFIGDSN "TAOS" "DSN=TAOS_DSN | Server=<host>:<port>"}`
 上述步骤出现失败的话，可以参看这些链接:
 1. win flex的安装: https://github.com/lexxmark/winflexbison/releases

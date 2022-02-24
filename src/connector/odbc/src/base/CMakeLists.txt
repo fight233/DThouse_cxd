@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0...3.20)
-PROJECT(TDengine)
+PROJECT(DThouse)
 
 aux_source_directory(. SRC)
 add_library(todbc_base STATIC ${SRC})

@@ -411,7 +411,7 @@ static void cqProcessCreateTimer(void *param, void *tmrId) {
   SCqContext* pContext = pObj->pContext;
 
   if (pContext->dbConn == NULL) {
-    cDebug("vgId:%d, try connect to TDengine", pContext->vgId);
+    cDebug("vgId:%d, try connect to DThouse", pContext->vgId);
     taos_connect_a(NULL, pContext->user, pContext->pass, pContext->db, 0, doCreateStream, param, NULL);
   } else {
     pthread_mutex_lock(&pContext->mutex);

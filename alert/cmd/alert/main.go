@@ -111,7 +111,7 @@ func doSetup(cfgPath string) error {
 	defer f.Close()
 
 	const content = `[Unit]
-Description=Alert (TDengine Alert Service)
+Description=Alert (DThouse Alert Service)
 After=syslog.target
 After=network.target
 
@@ -148,7 +148,7 @@ func main() {
 	flag.Parse()
 
 	if showVersion {
-		fmt.Println("TDengine alert v" + version)
+		fmt.Println("DThouse alert v" + version)
 		return
 	}
 

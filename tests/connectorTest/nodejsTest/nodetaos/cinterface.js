@@ -1,5 +1,5 @@
 /**
- * C Interface with TDengine Module
+ * C Interface with DThouse Module
  * @module CTaosInterface
  */
 
@@ -152,7 +152,7 @@ TaosField.defineProperty('bytes', ref.types.short);
  * @param {Object} config - Configuration options for the interface
  * @return {CTaosInterface}
  * @class CTaosInterface
- * @classdesc The CTaosInterface is the interface through which Node.JS communicates data back and forth with TDengine. It is not advised to
+ * @classdesc The CTaosInterface is the interface through which Node.JS communicates data back and forth with DThouse. It is not advised to
  * access this class directly and use it unless you understand what these functions do.
  */
 function CTaosInterface(config = null, pass = false) {
@@ -285,10 +285,10 @@ CTaosInterface.prototype.connect = function connect(host = null, user = "root", 
   }
   let connection = this.libtaos.taos_connect(_host, _user, _password, _db, _port);
   if (ref.isNull(connection)) {
-    throw new errors.TDError('Failed to connect to TDengine');
+    throw new errors.TDError('Failed to connect to DThouse');
   }
   else {
-    console.log('Successfully connected to TDengine');
+    console.log('Successfully connected to DThouse');
   }
   return connection;
 }
@@ -392,7 +392,7 @@ CTaosInterface.prototype.query_a = function query_a(connection, sql, callback, p
   return param;
 }
 /** Asynchrnously fetches the next block of rows. Wraps callback and transfers a 4th argument to the cursor, the row data as blocks in javascript form
- * Note: This isn't a recursive function, in order to fetch all data either use the TDengine cursor object, TaosQuery object, or implement a recrusive
+ * Note: This isn't a recursive function, in order to fetch all data either use the DThouse cursor object, TaosQuery object, or implement a recrusive
  * function yourself using the libtaos.taos_fetch_rows_a function
  */
 CTaosInterface.prototype.fetch_rows_a = function fetch_rows_a(result, callback, param = ref.ref(ref.NULL)) {
@@ -496,10 +496,10 @@ CTaosInterface.prototype.subscribe = function subscribe(connection, restart, top
 
   let subscription = this.libtaos.taos_subscribe(connection, restart, topic, sql, null, null, interval);
   if (ref.isNull(subscription)) {
-    throw new errors.TDError('Failed to subscribe to TDengine | Database: ' + dbOrig + ', Table: ' + tableOrig);
+    throw new errors.TDError('Failed to subscribe to DThouse | Database: ' + dbOrig + ', Table: ' + tableOrig);
   }
   else {
-    console.log('Successfully subscribed to TDengine - Topic: ' + topicOrig);
+    console.log('Successfully subscribed to DThouse - Topic: ' + topicOrig);
   }
   return subscription;
 }
@@ -573,7 +573,7 @@ CTaosInterface.prototype.openStream = function openStream(connection, sql, callb
   asyncStoppingCallbackWrapper = ffi.Callback(ref.types.void, [ref.types.void_ptr], stoppingCallback);
   let streamHandle = this.libtaos.taos_open_stream(connection, sql, asyncCallbackWrapper, stime, param, asyncStoppingCallbackWrapper);
   if (ref.isNull(streamHandle)) {
-    throw new errors.TDError('Failed to open a stream with TDengine');
+    throw new errors.TDError('Failed to open a stream with DThouse');
     return false;
   }
   else {

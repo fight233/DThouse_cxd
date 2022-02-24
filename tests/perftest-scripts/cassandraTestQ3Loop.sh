@@ -90,7 +90,7 @@ do
   esac
 done
 
-WORK_DIR=/mnt/root/TDengine
+WORK_DIR=/mnt/root/DThouse
 CASTEST_DIR=$WORK_DIR/tests/comparisonTest/cassandra
 
 runTest

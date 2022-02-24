@@ -4,7 +4,7 @@
 
 > Note that the rust connector is under active development and the APIs will changes a lot between versions. But we promise to ensure backward compatibility after version 1.0 .
 
-Thanks [@songtianyi](https://github.com/songtianyi) for [libtdengine](https://github.com/songtianyi/tdengine-rust-bindings) - a rust bindings project for [TDengine]. It's an new design for [TDengine] rust client based on C interface or the REST API. It'll will provide Rust-like APIs and all rust things (like async/stream/iterators and others).
+Thanks [@songtianyi](https://github.com/songtianyi) for [libtdengine](https://github.com/songtianyi/tdengine-rust-bindings) - a rust bindings project for [DThouse]. It's an new design for [DThouse] rust client based on C interface or the REST API. It'll will provide Rust-like APIs and all rust things (like async/stream/iterators and others).
 
 ## Dependencies
 
@@ -12,7 +12,7 @@ Thanks [@songtianyi](https://github.com/songtianyi) for [libtdengine](https://gi
 
 if you use the default features, it'll depend on:
 
-- [TDengine Client](https://www.taosdata.com/cn/getting-started/#%E9%80%9A%E8%BF%87%E5%AE%89%E8%A3%85%E5%8C%85%E5%AE%89%E8%A3%85)  library and headers.
+- [DThouse Client](https://www.taosdata.com/cn/getting-started/#%E9%80%9A%E8%BF%87%E5%AE%89%E8%A3%85%E5%8C%85%E5%AE%89%E8%A3%85)  library and headers.
 - clang because bindgen will requires the clang AST library.
 
 ## Features
@@ -33,7 +33,7 @@ cargo build
 cargo test
 ```
 
-`test` will use default TDengine user and password on localhost (TDengine default).
+`test` will use default DThouse user and password on localhost (DThouse default).
 
 Set variables if it's not default:
 
@@ -106,9 +106,9 @@ async fn main() -> Result<(), Error> {
 }
 ```
 
-You can check out the experimental [bailongma-rs](https://github.com/taosdata/bailongma-rs) - a TDengine adapters for prometheus written with Rust - as a more productive code example.
+You can check out the experimental [bailongma-rs](https://github.com/taosdata/bailongma-rs) - a DThouse adapters for prometheus written with Rust - as a more productive code example.
 
 [libtaos-rs]: https://github.com/taosdata/libtaos-rs
-[TDengine]: https://github.com/taosdata/TDengine
+[DThouse]: https://github.com/taosdata/DThouse
 [bailongma-rs]: https://github.com/taosdata/bailongma-rs
 [r2d2]: https://crates.io/crates/r2d2

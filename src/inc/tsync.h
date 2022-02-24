@@ -39,7 +39,7 @@ typedef enum {
 } ESyncStatus;
 
 typedef struct {
-  uint32_t  nodeId;    // node ID assigned by TDengine
+  uint32_t  nodeId;    // node ID assigned by DThouse
   uint16_t  nodePort;  // node sync Port
   char      nodeFqdn[TSDB_FQDN_LEN]; // node FQDN  
 } SNodeInfo;

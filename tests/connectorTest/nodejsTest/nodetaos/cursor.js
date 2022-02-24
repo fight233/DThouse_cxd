@@ -4,7 +4,7 @@ const CTaosInterface = require('./cinterface')
 const errors = require('./error')
 const TaosQuery = require('./taosquery')
 const { PerformanceObserver, performance } = require('perf_hooks');
-module.exports = TDengineCursor;
+module.exports = DThouseCursor;
 
 /**
  * @typedef {Object} Buffer - A Node.js buffer. Please refer to {@link https://nodejs.org/api/buffer.html} for more details
@@ -12,17 +12,17 @@ module.exports = TDengineCursor;
  */
 
 /**
- * @class TDengineCursor
- * @classdesc  The TDengine Cursor works directly with the C Interface which works with TDengine. It refrains from
+ * @class DThouseCursor
+ * @classdesc  The DThouse Cursor works directly with the C Interface which works with DThouse. It refrains from
  * returning parsed data and majority of functions return the raw data such as cursor.fetchall() as compared to the TaosQuery class which
  * has functions that "prettify" the data and add more functionality and can be used through cursor.query("your query"). Instead of
  * promises, the class and its functions use callbacks.
- * @param {TDengineConnection} - The TDengine Connection this cursor uses to interact with TDengine
+ * @param {DThouseConnection} - The DThouse Connection this cursor uses to interact with DThouse
  * @property {data} - Latest retrieved data from query execution. It is an empty array by default
  * @property {fields} - Array of the field objects in order from left to right of the latest data retrieved
  * @since 1.0.0
  */
-function TDengineCursor(connection = null) {
+function DThouseCursor(connection = null) {
   //All parameters are store for sync queries only.
   this._rowcount = -1;
   this._connection = null;
@@ -35,7 +35,7 @@ function TDengineCursor(connection = null) {
     this._chandle = connection._chandle //pass through, just need library loaded.
   }
   else {
-    throw new errors.ProgrammingError("A TDengineConnection object is required to be passed to the TDengineCursor");
+    throw new errors.ProgrammingError("A DThouseConnection object is required to be passed to the DThouseCursor");
   }
 
 }
@@ -44,7 +44,7 @@ function TDengineCursor(connection = null) {
  * @since 1.0.0
  * @return {number} Rowcount
  */
-TDengineCursor.prototype.rowcount = function rowcount() {
+DThouseCursor.prototype.rowcount = function rowcount() {
   return this._rowcount;
 }
 /**
@@ -52,7 +52,7 @@ TDengineCursor.prototype.rowcount = function rowcount() {
  * @return {boolean} Whether or not the cursor was succesfully closed
  * @since 1.0.0
  */
-TDengineCursor.prototype.close = function close() {
+DThouseCursor.prototype.close = function close() {
   if (this._connection == null) {
     return false;
   }
@@ -62,7 +62,7 @@ TDengineCursor.prototype.close = function close() {
   return true;
 }
 /**
- * Create a TaosQuery object to perform a query to TDengine and retrieve data.
+ * Create a TaosQuery object to perform a query to DThouse and retrieve data.
  * @param {string} operation - The operation string to perform a query on
  * @param {boolean} execute - Whether or not to immedietely perform the query. Default is false.
  * @return {TaosQuery | Promise<TaosResult>} A TaosQuery object
@@ -71,7 +71,7 @@ TDengineCursor.prototype.close = function close() {
  * query.execute();
  * @since 1.0.6
  */
-TDengineCursor.prototype.query = function query(operation, execute = false) {
+DThouseCursor.prototype.query = function query(operation, execute = false) {
   return new TaosQuery(operation, this, execute);
 }
 
@@ -81,11 +81,11 @@ TDengineCursor.prototype.query = function query(operation, execute = false) {
  * @param {string} operation - The query operation to execute in the taos shell
  * @param {Object} options - Execution options object. quiet : true turns off logging from queries
  * @param {boolean} options.quiet - True if you want to surpress logging such as "Query OK, 1 row(s) ..."
- * @param {function} callback - A callback function to execute after the query is made to TDengine
+ * @param {function} callback - A callback function to execute after the query is made to DThouse
  * @return {number | Buffer} Number of affected rows or a Buffer that points to the results of the query
  * @since 1.0.0
  */
-TDengineCursor.prototype.execute = function execute(operation, options, callback) {
+DThouseCursor.prototype.execute = function execute(operation, options, callback) {
   if (operation == undefined) {
     throw new errors.ProgrammingError('No operation passed as argument');
     return null;
@@ -143,19 +143,19 @@ TDengineCursor.prototype.execute = function execute(operation, options, callback
   }
 
 }
-TDengineCursor.prototype._createAffectedResponse = function (num, time) {
+DThouseCursor.prototype._createAffectedResponse = function (num, time) {
   return "Query OK, " + num + " row(s) affected (" + (time * 0.001).toFixed(8) + "s)";
 }
-TDengineCursor.prototype._createSetResponse = function (num, time) {
+DThouseCursor.prototype._createSetResponse = function (num, time) {
   return "Query OK, " + num + " row(s) in set (" + (time * 0.001).toFixed(8) + "s)";
 }
-TDengineCursor.prototype.executemany = function executemany() {
+DThouseCursor.prototype.executemany = function executemany() {
 
 }
-TDengineCursor.prototype.fetchone = function fetchone() {
+DThouseCursor.prototype.fetchone = function fetchone() {
 
 }
-TDengineCursor.prototype.fetchmany = function fetchmany() {
+DThouseCursor.prototype.fetchmany = function fetchmany() {
 
 }
 /**
@@ -171,7 +171,7 @@ TDengineCursor.prototype.fetchmany = function fetchmany() {
  *   results.forEach(row => console.log(row));
  * })
  */
-TDengineCursor.prototype.fetchall = function fetchall(options, callback) {
+DThouseCursor.prototype.fetchall = function fetchall(options, callback) {
   if (this._result == null || this._fields == null) {
     throw new errors.OperationalError("Invalid use of fetchall, either result or fields from query are null. First execute a query first");
   }
@@ -228,15 +228,15 @@ TDengineCursor.prototype.fetchall = function fetchall(options, callback) {
   return data;
 }
 /**
- * Asynchrnously execute a query to TDengine. NOTE, insertion requests must be done in sync if on the same table.
+ * Asynchrnously execute a query to DThouse. NOTE, insertion requests must be done in sync if on the same table.
  * @param {string} operation - The query operation to execute in the taos shell
  * @param {Object} options - Execution options object. quiet : true turns off logging from queries
  * @param {boolean} options.quiet - True if you want to surpress logging such as "Query OK, 1 row(s) ..."
- * @param {function} callback - A callback function to execute after the query is made to TDengine
+ * @param {function} callback - A callback function to execute after the query is made to DThouse
  * @return {number | Buffer} Number of affected rows or a Buffer that points to the results of the query
  * @since 1.0.0
  */
-TDengineCursor.prototype.execute_a = function execute_a(operation, options, callback, param) {
+DThouseCursor.prototype.execute_a = function execute_a(operation, options, callback, param) {
   if (operation == undefined) {
     throw new errors.ProgrammingError('No operation passed as argument');
     return null;
@@ -313,7 +313,7 @@ TDengineCursor.prototype.execute_a = function execute_a(operation, options, call
  *   results.forEach(row => console.log(row));
  * })
  */
-TDengineCursor.prototype.fetchall_a = function fetchall_a(result, options, callback, param = {}) {
+DThouseCursor.prototype.fetchall_a = function fetchall_a(result, options, callback, param = {}) {
   if (typeof options == 'function') {
     //we expect the parameter after callback to be param
     param = callback;
@@ -374,10 +374,10 @@ TDengineCursor.prototype.fetchall_a = function fetchall_a(result, options, callb
  * @param {Buffer} result - The buffer that acts as the result handle
  * @since 1.3.0
  */
-TDengineCursor.prototype.stopQuery = function stopQuery(result) {
+DThouseCursor.prototype.stopQuery = function stopQuery(result) {
   this._chandle.stopQuery(result);
 }
-TDengineCursor.prototype._reset_result = function _reset_result() {
+DThouseCursor.prototype._reset_result = function _reset_result() {
   this._rowcount = -1;
   if (this._result != null) {
     this._chandle.freeResult(this._result);
@@ -392,7 +392,7 @@ TDengineCursor.prototype._reset_result = function _reset_result() {
  * @return {string}
  * @since 1.3.0
  */
-TDengineCursor.prototype.getServerInfo = function getServerInfo() {
+DThouseCursor.prototype.getServerInfo = function getServerInfo() {
   return this._chandle.getServerInfo(this._connection._conn);
 }
 /**
@@ -400,11 +400,11 @@ TDengineCursor.prototype.getServerInfo = function getServerInfo() {
  * @return {string}
  * @since 1.3.0
  */
-TDengineCursor.prototype.getClientInfo = function getClientInfo() {
+DThouseCursor.prototype.getClientInfo = function getClientInfo() {
   return this._chandle.getClientInfo();
 }
 /**
- * Subscribe to a table from a database in TDengine.
+ * Subscribe to a table from a database in DThouse.
  * @param {Object} config - A configuration object containing the configuration options for the subscription
  * @param {string} config.restart - whether or not to continue a subscription if it already exits, otherwise start from beginning
  * @param {string} config.topic - The unique identifier of a subscription
@@ -413,7 +413,7 @@ TDengineCursor.prototype.getClientInfo = function getClientInfo() {
  * @return {Buffer} A buffer pointing to the subscription session handle
  * @since 1.3.0
  */
-TDengineCursor.prototype.subscribe = function subscribe(config) {
+DThouseCursor.prototype.subscribe = function subscribe(config) {
   let restart = config.restart ? 1 : 0;
   return this._chandle.subscribe(this._connection._conn, restart, config.topic, config.sql, config.interval);
 };
@@ -423,7 +423,7 @@ TDengineCursor.prototype.subscribe = function subscribe(config) {
  * @param {function} callback - The callback function that takes the row data, field/column meta data, and the subscription session handle as input
  * @since 1.3.0
  */
-TDengineCursor.prototype.consumeData = async function consumeData(subscription, callback) {
+DThouseCursor.prototype.consumeData = async function consumeData(subscription, callback) {
   while (true) {
     let { data, fields, result } = this._chandle.consume(subscription);
     callback(data, fields, result);
@@ -434,11 +434,11 @@ TDengineCursor.prototype.consumeData = async function consumeData(subscription, 
  * @param {Buffer} subscription - A buffer object pointing to the subscription session handle that is to be unsubscribed
  * @since 1.3.0
  */
-TDengineCursor.prototype.unsubscribe = function unsubscribe(subscription) {
+DThouseCursor.prototype.unsubscribe = function unsubscribe(subscription) {
   this._chandle.unsubscribe(subscription);
 }
 /**
- * Open a stream with TDengine to run the sql query periodically in the background
+ * Open a stream with DThouse to run the sql query periodically in the background
  * @param {string} sql - The query to run
  * @param {function} callback - The callback function to run after each query, accepting inputs as param, result handle, data, fields meta data
  * @param {number} stime - The time of the stream starts in the form of epoch milliseconds. If 0 is given, the start time is set as the current time.
@@ -447,7 +447,7 @@ TDengineCursor.prototype.unsubscribe = function unsubscribe(subscription) {
  * @return {Buffer} A buffer pointing to the stream handle
  * @since 1.3.0
  */
-TDengineCursor.prototype.openStream = function openStream(sql, callback, stime = 0, stoppingCallback, param = {}) {
+DThouseCursor.prototype.openStream = function openStream(sql, callback, stime = 0, stoppingCallback, param = {}) {
   let buf = ref.alloc('Object');
   ref.writeObject(buf, 0, param);
 
@@ -471,6 +471,6 @@ TDengineCursor.prototype.openStream = function openStream(sql, callback, stime =
  * @param {Buffer} - A buffer pointing to the handle of the stream to be closed
  * @since 1.3.0
  */
-TDengineCursor.prototype.closeStream = function closeStream(stream) {
+DThouseCursor.prototype.closeStream = function closeStream(stream) {
   this._chandle.closeStream(stream);
 }

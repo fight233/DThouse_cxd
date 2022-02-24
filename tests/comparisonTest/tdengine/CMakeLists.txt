@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0...3.20)
-PROJECT(TDengine)
+PROJECT(DThouse)
 
 IF (TD_LINUX)
   add_executable(tdengineTest tdengineTest.c)

@@ -1,10 +1,10 @@
-<!DOCTYPE html><html lang='cn'><head><title>文档 | 涛思数据</title><meta name='description' content='TDengine是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。'><meta name='keywords' content='大数据，Big Data，开源，物联网，车联网，工业互联网，IT运维, 时序数据库，缓存，数据订阅，消息队列，流式计算，开源，涛思数据，TAOS Data, TDengine'><meta name='title' content='文档 | 涛思数据'><meta property='og:site_name' content='涛思数据'/><meta property='og:title' content='文档 | 涛思数据'/><meta property='og:type' content='article'/><meta property='og:url' content='https://www.taosdata.com/cn/documentation/super-table-ch/index.php'/><meta property='og:description' content='TDengine是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。' /><link rel='canonical' href='https://www.taosdata.com/cn/documentation/super-table-ch/index.php'/><script src='../lib/jquery-3.4.1.min.js' type='application/javascript'></script><link href='../lib/bootstrap.min.css' rel='stylesheet'><link href='../styles/base.min.css' rel='stylesheet'><link rel='stylesheet' href='../lib/docs/taosdataprettify.css'><link rel='stylesheet' href='../lib/docs/docs.css'><script src='../lib/docs/prettify.js'></script><script src='../lib/docs/prettyprint-sql.js'></script></head><body><script>$('#documentation-href').addClass('active')</script><div class='container-fluid'><main class='content-wrapper'><section class='documentation'><a href='../index.html'>回去</a><h1>超级表STable：多表聚合</h1>
-<p>TDengine要求每个数据采集点单独建表，这样能极大提高数据的插入/查询性能，但是导致系统中表的数量猛增，让应用对表的维护以及聚合、统计操作难度加大。为降低应用的开发难度，TDengine引入了超级表STable (Super Table)的概念。</p>
+<!DOCTYPE html><html lang='cn'><head><title>文档 | 涛思数据</title><meta name='description' content='DThouse是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。'><meta name='keywords' content='大数据，Big Data，开源，物联网，车联网，工业互联网，IT运维, 时序数据库，缓存，数据订阅，消息队列，流式计算，开源，涛思数据，TAOS Data, DThouse'><meta name='title' content='文档 | 涛思数据'><meta property='og:site_name' content='涛思数据'/><meta property='og:title' content='文档 | 涛思数据'/><meta property='og:type' content='article'/><meta property='og:url' content='https://www.taosdata.com/cn/documentation/super-table-ch/index.php'/><meta property='og:description' content='DThouse是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。' /><link rel='canonical' href='https://www.taosdata.com/cn/documentation/super-table-ch/index.php'/><script src='../lib/jquery-3.4.1.min.js' type='application/javascript'></script><link href='../lib/bootstrap.min.css' rel='stylesheet'><link href='../styles/base.min.css' rel='stylesheet'><link rel='stylesheet' href='../lib/docs/taosdataprettify.css'><link rel='stylesheet' href='../lib/docs/docs.css'><script src='../lib/docs/prettify.js'></script><script src='../lib/docs/prettyprint-sql.js'></script></head><body><script>$('#documentation-href').addClass('active')</script><div class='container-fluid'><main class='content-wrapper'><section class='documentation'><a href='../index.html'>回去</a><h1>超级表STable：多表聚合</h1>
+<p>DThouse要求每个数据采集点单独建表，这样能极大提高数据的插入/查询性能，但是导致系统中表的数量猛增，让应用对表的维护以及聚合、统计操作难度加大。为降低应用的开发难度，DThouse引入了超级表STable (Super Table)的概念。</p>
 <a class='anchor' id='什么是超级表'></a><h2>什么是超级表</h2>
 <p>STable是同一类型数据采集点的抽象，是同类型采集实例的集合，包含多张数据结构一样的子表。每个STable为其子表定义了表结构和一组标签：表结构即表中记录的数据列及其数据类型；标签名和数据类型由STable定义，标签值记录着每个子表的静态信息，用以对子表进行分组过滤。子表本质上就是普通的表，由一个时间戳主键和若干个数据列组成，每行记录着具体的数据，数据查询操作与普通表完全相同；但子表与普通表的区别在于每个子表从属于一张超级表，并带有一组由STable定义的标签值。每种类型的采集设备可以定义一个STable。数据模型定义表的每列数据的类型，如温度、压力、电压、电流、GPS实时位置等，而标签信息属于Meta Data，如采集设备的序列号、型号、位置等，是静态的，是表的元数据。用户在创建表（数据采集点）时指定STable(采集类型)外，还可以指定标签的值，也可事后增加或修改。</p>
-<p>TDengine扩展标准SQL语法用于定义STable，使用关键词tags指定标签信息。语法如下：</p>
+<p>DThouse扩展标准SQL语法用于定义STable，使用关键词tags指定标签信息。语法如下：</p>
 <pre><code class="mysql language-mysql">CREATE TABLE &lt;stable_name&gt; (&lt;field_name&gt; TIMESTAMP, field_name1 field_type,…)   TAGS(tag_name tag_type, …) </code></pre>
-<p>其中tag_name是标签名，tag_type是标签的数据类型。标签可以使用时间戳之外的其他TDengine支持的数据类型，标签的个数最多为6个，名字不能与系统关键词相同，也不能与其他列名相同。如：</p>
+<p>其中tag_name是标签名，tag_type是标签的数据类型。标签可以使用时间戳之外的其他DThouse支持的数据类型，标签的个数最多为6个，名字不能与系统关键词相同，也不能与其他列名相同。如：</p>
 <pre><code class="mysql language-mysql">create table thermometer (ts timestamp, degree float) 
 tags (location binary(20), type int)</code></pre>
 <p>上述SQL创建了一个名为thermometer的STable，带有标签location和标签type。</p>
@@ -14,7 +14,7 @@ tags (location binary(20), type int)</code></pre>
 <pre><code class="mysql language-mysql">create table t1 using thermometer tags (‘beijing', 10)</code></pre>
 <p>上述SQL以thermometer为模板，创建了名为t1的表，这张表的Schema就是thermometer的Schema，但标签location值为'beijing'，标签type值为10。</p>
 <p>用户可以使用一个STable创建数量无上限的具有不同标签的表，从这个意义上理解，STable就是若干具有相同数据模型，不同标签的表的集合。与普通表一样，用户可以创建、删除、查看超级表STable，大部分适用于普通表的查询操作都可运用到STable上，包括各种聚合和投影选择函数。除此之外，可以设置标签的过滤条件，仅对STbale中部分表进行聚合查询，大大简化应用的开发。</p>
-<p>TDengine对表的主键（时间戳）建立索引，暂时不提供针对数据模型中其他采集量（比如温度、压力值）的索引。每个数据采集点会采集若干数据记录，但每个采集点的标签仅仅是一条记录，因此数据标签在存储上没有冗余，且整体数据规模有限。TDengine将标签数据与采集的动态数据完全分离存储，而且针对STable的标签建立了高性能内存索引结构，为标签提供全方位的快速操作支持。用户可按照需求对其进行增删改查（Create，Retrieve，Update，Delete，CRUD）操作。</p>
+<p>DThouse对表的主键（时间戳）建立索引，暂时不提供针对数据模型中其他采集量（比如温度、压力值）的索引。每个数据采集点会采集若干数据记录，但每个采集点的标签仅仅是一条记录，因此数据标签在存储上没有冗余，且整体数据规模有限。DThouse将标签数据与采集的动态数据完全分离存储，而且针对STable的标签建立了高性能内存索引结构，为标签提供全方位的快速操作支持。用户可按照需求对其进行增删改查（Create，Retrieve，Update，Delete，CRUD）操作。</p>
 <p>STable从属于库，一个STable只属于一个库，但一个库可以有一到多个STable, 一个STable可有多个子表。</p>
 <a class='anchor' id='超级表管理'></a><h2>超级表管理</h2>
 <ul>
@@ -74,7 +74,7 @@ tags (location binary(20), type int)</code></pre>
  LIMIT &lt;record_limit&gt;
  OFFSET &lt;record_offset&gt;</code></pre>
 <p><strong>说明</strong>：</p>
-<p>超级表聚合查询，TDengine目前支持以下聚合\选择函数：sum、count、avg、first、last、min、max、top、bottom，以及针对全部或部分列的投影操作，使用方式与单表查询的计算过程相同。暂不支持其他类型的聚合计算和四则运算。当前所有的函数及计算过程均不支持嵌套的方式进行执行。</p>
+<p>超级表聚合查询，DThouse目前支持以下聚合\选择函数：sum、count、avg、first、last、min、max、top、bottom，以及针对全部或部分列的投影操作，使用方式与单表查询的计算过程相同。暂不支持其他类型的聚合计算和四则运算。当前所有的函数及计算过程均不支持嵌套的方式进行执行。</p>
 <p>不使用GROUP BY的查询将会对超级表下所有满足筛选条件的表按时间进行聚合，结果输出默认是按照时间戳单调递增输出，用户可以使用ORDER BY _c0 ASC|DESC选择查询结果时间戳的升降排序；使用GROUP BY <tag_name> 的聚合查询会按照tags进行分组，并对每个组内的数据分别进行聚合，输出结果为各个组的聚合结果，组间的排序可以由ORDER BY <tag_name> 语句指定，每个分组内部，时间序列是单调递增的。 </p>
 <p>使用SLIMIT/SOFFSET语句指定组间分页，即指定结果集中输出的最大组数以及对组起始的位置。使用LIMIT/OFFSET语句指定组内分页，即指定结果集中每个组内最多输出多少条记录以及记录起始的位置。</p>
 <a class='anchor' id='STable使用示例'></a><h2>STable使用示例</h2>

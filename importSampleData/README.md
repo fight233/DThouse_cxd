@@ -1,6 +1,6 @@
 # 样例数据导入
 
-该工具可以根据用户提供的 `json` 或 `csv` 格式样例数据文件快速导入 `TDengine`，目前仅能在 Linux 上运行。
+该工具可以根据用户提供的 `json` 或 `csv` 格式样例数据文件快速导入 `DThouse`，目前仅能在 Linux 上运行。
 
 为了体验写入和查询性能，可以对样例数据进行横向、纵向扩展。横向扩展是指将一个表（监测点）的数据克隆到多张表，纵向扩展是指将样例数据中的一段时间范围内的数据在时间轴上复制。该工具还支持历史数据导入至当前时间后持续导入，这样可以测试插入和查询并行进行的场景，以模拟真实环境。
 
@@ -67,7 +67,7 @@ go build -o bin/taosimport app/main.go
 
 * -cfg string
 
-    导入配置文件路径，包含样例数据文件相关描述及对应 TDengine 配置信息。默认使用 `config/cfg.toml`。
+    导入配置文件路径，包含样例数据文件相关描述及对应 DThouse 配置信息。默认使用 `config/cfg.toml`。
 
 * -cases string
 
@@ -119,19 +119,19 @@ go build -o bin/taosimport app/main.go
 
 * -host string
 
-    导入的 TDengine 服务器 IP，默认为 127.0.0.1。
+    导入的 DThouse 服务器 IP，默认为 127.0.0.1。
   
 * -port int
 
-    导入的 TDengine 服务器端口，默认为 6030。
+    导入的 DThouse 服务器端口，默认为 6030。
   
 * -user string
 
-    导入的 TDengine 用户名，默认为 root。
+    导入的 DThouse 用户名，默认为 root。
   
 * -password string
 
-    导入的 TDengine 用户密码，默认为 taosdata。
+    导入的 DThouse 用户密码，默认为 taosdata。
 
 * -dropdb int
 
@@ -139,7 +139,7 @@ go build -o bin/taosimport app/main.go
 
 * -db string
 
-    导入的 TDengine 数据库名称，默认为 test_yyyyMMdd。
+    导入的 DThouse 数据库名称，默认为 test_yyyyMMdd。
   
 * -dbparam string
 
@@ -233,7 +233,7 @@ devid,location,color,devgroup,ts,temperature,humidity
 0, beijing, white, 0, 1575129601000, 22, 14.377142
 ```
 
-[1]: https://github.com/taosdata/TDengine
+[1]: https://github.com/taosdata/DThouse
 [2]: https://golang.org/doc/install
 [3]: https://www.taosdata.com/cn/documentation/connector/#Go-Connector
 [4]: https://www.taosdata.com/cn/documentation/taos-sql/#%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2

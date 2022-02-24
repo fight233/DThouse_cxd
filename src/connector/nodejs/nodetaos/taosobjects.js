@@ -58,7 +58,7 @@ class TaosTimestamp extends Date {
   }
 
   /**
-   * TDengine raw timestamp.
+   * DThouse raw timestamp.
    * @returns raw taos timestamp (int64)
    */
   taosTimestamp() {
@@ -111,7 +111,7 @@ class TaosTimestamp extends Date {
     }
   }
   /**
-   * @function Returns the date into a string usable by TDengine
+   * @function Returns the date into a string usable by DThouse
    * @return {string} A Taos Timestamp String
    */
   toTaosString() {

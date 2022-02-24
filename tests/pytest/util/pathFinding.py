@@ -18,7 +18,7 @@ from util.log import *
 
 
 class TDFindPath:
-    """This class is for finding path within TDengine
+    """This class is for finding path within DThouse
     """
     def __init__(self):
         self.file = ""
@@ -57,11 +57,11 @@ class TDFindPath:
             tdLog.info(f"taosd found in {buildPath}")
         return buildPath + "/build/bin/"  
 
-    def getTDenginePath(self):
-        """for finding the root path of TDengine
+    def getDThousePath(self):
+        """for finding the root path of DThouse
 
         Returns:
-            str: the root path of TDengine
+            str: the root path of DThouse
         """
         selfPath = os.path.dirname(os.path.realpath(self.file))
 
@@ -75,9 +75,9 @@ class TDFindPath:
                 print(root)
                 rootRealPath = os.path.realpath(root)
         if (rootRealPath == ""):
-            tdLog.exit("TDengine not found!")
+            tdLog.exit("DThouse not found!")
         else:
-            tdLog.info(f"TDengine found in {rootRealPath}")  
+            tdLog.info(f"DThouse found in {rootRealPath}")  
         return rootRealPath
 
 tdFindPath = TDFindPath()

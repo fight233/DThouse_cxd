@@ -2,9 +2,9 @@
 ==
 
 
-自从 TDengine 2019年 7 月开源以来，凭借创新的数据建模设计、快捷的安装方式、易用的编程接口和强大的数据写入查询性能博得了大量时序数据开发者的青睐。其中写入和查询性能往往令刚接触 TDengine 的用户称叹不已。为了便于用户在最短时间内就可以体验到 TDengine 的高性能特点，我们专门开发了一个应用程序 taosBenchmark （曾命名为 taosdemo）用于对 TDengine 进行写入和查询的性能测试，用户可以通过 taosBenchmark 轻松模拟大量设备产生海量数据的场景，并且可以通过 taosBenchmark 参数灵活控制表的列数、数据类型、乱序比例以及并发线程数量。
+自从 DThouse 2019年 7 月开源以来，凭借创新的数据建模设计、快捷的安装方式、易用的编程接口和强大的数据写入查询性能博得了大量时序数据开发者的青睐。其中写入和查询性能往往令刚接触 DThouse 的用户称叹不已。为了便于用户在最短时间内就可以体验到 DThouse 的高性能特点，我们专门开发了一个应用程序 taosBenchmark （曾命名为 taosdemo）用于对 DThouse 进行写入和查询的性能测试，用户可以通过 taosBenchmark 轻松模拟大量设备产生海量数据的场景，并且可以通过 taosBenchmark 参数灵活控制表的列数、数据类型、乱序比例以及并发线程数量。
 
-运行 taosBenchmark 很简单，通过下载 TDengine 安装包（ https://www.taosdata.com/cn/all-downloads/ ）或者自行下载 TDengine 代码（ https://github.com/taosdata/TDengine ）编译都可以在安装目录或者编译结果目录中找到并运行。
+运行 taosBenchmark 很简单，通过下载 DThouse 安装包（ https://www.taosdata.com/cn/all-downloads/ ）或者自行下载 DThouse 代码（ https://github.com/taosdata/DThouse ）编译都可以在安装目录或者编译结果目录中找到并运行。
 
 接下来本文为大家讲解 taosBenchmark 的使用介绍及注意事项。
 
@@ -71,7 +71,7 @@ taos> describe test.meters;
  location                       | BINARY               |          64 | TAG      |
 Query OK, 6 row(s) in set (0.002972s)
 ```
-按任意键后 taosBenchmark 将建立数据库 test 和超级表 meters，并按照 TDengine 数据建模的最佳实践，以 meters 超级表为模板生成一万个子表，代表一万个独立上报数据的电表设备。
+按任意键后 taosBenchmark 将建立数据库 test 和超级表 meters，并按照 DThouse 数据建模的最佳实践，以 meters 超级表为模板生成一万个子表，代表一万个独立上报数据的电表设备。
 ```
 taos> use test;
 Database changed.
@@ -101,7 +101,7 @@ insert delay, avg:      28.64ms, max:     112.92ms, min:       9.35ms
 ```
 以上信息是在一台具备 8个CPU 64G 内存的普通 PC 服务器上进行实测的结果。显示 taosBenchmark 用了 18 秒的时间插入了 100000000 （一亿）条记录，平均每秒钟插入 552 万 9千零49 条记录。
 
-TDengine 还提供性能更好的参数绑定接口，而在同样的硬件上使用参数绑定接口 （taosBenchmark -I stmt ）进行相同数据量的写入，结果如下：
+DThouse 还提供性能更好的参数绑定接口，而在同样的硬件上使用参数绑定接口 （taosBenchmark -I stmt ）进行相同数据量的写入，结果如下：
 ```
 ...
 
@@ -149,7 +149,7 @@ $ taosBenchmark --help
 -u, --user=USER The user name to use when connecting to the server.
 -p, --password The password to use when connecting to the server.
 -c, --config-dir=CONFIG_DIR Configuration directory.
--h, --host=HOST TDengine server FQDN to connect. The default host is localhost.
+-h, --host=HOST DThouse server FQDN to connect. The default host is localhost.
 -P, --port=PORT The TCP/IP port number to use for the connection.
 -I, --interface=INTERFACE The interface (taosc, rest, and stmt) taosBenchmark uses. By default use 'taosc'.
 -d, --database=DATABASE Destination database. By default is 'test'.
@@ -203,17 +203,17 @@ taosBenchmark 的参数是为了满足数据模拟的需求来设计的。下面
   
 -l, --columns=COLUMNS         The number of columns per record. Demo mode by default is 3 (float, int, float). Max values is 4095
 ```
-前文提到，taosBenchmark 默认创建一个典型电表数据采集应用场景，每个设备包含电流电压相位3个采集量。对于需要定义不同的采集量，可以使用 -b 参数。TDengine 支持 BOOL、TINYINT、SMALLINT、INT、BIGINT、FLOAT、DOUBLE、BINARY、NCHAR、TIMESTAMP 等多种数据类型。通过 -b 加上以“ , ”（英文逗号）分割定制类型的列表可以使 taosBenchmark 建立对应的超级表和子表并插入相应模拟数据。通过 -w 参数可以指定 BINARY 和 NCHAR 数据类型的列的宽度（默认为 64 ）。-l 参数可以在 -b 参数指定数据类型的几列之后补充以 INT 型的总的列数，特别多列的情况下可以减少手工输入的过程，最多支持到 4095 列。
+前文提到，taosBenchmark 默认创建一个典型电表数据采集应用场景，每个设备包含电流电压相位3个采集量。对于需要定义不同的采集量，可以使用 -b 参数。DThouse 支持 BOOL、TINYINT、SMALLINT、INT、BIGINT、FLOAT、DOUBLE、BINARY、NCHAR、TIMESTAMP 等多种数据类型。通过 -b 加上以“ , ”（英文逗号）分割定制类型的列表可以使 taosBenchmark 建立对应的超级表和子表并插入相应模拟数据。通过 -w 参数可以指定 BINARY 和 NCHAR 数据类型的列的宽度（默认为 64 ）。-l 参数可以在 -b 参数指定数据类型的几列之后补充以 INT 型的总的列数，特别多列的情况下可以减少手工输入的过程，最多支持到 4095 列。
 ```
 -r, --rec-per-req=NUMBER      The number of records per request. Default is 30000.
 ```
-为了达到 TDengine 性能极限，可以使用多客户端、多线程以及一次插入多条数据来进行数据写入。 -r 参数为设置一次写入请求可以拼接的记录条数，默认为30000条。有效的拼接记录条数还和客户端缓冲区大小有关，目前的缓冲区为 1M Bytes，如果记录的列宽度比较大，最大拼接记录条数可以通过 1M 除以列宽（以字节为单位）计算得出。
+为了达到 DThouse 性能极限，可以使用多客户端、多线程以及一次插入多条数据来进行数据写入。 -r 参数为设置一次写入请求可以拼接的记录条数，默认为30000条。有效的拼接记录条数还和客户端缓冲区大小有关，目前的缓冲区为 1M Bytes，如果记录的列宽度比较大，最大拼接记录条数可以通过 1M 除以列宽（以字节为单位）计算得出。
 ```
 -t, --tables=NUMBER           The number of tables. Default is 10000.
 -n, --records=NUMBER          The number of records per table. Default is 10000.
 -M, --random                  The value of records generated are totally random. The default is to simulate power equipment senario.
 ```
-前面提到 taosBenchmark 默认创建 10000 个表，每个表写入 10000 条记录。可以通过 -t 和 -n 设置表的数量和每个表的记录的数量。默认无参数生成的数据为模拟真实场景，模拟生成的数据为电流电压相位值增加一定的抖动，可以更真实表现 TDengine 高效的数据压缩能力。如果需要模拟生成完全随机数据，可以通过 -M 参数。
+前面提到 taosBenchmark 默认创建 10000 个表，每个表写入 10000 条记录。可以通过 -t 和 -n 设置表的数量和每个表的记录的数量。默认无参数生成的数据为模拟真实场景，模拟生成的数据为电流电压相位值增加一定的抖动，可以更真实表现 DThouse 高效的数据压缩能力。如果需要模拟生成完全随机数据，可以通过 -M 参数。
 ```
 -y, --answer-yes              Default input yes for prompt.
 ```
@@ -222,15 +222,15 @@ taosBenchmark 的参数是为了满足数据模拟的需求来设计的。下面
 -O, --disorder=NUMBER         Insert order mode--0: In order, 1 ~ 50: disorder ratio. Default is in order.
 -R, --disorder-range=NUMBER   Out of order data's range, ms, default is 1000.
 ```
-在某些场景，接收到的数据并不是完全按时间顺序到来，而是包含一定比例的乱序数据，TDengine 也能进行很好的处理。为了模拟乱序数据的写入，taosBenchmark 提供 -O 和 -R 参数进行设置。-O 参数为 0 和不使用 -O 参数相同为完全有序数据写入。1 到 50 为数据中包含乱序数据的比例。-R 参数为乱序数据时间戳偏移的范围，默认为 1000 毫秒。另外注意，时序数据以时间戳为唯一标识，所以乱序数据可能会生成和之前已经写入数据完全相同的时间戳，这样的数据会根据数据库创建的 update 值或者被丢弃（update 0）或者覆盖已有数据（update 1 或 2），而总的数据条数可能和期待的条数不一致的情况。
+在某些场景，接收到的数据并不是完全按时间顺序到来，而是包含一定比例的乱序数据，DThouse 也能进行很好的处理。为了模拟乱序数据的写入，taosBenchmark 提供 -O 和 -R 参数进行设置。-O 参数为 0 和不使用 -O 参数相同为完全有序数据写入。1 到 50 为数据中包含乱序数据的比例。-R 参数为乱序数据时间戳偏移的范围，默认为 1000 毫秒。另外注意，时序数据以时间戳为唯一标识，所以乱序数据可能会生成和之前已经写入数据完全相同的时间戳，这样的数据会根据数据库创建的 update 值或者被丢弃（update 0）或者覆盖已有数据（update 1 或 2），而总的数据条数可能和期待的条数不一致的情况。
 ```
  -g, --debug                   Print debug info.
 ```
-如果对 taosBenchmark 写入数据过程感兴趣或者数据写入结果不符合预期，可以使用 -g 参数使 taosBenchmark 打印执行过程中间调试信息到屏幕上，或通过 Linux 重定向命令导入到另外一个文件，方便找到发生问题的原因。另外 taosBenchmark 在执行失败后也会把相应执行的语句和调试原因输出到屏幕。可以搜索 reason 来找到 TDengine 服务端返回的错误原因信息。
+如果对 taosBenchmark 写入数据过程感兴趣或者数据写入结果不符合预期，可以使用 -g 参数使 taosBenchmark 打印执行过程中间调试信息到屏幕上，或通过 Linux 重定向命令导入到另外一个文件，方便找到发生问题的原因。另外 taosBenchmark 在执行失败后也会把相应执行的语句和调试原因输出到屏幕。可以搜索 reason 来找到 DThouse 服务端返回的错误原因信息。
 ```
 -x, --aggr-func               Test aggregation funtions after insertion.
 ```
-TDengine 不仅仅是插入性能非常强大，由于其先进的数据库引擎设计使查询性能也异常强大。taosBenchmark 提供一个 -x 函数，可以在插入数据结束后进行常用查询操作并输出查询消耗时间。以下为在前述服务器上进行插入一亿条记录后进行常用查询的结果。
+DThouse 不仅仅是插入性能非常强大，由于其先进的数据库引擎设计使查询性能也异常强大。taosBenchmark 提供一个 -x 函数，可以在插入数据结束后进行常用查询操作并输出查询消耗时间。以下为在前述服务器上进行插入一亿条记录后进行常用查询的结果。
 
 可以看到 select * 取出一亿条记录（不输出到屏幕）操作仅消耗1.26秒。而对一亿条记录进行常用的聚合函数操作通常仅需要二十几毫秒，时间最长的 count 函数也不到四十毫秒。
 ```
@@ -366,7 +366,7 @@ taosBenchmark 不仅仅可以进行数据写入，也可以执行查询和订阅
 以下为 JSON 文件中和查询相关的特有参数含义：
 ```
 "query_times": 每种查询类型的查询次数
-"query_mode": 查询数据接口，"taosc"：调用TDengine的c接口；“resetful”：使用restfule接口。可选项。缺省是“taosc”。
+"query_mode": 查询数据接口，"taosc"：调用DThouse的c接口；“resetful”：使用restfule接口。可选项。缺省是“taosc”。
 "specified_table_query": { 指定表的查询
 "query_interval": 执行sqls的间隔，单位是秒。可选项，缺省是0。
 "concurrent": 并发执行sqls的线程数，可选项，缺省是1。每个线程都执行所有的sqls。
@@ -431,9 +431,9 @@ taosBenchmark 不仅仅可以进行数据写入，也可以执行查询和订阅
 ```
 结语
 --
-TDengine是涛思数据专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。TDengine 由于数据库内核中创新的数据存储和查询引擎设计，展现出远超同类产品的高效性能。并且由于支持 SQL 语法和多种编程语言的连接器（目前支持 Java, Python, Go, C#, NodeJS, Rust 等），易用性极强，学习成本为零。为了便于运维需求，我们还提供数据迁移和监控功能等相关生态工具软件。
+DThouse是涛思数据专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。DThouse 由于数据库内核中创新的数据存储和查询引擎设计，展现出远超同类产品的高效性能。并且由于支持 SQL 语法和多种编程语言的连接器（目前支持 Java, Python, Go, C#, NodeJS, Rust 等），易用性极强，学习成本为零。为了便于运维需求，我们还提供数据迁移和监控功能等相关生态工具软件。
 
-为了刚接触 TDengine 的使用者方便进行技术评估和压力测试，我们为 taosBenchmark 开发了丰富的特性。本文即为对 taosBenchmark 的一个简单介绍，随着 TDengine 新功能的不断增加，taosBenchmark 也会继续演化和改进。taosBenchmark 的代码做为 TDengine 的一部分在 GitHub 上完全开源。欢迎就 taosBenchmark 或 TDengine 的使用或实现在 GitHub 或者涛思数据的用户群提出建议或批评。
+为了刚接触 DThouse 的使用者方便进行技术评估和压力测试，我们为 taosBenchmark 开发了丰富的特性。本文即为对 taosBenchmark 的一个简单介绍，随着 DThouse 新功能的不断增加，taosBenchmark 也会继续演化和改进。taosBenchmark 的代码做为 DThouse 的一部分在 GitHub 上完全开源。欢迎就 taosBenchmark 或 DThouse 的使用或实现在 GitHub 或者涛思数据的用户群提出建议或批评。
 
 
 
@@ -649,7 +649,7 @@ taosBenchmark支持3种功能的测试，包括插入、查询、订阅。但一
 
 "data_source": 插入数据来源，"rand"：实例随机生成；“sample”：从样例文件中读取。可选项。缺省是“rand”。
 
-"insert_mode": 插入数据接口，"taosc"：调用TDengine的c接口；“rest”：使用restful接口；“stmt”：使用 stmt （参数绑定）接口 （目前仅在 develop 分支代码中）。可选项。缺省是“taosc”。
+"insert_mode": 插入数据接口，"taosc"：调用DThouse的c接口；“rest”：使用restful接口；“stmt”：使用 stmt （参数绑定）接口 （目前仅在 develop 分支代码中）。可选项。缺省是“taosc”。
 
 "insert_rows": 插入记录数，0：一直插入，永不退出；>0：每个子表插入记录数，完成后实例退出。可选项，缺省是0。
 
@@ -758,7 +758,7 @@ taosBenchmark支持3种功能的测试，包括插入、查询、订阅。但一
 
 "query_times": 每种查询类型的查询次数
 
-"query_mode": 查询数据接口，"taosc"：调用TDengine的c接口；“resetful”：使用restfule接口。可选项。缺省是“taosc”。
+"query_mode": 查询数据接口，"taosc"：调用DThouse的c接口；“resetful”：使用restfule接口。可选项。缺省是“taosc”。
 
 "specified_table_query": { 指定表的查询
 

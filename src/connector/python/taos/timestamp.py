@@ -1,6 +1,6 @@
 
 class TimestampType(object):
-    """Choose which type that parsing TDengine timestamp data to
+    """Choose which type that parsing DThouse timestamp data to
 
     - DATETIME: use python datetime.datetime, note that it does not support nanosecond precision,
         and python taos will use raw c_int64 as a fallback for nanosecond results.

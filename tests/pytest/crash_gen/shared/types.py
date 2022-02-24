@@ -7,7 +7,7 @@ QueryResult = NewType('QueryResult', List[List[Any]])
 
 class TdDataType(Enum):
     '''
-    Use a Python Enum types of represent all the data types in TDengine.
+    Use a Python Enum types of represent all the data types in DThouse.
 
     Ref: https://www.taosdata.com/cn/documentation/taos-sql#data-type
     '''

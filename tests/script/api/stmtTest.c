@@ -53,11 +53,11 @@ int main(int argc, char *argv[]) {
     void *taos = taos_connect("127.0.0.1", "root", "taosdata", NULL, 0);
     if (taos == NULL) {
         PRINT_ERROR
-        printf("TDengine error: failed to connect\n");
+        printf("DThouse error: failed to connect\n");
         exit(EXIT_FAILURE);
     }
     PRINT_SUCCESS
-    printf("Successfully connected to TDengine\n");
+    printf("Successfully connected to DThouse\n");
     
     execute_simple_sql(taos, "drop database if exists test");
     execute_simple_sql(taos, "create database test");
@@ -85,7 +85,7 @@ int main(int argc, char *argv[]) {
     TAOS_STMT *stmt = taos_stmt_init(taos);
     if (stmt == NULL) {
         PRINT_ERROR
-        printf("TDengine error: failed to init taos_stmt\n");
+        printf("DThouse error: failed to init taos_stmt\n");
         exit(EXIT_FAILURE);
     }
     PRINT_SUCCESS

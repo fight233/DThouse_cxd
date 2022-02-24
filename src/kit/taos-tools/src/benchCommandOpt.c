@@ -34,7 +34,7 @@ static struct argp_option options[] = {
     {"file", 'f', "FILE", 0, "Json configuration file."},
     {"config-dir", 'c', "CONFIG_DIR", 0, "Configuration directory."},
     {"host", 'h', "HOST", 0,
-     "TDengine server FQDN to connect, default is localhost."},
+     "DThouse server FQDN to connect, default is localhost."},
     {"port", 'P', "PORT", 0,
      "The TCP/IP port number to use for the connection, default is 6030."},
     {"interface", 'I', "IFACE", 0,

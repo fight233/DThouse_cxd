@@ -2,27 +2,27 @@
 
 ## <a class="anchor" id="install"></a>Quick Install
 
-TDengine software consists of 3 parts: server, client, and alarm module. At the moment, TDengine server only runs on Linux (Windows, mac OS and more OS supports will come soon), but client can run on either Windows or Linux. TDengine client can be installed and run on Windows or Linux. Applications based-on any OSes can all connect to server taosd via a RESTful interface. From 2.4 and later version, TDengine use a stand-alone software, taosAdapteer to provide http service. The early version uses the http server embedded in the taosd. About CPU, TDengine supports X64/ARM64/MIPS64/Alpha64, and ARM32、RISC-V, other more CPU architectures will be supported soon. You can set up and install TDengine server either from the [source code](https://www.taosdata.com/en/getting-started/#Install-from-Source) or the [packages](https://www.taosdata.com/en/getting-started/#Install-from-Package).
+DThouse software consists of 3 parts: server, client, and alarm module. At the moment, DThouse server only runs on Linux (Windows, mac OS and more OS supports will come soon), but client can run on either Windows or Linux. DThouse client can be installed and run on Windows or Linux. Applications based-on any OSes can all connect to server taosd via a RESTful interface. From 2.4 and later version, DThouse use a stand-alone software, taosAdapteer to provide http service. The early version uses the http server embedded in the taosd. About CPU, DThouse supports X64/ARM64/MIPS64/Alpha64, and ARM32、RISC-V, other more CPU architectures will be supported soon. You can set up and install DThouse server either from the [source code](https://www.taosdata.com/en/getting-started/#Install-from-Source) or the [packages](https://www.taosdata.com/en/getting-started/#Install-from-Package).
 
 ### <a class="anchor" id="source-install"></a>Install from Source
 
-Please visit our [TDengine github page](https://github.com/taosdata/TDengine) for instructions on installation from the source code.
+Please visit our [DThouse github page](https://github.com/taosdata/DThouse) for instructions on installation from the source code.
 
 ### Install from Docker Container
 
-For the time being, it is not recommended to use Docker to deploy the client or server side of TDengine in production environments, but it is convenient to use Docker to deploy in development environments or when trying it for the first time. In particular, with Docker, it is easy to try TDengine in Mac OS X and Windows environments.
+For the time being, it is not recommended to use Docker to deploy the client or server side of DThouse in production environments, but it is convenient to use Docker to deploy in development environments or when trying it for the first time. In particular, with Docker, it is easy to try DThouse in Mac OS X and Windows environments.
 
-Please refer to the detailed operation in [Quickly experience TDengine through Docker](https://www.taosdata.com/en/documentation/getting-started/docker).
+Please refer to the detailed operation in [Quickly experience DThouse through Docker](https://www.taosdata.com/en/documentation/getting-started/docker).
 
 ### <a class="anchor" id="package-install"></a>Install from Package
 
-Three different packages for TDengine server are provided, please pick up the one you like. (Lite packages only have execution files and connector of C/C++, but standard packages support connectors of nearly all programming languages.) Beta version has more features, but we suggest you to install stable version for production or testing.
+Three different packages for DThouse server are provided, please pick up the one you like. (Lite packages only have execution files and connector of C/C++, but standard packages support connectors of nearly all programming languages.) Beta version has more features, but we suggest you to install stable version for production or testing.
 
 Click [here](https://www.taosdata.com/en/getting-started/#Install-from-Package) to download the install package.
 
-### Install TDengine by apt-get
+### Install DThouse by apt-get
 
-If you use Debian or Ubuntu system you can use 'apt-get' command to install TDengine from official repository. Please use following commands to setup:
+If you use Debian or Ubuntu system you can use 'apt-get' command to install DThouse from official repository. Please use following commands to setup:
 
 ```
 wget -qO - http://repos.taosdata.com/tdengine.key | sudo apt-key add -
@@ -35,7 +35,7 @@ sudo apt-get install tdengine
 
 ## <a class="anchor" id="start"></a>Quick Launch
 
-After installation, you can start the TDengine service by the `systemctl` command.
+After installation, you can start the DThouse service by the `systemctl` command.
 
 ```bash
 $ systemctl start taosd
@@ -47,36 +47,36 @@ Then check if the service is working now.
 $ systemctl status taosd
 ```
 
-If the service is running successfully, you can play around through TDengine shell `taos`.
+If the service is running successfully, you can play around through DThouse shell `taos`.
 
 **Note:**
 
 - The `systemctl` command needs the **root** privilege. Use **sudo** if you are not the **root** user.
-- To get better product feedback and improve our solution, TDengine will collect basic usage information, but you can modify the configuration parameter **telemetryReporting** in the system configuration file taos.cfg, and set it to 0 to turn it off.
-- TDengine uses FQDN (usually hostname) as the node ID. In order to ensure normal operation, you need to set hostname for the server running taosd, and configure DNS service or hosts file for the machine running client application, to ensure the FQDN can be resolved.
-- TDengine supports installation on Linux systems with[ systemd ](https://en.wikipedia.org/wiki/Systemd)as the process service management, and uses `which systemctl` command to detect whether `systemd` packages exist in the system:
+- To get better product feedback and improve our solution, DThouse will collect basic usage information, but you can modify the configuration parameter **telemetryReporting** in the system configuration file taos.cfg, and set it to 0 to turn it off.
+- DThouse uses FQDN (usually hostname) as the node ID. In order to ensure normal operation, you need to set hostname for the server running taosd, and configure DNS service or hosts file for the machine running client application, to ensure the FQDN can be resolved.
+- DThouse supports installation on Linux systems with[ systemd ](https://en.wikipedia.org/wiki/Systemd)as the process service management, and uses `which systemctl` command to detect whether `systemd` packages exist in the system:
   
   ```bash
   $ which systemctl
   ```
 
-If `systemd` is not supported in the system, TDengine service can also be launched via `/usr/local/taos/bin/taosd` manually.
+If `systemd` is not supported in the system, DThouse service can also be launched via `/usr/local/taos/bin/taosd` manually.
 
-## <a class="anchor" id="console"></a>TDengine Shell Command Line
+## <a class="anchor" id="console"></a>DThouse Shell Command Line
 
-To launch TDengine shell, the command line interface, in a Linux terminal, type:
+To launch DThouse shell, the command line interface, in a Linux terminal, type:
 
 ```bash
 $ taos
 ```
 
-The welcome message is printed if the shell connects to TDengine server successfully, otherwise, an error message will be printed (refer to our [FAQ](https://www.taosdata.com/en/faq) page for troubleshooting the connection error). The TDengine shell prompt is:
+The welcome message is printed if the shell connects to DThouse server successfully, otherwise, an error message will be printed (refer to our [FAQ](https://www.taosdata.com/en/faq) page for troubleshooting the connection error). The DThouse shell prompt is:
 
 ```cmd
 taos>
 ```
 
-In the TDengine shell, you can create databases, create tables and insert/query data with SQL. Each query command ends with a semicolon. It works like MySQL, for example:
+In the DThouse shell, you can create databases, create tables and insert/query data with SQL. Each query command ends with a semicolon. It works like MySQL, for example:
 
 ```mysql
 create database demo;
@@ -106,7 +106,7 @@ Besides the SQL commands, the system administrator can check system status, add 
 
 ### Shell Command Line Parameters
 
-You can configure command parameters to change how TDengine shell executes. Some frequently used options are listed below:
+You can configure command parameters to change how DThouse shell executes. Some frequently used options are listed below:
 
 - -c, --config-dir: set the configuration directory. It is */etc/taos* by default.
 - -h, --host: set the IP address of the server it will connect to. Default is localhost.
@@ -123,7 +123,7 @@ $ taos -h 192.168.0.1 -s "use db; show tables;"
 
 ### Run SQL Command Scripts
 
-Inside TDengine shell, you can run SQL scripts in a file with source command.
+Inside DThouse shell, you can run SQL scripts in a file with source command.
 
 ```mysql
 taos> source <filename>;
@@ -136,9 +136,9 @@ taos> source <filename>;
 - Use ctrl+c to interrupt any queries
 - To clean the schema of local cached tables, execute command `RESET QUERY CACHE`
 
-## <a class="anchor" id="demo"></a>Experience TDengine’s Lightning Speed
+## <a class="anchor" id="demo"></a>Experience DThouse’s Lightning Speed
 
-After starting the TDengine server, you can execute the command `taosBenchmark` (was named `taosdemo`) in the Linux terminal.
+After starting the DThouse server, you can execute the command `taosBenchmark` (was named `taosdemo`) in the Linux terminal.
 
 ```bash 
 $ taosBenchmark
@@ -148,7 +148,7 @@ Using this command, a STable named `meters` will be created in the database `tes
 
 It takes about 10 minutes to execute this command. Once finished, 1 billion rows of records will be inserted.
 
-In the TDengine client, enter sql query commands and then experience our lightning query speed.
+In the DThouse client, enter sql query commands and then experience our lightning query speed.
 
 - query total rows of records：
 
@@ -183,23 +183,23 @@ taos> select avg(f1), max(f2), min(f3) from test.t10 interval(10s);
 ## <a class="anchor" id="taosBenchmark"></a> Using taosBenchmark in detail
 
 you can run command `taosBenchmark` with many options, like number of tables, rows of records and so on. To know more about these options, you can execute `taosBenchmark --help` and then take a try using different options.
-Please refer to [How to use taosBenchmark to test the performance of TDengine](https://www.taosdata.com/en/documentation/getting-started/taosBenchmark) for detail.
+Please refer to [How to use taosBenchmark to test the performance of DThouse](https://www.taosdata.com/en/documentation/getting-started/taosBenchmark) for detail.
 
 ## Client and Alarm Module
 
 If your client and server running on different machines, please install the client separately. Linux and Windows packages are provided:
 
-- TDengine-client-2.0.10.0-Linux-x64.tar.gz(3.0M)
-- TDengine-client-2.0.10.0-Windows-x64.exe(2.8M)
-- TDengine-client-2.0.10.0-Windows-x86.exe(2.8M)
+- DThouse-client-2.0.10.0-Linux-x64.tar.gz(3.0M)
+- DThouse-client-2.0.10.0-Windows-x64.exe(2.8M)
+- DThouse-client-2.0.10.0-Windows-x86.exe(2.8M)
 
-Linux package of Alarm Module is as following (please refer [How to Use Alarm Module](https://github.com/taosdata/TDengine/blob/master/alert/README_cn.md)):
+Linux package of Alarm Module is as following (please refer [How to Use Alarm Module](https://github.com/taosdata/DThouse/blob/master/alert/README_cn.md)):
 
-- TDengine-alert-2.0.10.0-Linux-x64.tar.gz (8.1M)
+- DThouse-alert-2.0.10.0-Linux-x64.tar.gz (8.1M)
 
 ## <a class="anchor" id="platforms"></a>List of Supported Platforms
 
-List of platforms supported by TDengine server
+List of platforms supported by DThouse server
 
 |                    | **CentOS 6/7/8** | **Ubuntu 16/18/20** | **Other Linux** | UnionTech UOS | NeoKylin | LINX V60/V80 |
 | ------------------ | ---------------- | ------------------- | --------------- | ------------- | -------- | ------------ |
@@ -215,9 +215,9 @@ List of platforms supported by TDengine server
 
 Note: ● has been verified by official tests; ○ has been verified by unofficial tests. 
 
-List of platforms supported by TDengine client and connectors
+List of platforms supported by DThouse client and connectors
 
-At the moment, TDengine connectors can support a wide range of platforms, including hardware platforms such as X64/X86/ARM64/ARM32/MIPS/Alpha, and operating system such as Linux/Win64/Win32.
+At the moment, DThouse connectors can support a wide range of platforms, including hardware platforms such as X64/X86/ARM64/ARM32/MIPS/Alpha, and operating system such as Linux/Win64/Win32.
 
 Comparison matrix as following:
 

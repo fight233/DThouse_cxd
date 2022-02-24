@@ -1,4 +1,4 @@
-PROJECT(TDengine)
+PROJECT(DThouse)
 
 ADD_EXECUTABLE(todbcinst main.c)
 ADD_EXECUTABLE(tconv     tconv.c)

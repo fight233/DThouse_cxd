@@ -276,7 +276,7 @@ def pre_test_win(){
     bat '''
     taskkill /f /t /im python.exe
     cd C:\\
-    rd /s /Q C:\\TDengine
+    rd /s /Q C:\\DThouse
     cd C:\\workspace\\TDinternal
     rd /s /Q C:\\workspace\\TDinternal\\debug
     cd C:\\workspace\\TDinternal\\community

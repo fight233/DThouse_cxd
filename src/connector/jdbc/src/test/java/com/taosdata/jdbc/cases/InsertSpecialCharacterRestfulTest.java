@@ -79,7 +79,7 @@ public class InsertSpecialCharacterRestfulTest {
     @Test(expected = SQLException.class)
     public void testCase03() throws SQLException {
         //TODO:
-        // TDengine ERROR (216): Syntax error in SQL
+        // DThouse ERROR (216): Syntax error in SQL
         final long now = System.currentTimeMillis();
         // insert
         final String sql = "insert into " + tbname1 + "(ts, f1) values(?, ?)";
@@ -347,7 +347,7 @@ public class InsertSpecialCharacterRestfulTest {
     public void testCase12() throws SQLException {
         final long now = System.currentTimeMillis();
         // insert
-        final String sql = "insert into " + tbname1 + "(ts, f1, f2) values(?, 'HelloTDengine', ?)  ; ";
+        final String sql = "insert into " + tbname1 + "(ts, f1, f2) values(?, 'HelloDThouse', ?)  ; ";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setTimestamp(1, new Timestamp(now));
             pstmt.setString(2, special_character_str_4);
@@ -362,7 +362,7 @@ public class InsertSpecialCharacterRestfulTest {
             long timestamp = rs.getTimestamp(1).getTime();
             Assert.assertEquals(now, timestamp);
             String f1 = new String(rs.getBytes(2));
-            Assert.assertEquals("HelloTDengine", f1);
+            Assert.assertEquals("HelloDThouse", f1);
             String f2 = rs.getString(3);
             Assert.assertEquals(special_character_str_4, f2);
         }

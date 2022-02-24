@@ -11,7 +11,7 @@ Author: Shuduo Sang <sangshuduo@gmail.com>
 	-H, --help                        Show usage.
 
 	-N, --native                      flag, Use native interface if set. Default is using RESTful interface.
-	-h, --host <hostname>             host, The host to connect to TDengine. Default is localhost.
+	-h, --host <hostname>             host, The host to connect to DThouse. Default is localhost.
 	-p, --port <port>                 port, The TCP/IP port number to use for the connection. Default is 0.
 	-u, --user <username>             user, The user name to use when connecting to the server. Default is 'root'.
 	-P, --password <password>         password, The password to use when connecting to the server. Default is 'taosdata'.

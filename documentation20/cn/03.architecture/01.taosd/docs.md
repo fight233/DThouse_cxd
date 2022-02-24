@@ -1,6 +1,6 @@
-#  TDengine 2.0 执行代码taosd的设计
+#  DThouse 2.0 执行代码taosd的设计
 
-逻辑上，TDengine系统包含dnode, taosc和App，dnode是服务器侧执行代码taosd的一个运行实例，因此taosd是TDengine的核心，本文对taosd的设计做一简单的介绍，模块内的实现细节请见其他文档。
+逻辑上，DThouse系统包含dnode, taosc和App，dnode是服务器侧执行代码taosd的一个运行实例，因此taosd是DThouse的核心，本文对taosd的设计做一简单的介绍，模块内的实现细节请见其他文档。
 
 ## 系统模块图
 
@@ -12,7 +12,7 @@ taosd的启动入口是dnode模块，dnode然后启动其他模块，包括可�
 
 ## RPC模块
 
-该模块负责taosd与taosc, 以及其他数据节点之间的通讯。TDengine没有采取标准的HTTP或gRPC等第三方工具，而是实现了自己的通讯模块RPC。
+该模块负责taosd与taosc, 以及其他数据节点之间的通讯。DThouse没有采取标准的HTTP或gRPC等第三方工具，而是实现了自己的通讯模块RPC。
 
 考虑到物联网场景下，数据写入的包一般不大，因此除支持TCP连接之外，RPC还支持UDP连接。当数据包小于15K时，RPC将采用UDP方式进行连接，否则将采用TCP连接。对于查询类的消息，RPC不管包的大小，总是采取TCP连接。对于UDP连接，RPC实现了自己的超时、重传、顺序检查等机制，以保证数据可靠传输。
 
@@ -85,13 +85,13 @@ TSDB中存储的元数据包含属于其所在的VNODE中表的类型，schema�
 
 ## Query模块
 
-该模块负责整体系统的查询处理。客户端调用该该模块进行SQL语法解析，并将查询或写入请求发送到vnode，同时负责针对超级表的查询进行二阶段的聚合操作。在Vnode端，该模块调用TSDB模块读取系统中存储的数据进行查询处理。Query模块还定义了系统能够支持的全部查询函数，查询函数的实现机制与查询框架无耦合，可以在不修改查询流程的情况下动态增加查询函数。详细的设计请参见《TDengine 2.0查询模块设计》。
+该模块负责整体系统的查询处理。客户端调用该该模块进行SQL语法解析，并将查询或写入请求发送到vnode，同时负责针对超级表的查询进行二阶段的聚合操作。在Vnode端，该模块调用TSDB模块读取系统中存储的数据进行查询处理。Query模块还定义了系统能够支持的全部查询函数，查询函数的实现机制与查询框架无耦合，可以在不修改查询流程的情况下动态增加查询函数。详细的设计请参见《DThouse 2.0查询模块设计》。
 
 ## SYNC模块
 
 该模块实现数据的多副本复制，包括vnode与mnode的数据复制，支持异步和同步两种复制方式，以满足meta data与时序数据不同复制的需求。因为它为mnode与vnode共享，系统为mnode副本预留了一个特殊的vgroup ID:1。因此vnode group的ID是从2开始的。
 
-每个vnode/mnode模块实例会有一对应的sync模块实例，他们是一一对应的。详细设计请见[TDengine 2.0 数据复制模块设计](https://www.taosdata.com/cn/documentation/architecture/replica/)
+每个vnode/mnode模块实例会有一对应的sync模块实例，他们是一一对应的。详细设计请见[DThouse 2.0 数据复制模块设计](https://www.taosdata.com/cn/documentation/architecture/replica/)
 
 ## WAL模块
 
@@ -111,7 +111,7 @@ TSDB中存储的元数据包含属于其所在的VNODE中表的类型，schema�
 
 该模块负责检测一个dnode的运行状态，可以通过配置，由dnode启动或停止。原则上，每个dnode都应该启动一个monitor实例。
 
-Monitor采集TDengine里的关键操作，比如创建、删除、更新账号、表、库等，而且周期性的收集CPU、内存、网络等资源的使用情况（采集周期由系统配置参数monitorInterval控制）。获得这些数据后，monitor模块将采集的数据写入系统的日志库(DB名字由系统配置参数monitorDbName控制）。
+Monitor采集DThouse里的关键操作，比如创建、删除、更新账号、表、库等，而且周期性的收集CPU、内存、网络等资源的使用情况（采集周期由系统配置参数monitorInterval控制）。获得这些数据后，monitor模块将采集的数据写入系统的日志库(DB名字由系统配置参数monitorDbName控制）。
 
 Monitor模块使用taosc来将采集的数据写入系统，因此每个monitor实例，都有一个taosc运行实例。
 

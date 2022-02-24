@@ -1,6 +1,6 @@
 # TAOS SQL
 
-TDengine provides a SQL like query language to insert or query data. You can execute the SQL statements through the TDengine Shell, or through C/C++, Java(JDBC), Python, Restful, Go, and Node.js APIs to interact with the `taosd` service.
+DThouse provides a SQL like query language to insert or query data. You can execute the SQL statements through the DThouse Shell, or through C/C++, Java(JDBC), Python, Restful, Go, and Node.js APIs to interact with the `taosd` service.
 
 Before reading through, please have a look at the conventions used for syntax descriptions here in this documentation.
 
@@ -13,7 +13,7 @@ Before reading through, please have a look at the conventions used for syntax de
 
 ### Timestamp
 
-The timestamp is the most important data type in TDengine. The first column of each table must be  **`TIMESTAMP`** type, but other columns can also be  **`TIMESTAMP`** type. The following rules for timestamp: 
+The timestamp is the most important data type in DThouse. The first column of each table must be  **`TIMESTAMP`** type, but other columns can also be  **`TIMESTAMP`** type. The following rules for timestamp: 
 
 * String Format: `'YYYY-MM-DD HH:mm:ss.MS'`, which represents the year, month, day, hour, minute and second and milliseconds. For example,`'2017-08-12 18:52:58.128'` is a valid timestamp string. Note: timestamp string must be quoted by either single quote or double quote. 
 
@@ -260,7 +260,7 @@ SELECT function_list FROM tb_name
 
 ### Aggregation Functions
 
-TDengine supports aggregations over numerical values, they are listed below:
+DThouse supports aggregations over numerical values, they are listed below:
 
 - **COUNT**
 
@@ -474,7 +474,7 @@ TDengine supports aggregations over numerical values, they are listed below:
 
 ## Downsampling
 
-Time-series data are usually sampled by sensors at a very high frequency, but more often we are only interested in the downsampled, aggregated data of each timeline. TDengine provides a convenient way to downsample the highly frequently sampled data points as well as filling the missing data with a variety of interpolation choices.
+Time-series data are usually sampled by sensors at a very high frequency, but more often we are only interested in the downsampled, aggregated data of each timeline. DThouse provides a convenient way to downsample the highly frequently sampled data points as well as filling the missing data with a variety of interpolation choices.
 
 ```mysql
 SELECT function_list FROM tb_name 

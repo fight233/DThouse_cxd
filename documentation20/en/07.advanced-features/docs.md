@@ -2,15 +2,15 @@
 
 ## <a class="anchor" id="continuous-query"></a> Continuous Query
 
-Continuous Query is a query executed by TDengine periodically with a sliding window, it is a simplified stream computing driven by timers. Continuous query can be applied to a table or a STable automatically and periodically, and the result set can be passed to the application directly via call back function, or written into a new table in TDengine. The query is always executed on a specified time window (window size is specified by parameter interval), and this window slides forward while time flows (the sliding period is specified by parameter sliding).
+Continuous Query is a query executed by DThouse periodically with a sliding window, it is a simplified stream computing driven by timers. Continuous query can be applied to a table or a STable automatically and periodically, and the result set can be passed to the application directly via call back function, or written into a new table in DThouse. The query is always executed on a specified time window (window size is specified by parameter interval), and this window slides forward while time flows (the sliding period is specified by parameter sliding).
 
-Continuous query of TDengine adopts time-driven mode, which can be defined directly by TAOS SQL without additional operation. Using continuous query, results can be generated conveniently and quickly according to the time window, thus down sampling the original collected data. After the user defines a continuous query through TAOS SQL, TDengine automatically pulls up the query at the end of the last complete time period and pushes the calculated results to the user or writes them back to TDengine.
+Continuous query of DThouse adopts time-driven mode, which can be defined directly by TAOS SQL without additional operation. Using continuous query, results can be generated conveniently and quickly according to the time window, thus down sampling the original collected data. After the user defines a continuous query through TAOS SQL, DThouse automatically pulls up the query at the end of the last complete time period and pushes the calculated results to the user or writes them back to DThouse.
 
-The continuous query provided by TDengine differs from the time window calculation in ordinary stream computing in the following ways:
+The continuous query provided by DThouse differs from the time window calculation in ordinary stream computing in the following ways:
 
 - Unlike the real-time feedback calculated results of stream computing, continuous query only starts calculation after the time window is closed. For example, if the time period is 1 day, the results of that day will only be generated after 23:59:59.
 - If a history record is written to the time interval that has been calculated, the continuous query will not re-calculate and will not push the new results to the user again. 
-- TDengine server does not cache or save the client's status, nor does it provide Exactly-Once semantic guarantee. If the application crashes, the continuous query will be pull up again and starting time must be provided by the application. 
+- DThouse server does not cache or save the client's status, nor does it provide Exactly-Once semantic guarantee. If the application crashes, the continuous query will be pull up again and starting time must be provided by the application. 
 
 ### How to use continuous query
 
@@ -35,13 +35,13 @@ Every time this statement is executed, all data will be re-calculated. If you ne
 select avg(voltage) from meters where ts > {startTime} interval(1m) sliding(30s);
 ```
 
-There is no problem with this, but TDengine provides a simpler method, just add `create table {tableName} as` before the initial query statement, for example:
+There is no problem with this, but DThouse provides a simpler method, just add `create table {tableName} as` before the initial query statement, for example:
 
 ```sql
 create table avg_vol as select avg(voltage) from meters interval(1m) sliding(30s);
 ```
 
-A new table named `avg_vol` will be automatically created, and then every 30 seconds, TDengine will incrementally execute the SQL statement after `as` and write the query result into this table. The user program only needs to query the data from `avg_vol`. For example:
+A new table named `avg_vol` will be automatically created, and then every 30 seconds, DThouse will incrementally execute the SQL statement after `as` and write the query result into this table. The user program only needs to query the data from `avg_vol`. For example:
 
 ```mysql
 taos> select * from avg_vol;
@@ -55,13 +55,13 @@ taos> select * from avg_vol;
 
 It should be noted that the minimum value of the query time window is 10 milliseconds, and there is no upper limit of the time window range.
 
-In addition, TDengine also supports users to specify the starting and ending times of a continuous query. If the start time is not entered, the continuous query will start from the time window where the first original data is located; If no end time is entered, the continuous query will run permanently; If the user specifies an end time, the continuous query stops running after the system time reaches the specified time. For example, a continuous query created with the following SQL will run for one hour and then automatically stop.
+In addition, DThouse also supports users to specify the starting and ending times of a continuous query. If the start time is not entered, the continuous query will start from the time window where the first original data is located; If no end time is entered, the continuous query will run permanently; If the user specifies an end time, the continuous query stops running after the system time reaches the specified time. For example, a continuous query created with the following SQL will run for one hour and then automatically stop.
 
 ```mysql
 create table avg_vol as select avg(voltage) from meters where ts > now and ts <= now + 1h interval(1m) sliding(30s);
 ```
 
-It should be noted that now in the above example refers to the time when continuous queries are created, not the time when queries are executed, otherwise, queries cannot be stopped automatically. In addition, in order to avoid the problems caused by delayed writing of original data as much as possible, there is a certain delay in the calculation of continuous queries in TDengine. In other words, after a time window has passed, TDengine will not immediately calculate the data of this window, so it will take a while (usually not more than 1 minute) to find the calculation result.
+It should be noted that now in the above example refers to the time when continuous queries are created, not the time when queries are executed, otherwise, queries cannot be stopped automatically. In addition, in order to avoid the problems caused by delayed writing of original data as much as possible, there is a certain delay in the calculation of continuous queries in DThouse. In other words, after a time window has passed, DThouse will not immediately calculate the data of this window, so it will take a while (usually not more than 1 minute) to find the calculation result.
 
 ### Manage the Continuous Query
 
@@ -69,13 +69,13 @@ Users can view all continuous queries running in the system through the `show st
 
 ## <a class="anchor" id="subscribe"></a> Publisher/Subscriber
 
-Based on the natural time-series characteristics of data, the data insert of TDengine is logically consistent with the data publish (pub) of messaging system, which can be regarded as a new record inserted with timestamp in the system. At the same time, TDengine stores data in strict accordance with the monotonous increment of time-series. Essentially, every table in TDengine can be regarded as a standard messaging queue.
+Based on the natural time-series characteristics of data, the data insert of DThouse is logically consistent with the data publish (pub) of messaging system, which can be regarded as a new record inserted with timestamp in the system. At the same time, DThouse stores data in strict accordance with the monotonous increment of time-series. Essentially, every table in DThouse can be regarded as a standard messaging queue.
 
-TDengine supports embedded lightweight message subscription and publishment services. Using the API provided by the system, users can subscribe to one or more tables in the database using common query statements. The maintenance of subscription logic and operation status is completed by the client. The client regularly polls the server for whether new records arrive, and the results will be fed back to the client when new records arrive.
+DThouse supports embedded lightweight message subscription and publishment services. Using the API provided by the system, users can subscribe to one or more tables in the database using common query statements. The maintenance of subscription logic and operation status is completed by the client. The client regularly polls the server for whether new records arrive, and the results will be fed back to the client when new records arrive.
 
-The status of the subscription and publishment services of TDengine is maintained by the client, but not by the TDengine server. Therefore, if the application restarts, it is up to the application to decide from which point of time to obtain the latest data.
+The status of the subscription and publishment services of DThouse is maintained by the client, but not by the DThouse server. Therefore, if the application restarts, it is up to the application to decide from which point of time to obtain the latest data.
 
-In TDengine, there are three main APIs relevant to subscription:
+In DThouse, there are three main APIs relevant to subscription:
 
 ```c
 taos_subscribe
@@ -83,7 +83,7 @@ taos_consume
 taos_unsubscribe
 ```
 
-Please refer to the [C/C++ Connector](https://www.taosdata.com/cn/documentation/connector/) for the documentation of these APIs. The following is still a smart meter scenario as an example to introduce their specific usage (please refer to the previous section "Continuous Query" for the structure of STables and sub-tables). The complete sample code can be found [here](https://github.com/taosdata/TDengine/blob/master/tests/examples/c/subscribe.c).
+Please refer to the [C/C++ Connector](https://www.taosdata.com/cn/documentation/connector/) for the documentation of these APIs. The following is still a smart meter scenario as an example to introduce their specific usage (please refer to the previous section "Continuous Query" for the structure of STables and sub-tables). The complete sample code can be found [here](https://github.com/taosdata/DThouse/blob/master/tests/examples/c/subscribe.c).
 
 If we want to be notified and do some process when the current of a smart meter exceeds a certain limit (e.g. 10A), there are two methods: one is to query each sub-table separately, record the timestamp of the last piece of data after each query, and then only query all data after this timestamp:
 
@@ -101,9 +101,9 @@ Another method is to query the STable. In this way, no matter how many meters th
 select * from meters where ts > {last_timestamp} and current > 10;
 ```
 
-However, how to choose `last_timestamp` has become a new problem. Because, on the one hand, the time of data generation (the data timestamp) and the time of data writing are generally not the same, and sometimes the deviation is still very large; On the other hand, the time when the data of different meters arrive at TDengine will also vary. Therefore, if we use the timestamp of the data from the slowest meter as `last_timestamp` in the query, we may repeatedly read the data of other meters; If the timestamp of the fastest meter is used, the data of other meters may be missed.
+However, how to choose `last_timestamp` has become a new problem. Because, on the one hand, the time of data generation (the data timestamp) and the time of data writing are generally not the same, and sometimes the deviation is still very large; On the other hand, the time when the data of different meters arrive at DThouse will also vary. Therefore, if we use the timestamp of the data from the slowest meter as `last_timestamp` in the query, we may repeatedly read the data of other meters; If the timestamp of the fastest meter is used, the data of other meters may be missed.
 
-The subscription function of TDengine provides a thorough solution to the above problem.
+The subscription function of DThouse provides a thorough solution to the above problem.
 
 First, use `taos_subscribe` to create a subscription:
 
@@ -118,9 +118,9 @@ if (async) {
 }
 ```
 
-Subscriptions in TDengine can be either synchronous or asynchronous, and the above code will decide which method to use based on the value of parameter `async` obtained from the command line. Here, synchronous means that the user program calls `taos_consume` directly to pull data, while asynchronous means that the API calls `taos_consume` in another internal thread, and then gives the pulled data to the callback function `subscribe_callback` for processing.
+Subscriptions in DThouse can be either synchronous or asynchronous, and the above code will decide which method to use based on the value of parameter `async` obtained from the command line. Here, synchronous means that the user program calls `taos_consume` directly to pull data, while asynchronous means that the API calls `taos_consume` in another internal thread, and then gives the pulled data to the callback function `subscribe_callback` for processing.
 
-Parameter `taos` is an established database connection and has no special requirements in synchronous mode. However, in asynchronous mode, it should be noted that it will not be used by other threads, otherwise it may lead to unpredictable errors, because the callback function is called in the internal thread of the API, while some APIs of TDengine are not thread-safe.
+Parameter `taos` is an established database connection and has no special requirements in synchronous mode. However, in asynchronous mode, it should be noted that it will not be used by other threads, otherwise it may lead to unpredictable errors, because the callback function is called in the internal thread of the API, while some APIs of DThouse are not thread-safe.
 
 Parameter `sql` is a query statement in which you can specify filters using where clause. In our example, if you only want to subscribe to data when the current exceeds 10A, you can write as follows:
 
@@ -204,7 +204,7 @@ Its second parameter is used to decide whether to keep the progress information 
 After introducing the code, let's take a look at the actual running effect. For example:
 
 - Sample code has been downloaded locally
-- TDengine has been installed on the same machine
+- DThouse has been installed on the same machine
 - All the databases, STables and sub-tables required by the example have been created
 
 You can compile and start the sample program by executing the following command in the directory where the sample code is located:
@@ -214,7 +214,7 @@ $ make
 $ ./subscribe -sql='select * from meters where current > 10;'
 ```
 
-After the sample program starts, open another terminal window, and the shell that starts TDengine inserts a data with a current of 12A into **D1001**:
+After the sample program starts, open another terminal window, and the shell that starts DThouse inserts a data with a current of 12A into **D1001**:
 
 ```shell
 $ taos
@@ -337,13 +337,13 @@ ts: 1597466400000	current: 12.4	voltage: 220	phase: 1	location: Beijing.Chaoyang
 
 ## <a class="anchor" id="cache"></a> Cache
 
-TDengine adopts a time-driven cache management strategy (First-In-First-Out, FIFO), also known as a write-driven cache management mechanism. This strategy is different from the read-driven data cache mode (Least-Recent-Use, LRU), which directly saves the most recently written data in the system buffer. When the buffer reaches a threshold, the oldest data is written to disk in batches. Generally speaking, for the use of IoT data, users are most concerned about the recently generated data, that is, the current status. TDengine takes full advantage of this feature by storing the most recently arrived (current status) data in the buffer.
+DThouse adopts a time-driven cache management strategy (First-In-First-Out, FIFO), also known as a write-driven cache management mechanism. This strategy is different from the read-driven data cache mode (Least-Recent-Use, LRU), which directly saves the most recently written data in the system buffer. When the buffer reaches a threshold, the oldest data is written to disk in batches. Generally speaking, for the use of IoT data, users are most concerned about the recently generated data, that is, the current status. DThouse takes full advantage of this feature by storing the most recently arrived (current status) data in the buffer.
 
-TDengine provides data collection in milliseconds to users through query functions. Saving the recently arrived data directly in buffer can respond to the user's query analysis for the latest piece or batch of data more quickly, and provide faster database query response as a whole. In this way, TDengine can be used as a data buffer by setting appropriate configuration parameters without deploying additional caching systems, which can effectively simplify the system architecture and reduce the operation costs. It should be noted that after the TDengine is restarted, the buffer of the system will be emptied, the previously cached data will be written to disk in batches, and the cached data will not reload the previously cached data into the buffer like some proprietary Key-value cache system.
+DThouse provides data collection in milliseconds to users through query functions. Saving the recently arrived data directly in buffer can respond to the user's query analysis for the latest piece or batch of data more quickly, and provide faster database query response as a whole. In this way, DThouse can be used as a data buffer by setting appropriate configuration parameters without deploying additional caching systems, which can effectively simplify the system architecture and reduce the operation costs. It should be noted that after the DThouse is restarted, the buffer of the system will be emptied, the previously cached data will be written to disk in batches, and the cached data will not reload the previously cached data into the buffer like some proprietary Key-value cache system.
 
-TDengine allocates a fixed size of memory space as a buffer, which can be configured according to application requirements and hardware resources. By properly setting the buffer space, TDengine can provide extremely high-performance write and query support. Each virtual node in TDengine is allocated a separate cache pool when it is created. Each virtual node manages its own cache pool, and different virtual nodes do not share the pool. All tables belonging to each virtual node share the cache pool owned by itself.
+DThouse allocates a fixed size of memory space as a buffer, which can be configured according to application requirements and hardware resources. By properly setting the buffer space, DThouse can provide extremely high-performance write and query support. Each virtual node in DThouse is allocated a separate cache pool when it is created. Each virtual node manages its own cache pool, and different virtual nodes do not share the pool. All tables belonging to each virtual node share the cache pool owned by itself.
 
-TDengine manages the memory pool by blocks, and the data is stored in the form of rows within. The memory pool of a vnode is allocated by blocks when the vnode is created, and each memory block is managed according to the First-In-First-Out strategy. When creating a memory pool, the size of the blocks is determined by the system configuration parameter cache; The number of memory blocks in each vnode is determined by the configuration parameter blocks. So for a vnode, the total memory size is: cache * blocks. A cache block needs to ensure that each table can store at least dozens of records in order to be efficient.
+DThouse manages the memory pool by blocks, and the data is stored in the form of rows within. The memory pool of a vnode is allocated by blocks when the vnode is created, and each memory block is managed according to the First-In-First-Out strategy. When creating a memory pool, the size of the blocks is determined by the system configuration parameter cache; The number of memory blocks in each vnode is determined by the configuration parameter blocks. So for a vnode, the total memory size is: cache * blocks. A cache block needs to ensure that each table can store at least dozens of records in order to be efficient.
 
 You can quickly obtain the last record of a table or a STable through the function last_row, which is very convenient to show the real-time status or collected values of each device on a large screen. For example:
 
@@ -355,6 +355,6 @@ This SQL statement will obtain the last recorded voltage value of all smart mete
 
 ## <a class="anchor" id="alert"></a> Alert
 
-In scenarios of TDengine, alarm monitoring is a common requirement. Conceptually, it requires the program to filter out data that meet certain conditions from the data of the latest period of time, and calculate a result according to a defined formula based on these data. When the result meets certain conditions and lasts for a certain period of time, it will notify the user in some form.
+In scenarios of DThouse, alarm monitoring is a common requirement. Conceptually, it requires the program to filter out data that meet certain conditions from the data of the latest period of time, and calculate a result according to a defined formula based on these data. When the result meets certain conditions and lasts for a certain period of time, it will notify the user in some form.
 
-In order to meet the needs of users for alarm monitoring, TDengine provides this function in the form of an independent module. For its installation and use, please refer to the blog [How to Use TDengine for Alarm Monitoring](https://www.taosdata.com/blog/2020/04/14/1438.html).
+In order to meet the needs of users for alarm monitoring, DThouse provides this function in the form of an independent module. For its installation and use, please refer to the blog [How to Use DThouse for Alarm Monitoring](https://www.taosdata.com/blog/2020/04/14/1438.html).

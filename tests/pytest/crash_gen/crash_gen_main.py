@@ -1050,7 +1050,7 @@ class StateMechine:
         raise CrashGenError("Unexpected no choice")
 
 class Database:
-    ''' We use this to represent an actual TDengine database inside a service instance,
+    ''' We use this to represent an actual DThouse database inside a service instance,
         possibly in a cluster environment.
 
         For now we use it to manage state transitions in that database
@@ -2118,7 +2118,7 @@ class TaskAddData(StateTransitionTask):
                     # sql = "UPDATE {} set speed={}, color='{}' WHERE ts='{}'".format(
                     #     fullTableName, db.getNextInt(), db.getNextColor(), nextTick)
                     dbc.execute(sql)
-                    intWrote = intToUpdate # We updated, seems TDengine non-cluster accepts this.
+                    intWrote = intToUpdate # We updated, seems DThouse non-cluster accepts this.
 
             except: # Any exception at all
                 self._unlockTableIfNeeded(fullTableName) 
@@ -2320,7 +2320,7 @@ class ClientManager:
     #             bList.add(row[0])
 
     #     print("Top numbers in DB right now: {}".format(bList))
-    #     print("TDengine client execution is about to start in 2 seconds...")
+    #     print("DThouse client execution is about to start in 2 seconds...")
     #     time.sleep(2.0)
     #     dbManager = None  # release?
 
@@ -2423,9 +2423,9 @@ class MainExec:
         parser = argparse.ArgumentParser(
             formatter_class=argparse.RawDescriptionHelpFormatter,
             description=textwrap.dedent('''\
-                TDengine Auto Crash Generator (PLEASE NOTICE the Prerequisites Below)
+                DThouse Auto Crash Generator (PLEASE NOTICE the Prerequisites Below)
                 ---------------------------------------------------------------------
-                1. You build TDengine in the top level ./build directory, as described in offical docs
+                1. You build DThouse in the top level ./build directory, as described in offical docs
                 2. You run the server there before this script: ./build/bin/taosd -c test/cfg
 
                 '''))                      
@@ -2434,7 +2434,7 @@ class MainExec:
             '-a',
             '--auto-start-service',
             action='store_true',
-            help='Automatically start/stop the TDengine service (default: false)')
+            help='Automatically start/stop the DThouse service (default: false)')
         parser.add_argument(
             '-b',
             '--max-dbs',
@@ -2458,7 +2458,7 @@ class MainExec:
             '-e',
             '--run-tdengine',
             action='store_true',
-            help='Run TDengine service in foreground (default: false)')
+            help='Run DThouse service in foreground (default: false)')
         parser.add_argument(
             '-g',
             '--ignore-errors',

@@ -1,8 +1,8 @@
-# 通过 Docker 快速体验 TDengine
+# 通过 Docker 快速体验 DThouse
 
-虽然并不推荐在生产环境中通过 Docker 来部署 TDengine 服务，但 Docker 工具能够很好地屏蔽底层操作系统的环境差异，很适合在开发测试或初次体验时用于安装运行 TDengine 的工具集。特别是，借助 Docker，能够比较方便地在 Mac OSX 和 Windows 系统上尝试 TDengine，而无需安装虚拟机或额外租用 Linux 服务器。另外，从2.0.14.0版本开始，TDengine提供的镜像已经可以同时支持X86-64、X86、arm64、arm32平台，像NAS、树莓派、嵌入式开发板之类可以运行docker的非主流计算机也可以基于本文档轻松体验TDengine。
+虽然并不推荐在生产环境中通过 Docker 来部署 DThouse 服务，但 Docker 工具能够很好地屏蔽底层操作系统的环境差异，很适合在开发测试或初次体验时用于安装运行 DThouse 的工具集。特别是，借助 Docker，能够比较方便地在 Mac OSX 和 Windows 系统上尝试 DThouse，而无需安装虚拟机或额外租用 Linux 服务器。另外，从2.0.14.0版本开始，DThouse提供的镜像已经可以同时支持X86-64、X86、arm64、arm32平台，像NAS、树莓派、嵌入式开发板之类可以运行docker的非主流计算机也可以基于本文档轻松体验DThouse。
 
-下文通过 Step by Step 风格的介绍，讲解如何通过 Docker 快速建立 TDengine 的单节点运行环境，以支持开发和测试。
+下文通过 Step by Step 风格的介绍，讲解如何通过 Docker 快速建立 DThouse 的单节点运行环境，以支持开发和测试。
 
 ## 下载 Docker
 
@@ -15,9 +15,9 @@ $ docker -v
 Docker version 20.10.3, build 48d30b5
 ```
 
-## 在 Docker 容器中运行 TDengine
+## 在 Docker 容器中运行 DThouse
 
-1，使用命令拉取 TDengine 镜像，并使它在后台运行。
+1，使用命令拉取 DThouse 镜像，并使它在后台运行。
 
 ```bash
 $  docker run -d --name tdengine tdengine/tdengine
@@ -27,7 +27,7 @@ $  docker run -d --name tdengine tdengine/tdengine
 - **docker run**：通过 Docker 运行一个容器
 - **--name tdengine**：设置容器名称，我们可以通过容器名称来查看对应的容器
 - **-d**：让容器在后台运行
-- **tdengine/tdengine**：拉取的 TDengine 官方发布的应用镜像
+- **tdengine/tdengine**：拉取的 DThouse 官方发布的应用镜像
 - **7760c955f225d72e9c1ec5a4cef66149a7b94dae7598b11eb392138877e7d292**：这个返回的长字符是容器 ID，我们也可以通过容器 ID 来查看对应的容器
 
 2，确认容器是否已经正确运行。
@@ -45,11 +45,11 @@ c452519b0f9b   tdengine/tdengine   "taosd"   14 minutes ago   Up 14 minutes   ·
 - **CREATED**：容器创建时间。
 - **STATUS**：容器状态。UP 表示运行中。
 
-3，进入 Docker 容器内，使用 TDengine。
+3，进入 Docker 容器内，使用 DThouse。
 
 ```bash
 $ docker exec -it tdengine /bin/bash
-root@tdengine-server:~/TDengine-server-2.4.0.4#
+root@tdengine-server:~/DThouse-server-2.4.0.4#
 ```
 
 - **docker exec**：通过 docker exec 命令进入容器，如果退出，容器不会停止。
@@ -61,64 +61,64 @@ root@tdengine-server:~/TDengine-server-2.4.0.4#
 4，进入容器后，执行 taos shell 客户端程序。
 
 ```bash
-$ root@c452519b0f9b:~/TDengine-server-2.4.0.4# taos
+$ root@c452519b0f9b:~/DThouse-server-2.4.0.4# taos
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.4
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.4
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos>
 ```
 
-TDengine 终端成功连接服务端，打印出了欢迎消息和版本信息。如果失败，会有错误信息打印出来。
+DThouse 终端成功连接服务端，打印出了欢迎消息和版本信息。如果失败，会有错误信息打印出来。
 
-在 TDengine 终端中，可以通过 SQL 命令来创建/删除数据库、表、超级表等，并可以进行插入和查询操作。具体可以参考 [TAOS SQL 说明文档](https://www.taosdata.com/cn/documentation/taos-sql)。
+在 DThouse 终端中，可以通过 SQL 命令来创建/删除数据库、表、超级表等，并可以进行插入和查询操作。具体可以参考 [TAOS SQL 说明文档](https://www.taosdata.com/cn/documentation/taos-sql)。
 
-## 通过 taosBenchmark 进一步了解 TDengine
+## 通过 taosBenchmark 进一步了解 DThouse
 
-### 在宿主机访问 Docker 容器中的 TDengine server
+### 在宿主机访问 Docker 容器中的 DThouse server
 
-在使用了 -p 命令行参数映射了正确的端口启动了 TDengine Docker 容器后，就在宿主机使用 taos shell 命令即可访问运行在  Docker 容器中的 TDengine。
+在使用了 -p 命令行参数映射了正确的端口启动了 DThouse Docker 容器后，就在宿主机使用 taos shell 命令即可访问运行在  Docker 容器中的 DThouse。
 
 ```
 $ taos
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.4
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.4
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos>
 ```
 
-也可以在宿主机使用 curl 通过 RESTful 端口访问 Docker 容器内的 TDengine server。
+也可以在宿主机使用 curl 通过 RESTful 端口访问 Docker 容器内的 DThouse server。
 
 ```
 $ curl -u root:taosdata -d 'show databases' 127.0.0.1:6041/rest/sql
 {"status":"succ","head":["name","created_time","ntables","vgroups","replica","quorum","days","keep0,keep1,keep(D)","cache(MB)","blocks","minrows","maxrows","wallevel","fsync","comp","cachelast","precision","update","status"],"column_meta":[["name",8,32],["created_time",9,8],["ntables",4,4],["vgroups",4,4],["replica",3,2],["quorum",3,2],["days",3,2],["keep0,keep1,keep(D)",8,24],["cache(MB)",4,4],["blocks",4,4],["minrows",4,4],["maxrows",4,4],["wallevel",2,1],["fsync",4,4],["comp",2,1],["cachelast",2,1],["precision",8,3],["update",2,1],["status",8,10]],"data":[["test","2021-08-18 06:01:11.021",10000,4,1,1,10,"3650,3650,3650",16,6,100,4096,1,3000,2,0,"ms",0,"ready"],["log","2021-08-18 05:51:51.065",4,1,1,1,10,"30,30,30",1,3,100,4096,1,3000,2,0,"us",0,"ready"]],"rows":2}
 ```
 
-这条命令，通过 RESTful 接口访问 TDengine server，这时连接的是本机的 6041 端口，可见连接成功。
+这条命令，通过 RESTful 接口访问 DThouse server，这时连接的是本机的 6041 端口，可见连接成功。
 
-TDengine RESTful 接口详情请参考[官方文档](https://www.taosdata.com/cn/documentation/connector#restful)。
+DThouse RESTful 接口详情请参考[官方文档](https://www.taosdata.com/cn/documentation/connector#restful)。
 
 
-### 使用 Docker 容器运行 TDengine server 和 taosAdapter
+### 使用 Docker 容器运行 DThouse server 和 taosAdapter
 
-在 TDegnine 2.4.0.0 之后版本的 Docker 容器，开始提供一个独立运行的组件 taosAdapter，代替之前版本 TDengine 中 taosd 进程中内置的 http server。taosAdapter 支持通过 RESTful 接口对 TDengine server 的数据写入和查询能力，并提供和 InfluxDB/OpenTSDB 兼容的数据摄取接口，允许 InfluxDB/OpenTSDB 应用程序无缝移植到 TDengine。在新版本 Docker 镜像中，默认运行 taosd，而 taosAdapter 没有运行；也可以使用 docker run 命令中指定 taosadapter 的方式来运行 taosadapter，而 taosd 不会运行；或者在 docker run 命令中指定运行 run_taosd_and_taosadapter.sh 来同时运行 taosd 和 taosAdapter。
+在 TDegnine 2.4.0.0 之后版本的 Docker 容器，开始提供一个独立运行的组件 taosAdapter，代替之前版本 DThouse 中 taosd 进程中内置的 http server。taosAdapter 支持通过 RESTful 接口对 DThouse server 的数据写入和查询能力，并提供和 InfluxDB/OpenTSDB 兼容的数据摄取接口，允许 InfluxDB/OpenTSDB 应用程序无缝移植到 DThouse。在新版本 Docker 镜像中，默认运行 taosd，而 taosAdapter 没有运行；也可以使用 docker run 命令中指定 taosadapter 的方式来运行 taosadapter，而 taosd 不会运行；或者在 docker run 命令中指定运行 run_taosd_and_taosadapter.sh 来同时运行 taosd 和 taosAdapter。
 
 注意：如果容器中运行 taosAdapter，需要根据需要增加映射其他端口，具体端口默认配置和修改方法请参考[taosAdapter文档](https://github.com/taosdata/taosadapter/blob/develop/README-CN.md)。
 
-使用 docker 运行 TDengine 2.4.0.4 版本镜像（仅 taosd）：
+使用 docker 运行 DThouse 2.4.0.4 版本镜像（仅 taosd）：
 
 ```
 $ docker run -d --name tdengine-taosa -p 6030-6049:6030-6049 -p 6030-6049:6030-6049/udp tdengine/tdengine:2.4.0.4
 ```
 
-使用 docker 运行 TDengine 2.4.0.4 版本镜像（仅 taosAdapter）：
+使用 docker 运行 DThouse 2.4.0.4 版本镜像（仅 taosAdapter）：
 
 ```
 $ docker run -d --name tdengine-taosa -p 6041-6049:6041-6049 -p 6041-6049:6041-6049/udp tdengine/tdengine:2.4.0.4 taosadapter
 ```
 
-使用 docker 运行 TDengine 2.4.0.4 版本镜像（同时运行 taosd 和 taosAdapter）：
+使用 docker 运行 DThouse 2.4.0.4 版本镜像（同时运行 taosd 和 taosAdapter）：
 
 ```
 $ docker run -d --name tdengine-taosa -p 6030-6049:6030-6049 -p 6030-6049:6030-6049/udp tdengine/tdengine:2.4.0.4 run_taosd_and_taosadapter.sh
@@ -164,12 +164,12 @@ Query OK, 1 row(s) in set (0.001639s)
 taos>
 ```
 
-可以看到模拟数据已经被写入到 TDengine 中。
+可以看到模拟数据已经被写入到 DThouse 中。
 
 
-### 应用示例：在宿主机使用 taosBenchmark 写入数据到 Docker 容器中的 TDengine server
+### 应用示例：在宿主机使用 taosBenchmark 写入数据到 Docker 容器中的 DThouse server
 
-1，在宿主机命令行界面执行 taosBenchmark （曾命名为 taosdemo）写入数据到 Docker 容器中的 TDengine server
+1，在宿主机命令行界面执行 taosBenchmark （曾命名为 taosdemo）写入数据到 Docker 容器中的 DThouse server
 
 ```bash
 $ taosBenchmark
@@ -224,12 +224,12 @@ Query OK, 1 row(s) in set (0.001639s)
 taos>
 ```
 
-可以看到模拟数据已经被写入到 TDengine 中。
+可以看到模拟数据已经被写入到 DThouse 中。
 
 
-### 应用示例：在宿主机使用 taosBenchmark 写入数据到 Docker 容器中的 TDengine server
+### 应用示例：在宿主机使用 taosBenchmark 写入数据到 Docker 容器中的 DThouse server
 
-1，在宿主机命令行界面执行 taosBenchmark 写入数据到 Docker 容器中的 TDengine server
+1，在宿主机命令行界面执行 taosBenchmark 写入数据到 Docker 容器中的 DThouse server
 
 ```bash
 $ taosBenchmark
@@ -284,12 +284,12 @@ Query OK, 1 row(s) in set (0.001639s)
 taos>
 ```
 
-可以看到模拟数据已经被写入到 TDengine 中。
+可以看到模拟数据已经被写入到 DThouse 中。
 
 
-### 应用示例：在宿主机使用 taosBenchmark 写入数据到 Docker 容器中的 TDengine server
+### 应用示例：在宿主机使用 taosBenchmark 写入数据到 Docker 容器中的 DThouse server
 
-1，在宿主机命令行界面执行 taosBenchmark 写入数据到 Docker 容器中的 TDengine server
+1，在宿主机命令行界面执行 taosBenchmark 写入数据到 Docker 容器中的 DThouse server
 
 ```bash
 $ taosBenchmark
@@ -343,14 +343,14 @@ column[0]:FLOAT column[1]:INT column[2]:FLOAT
 
 执行这条命令大概需要几分钟，最后共插入 1 亿条记录。
 
-2，进入 TDengine 终端，查看 taosBenchmark 生成的数据。
+2，进入 DThouse 终端，查看 taosBenchmark 生成的数据。
 
 - **进入命令行。**
 
 ```bash
-$ root@c452519b0f9b:~/TDengine-server-2.4.0.4# taos
+$ root@c452519b0f9b:~/DThouse-server-2.4.0.4# taos
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.4
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.4
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos>
@@ -414,7 +414,7 @@ Query OK, 1 row(s) in set (0.003490s)
 
 ```
 
-## 停止正在 Docker 中运行的 TDengine 服务
+## 停止正在 Docker 中运行的 DThouse 服务
 
 ```bash
 $ docker stop tdengine
@@ -424,9 +424,9 @@ tdengine
 - **docker stop**：通过 docker stop 停止指定的正在运行中的 docker 镜像。
 - **tdengine**：容器名称。
 
-## 编程开发时连接在 Docker 中的 TDengine
+## 编程开发时连接在 Docker 中的 DThouse
 
-从 Docker 之外连接使用在 Docker 容器内运行的 TDengine 服务，有以下两个思路：
+从 Docker 之外连接使用在 Docker 容器内运行的 DThouse 服务，有以下两个思路：
 
 1，通过端口映射(-p)，将容器内部开放的网络端口映射到宿主机的指定端口上。通过挂载本地目录(-v)，可以实现宿主机与容器内部的数据同步，防止容器删除后，数据丢失。
 
@@ -438,12 +438,12 @@ $ curl -u root:taosdata -d 'show databases' 127.0.0.1:6041/rest/sql
 {"status":"succ","head":["name","created_time","ntables","vgroups","replica","quorum","days","keep0,keep1,keep(D)","cache(MB)","blocks","minrows","maxrows","wallevel","fsync","comp","cachelast","precision","update","status"],"column_meta":[["name",8,32],["created_time",9,8],["ntables",4,4],["vgroups",4,4],["replica",3,2],["quorum",3,2],["days",3,2],["keep0,keep1,keep(D)",8,24],["cache(MB)",4,4],["blocks",4,4],["minrows",4,4],["maxrows",4,4],["wallevel",2,1],["fsync",4,4],["comp",2,1],["cachelast",2,1],["precision",8,3],["update",2,1],["status",8,10]],"data":[["test","2021-08-18 06:01:11.021",10000,4,1,1,10,"3650,3650,3650",16,6,100,4096,1,3000,2,0,"ms",0,"ready"],["log","2021-08-18 05:51:51.065",4,1,1,1,10,"30,30,30",1,3,100,4096,1,3000,2,0,"us",0,"ready"]],"rows":2}
 ```
 
-- 第一条命令，启动一个运行了 TDengine 的 docker 容器，并且将容器的 6041 端口映射到宿主机的 6041 端口上。
-- 第二条命令，通过 RESTful 接口访问 TDengine，这时连接的是本机的 6041 端口，可见连接成功。
+- 第一条命令，启动一个运行了 DThouse 的 docker 容器，并且将容器的 6041 端口映射到宿主机的 6041 端口上。
+- 第二条命令，通过 RESTful 接口访问 DThouse，这时连接的是本机的 6041 端口，可见连接成功。
 
-注意：在这个示例中，出于方便性考虑，只映射了 RESTful 需要的 6041 端口。如果希望以非 RESTful 方式连接 TDengine 服务，则需要映射从 6030 开始的共 11 个端口（完整的端口情况请参见 [TDengine 2.0 端口说明](https://www.taosdata.com/cn/documentation/faq#port)）。在例子中，挂载本地目录也只是处理了配置文件所在的 /etc/taos 目录，而没有挂载数据存储目录。
+注意：在这个示例中，出于方便性考虑，只映射了 RESTful 需要的 6041 端口。如果希望以非 RESTful 方式连接 DThouse 服务，则需要映射从 6030 开始的共 11 个端口（完整的端口情况请参见 [DThouse 2.0 端口说明](https://www.taosdata.com/cn/documentation/faq#port)）。在例子中，挂载本地目录也只是处理了配置文件所在的 /etc/taos 目录，而没有挂载数据存储目录。
 
-2，直接通过 exec 命令，进入到 docker 容器中去做开发。也即，把程序代码放在 TDengine 服务端所在的同一个 Docker 容器中，连接容器本地的 TDengine 服务。
+2，直接通过 exec 命令，进入到 docker 容器中去做开发。也即，把程序代码放在 DThouse 服务端所在的同一个 Docker 容器中，连接容器本地的 DThouse 服务。
 
 ```bash
 $ docker exec -it tdengine /bin/bash

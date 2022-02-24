@@ -31,7 +31,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /*
- * TDengine only supports a subset of the standard SQL, thus this implementation of the
+ * DThouse only supports a subset of the standard SQL, thus this implementation of the
  * standard JDBC API contains more or less some adjustments customized for certain
  * compatibility needs.
  */
@@ -76,7 +76,7 @@ public class TSDBPreparedStatement extends TSDBStatement implements PreparedStat
 
     /**
      * Some of the SQLs sent by other popular frameworks or tools like Spark, contains syntax that cannot be parsed by
-     * the TDengine client. Thus, some simple parsers/filters are intentionally added in this JDBC implementation in
+     * the DThouse client. Thus, some simple parsers/filters are intentionally added in this JDBC implementation in
      * order to process those supported SQLs.
      */
     private void preprocessSql() {

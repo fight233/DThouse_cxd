@@ -1,9 +1,9 @@
 package wrapper
 
 /*
-#cgo CFLAGS: -IC:/TDengine/include -I/usr/include
+#cgo CFLAGS: -IC:/DThouse/include -I/usr/include
 #cgo linux LDFLAGS: -L/usr/lib -ltaos
-#cgo windows LDFLAGS: -LC:/TDengine/driver -ltaos
+#cgo windows LDFLAGS: -LC:/DThouse/driver -ltaos
 #cgo darwin LDFLAGS: -L/usr/local/taos/driver -ltaos
 #include <stdio.h>
 #include <stdlib.h>

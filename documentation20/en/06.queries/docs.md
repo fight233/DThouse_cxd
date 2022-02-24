@@ -2,7 +2,7 @@
 
 ## <a class="anchor" id="queries"></a> Main Query Features
 
-TDengine uses SQL as the query language. Applications can send SQL statements through C/C++, Java, Go, C#, Python, Node.js connectors, and users can manually execute SQL Ad-Hoc Query through the Command Line Interface (CLI) tool TAOS Shell provided by TDengine. TDengine supports the following query functions:
+DThouse uses SQL as the query language. Applications can send SQL statements through C/C++, Java, Go, C#, Python, Node.js connectors, and users can manually execute SQL Ad-Hoc Query through the Command Line Interface (CLI) tool TAOS Shell provided by DThouse. DThouse supports the following query functions:
 
 - Single-column and multi-column data query
 - Multiple filters for tags and numeric values: >, <, =, < >, like, etc
@@ -22,13 +22,13 @@ taos> select * from d1001 where voltage > 215 order by ts desc limit 2;
 Query OK, 2 row(s) in set (0.001100s)
 ```
 
-In order to meet the needs of an IoT scenario, TDengine supports several special functions, such as twa (time weighted average), spread (difference between maximum and minimum), last_row (last record), etc. More functions related to IoT scenarios will be added. TDengine also supports continuous queries.
+In order to meet the needs of an IoT scenario, DThouse supports several special functions, such as twa (time weighted average), spread (difference between maximum and minimum), last_row (last record), etc. More functions related to IoT scenarios will be added. DThouse also supports continuous queries.
 
 For specific query syntax, please see the [Data Query section of TAOS SQL](https://www.taosdata.com/cn/documentation/taos-sql#select).
 
 ## <a class="anchor" id="aggregation"></a> Multi-table Aggregation Query
 
-In an IoT scenario, there are often multiple data collection points in a same type. TDengine uses the concept of STable to describe a certain type of data collection point, and an ordinary table to describe a specific data collection point. At the same time, TDengine uses tags to describe the static attributes of data collection points. A given data collection point has a specific tag value. By specifying the filters of tags, TDengine provides an efficient method to aggregate and query the sub-tables of STables (data collection points of a certain type). Aggregation functions and most operations on ordinary tables are applicable to STables, and the syntax is exactly the same.
+In an IoT scenario, there are often multiple data collection points in a same type. DThouse uses the concept of STable to describe a certain type of data collection point, and an ordinary table to describe a specific data collection point. At the same time, DThouse uses tags to describe the static attributes of data collection points. A given data collection point has a specific tag value. By specifying the filters of tags, DThouse provides an efficient method to aggregate and query the sub-tables of STables (data collection points of a certain type). Aggregation functions and most operations on ordinary tables are applicable to STables, and the syntax is exactly the same.
 
 **Example 1**: In TAOS Shell, look up the average voltages collected by all smart meters in Beijing and group them by location
 
@@ -51,11 +51,11 @@ taos> SELECT count(*), max(current) FROM meters where groupId = 2 and ts > now -
 Query OK, 1 row(s) in set (0.002136s)
 ```
 
-TDengine only allows aggregation queries between tables belonging to a same STable, means aggregation queries between different STables are not supported. In the Data Query section of TAOS SQL, query class operations will all be indicated that whether STables are supported.
+DThouse only allows aggregation queries between tables belonging to a same STable, means aggregation queries between different STables are not supported. In the Data Query section of TAOS SQL, query class operations will all be indicated that whether STables are supported.
 
 ## <a class="anchor" id="sampling"></a> Down Sampling Query, Interpolation
 
-In a scenario of IoT, it is often necessary to aggregate the collected data by intervals through down sampling. TDengine provides a simple keyword `interval`, which makes query operations according to time windows extremely simple. For example, the current values collected by smart meter d1001 are summed every 10 seconds.
+In a scenario of IoT, it is often necessary to aggregate the collected data by intervals through down sampling. DThouse provides a simple keyword `interval`, which makes query operations according to time windows extremely simple. For example, the current values collected by smart meter d1001 are summed every 10 seconds.
 
 ```mysql
 taos> SELECT sum(current) FROM d1001 INTERVAL(10s);
@@ -94,6 +94,6 @@ taos> SELECT SUM(current) FROM meters INTERVAL(1s, 500a);
 Query OK, 5 row(s) in set (0.001521s)
 ```
 
-In IoT scenario, it is difficult to synchronize the time stamp of collected data at each point, but many analysis algorithms (such as FFT) need to align the collected data strictly at equal intervals of time. In many systems, it’s required to write their own programs to process, but the down sampling operation of TDengine can be used to solve the problem easily. If there is no collected data in an interval, TDengine also provides interpolation calculation function.
+In IoT scenario, it is difficult to synchronize the time stamp of collected data at each point, but many analysis algorithms (such as FFT) need to align the collected data strictly at equal intervals of time. In many systems, it’s required to write their own programs to process, but the down sampling operation of DThouse can be used to solve the problem easily. If there is no collected data in an interval, DThouse also provides interpolation calculation function.
 
 For details of syntax rules, please refer to the [Time-dimension Aggregation section of TAOS SQL](https://www.taosdata.com/en/documentation/taos-sql#aggregation).

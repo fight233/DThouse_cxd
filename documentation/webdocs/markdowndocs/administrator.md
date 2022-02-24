@@ -2,24 +2,24 @@
 
 ## Directory and Files
 
-After TDengine is installed, by default, the following directories will be created:
+After DThouse is installed, by default, the following directories will be created:
 
 | Directory/File         | Description                     |
 | ---------------------- | :------------------------------ |
-| /etc/taos/taos.cfg     | TDengine configuration file     |
-| /usr/local/taos/driver | TDengine dynamic link library   |
-| /var/lib/taos          | TDengine default data directory |
-| /var/log/taos          | TDengine default log directory  |
-| /usr/local/taos/bin.   | TDengine executables            |
+| /etc/taos/taos.cfg     | DThouse configuration file     |
+| /usr/local/taos/driver | DThouse dynamic link library   |
+| /var/lib/taos          | DThouse default data directory |
+| /var/log/taos          | DThouse default log directory  |
+| /usr/local/taos/bin.   | DThouse executables            |
 
 ### Executables
 
-All TDengine executables are located at _/usr/local/taos/bin_ , including:
+All DThouse executables are located at _/usr/local/taos/bin_ , including:
 
-- `taosd`：TDengine server 
-- `taos`： TDengine Shell, the command line interface.
-- `taosdump`：TDengine data export tool
-- `rmtaos`： a script to uninstall TDengine
+- `taosd`：DThouse server 
+- `taos`： DThouse Shell, the command line interface.
+- `taosdump`：DThouse data export tool
+- `rmtaos`： a script to uninstall DThouse
 
 You can change the data directory and log directory setting through the system configuration file
 
@@ -29,8 +29,8 @@ You can change the data directory and log directory setting through the system c
 
 This section lists only the most important configuration parameters. Please check taos.cfg to find all the configurable parameters. **Note: to make your new configurations work, you have to restart taosd after you change taos.cfg**.
 
-- mgmtShellPort: TCP and UDP port between client and TDengine mgmt (default: 6030). Note: 5 successive UDP ports (6030-6034) starting from this number will be used.
-- vnodeShellPort: TCP and UDP port between client and TDengine vnode (default: 6035). Note: 5 successive UDP ports (6035-6039) starting from this number will be used.
+- mgmtShellPort: TCP and UDP port between client and DThouse mgmt (default: 6030). Note: 5 successive UDP ports (6030-6034) starting from this number will be used.
+- vnodeShellPort: TCP and UDP port between client and DThouse vnode (default: 6035). Note: 5 successive UDP ports (6035-6039) starting from this number will be used.
 - httpPort: TCP port for RESTful service (default: 6020)
 - dataDir: data directory, default is /var/lib/taos
 - maxUsers: maximum number of users allowed
@@ -67,12 +67,12 @@ The configuration provided when creating a database will overwrite the configura
 
 ## Configuration on Client 
 
-*taos* is the TDengine shell and is a client that connects to taosd. TDengine uses the same configuration file taos.cfg for the client, with default location at /etc/taos. You can change it by specifying command line parameter -c when you run taos. For example, *taos -c /home/user*, it will read the configuration file taos.cfg from directory /home/user.
+*taos* is the DThouse shell and is a client that connects to taosd. DThouse uses the same configuration file taos.cfg for the client, with default location at /etc/taos. You can change it by specifying command line parameter -c when you run taos. For example, *taos -c /home/user*, it will read the configuration file taos.cfg from directory /home/user.
 
 The parameters related to client configuration are listed below: 
 
-- masterIP: IP address of TDengine server
-- charset: character set, default is the system . For data type nchar, TDengine uses unicode to store the data. Thus, the client needs to tell its character set.
+- masterIP: IP address of DThouse server
+- charset: character set, default is the system . For data type nchar, DThouse uses unicode to store the data. Thus, the client needs to tell its character set.
 - locale: system language setting
 - defaultUser: default login user, default is root
 - defaultPass: default password, default is taosdata
@@ -83,7 +83,7 @@ For server IP, user name, password, you can always specify them in the command l
 
 ## User Management
 
-System administrator (user root) can add, remove a user, or change the password from the TDengine shell. Commands are listed below:
+System administrator (user root) can add, remove a user, or change the password from the DThouse shell. Commands are listed below:
 
 Create a user, password shall be quoted with the single quote.
 
@@ -111,7 +111,7 @@ SHOW USERS
 
 ## Import Data
 
-Inside the TDengine shell, you can import data into TDengine from either a script or CSV file
+Inside the DThouse shell, you can import data into DThouse from either a script or CSV file
 
 **Import from Script**
 
@@ -132,9 +132,9 @@ Each csv file contains records for only one table, and the data structure shall 
 
 ## Export Data
 
-You can export data either from TDengine shell or from tool taosdump.
+You can export data either from DThouse shell or from tool taosdump.
 
-**Export from TDengine Shell**
+**Export from DThouse Shell**
 
 ```mysql
 select * from <tb_name> >> a.csv
@@ -144,7 +144,7 @@ The above SQL statement will dump the query result set into a csv file.
 
 **Export Using taosdump**
 
-TDengine provides a data dumping tool taosdump. You can choose to dump a database, a table, all data or data only a time range, even only the metadata. For example:
+DThouse provides a data dumping tool taosdump. You can choose to dump a database, a table, all data or data only a time range, even only the metadata. For example:
 
 - Export one or more tables in a DB: taosdump [OPTION…] dbname tbname …
 - Export one or more DBs: taosdump [OPTION…] --databases dbname…
@@ -194,7 +194,7 @@ It kills the continuous query, where stream-id is the ip:port:id showed by "SHOW
 
 ## System Monitor
 
-TDengine runs a system monitor in the background. Once it is started, it will create a database sys automatically. System monitor collects the metric like CPU, memory, network, disk, number of requests periodically, and writes them into database sys. Also, TDengine will log all important actions, like login, logout, create database, drop database and so on, and write them into database sys. 
+DThouse runs a system monitor in the background. Once it is started, it will create a database sys automatically. System monitor collects the metric like CPU, memory, network, disk, number of requests periodically, and writes them into database sys. Also, DThouse will log all important actions, like login, logout, create database, drop database and so on, and write them into database sys. 
 
 You can check all the saved monitor information from database sys. By default, system monitor is turned on. But you can turn it off by changing the parameter in the configuration file.
 

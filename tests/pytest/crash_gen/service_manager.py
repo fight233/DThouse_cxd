@@ -31,7 +31,7 @@ from .shared.types import DirPath, IpcStream
 
 class TdeInstance():
     """
-    A class to capture the *static* information of a TDengine instance,
+    A class to capture the *static* information of a DThouse instance,
     including the location of the various files/directories, and basica
     configuration.
     """
@@ -60,7 +60,7 @@ class TdeInstance():
     def prepareGcovEnv(cls, env):
         # Ref: https://gcc.gnu.org/onlinedocs/gcc/Cross-profiling.html
         bPath = cls._getBuildPath() # build PATH
-        numSegments = len(bPath.split('/')) # "/x/TDengine/build" should yield 3
+        numSegments = len(bPath.split('/')) # "/x/DThouse/build" should yield 3
         # numSegments += 2 # cover "/src" after build
         # numSegments = numSegments - 1 # DEBUG only
         env['GCOV_PREFIX'] = bPath + '/src_s' # Server side source
@@ -159,7 +159,7 @@ quorum 2
             logPathSaved = logPath + "_" + time.strftime('%Y-%m-%d-%H-%M-%S')
             Logging.info("Saving old log files to: {}".format(logPathSaved))
             os.rename(logPath, logPathSaved)
-        # os.mkdir(logPath) # recreate, no need actually, TDengine will auto-create with proper perms
+        # os.mkdir(logPath) # recreate, no need actually, DThouse will auto-create with proper perms
 
 
     def getExecFile(self): # .../taosd
@@ -220,7 +220,7 @@ quorum 2
         if self.getStatus().isActive():
             raise CrashGenError("Cannot start instance from status: {}".format(self.getStatus()))
 
-        Logging.info("Starting TDengine instance: {}".format(self))
+        Logging.info("Starting DThouse instance: {}".format(self))
         self.generateCfgFile() # service side generates config file, client does not
         self.rotateLogs()
 
@@ -252,7 +252,7 @@ quorum 2
 class TdeSubProcess:
     """
     A class to to represent the actual sub process that is the run-time
-    of a TDengine instance. 
+    of a DThouse instance. 
 
     It takes a TdeInstance object as its parameter, with the rationale being
     "a sub process runs an instance".
@@ -308,8 +308,8 @@ class TdeSubProcess:
         TdeInstance.prepareGcovEnv(myEnv)
 
         # print(myEnv)
-        # print("Starting TDengine with env: ", myEnv.items())
-        print("Starting TDengine: {}".format(cmdLine))
+        # print("Starting DThouse with env: ", myEnv.items())
+        print("Starting DThouse: {}".format(cmdLine))
 
         ret = Popen(            
             ' '.join(cmdLine), # ' '.join(cmdLine) if useShell else cmdLine,
@@ -351,7 +351,7 @@ class TdeSubProcess:
         """
         # self._popen should always be valid.
 
-        Logging.info("Terminating TDengine service running as the sub process...")
+        Logging.info("Terminating DThouse service running as the sub process...")
         if self.getStatus().isStopped():
             Logging.info("Service already stopped")
             return
@@ -466,7 +466,7 @@ class ServiceManager:
     PAUSE_BETWEEN_IPC_CHECK = 1.2  # seconds between checks on STDOUT of sub process
 
     def __init__(self, numDnodes): # >1 when we run a cluster
-        Logging.info("TDengine Service Manager (TSM) created")
+        Logging.info("DThouse Service Manager (TSM) created")
         self._numDnodes = numDnodes # >1 means we have a cluster
         self._lock = threading.Lock()
         # signal.signal(signal.SIGTERM, self.sigIntHandler) # Moved to MainExec
@@ -547,7 +547,7 @@ class ServiceManager:
         self.inSigHandler = False
 
     def sigHandlerResume(self):
-        print("Resuming TDengine service manager (main thread)...\n\n")
+        print("Resuming DThouse service manager (main thread)...\n\n")
 
     # def _updateThreadStatus(self):
     #     if self.svcMgrThread:  # valid svc mgr thread
@@ -673,7 +673,7 @@ class ServiceManager:
 class ServiceManagerThread:
     """
     A class representing a dedicated thread which manages the "sub process"
-    of the TDengine service, interacting with its STDOUT/ERR.
+    of the DThouse service, interacting with its STDOUT/ERR.
 
     It takes a TdeInstance parameter at creation time, or create a default    
     """
@@ -683,7 +683,7 @@ class ServiceManagerThread:
         # Set the sub process
         # self._tdeSubProcess = None # type: TdeSubProcess
 
-        # Arrange the TDengine instance
+        # Arrange the DThouse instance
         # self._tInstNum = tInstNum # instance serial number in cluster, ZERO based
         # self._tInst    = tInst or TdeInstance() # Need an instance
 
@@ -719,7 +719,7 @@ class ServiceManagerThread:
         # if self._thread:
         #     raise RuntimeError("Unexpected _thread")
         # if self._tdeSubProcess:
-        #     raise RuntimeError("TDengine sub process already created/running")
+        #     raise RuntimeError("DThouse sub process already created/running")
 
         # Moved to TdeSubProcess
         # Logging.info("Attempting to start TAOS service: {}".format(self))
@@ -757,14 +757,14 @@ class ServiceManagerThread:
             Progress.emit(Progress.SERVICE_START_NAP)
             # print("_zz_", end="", flush=True)
             if self._status.isRunning():
-                Logging.info("[] TDengine service READY to process requests: pid={}".format(subProc.getPid()))
+                Logging.info("[] DThouse service READY to process requests: pid={}".format(subProc.getPid()))
                 # Logging.info("[] TAOS service started: {}".format(self))
                 # self._verifyDnode(self._tInst) # query and ensure dnode is ready
                 # Logging.debug("[] TAOS Dnode verified: {}".format(self))
                 return  # now we've started
         # TODO: handle failure-to-start  better?
         self.procIpcBatch(100, True) # display output before cronking out, trim to last 20 msgs, force output
-        raise RuntimeError("TDengine service DID NOT achieve READY status: pid={}".format(subProc.getPid()))
+        raise RuntimeError("DThouse service DID NOT achieve READY status: pid={}".format(subProc.getPid()))
 
     def _verifyDnode(self, tInst: TdeInstance):
         dbc = DbConn.createNative(tInst.getDbTarget())
@@ -792,7 +792,7 @@ class ServiceManagerThread:
     def stop(self):
         # can be called from both main thread or signal handler
 
-        # Linux will send Control-C generated SIGINT to the TDengine process already, ref:
+        # Linux will send Control-C generated SIGINT to the DThouse process already, ref:
         # https://unix.stackexchange.com/questions/176235/fork-and-how-signals-are-delivered-to-processes
 
         self.join()  # stop the thread, status change moved to TdeSubProcess
@@ -801,8 +801,8 @@ class ServiceManagerThread:
         outputLines = 10 # for last output
         if  self.getStatus().isStopped():
             self.procIpcBatch(outputLines)  # one last time
-            Logging.debug("End of TDengine Service Output")
-            Logging.info("----- TDengine Service (managed by SMT) is now terminated -----\n")
+            Logging.debug("End of DThouse Service Output")
+            Logging.info("----- DThouse Service (managed by SMT) is now terminated -----\n")
         else:
             print("WARNING: SMT did not terminate as expected")
 
@@ -838,7 +838,7 @@ class ServiceManagerThread:
             except Empty:
                 break  # break out of for loop, no more trimming
 
-    TD_READY_MSG = "TDengine is initialized successfully"
+    TD_READY_MSG = "DThouse is initialized successfully"
 
     def procIpcBatch(self, trimToTarget=0, forceOutput=False):
         '''
@@ -940,7 +940,7 @@ class ServiceManagerThread:
 
             # queue.put(line)
         # stdOut has no more data, meaning sub process must have died
-        Logging.info("EOF found TDengine STDOUT, marking the process as terminated")
+        Logging.info("EOF found DThouse STDOUT, marking the process as terminated")
         self.setStatus(Status.STATUS_STOPPED)
 
     def svcErrorReader(self, ipcStdErr: IpcStream, queue, logDir: str):
@@ -951,5 +951,5 @@ class ServiceManagerThread:
         for tChunk in self._textChunkGenerator(ipcStdErr, logDir, 'stderr.log') :
             queue.put(tChunk) # tChunk garanteed not to be None
             # fErr.write(line)
-            Logging.info("TDengine STDERR: {}".format(tChunk))
-        Logging.info("EOF for TDengine STDERR")
+            Logging.info("DThouse STDERR: {}".format(tChunk))
+        Logging.info("EOF for DThouse STDERR")

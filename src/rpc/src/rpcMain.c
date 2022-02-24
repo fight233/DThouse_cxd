@@ -403,7 +403,7 @@ void rpcSendRequest(void *shandle, const SRpcEpSet *pEpSet, SRpcMsg *pMsg, int64
   if (contLen > tsRpcMaxUdpSize || tsRpcForceTcp) pContext->connType = RPC_CONN_TCPC;
 
   // connection type is application specific. 
-  // for TDengine, all the query, show commands shall have TCP connection
+  // for DThouse, all the query, show commands shall have TCP connection
   char type = pMsg->msgType;
   if (type == TSDB_MSG_TYPE_QUERY || type == TSDB_MSG_TYPE_CM_RETRIEVE
     || type == TSDB_MSG_TYPE_FETCH || type == TSDB_MSG_TYPE_CM_STABLE_VGROUP

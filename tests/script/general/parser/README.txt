@@ -1,6 +1,6 @@
 This file contains a brief info about the parser test scripts directory.
 
-The directory contains scripts for TDengine parser testing, mainly focus on syntax parsing and datatype support. The tests are organized in the way database languages are catagorized.
+The directory contains scripts for DThouse parser testing, mainly focus on syntax parsing and datatype support. The tests are organized in the way database languages are catagorized.
 
 DML: 
 {

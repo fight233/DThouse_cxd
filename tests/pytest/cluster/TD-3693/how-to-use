@@ -1,5 +1,5 @@
 execute:
-cd TDengine/tests/pytest  &&  python3  ./test.py  -f cluster/TD-3693/multClient.py && python3 cluster/TD-3693/multQuery.py
+cd DThouse/tests/pytest  &&  python3  ./test.py  -f cluster/TD-3693/multClient.py && python3 cluster/TD-3693/multQuery.py
 
 1. 使用测试的集群，三个节点fc1、fct2、fct4。
 2. 用taosdemo建两个库db1和db2，副本数目为1，插入一定数据。

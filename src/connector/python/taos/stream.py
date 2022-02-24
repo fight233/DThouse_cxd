@@ -4,7 +4,7 @@ from taos.result import *
 
 
 class TaosStream(object):
-    """TDengine Stream interface"""
+    """DThouse Stream interface"""
 
     def __init__(self, stream):
         self._raw = stream

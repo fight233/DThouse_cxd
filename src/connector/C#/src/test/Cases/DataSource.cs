@@ -1,6 +1,6 @@
 using System;
 using Test.UtilsTools;
-using TDengineDriver;
+using DThouseDriver;
 
 namespace Test.UtilsTools.DataSource
 {
@@ -21,8 +21,8 @@ namespace Test.UtilsTools.DataSource
         public static string[] binaryArr = new string[5] { "1234567890~!@#$%^&*()_+=-`[]{}:,./<>?", String.Empty, null, "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM", "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890~!@#$%^&*()_+=-`[]{}:,./<>?" };
         public static string[] ncharArr = new string[5] { "1234567890~!@#$%^&*()_+=-`[]{}:,./<>?", null, "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM", "qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890~!@#$%^&*()_+=-`[]{}:,./<>?", string.Empty };
 
-        public static string[] binaryArrCn = new string[5] { "涛思数据", String.Empty, null, "taosdata涛思数据", "涛思数据TDengine" };
-        public static string[] NcharArrCn = new string[5] { "涛思数据", null, "taosdata涛思数据", "涛思数据TDengine", String.Empty };
+        public static string[] binaryArrCn = new string[5] { "涛思数据", String.Empty, null, "taosdata涛思数据", "涛思数据DThouse" };
+        public static string[] NcharArrCn = new string[5] { "涛思数据", null, "taosdata涛思数据", "涛思数据DThouse", String.Empty };
         public static TAOS_BIND[] getTags()
         {
             TAOS_BIND[] binds = new TAOS_BIND[13];
@@ -56,7 +56,7 @@ namespace Test.UtilsTools.DataSource
             binds[8] = TaosBind.BindUBigInt(UInt64.MinValue + 1);
             binds[9] = TaosBind.BindFloat(11.11F);
             binds[10] = TaosBind.BindDouble(22.22D);
-            binds[11] = TaosBind.BindBinary("TDengine涛思数据");
+            binds[11] = TaosBind.BindBinary("DThouse涛思数据");
             binds[12] = TaosBind.BindNchar("涛思");
             return binds;
         }
@@ -75,7 +75,7 @@ namespace Test.UtilsTools.DataSource
             binds[8] = TaosBind.BindUBigInt(UInt64.MinValue + 1);
             binds[9] = TaosBind.BindFloat(11.11F);
             binds[10] = TaosBind.BindDouble(22.22D);
-            binds[11] = TaosBind.BindBinary("TDengine数据");
+            binds[11] = TaosBind.BindBinary("DThouse数据");
             binds[12] = TaosBind.BindNchar("taosdata涛思数据");
             binds[13] = TaosBind.BindBool(true);
             binds[14] = TaosBind.BindNil();

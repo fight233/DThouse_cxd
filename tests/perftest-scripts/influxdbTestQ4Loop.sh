@@ -93,7 +93,7 @@ do
   esac
 done
 
-WORK_DIR=/mnt/root/TDengine
+WORK_DIR=/mnt/root/DThouse
 INFLUXDBTEST_DIR=$WORK_DIR/tests/comparisonTest/influxdb
 
 runTest

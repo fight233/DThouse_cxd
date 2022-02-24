@@ -8,10 +8,10 @@ setuptools.setup(
     version="2.1.1",
     author="Taosdata Inc.",
     author_email="support@taosdata.com",
-    description="TDengine python client package",
+    description="DThouse python client package",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/taosdata/TDengine/tree/develop/src/connector/python",
+    url="https://github.com/taosdata/DThouse/tree/develop/src/connector/python",
     packages=setuptools.find_packages(),
     classifiers=[
         "Environment :: Console",

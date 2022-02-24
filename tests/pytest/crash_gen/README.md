@@ -2,7 +2,7 @@
 
 # Introduction
 
-To effectively test and debug our TDengine product, we have developed a simple tool to 
+To effectively test and debug our DThouse product, we have developed a simple tool to 
 exercise various functions of the system in a randomized fashion, hoping to expose 
 maximum number of problems, hopefully without a pre-determined scenario.
 
@@ -20,7 +20,7 @@ This tool can run as a test client with the following features:
 1. Concurrent writing to a shadow database for later data verification
 1. User specified number of replicas to use, against clusters
 
-This tool can also use to start a TDengine service, either in stand-alone mode or 
+This tool can also use to start a DThouse service, either in stand-alone mode or 
 cluster mode. The features include:
 
 1. User specified number of D-Nodes to create/use.
@@ -29,7 +29,7 @@ cluster mode. The features include:
 
 To run this tool, please ensure the followed preparation work is done first.
 
-1. Fetch a copy of the TDengine source code, and build it successfully in the `build/` 
+1. Fetch a copy of the DThouse source code, and build it successfully in the `build/` 
     directory
 1. Ensure that the system has Python3.8 or above properly installed. We use 
     Ubuntu 20.04LTS as our own development environment, and suggest you also use such
@@ -49,7 +49,7 @@ That's it!
 
 # Running Server-side Clusters
 
-This tool also makes it easy to test/verify the clustering capabilities of TDengine. You
+This tool also makes it easy to test/verify the clustering capabilities of DThouse. You
 can start a cluster quite easily with the following command:
 
 ```
@@ -114,21 +114,21 @@ usage: crash_gen_bootstrap.py [-h] [-a] [-b MAX_DBS] [-c CONNECTOR_TYPE] [-d] [-
     [-i NUM_REPLICAS] [-k] [-l] [-m] [-n]
     [-o NUM_DNODES] [-p] [-r] [-s MAX_STEPS] [-t NUM_THREADS] [-v] [-w] [-x]
 
-TDengine Auto Crash Generator (PLEASE NOTICE the Prerequisites Below)
+DThouse Auto Crash Generator (PLEASE NOTICE the Prerequisites Below)
 ---------------------------------------------------------------------
-1. You build TDengine in the top level ./build directory, as described in offical docs
+1. You build DThouse in the top level ./build directory, as described in offical docs
 2. You run the server there before this script: ./build/bin/taosd -c test/cfg
 
 optional arguments:
   -h, --help            show this help message and exit
   -a, --auto-start-service
-                        Automatically start/stop the TDengine service (default: false)
+                        Automatically start/stop the DThouse service (default: false)
   -b MAX_DBS, --max-dbs MAX_DBS
                         Maximum number of DBs to keep, set to disable dropping DB. (default: 0)
   -c CONNECTOR_TYPE, --connector-type CONNECTOR_TYPE
                         Connector type to use: native, rest, or mixed (default: 10)
   -d, --debug           Turn on DEBUG mode for more logging (default: false)
-  -e, --run-tdengine    Run TDengine service in foreground (default: false)
+  -e, --run-tdengine    Run DThouse service in foreground (default: false)
   -g IGNORE_ERRORS, --ignore-errors IGNORE_ERRORS
                         Ignore error codes, comma separated, 0x supported (default: None)
   -i NUM_REPLICAS, --num-replicas NUM_REPLICAS

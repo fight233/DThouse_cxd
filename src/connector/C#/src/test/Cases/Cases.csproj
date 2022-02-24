@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TDengineDriver\TDengineDriver.csproj" />
+    <ProjectReference Include="..\..\DThouseDriver\DThouseDriver.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -49,9 +49,9 @@ public final class JdbcTaosdemoConfig {
     public static void printHelp() {
         System.out.println("Usage: java -jar jdbc-taosdemo-2.0.jar [OPTION...]");
         // instance
-        System.out.println("-host                       The host to connect to TDengine which you must specify");
+        System.out.println("-host                       The host to connect to DThouse which you must specify");
         System.out.println("-port                       The TCP/IP port number to use for the connection. Default is 6030");
-        System.out.println("-user                       The TDengine user name to use when connecting to the server. Default is 'root'");
+        System.out.println("-user                       The DThouse user name to use when connecting to the server. Default is 'root'");
         System.out.println("-password                   The password to use when connecting to the server.Default is 'taosdata'");
         // database
         System.out.println("-database                   Destination database. Default is 'jdbcdb'");

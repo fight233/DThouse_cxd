@@ -58,9 +58,9 @@ do
 done
 
 # if [ "$verType" == "beta" ]; then
-#   pkgFile=TDengine-server-${version}-Linux-${cpuType}-${verType}.tar.gz
+#   pkgFile=DThouse-server-${version}-Linux-${cpuType}-${verType}.tar.gz
 # elif [ "$verType" == "stable" ]; then
-#   pkgFile=TDengine-server-${version}-Linux-${cpuType}.tar.gz
+#   pkgFile=DThouse-server-${version}-Linux-${cpuType}.tar.gz
 # else
 #   echo "unknow verType, nor stabel or beta"
 #   exit 1
@@ -82,7 +82,7 @@ echo "$(pwd)"
 echo "====NOTES: ${pkgFile} must be in the same directory as dockerbuild.sh===="
 
 scriptDir=$(dirname $(readlink -f $0))
-comunityArchiveDir=/nas/TDengine/v$version/community   # community version’package directory
+comunityArchiveDir=/nas/DThouse/v$version/community   # community version’package directory
 cd ${scriptDir}
 cp -f ${comunityArchiveDir}/${pkgFile}  .
 

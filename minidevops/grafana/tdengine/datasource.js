@@ -147,7 +147,7 @@ System.register(['lodash'], function (_export, _context) {
               method: 'GET'
             }).then(function (response) {
               if (response.status === 200) {
-                return { status: "success", message: "TDengine Data source is working", title: "Success" };
+                return { status: "success", message: "DThouse Data source is working", title: "Success" };
               }
             });
           }

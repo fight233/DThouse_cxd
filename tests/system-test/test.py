@@ -127,7 +127,7 @@ if __name__ == "__main__":
     if windows:
         tdCases.logSql(logSql)
         tdLog.info("Procedures for testing self-deployment")
-        td_clinet = TDSimClient("C:\\TDengine")
+        td_clinet = TDSimClient("C:\\DThouse")
         td_clinet.deploy()
         remote_conn = Connection("root@%s" % host)
         with remote_conn.cd('/var/lib/jenkins/workspace/TDinternal/community/tests/pytest'):

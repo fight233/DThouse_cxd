@@ -73,7 +73,7 @@ public class TSDBError {
         if (errorCode > 0x2350 && errorCode < 0x2400)
             // JNI exception's error number is large than 0x2350
             return new SQLException("JNI ERROR (" + Integer.toHexString(errorCode) + "): " + message, "", errorCode);
-        return new SQLException("TDengine ERROR (" + Integer.toHexString(errorCode) + "): " + message, "", errorCode);
+        return new SQLException("DThouse ERROR (" + Integer.toHexString(errorCode) + "): " + message, "", errorCode);
     }
 
     public static RuntimeException createRuntimeException(int errorCode, Throwable t) {

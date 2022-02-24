@@ -1,4 +1,4 @@
-PROJECT(TDengine)
+PROJECT(DThouse)
 
 ADD_SUBDIRECTORY(c)
 

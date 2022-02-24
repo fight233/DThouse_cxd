@@ -18,7 +18,7 @@ pagMode=$8
 script_dir="$(dirname $(readlink -f $0))"
 top_dir="$(readlink -f ${script_dir}/../..)"
 
-productName="TDengine"
+productName="DThouse"
 
 # create compressed install file.
 build_dir="${compile_dir}/build"

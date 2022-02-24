@@ -13,10 +13,10 @@ fi
 type=
 if [ x$2 != x ];then
     	type=jemalloc
-        echo "Building TDengine using jemalloc"
+        echo "Building DThouse using jemalloc"
 else
 		type=glibc
-        echo "Building TDengine using glibc"
+        echo "Building DThouse using glibc"
 fi
 
 today=`date +"%Y%m%d"`
@@ -54,7 +54,7 @@ function stopTaosd {
 	done
 }
 
-function buildTDengine {
+function buildDThouse {
 	echoInfo "Build TDinternal"
 	cd $WORK_DIR/TDinternal
 
@@ -100,14 +100,14 @@ function buildTDengine {
 	rm -rf $WORK_DIR/TDinternal/community/tests/pytest/query/operator.py	
 	make > /dev/null 2>&1	
 	make install > /dev/null 2>&1
-	echo "Build TDengine on remote server"	
-	ssh perftest "./buildTDengine.sh $branch > /dev/null"
+	echo "Build DThouse on remote server"	
+	ssh perftest "./buildDThouse.sh $branch > /dev/null"
 }
 
 function runQueryPerfTest {
 	[ -f $PERFORMANCE_TEST_REPORT ] && rm $PERFORMANCE_TEST_REPORT
 	nohup $WORK_DIR/TDinternal/debug/build/bin/taosd -c /etc/perf/ > /dev/null 2>&1 &
-	echoInfo "Wait TDengine to start"
+	echoInfo "Wait DThouse to start"
 	sleep 60
 	echoInfo "Run Performance Test"	
 	cd $WORK_DIR/TDinternal/community/tests/pytest	
@@ -143,7 +143,7 @@ function sendReport {
 
 
 stopTaosd
-buildTDengine
+buildDThouse
 runQueryPerfTest
 stopTaosd
 

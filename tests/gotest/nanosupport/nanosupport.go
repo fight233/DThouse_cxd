@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	e, err := connector.NewExecutor(&config.TDengineGo{
+	e, err := connector.NewExecutor(&config.DThouseGo{
 		Address:     "root:taosdata@/tcp(127.0.0.1:6030)/",
 		MaxIdle:     20,
 		MaxOpen:     30,

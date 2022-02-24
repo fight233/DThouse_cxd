@@ -1,9 +1,9 @@
 using System;
 using Xunit;
-using TDengineDriver;
+using DThouseDriver;
 using System.Runtime.InteropServices;
 
-namespace TDengineDriver.Test
+namespace DThouseDriver.Test
 {
     public class TestTaosBind
     {
@@ -15,7 +15,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(bool);
             int length = sizeof(bool);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindBool(true);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindBool(true);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             bool bindBuffer = Convert.ToBoolean(Marshal.ReadByte(bind.buffer));
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -38,7 +38,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(bool);
             int length = sizeof(bool);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindBool(false);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindBool(false);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             bool bindBuffer = Convert.ToBoolean(Marshal.ReadByte(bind.buffer));
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -62,7 +62,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(sbyte);
             int length = sizeof(sbyte);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindTinyInt(0);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindTinyInt(0);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             sbyte bindBuffer = Convert.ToSByte(Marshal.ReadByte(bind.buffer));
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -85,7 +85,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(sbyte);
             int length = sizeof(sbyte);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindTinyInt(sbyte.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindTinyInt(sbyte.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             sbyte bindBuffer = Convert.ToSByte(Marshal.ReadByte(bind.buffer));
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -108,7 +108,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(sbyte);
             int length = sizeof(sbyte);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindTinyInt(sbyte.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindTinyInt(sbyte.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             short bindBuffer = Marshal.ReadInt16(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -131,7 +131,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(short);
             int length = sizeof(short);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindSmallInt(short.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindSmallInt(short.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             short bindBuffer = Marshal.ReadInt16(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -154,7 +154,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(short);
             int length = sizeof(short);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindSmallInt(0);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindSmallInt(0);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             short bindBuffer = Marshal.ReadInt16(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -177,7 +177,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(short);
             int length = sizeof(short);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindSmallInt(short.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindSmallInt(short.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             short bindBuffer = Marshal.ReadInt16(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -200,7 +200,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(int);
             int length = sizeof(int);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindInt(int.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindInt(int.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             int bindBuffer = Marshal.ReadInt32(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -223,7 +223,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(int);
             int length = sizeof(int);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindInt(0);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindInt(0);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             int bindBuffer = Marshal.ReadInt32(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -246,7 +246,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(int);
             int length = sizeof(int);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindInt(int.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindInt(int.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             int bindBuffer = Marshal.ReadInt32(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -269,7 +269,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(long);
             int length = sizeof(long);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindBigInt(long.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindBigInt(long.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             long bindBuffer = Marshal.ReadInt64(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -291,7 +291,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(long);
             int length = sizeof(long);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindBigInt(0);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindBigInt(0);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             long bindBuffer = Marshal.ReadInt64(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -314,7 +314,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(long);
             int length = sizeof(long);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindBigInt(long.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindBigInt(long.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             long bindBuffer = Marshal.ReadInt64(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -338,7 +338,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(sbyte);
             int length = sizeof(sbyte);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindUTinyInt(0);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindUTinyInt(0);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             byte bindBuffer = Marshal.ReadByte(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -362,7 +362,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(sbyte);
             int length = sizeof(sbyte);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindUTinyInt(byte.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindUTinyInt(byte.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             byte bindBuffer = Marshal.ReadByte(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -385,7 +385,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(ushort);
             int length = sizeof(ushort);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindUSmallInt(ushort.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindUSmallInt(ushort.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             ushort bindBuffer = (ushort)Marshal.ReadInt16(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -407,7 +407,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(ushort);
             int length = sizeof(ushort);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindUSmallInt(ushort.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindUSmallInt(ushort.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             ushort bindBuffer = (ushort)Marshal.ReadInt16(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -429,7 +429,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(uint);
             int length = sizeof(uint);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindUInt(uint.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindUInt(uint.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             uint bindBuffer = (uint)Marshal.ReadInt32(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -451,7 +451,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(uint);
             int length = sizeof(uint);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindUInt(uint.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindUInt(uint.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             uint bindBuffer = (uint)Marshal.ReadInt32(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -473,7 +473,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(ulong);
             int length = sizeof(ulong);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindUBigInt(ulong.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindUBigInt(ulong.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             ulong bindBuffer = (ulong)Marshal.ReadInt64(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -495,7 +495,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(ulong);
             int length = sizeof(ulong);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindUBigInt(ulong.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindUBigInt(ulong.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             ulong bindBuffer = (ulong)Marshal.ReadInt64(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -517,7 +517,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(float);
             int length = sizeof(float);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindFloat(float.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindFloat(float.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             float[] bindBufferArr = new float[1];
             Marshal.Copy(bind.buffer, bindBufferArr, 0, bindBufferArr.Length);
@@ -540,7 +540,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(float);
             int length = sizeof(float);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindFloat(0F);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindFloat(0F);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             float[] bindBufferArr = new float[1];
             Marshal.Copy(bind.buffer, bindBufferArr, 0, bindBufferArr.Length);
@@ -563,7 +563,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(float);
             int length = sizeof(float);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindFloat(float.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindFloat(float.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             float[] bindBufferArr = new float[1];
             Marshal.Copy(bind.buffer, bindBufferArr, 0, bindBufferArr.Length);
@@ -586,7 +586,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(double);
             int length = sizeof(double);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindDouble(0D);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindDouble(0D);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             double[] bindBufferArr = new double[1];
             Marshal.Copy(bind.buffer, bindBufferArr, 0, bindBufferArr.Length);
@@ -609,7 +609,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(double);
             int length = sizeof(double);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindDouble(double.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindDouble(double.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             double[] bindBufferArr = new double[1];
             Marshal.Copy(bind.buffer, bindBufferArr, 0, bindBufferArr.Length);
@@ -632,7 +632,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(double);
             int length = sizeof(double);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindDouble(double.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindDouble(double.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             double[] bindBufferArr = new double[1];
             Marshal.Copy(bind.buffer, bindBufferArr, 0, bindBufferArr.Length);
@@ -655,7 +655,7 @@ namespace TDengineDriver.Test
             int bufferLength = System.Text.Encoding.Default.GetBytes(buffer).Length;
             int length = System.Text.Encoding.Default.GetBytes(buffer).Length;
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindBinary("qwertyuiopasdghjklzxcvbnm<>?:\"{}+_)(*&^%$#@!~QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./`1234567890-=");
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindBinary("qwertyuiopasdghjklzxcvbnm<>?:\"{}+_)(*&^%$#@!~QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./`1234567890-=");
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             string bindBuffer = Marshal.PtrToStringAnsi(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -677,7 +677,7 @@ namespace TDengineDriver.Test
             int bufferLength = System.Text.Encoding.Default.GetBytes(buffer).Length;
             int length = System.Text.Encoding.Default.GetBytes(buffer).Length;
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindBinary("一二两三四五六七八九十廿毛另壹贰叁肆伍陆柒捌玖拾佰仟万亿元角分零整1234567890`~!@#$%^&*()_+[]{};':<>?,./");
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindBinary("一二两三四五六七八九十廿毛另壹贰叁肆伍陆柒捌玖拾佰仟万亿元角分零整1234567890`~!@#$%^&*()_+[]{};':<>?,./");
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             string bindBuffer = Marshal.PtrToStringAnsi(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -699,7 +699,7 @@ namespace TDengineDriver.Test
             int bufferLength = System.Text.Encoding.Default.GetBytes(buffer).Length;
             int length = System.Text.Encoding.Default.GetBytes(buffer).Length;
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindBinary("一二两三四五六七八九十廿毛另壹贰叁肆伍陆柒捌玖拾佰仟万亿元角分零整1234567890`~!@#$%^&*()_+[]{};':<>?,./qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM");
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindBinary("一二两三四五六七八九十廿毛另壹贰叁肆伍陆柒捌玖拾佰仟万亿元角分零整1234567890`~!@#$%^&*()_+[]{};':<>?,./qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM");
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             string bindBuffer = Marshal.PtrToStringAnsi(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -721,7 +721,7 @@ namespace TDengineDriver.Test
             int bufferLength = System.Text.Encoding.Default.GetBytes(buffer).Length;
             int length = System.Text.Encoding.Default.GetBytes(buffer).Length;
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindNchar("qwertyuiopasdghjklzxcvbnm<>?:\"{}+_)(*&^%$#@!~QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./`1234567890-=");
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindNchar("qwertyuiopasdghjklzxcvbnm<>?:\"{}+_)(*&^%$#@!~QWERTYUIOP[]\\ASDFGHJKL;'ZXCVBNM,./`1234567890-=");
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             string bindBuffer = Marshal.PtrToStringAnsi(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -742,7 +742,7 @@ namespace TDengineDriver.Test
             int bufferLength = System.Text.Encoding.Default.GetBytes(buffer).Length;
             int length = System.Text.Encoding.Default.GetBytes(buffer).Length;
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindNchar("一二两三四五六七八九十廿毛另壹贰叁肆伍陆柒捌玖拾佰仟万亿元角分零整1234567890`~!@#$%^&*()_+[]{};':<>?,./");
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindNchar("一二两三四五六七八九十廿毛另壹贰叁肆伍陆柒捌玖拾佰仟万亿元角分零整1234567890`~!@#$%^&*()_+[]{};':<>?,./");
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             string bindBuffer = Marshal.PtrToStringAnsi(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -763,7 +763,7 @@ namespace TDengineDriver.Test
             int bufferLength = System.Text.Encoding.Default.GetBytes(buffer).Length;
             int length = System.Text.Encoding.Default.GetBytes(buffer).Length;
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindNchar("一二两三四五六七八九十廿毛另壹贰叁肆伍陆柒捌玖拾佰仟万亿元角分零整1234567890`~!@#$%^&*()_+[]{};':<>?,./qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM");
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindNchar("一二两三四五六七八九十廿毛另壹贰叁肆伍陆柒捌玖拾佰仟万亿元角分零整1234567890`~!@#$%^&*()_+[]{};':<>?,./qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM");
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             string bindBuffer = Marshal.PtrToStringAnsi(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -783,7 +783,7 @@ namespace TDengineDriver.Test
             int bufferType = 0;
             int isNull = 1;
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindNil();
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindNil();
 
             int bindIsNull = Marshal.ReadInt32(bind.is_null);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -803,7 +803,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(long);
             int length = sizeof(long);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindTimestamp(long.MinValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindTimestamp(long.MinValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             long bindBuffer = Marshal.ReadInt64(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -824,7 +824,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(long);
             int length = sizeof(long);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindTimestamp(0);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindTimestamp(0);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             long bindBuffer = Marshal.ReadInt64(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);
@@ -845,7 +845,7 @@ namespace TDengineDriver.Test
             int bufferLength = sizeof(long);
             int length = sizeof(long);
 
-            TDengineDriver.TAOS_BIND bind = TaosBind.BindTimestamp(long.MaxValue);
+            DThouseDriver.TAOS_BIND bind = TaosBind.BindTimestamp(long.MaxValue);
             int BindLengPtr = Marshal.ReadInt32(bind.length);
             long bindBuffer = Marshal.ReadInt64(bind.buffer);
             Console.WriteLine("bind.buffer_type:{0},bufferType:{1}", bind.buffer_type, bufferType);

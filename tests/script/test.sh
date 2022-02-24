@@ -88,7 +88,7 @@ ARBITRATOR_LOG_DIR=$ARBITRATOR_PRG_DIR/log
 
 chmod -R 777 $PRG_DIR
 echo "------------------------------------------------------------------------"
-echo "Start TDengine Testing Case ..."
+echo "Start DThouse Testing Case ..."
 echo "BUILD_DIR: $BUILD_DIR"
 echo "SIM_DIR  : $SIM_DIR"
 echo "CODE_DIR : $CODE_DIR"

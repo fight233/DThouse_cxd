@@ -20,7 +20,7 @@ dbName=${10}
 script_dir="$(dirname $(readlink -f $0))"
 top_dir="$(readlink -f ${script_dir}/../..)"
 
-productName="TDengine"
+productName="DThouse"
 serverName="taosd"
 clientName="taos"
 configFile="taos.cfg"
@@ -137,7 +137,7 @@ if [ $adapterName != "taosadapter" ]; then
   sed -i "s/password = \"taosdata\"/password = \"${defaultPasswd}\"/g" ${install_dir}/cfg/$adapterName.toml
 
   mv ${install_dir}/cfg/taosadapter.service ${install_dir}/cfg/$adapterName.service
-  sed -i "s/TDengine/${productName}/g" ${install_dir}/cfg/$adapterName.service
+  sed -i "s/DThouse/${productName}/g" ${install_dir}/cfg/$adapterName.service
   sed -i "s/taosAdapter/${adapterName}/g" ${install_dir}/cfg/$adapterName.service
   sed -i "s/taosadapter/${adapterName}/g" ${install_dir}/cfg/$adapterName.service
 

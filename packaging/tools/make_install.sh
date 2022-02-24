@@ -25,7 +25,7 @@ dataDir="/var/lib/taos"
 configDir="/etc/taos"
 configFile="taos.cfg"
 installDir="/usr/local/taos"
-productName="TDengine"
+productName="DThouse"
 emailName="taosdata.com"
 uninstallScript="rmtaos"
 
@@ -542,7 +542,7 @@ function install_service() {
   fi
 }
 
-function update_TDengine() {
+function update_DThouse() {
   echo -e "${GREEN}Start to update ${productName}...${NC}"
   # Stop the service if running
 
@@ -593,7 +593,7 @@ function update_TDengine() {
   echo -e "\033[44;32;1m${productName} is updated successfully!${NC}"
 }
 
-function install_TDengine() {
+function install_DThouse() {
   # Start to install
   echo -e "${GREEN}Start to install ${productName}...${NC}"
 
@@ -638,14 +638,14 @@ echo source directory: $1
 echo binary directory: $2
 if [ "$osType" != "Darwin" ]; then
   if [ -x ${bin_dir}/${clientName} ]; then
-    update_TDengine
+    update_DThouse
   else
-    install_TDengine
+    install_DThouse
   fi
 else
   if [ -x ${bin_dir}/${clientName} ] || [ -x ${bin_2_dir}/${clientName} ]; then
-    update_TDengine
+    update_DThouse
   else
-    install_TDengine
+    install_DThouse
   fi
 fi

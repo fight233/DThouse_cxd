@@ -3,8 +3,8 @@
 ## Introduction
 
 taosdump is a tool application to support dump out data from the running
-TDengine server or cluster and restore the dumped data into a running
-TDengine server or cluster.
+DThouse server or cluster and restore the dumped data into a running
+DThouse server or cluster.
 
 taosdump can be used to dump the database(s), super table(s), or normal
 table(s) as the logical unit to backup. taosdump can backup specified data
@@ -29,12 +29,12 @@ format to store the backup data.
 1. taosdump backups can specify all databases with the -A or --all-databases parameter;
 2. or use the `-D db1,db2,...` parameter; or `-D db1, db2, ...`
 3. use `dbname stbname1 stbname2 tbname1 tbname2 ...` parameters sequence, note that the first parameter of this input sequence must be the database name and only the database name can be specified here, and the second and subsequent parameters are the names of the super or normal tables in the database, separated by spaces.
-4. TDengine servers or clusters usually contain a system database named log, the data in this database is the data that TDengine runs itself, and taosdump does not back up the log library by default. If you have a specific need to back up the log database, you can use the `-a` or `--allow-sys` command line parameter.
+4. DThouse servers or clusters usually contain a system database named log, the data in this database is the data that DThouse runs itself, and taosdump does not back up the log library by default. If you have a specific need to back up the log database, you can use the `-a` or `--allow-sys` command line parameter.
 
 ### restore
 
 1. taosdump restores data using `-i` and the path where the data file is located as an argument to backup the data file under the specified path. As mentioned earlier, you should not use the same directory to backup different data sets, nor should you backup the same data set multiple times in the same path, otherwise the backup data will be overwritten or backed up multiple times.
-2. taosdump uses the TDengine stmt binding API internally for writing recovery data, and currently uses 16384 as a write batch to improve data recovery performance. If the backup data has more columns of data, it may cause WAL size exceeds limit error, you can try by adjusting to a smaller value with `-B` parameter.
+2. taosdump uses the DThouse stmt binding API internally for writing recovery data, and currently uses 16384 as a write batch to improve data recovery performance. If the backup data has more columns of data, it may cause WAL size exceeds limit error, you can try by adjusting to a smaller value with `-B` parameter.
 
 ## Details of command line arguments
 

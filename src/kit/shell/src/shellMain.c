@@ -110,7 +110,7 @@ int main(int argc, char* argv[]) {
     taosReadGlobalLogCfg();
 
     if (!taosReadGlobalCfg()) {
-      printf("TDengine read global config failed");
+      printf("DThouse read global config failed");
       exit(EXIT_FAILURE);
     }
 

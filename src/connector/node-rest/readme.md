@@ -1,7 +1,7 @@
-# TDengine Nodejs Restful
+# DThouse Nodejs Restful
 
-This is the Node.js library that lets you connect to [TDengine](https://www.github.com/taosdata/tdengine) though
-restful. This restful can help you access the TDengine from different platform.
+This is the Node.js library that lets you connect to [DThouse](https://www.github.com/taosdata/tdengine) though
+restful. This restful can help you access the DThouse from different platform.
 
 ## Install
 To get started, just type in the following to install the connector through [npm](https://www.npmjs.com/)
@@ -15,7 +15,7 @@ npm install td-rest-connector
 ### Connection
 
 ```javascript
-import taoRest  from 'TDengineRest'
+import taoRest  from 'DThouseRest'
 var connRest = taoRest({host:'127.0.0.1',user:'root',pass:'taosdata',port:6041})
 ```
 
@@ -29,11 +29,11 @@ query
 ```
 
 ## Example
-An example of using the NodeJS Restful connector to create a table with weather data and create and execute queries can be found [here](https://github.com/taosdata/TDengine/tree/master/tests/examples/node-rest/show-database.js) 
+An example of using the NodeJS Restful connector to create a table with weather data and create and execute queries can be found [here](https://github.com/taosdata/DThouse/tree/master/tests/examples/node-rest/show-database.js) 
 
-## Contributing to TDengine
+## Contributing to DThouse
 
-Please follow the [contribution guidelines](https://github.com/taosdata/TDengine/blob/master/CONTRIBUTING.md) to contribute to the project.
+Please follow the [contribution guidelines](https://github.com/taosdata/DThouse/blob/master/CONTRIBUTING.md) to contribute to the project.
 
 ## License
 

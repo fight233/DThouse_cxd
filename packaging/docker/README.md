@@ -1,8 +1,8 @@
-# TDengine Docker Image Quick Reference
+# DThouse Docker Image Quick Reference
 
-## What is TDengine?
+## What is DThouse?
 
-TDengine is an open-sourced big data platform under [GNU AGPL v3.0](http://www.gnu.org/licenses/agpl-3.0.html), designed and optimized for the Internet of Things (IoT), Connected Cars, Industrial IoT, and IT Infrastructure and Application Monitoring. Besides the 10x faster time-series database, it provides caching, stream computing, message queuing and other functionalities to reduce the complexity and cost of development and operation.
+DThouse is an open-sourced big data platform under [GNU AGPL v3.0](http://www.gnu.org/licenses/agpl-3.0.html), designed and optimized for the Internet of Things (IoT), Connected Cars, Industrial IoT, and IT Infrastructure and Application Monitoring. Besides the 10x faster time-series database, it provides caching, stream computing, message queuing and other functionalities to reduce the complexity and cost of development and operation.
 
 - **10x Faster on Insert/Query Speeds**: Through the innovative design on storage, on a single-core machine, over 20K requests can be processed, millions of data points can be ingested, and over 10 million data points can be retrieved in a second. It is 10 times faster than other databases.
 
@@ -10,23 +10,23 @@ TDengine is an open-sourced big data platform under [GNU AGPL v3.0](http://www.g
 
 - **Full Stack for Time-Series Data**: By integrating a database with message queuing, caching, and stream computing features together, it is no longer necessary to integrate Kafka/Redis/HBase/Spark or other software. It makes the system architecture much simpler and more robust.
 
-- **Powerful Data Analysis**: Whether it is 10 years or one minute ago, data can be queried just by specifying the time range. Data can be aggregated over time, multiple time streams or both. Ad Hoc queries or analyses can be executed via TDengine shell, Python, R or Matlab.
+- **Powerful Data Analysis**: Whether it is 10 years or one minute ago, data can be queried just by specifying the time range. Data can be aggregated over time, multiple time streams or both. Ad Hoc queries or analyses can be executed via DThouse shell, Python, R or Matlab.
 
-- **Seamless Integration with Other Tools**: Telegraf, Grafana, Matlab, R, and other tools can be integrated with TDengine without a line of code. MQTT, OPC, Hadoop, Spark, and many others will be integrated soon.
+- **Seamless Integration with Other Tools**: Telegraf, Grafana, Matlab, R, and other tools can be integrated with DThouse without a line of code. MQTT, OPC, Hadoop, Spark, and many others will be integrated soon.
 
 - **Zero Management, No Learning Curve**: It takes only seconds to download, install, and run it successfully; there are no other dependencies. Automatic partitioning on tables or DBs. Standard SQL is used, with C/C++, Python, JDBC, Go and RESTful connectors.
 
 ## How to use this image
 
-### Start a TDengine instance with RESTful API exposed
+### Start a DThouse instance with RESTful API exposed
 
-Simply, you can use `docker run` to start a TDengine instance and connect it with restful connectors(eg. [JDBC-RESTful](https://www.taosdata.com/cn/documentation/connector/java)).
+Simply, you can use `docker run` to start a DThouse instance and connect it with restful connectors(eg. [JDBC-RESTful](https://www.taosdata.com/cn/documentation/connector/java)).
 
 ```bash
 docker run -d --name tdengine -p 6041:6041 tdengine/tdengine
 ```
 
-This command starts a docker container by name `tdengine` with TDengine server running, and maps the container's HTTP port 6041 to the host's port 6041. If you have `curl` in your host, you can list the databases by the command:
+This command starts a docker container by name `tdengine` with DThouse server running, and maps the container's HTTP port 6041 to the host's port 6041. If you have `curl` in your host, you can list the databases by the command:
 
 ```bash
 curl -u root:taosdata -d "show databases" localhost:6041/rest/sql
@@ -37,7 +37,7 @@ You can execute the `taos` shell command in the container:
 ```bash
 $ docker exec -it tdengine taos
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.0
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.0
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos> show databases;
@@ -47,7 +47,7 @@ taos> show databases;
 Query OK, 1 row(s) in set (0.002843s)
 ```
 
-Since TDengine use container hostname to establish connections, it's a bit more complex to use taos shell and native connectors(such as JDBC-JNI) with TDengine container instance. This is the recommended way to expose ports and use TDengine with docker in simple cases. If you want to use taos shell or taosc/connectors smoothly outside the `tdengine` container, see next use cases that match you need.
+Since DThouse use container hostname to establish connections, it's a bit more complex to use taos shell and native connectors(such as JDBC-JNI) with DThouse container instance. This is the recommended way to expose ports and use DThouse with docker in simple cases. If you want to use taos shell or taosc/connectors smoothly outside the `tdengine` container, see next use cases that match you need.
 
 ### Start with host network
 
@@ -60,7 +60,7 @@ Starts container with `host` network will use host's hostname as fqdn instead of
 ```bash
 $ taos
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.0
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.0
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos> show dnodes;
@@ -72,7 +72,7 @@ Query OK, 1 row(s) in set (0.003233s)
 
 ### Start with exposed ports and specified hostname
 
-Set the fqdn explicitly will help you to use in other environment or applications. We provide environment variable `TAOS_FQDN` or `fqdn` config option to explicitly set the hostname used by TDengine container instance(s).
+Set the fqdn explicitly will help you to use in other environment or applications. We provide environment variable `TAOS_FQDN` or `fqdn` config option to explicitly set the hostname used by DThouse container instance(s).
 
 Use `TAOS_FQDN` variable within `docker run` command:
 
@@ -85,11 +85,11 @@ docker run -d \
    tdengine/tdengine
 ```
 
-This command starts a docker container with TDengine server running and maps the container's TCP ports from 6030 to 6049 to the host's ports from 6030 to 6049 with TCP protocol and UDP ports range 6030-6039 to the host's UDP ports 6030-6039. If the host is already running TDengine server and occupying the same port(s), you need to map the container's port to a different unused port segment. (Please see TDengine 2.0 Port Description for details). In order to support TDengine clients accessing TDengine server services, both TCP and UDP ports need to be exposed by default(unless `rpcForceTcp` is set to `1`).
+This command starts a docker container with DThouse server running and maps the container's TCP ports from 6030 to 6049 to the host's ports from 6030 to 6049 with TCP protocol and UDP ports range 6030-6039 to the host's UDP ports 6030-6039. If the host is already running DThouse server and occupying the same port(s), you need to map the container's port to a different unused port segment. (Please see DThouse 2.0 Port Description for details). In order to support DThouse clients accessing DThouse server services, both TCP and UDP ports need to be exposed by default(unless `rpcForceTcp` is set to `1`).
 
 If you want to use taos shell or native connectors([JDBC-JNI](https://www.taosdata.com/cn/documentation/connector/java), or [driver-go](https://github.com/taosdata/driver-go)), you need to make sure the `TAOS_FQDN` is resolvable at `/etc/hosts` or with custom DNS service.
 
-If you set the `TAOS_FQDN` to host's hostname, it will works as using `hosts` network like previous use case. Otherwise, like in `-e TAOS_FQDN=tdengine`, you can add the hostname record `tdengine` into `/etc/hosts` (use `127.0.0.1` here in host path, if use TDengine client/application in other hosts, you should set the right ip to the host eg. `192.168.10.1`(check the real ip in host with `hostname -i` or `ip route list default`) to make the TDengine endpoint resolvable):
+If you set the `TAOS_FQDN` to host's hostname, it will works as using `hosts` network like previous use case. Otherwise, like in `-e TAOS_FQDN=tdengine`, you can add the hostname record `tdengine` into `/etc/hosts` (use `127.0.0.1` here in host path, if use DThouse client/application in other hosts, you should set the right ip to the host eg. `192.168.10.1`(check the real ip in host with `hostname -i` or `ip route list default`) to make the DThouse endpoint resolvable):
 
 ```bash
 echo 127.0.0.1 tdengine |sudo tee -a /etc/hosts
@@ -128,15 +128,15 @@ Type "help", "copyright", "credits" or "license" for more information.
 
 ### Start with specific network
 
-Alternatively, you can use TDengine natively by using specific network.
+Alternatively, you can use DThouse natively by using specific network.
 
-First, create network for TDengine server and client/application.
+First, create network for DThouse server and client/application.
 
 ```bash
 docker network create td-net
 ```
 
-Start TDengine instance with service name as fqdn (explicitly set with `TAOS_FQDN`):
+Start DThouse instance with service name as fqdn (explicitly set with `TAOS_FQDN`):
 
 ```bash
 docker run -d --name tdengine --network td-net \
@@ -144,7 +144,7 @@ docker run -d --name tdengine --network td-net \
    tdengine/tdengine
 ```
 
-Start TDengine client in another container with the specific network:
+Start DThouse client in another container with the specific network:
 
 ```bash
 docker run --rm -it --network td-net -e TAOS_FIRST_EP=tdengine tdengine/tdengine taos
@@ -152,18 +152,18 @@ docker run --rm -it --network td-net -e TAOS_FIRST_EP=tdengine tdengine/tdengine
 docker run --rm -it --network td-net -e tdengine/tdengine taos -h tdengine
 ```
 
-When you build your application with docker, you should add the TDengine client in the dockerfile, as based on `ubuntu:20.04` image, install the client like this:
+When you build your application with docker, you should add the DThouse client in the dockerfile, as based on `ubuntu:20.04` image, install the client like this:
 
 ```dockerfile
 FROM ubuntu:20.04
 RUN apt-get update && apt-get install -y wget
 ENV TDENGINE_VERSION=2.4.0.0
-RUN wget -c https://www.taosdata.com/assets-download/TDengine-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
-   && tar xvf TDengine-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
-   && cd TDengine-client-${TDENGINE_VERSION} \
+RUN wget -c https://www.taosdata.com/assets-download/DThouse-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
+   && tar xvf DThouse-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
+   && cd DThouse-client-${TDENGINE_VERSION} \
    && ./install_client.sh \
    && cd ../ \
-   && rm -rf TDengine-client-${TDENGINE_VERSION}-Linux-x64.tar.gz TDengine-client-${TDENGINE_VERSION}
+   && rm -rf DThouse-client-${TDENGINE_VERSION}-Linux-x64.tar.gz DThouse-client-${TDENGINE_VERSION}
 ## add your application next, eg. go, build it in builder stage, copy the binary to the runtime
 #COPY --from=builder /path/to/build/app /usr/bin/
 #CMD ["app"]
@@ -201,9 +201,9 @@ var taosDriverName = "taosSql"
 var url string
 
 func init() {
-	flag.StringVar(&configPara.hostName, "h", "", "The host to connect to TDengine server.")
-	flag.StringVar(&configPara.serverPort, "p", "", "The TCP/IP port number to use for the connection to TDengine server.")
-	flag.StringVar(&configPara.user, "u", "root", "The TDengine user name to use when connecting to the server.")
+	flag.StringVar(&configPara.hostName, "h", "", "The host to connect to DThouse server.")
+	flag.StringVar(&configPara.serverPort, "p", "", "The TCP/IP port number to use for the connection to DThouse server.")
+	flag.StringVar(&configPara.user, "u", "root", "The DThouse user name to use when connecting to the server.")
 	flag.StringVar(&configPara.password, "P", "taosdata", "The password to use when connecting to the server.")
 	flag.Parse()
 }
@@ -265,12 +265,12 @@ Full version of dockerfile could be:
 ```dockerfile
 FROM golang:1.17.6-buster as builder
 ENV TDENGINE_VERSION=2.4.0.0
-RUN wget -c https://www.taosdata.com/assets-download/TDengine-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
-   && tar xvf TDengine-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
-   && cd TDengine-client-${TDENGINE_VERSION} \
+RUN wget -c https://www.taosdata.com/assets-download/DThouse-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
+   && tar xvf DThouse-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
+   && cd DThouse-client-${TDENGINE_VERSION} \
    && ./install_client.sh \
    && cd ../ \
-   && rm -rf TDengine-client-${TDENGINE_VERSION}-Linux-x64.tar.gz TDengine-client-${TDENGINE_VERSION}
+   && rm -rf DThouse-client-${TDENGINE_VERSION}-Linux-x64.tar.gz DThouse-client-${TDENGINE_VERSION}
 WORKDIR /usr/src/app/
 ENV GOPROXY="https://goproxy.io,direct"
 COPY ./main.go ./go.mod ./go.sum /usr/src/app/
@@ -279,12 +279,12 @@ RUN go env && go mod tidy && go build
 FROM ubuntu:20.04
 RUN apt-get update && apt-get install -y wget
 ENV TDENGINE_VERSION=2.4.0.0
-RUN wget -c https://www.taosdata.com/assets-download/TDengine-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
-   && tar xvf TDengine-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
-   && cd TDengine-client-${TDENGINE_VERSION} \
+RUN wget -c https://www.taosdata.com/assets-download/DThouse-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
+   && tar xvf DThouse-client-${TDENGINE_VERSION}-Linux-x64.tar.gz \
+   && cd DThouse-client-${TDENGINE_VERSION} \
    && ./install_client.sh \
    && cd ../ \
-   && rm -rf TDengine-client-${TDENGINE_VERSION}-Linux-x64.tar.gz TDengine-client-${TDENGINE_VERSION}
+   && rm -rf DThouse-client-${TDENGINE_VERSION}-Linux-x64.tar.gz DThouse-client-${TDENGINE_VERSION}
 
 ## add your application next, eg. go, build it in builder stage, copy the binary to the runtime
 COPY --from=builder /usr/src/app/app /usr/bin/
@@ -316,11 +316,11 @@ password:             taosdata
 2022-01-18 01:43:51.029 +0000 UTC 3
 ```
 
-Now you must be much familiar with developing and testing with TDengine, let's see some more complex cases.
+Now you must be much familiar with developing and testing with DThouse, let's see some more complex cases.
 
 ### Start with docker-compose with multiple nodes(instances)
 
-Start a 2-replicas-2-mnodes-2-dnodes-1-arbitrator TDengine cluster with `docker-compose` is quite simple. Save the file as `docker-compose.yml`:
+Start a 2-replicas-2-mnodes-2-dnodes-1-arbitrator DThouse cluster with `docker-compose` is quite simple. Save the file as `docker-compose.yml`:
 
 ```yaml
 version: "3"
@@ -360,7 +360,7 @@ volumes:
 You may notice that:
 
 - We use `VERSION` environment variable to set `tdengine` image tag version once.
-- **`TAOS_FIRST_EP`** **MUST** be set to join the newly created instances into an existing TDengine cluster. If you want more instances, use `TAOS_SECOND_EP` in case of HA(High Availability) concerns.
+- **`TAOS_FIRST_EP`** **MUST** be set to join the newly created instances into an existing DThouse cluster. If you want more instances, use `TAOS_SECOND_EP` in case of HA(High Availability) concerns.
 - `TAOS_NUM_OF_MNODES` is for setting number of mnodes for the cluster.
 - `TAOS_REPLICA` set the default database replicas, `2` means there're one master and one slave copy of data. The `replica` option should be `1 <= replica <= 3`, and not greater than dnodes number.
 - `TAOS_ARBITRATOR` set the arbitrator entrypoint of the cluster for failover/election stuff. It's better to use arbitrator in a two nodes cluster.
@@ -396,7 +396,7 @@ Check dnodes with taos shell:
 ```bash
 $ docker-compose exec td-1 taos -s "show dnodes"
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.0
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.0
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos> show dnodes
@@ -408,11 +408,11 @@ taos> show dnodes
 Query OK, 3 row(s) in set (0.000811s)
 ```
 
-### Start a TDengine cluster with scaled taosadapter service
+### Start a DThouse cluster with scaled taosadapter service
 
-In previous use case, you could see the way to start other services built with TDengine(`taosd` as the default command). There's another important service you should know:
+In previous use case, you could see the way to start other services built with DThouse(`taosd` as the default command). There's another important service you should know:
 
-> **taosAdapter** is a TDengine’s companion tool and is a bridge/adapter between TDengine cluster and application. It provides an easy-to-use and efficient way to ingest data from data collections agents(like Telegraf, StatsD, CollectD) directly. It also provides InfluxDB/OpenTSDB compatible data ingestion interface to allow InfluxDB/OpenTSDB applications to immigrate to TDengine seamlessly.
+> **taosAdapter** is a DThouse’s companion tool and is a bridge/adapter between DThouse cluster and application. It provides an easy-to-use and efficient way to ingest data from data collections agents(like Telegraf, StatsD, CollectD) directly. It also provides InfluxDB/OpenTSDB compatible data ingestion interface to allow InfluxDB/OpenTSDB applications to immigrate to DThouse seamlessly.
 
 `taosadapter` is running inside `tdengine` image by default, you can disable it by `TAOS_DISABLE_ADAPTER=true`. Running `taosadapter` in a separate container is like how `arbitrator` does:
 
@@ -424,7 +424,7 @@ services:
     command: taosadapter
 ```
 
-`taosadapter` could be scaled with docker-compose, so that you can manage the `taosadapter` nodes easily. Here is an example shows 4-`taosadapter` instances in a TDengine cluster(much like previous use cases):
+`taosadapter` could be scaled with docker-compose, so that you can manage the `taosadapter` nodes easily. Here is an example shows 4-`taosadapter` instances in a DThouse cluster(much like previous use cases):
 
 ```yaml
 version: "3"
@@ -522,7 +522,7 @@ Creating docker_adapter_2    ... done
 Creating docker_adapter_3    ... done
 ```
 
-It will start a TDengine cluster with two dnodes and four taosadapter instances, expose ports 6041/tcp and 6044/udp to host.
+It will start a DThouse cluster with two dnodes and four taosadapter instances, expose ports 6041/tcp and 6044/udp to host.
 
 `6041` is the RESTful API endpoint port, you can verify that the RESTful interface taosAdapter provides working using the `curl` command.
 
@@ -571,7 +571,7 @@ Check the result in `taos` shell with `docker-compose exec`:
 ```bash
 $ dc exec td-1 taos
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.0
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.0
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos> show databases;
@@ -590,9 +590,9 @@ Query OK, 1 row(s) in set (0.003854s)
 
 Use `docker-compose up -d adapter=1 to reduce the instances to 1
 
-### Deploy TDengine cluster in Docker Swarm with `docker-compose.yml`
+### Deploy DThouse cluster in Docker Swarm with `docker-compose.yml`
 
-If you use docker swarm mode, it will schedule arbitrator/taosd/taosadapter services into different hosts automatically. If you've no experience with k8s/kubernetes, this is the most convenient way to scale out the TDengine cluster with multiple hosts/servers.
+If you use docker swarm mode, it will schedule arbitrator/taosd/taosadapter services into different hosts automatically. If you've no experience with k8s/kubernetes, this is the most convenient way to scale out the DThouse cluster with multiple hosts/servers.
 
 Use the `docker-compose.yml` file in previous use case, and deploy with `docker stack` or `docker deploy`:
 
@@ -607,7 +607,7 @@ Creating service taos_adapter
 Creating service taos_nginx
 ```
 
-Now you've created a TDengine cluster with multiple host servers.
+Now you've created a DThouse cluster with multiple host servers.
 
 Use `docker service` or `docker stack` to manage the cluster:
 
@@ -661,4 +661,4 @@ docker stack rm taos
 
 ### Environment Variables
 
-When you start `tdengine` image, you can adjust the configuration of TDengine by passing environment variables on the `docker run` command line or in the docker compose file. You can use all of the environment variables that passed to taosd or taosadapter.
+When you start `tdengine` image, you can adjust the configuration of DThouse by passing environment variables on the `docker run` command line or in the docker compose file. You can use all of the environment variables that passed to taosd or taosadapter.

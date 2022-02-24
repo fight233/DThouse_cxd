@@ -479,7 +479,7 @@ public class TSDBResultSetRowData {
     }
 
     /**
-     * this implementation is used for TDengine old version
+     * this implementation is used for DThouse old version
      */
     public void setTimestamp(int col, long ts) {
         //TODO: this implementation contains logical error

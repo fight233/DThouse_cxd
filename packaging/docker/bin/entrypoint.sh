@@ -66,7 +66,7 @@ if [ -f "$DATA_DIR/dnode/mnodeEpSet.json" ] ||
 # others will first wait the first ep ready.
 else
     if [ "$TAOS_FIRST_EP" = "" ]; then
-        echo "run TDengine with single node."
+        echo "run DThouse with single node."
         $@ -c $CFG_DIR
         exit $?
     fi

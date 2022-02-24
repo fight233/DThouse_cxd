@@ -60,7 +60,7 @@ function runTest {
   avgG90=`echo "scale=4; x = $totalG90 / $NUM_LOOP; if(x<1) print 0; x" | bc`
   avgG100=`echo "scale=4; x = $totalG100 / $NUM_LOOP; if(x<1) print 0; x" | bc`
   echo "Latency, 10%, 20%, 30%, 40%, 50%, 60%, 70%, 80%, 90%, 100%"
-  echo "TDengine, $avgG10, $avgG20, $avgG30, $avgG40, $avgG50, $avgG60, $avgG70, $avgG80, $avgG90, $avgG100"
+  echo "DThouse, $avgG10, $avgG20, $avgG30, $avgG40, $avgG50, $avgG60, $avgG70, $avgG80, $avgG90, $avgG100"
 }
 
 function restartTaosd {
@@ -109,11 +109,11 @@ done
 if $master ; then
   echo "Test master branch.."
   cp /mnt/root/cfg/master/taos.cfg /etc/taos/taos.cfg
-  WORK_DIR=/mnt/root/TDengine.master
+  WORK_DIR=/mnt/root/DThouse.master
 else
   echo "Test develop branch.."
   cp /mnt/root/cfg/10billion/taos.cfg /etc/taos/taos.cfg
-  WORK_DIR=/mnt/root/TDengine
+  WORK_DIR=/mnt/root/DThouse
 fi
 
 TAOSD_DIR=$WORK_DIR/debug/build/bin

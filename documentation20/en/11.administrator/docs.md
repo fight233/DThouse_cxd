@@ -1,8 +1,8 @@
-# TDengine Operation and Maintenance
+# DThouse Operation and Maintenance
 
 ## <a class="anchor" id="planning"></a> Capacity Planing
 
-Using TDengine to build an IoT big data platform, computing resource and storage resource need to be planned according to business scenarios. The following is a discussion of the memory, CPU and hard disk space required for the system to run.
+Using DThouse to build an IoT big data platform, computing resource and storage resource need to be planned according to business scenarios. The following is a discussion of the memory, CPU and hard disk space required for the system to run.
 
 ### Memory requirements
 
@@ -22,30 +22,30 @@ If there is plenty of memory, the configuration of Blocks can be increased so th
 
 CPU requirements depend on the following two aspects:
 
-- **Data insertion**: TDengine single core can handle at least 10,000 insertion requests per second. Each insertion request can take multiple records, and inserting one record at a time is almost the same as inserting 10 records in computing resources consuming. Therefore, the larger the number of records per insert, the higher the insertion efficiency. If an insert request has more than 200 records, a single core can insert 1 million records per second. However, the faster the insertion speed, the higher the requirement for front-end data collection, because records need to be cached and then inserted in batches.
-- **Query**: TDengine provides efficient queries, but the queries in each scenario vary greatly and the query frequency too, making it difficult to give objective figures. Users need to write some query statements for their own scenes to estimate.
+- **Data insertion**: DThouse single core can handle at least 10,000 insertion requests per second. Each insertion request can take multiple records, and inserting one record at a time is almost the same as inserting 10 records in computing resources consuming. Therefore, the larger the number of records per insert, the higher the insertion efficiency. If an insert request has more than 200 records, a single core can insert 1 million records per second. However, the faster the insertion speed, the higher the requirement for front-end data collection, because records need to be cached and then inserted in batches.
+- **Query**: DThouse provides efficient queries, but the queries in each scenario vary greatly and the query frequency too, making it difficult to give objective figures. Users need to write some query statements for their own scenes to estimate.
 
 Therefore, only for data insertion, CPU can be estimated, but the computing resources consumed by query cannot be that clear. In the actual operation, it is not recommended to make CPU utilization rate over 50%. After that, new nodes need to be added to bring more computing resources.
 
 ### Storage requirements
 
-Compared with general databases, TDengine has an ultra-high compression ratio. In most scenarios, the compression ratio of TDengine will not be less than 5:1, and in some scenarios, maybe over 10:1, depending on the actual data characteristics. The raw data size before compressed can be calculated as follows:
+Compared with general databases, DThouse has an ultra-high compression ratio. In most scenarios, the compression ratio of DThouse will not be less than 5:1, and in some scenarios, maybe over 10:1, depending on the actual data characteristics. The raw data size before compressed can be calculated as follows:
 
 ```
 Raw DataSize = numOfTables * rowSizePerTable * rowsPerTable
 ```
 
-Example: 10 million smart meters, each meter collects data every 15 minutes, and the data collected each time is 128 bytes, so the original data amount in one year is: 10000000 * 128 * 24 * 60/15 * 365 = 44.8512 T. The TDengine consumes approximately 44.851/5 = 8.97024 T.
+Example: 10 million smart meters, each meter collects data every 15 minutes, and the data collected each time is 128 bytes, so the original data amount in one year is: 10000000 * 128 * 24 * 60/15 * 365 = 44.8512 T. The DThouse consumes approximately 44.851/5 = 8.97024 T.
 
-User can set the maximum retention time of data on disk through parameter `keep`. In order to further reduce the storage cost, TDengine also provides tiered storage. The coldest data can be stored on the cheapest storage media. Application access does not need to be adjusted, but lower reading speed.
+User can set the maximum retention time of data on disk through parameter `keep`. In order to further reduce the storage cost, DThouse also provides tiered storage. The coldest data can be stored on the cheapest storage media. Application access does not need to be adjusted, but lower reading speed.
 
-To improve speed, multiple hard disks can be configured so that data can be written or read concurrently. It should be reminded that TDengine provides high reliability of data in the form of multiple replicas, so it is no longer necessary to use expensive disk arrays.
+To improve speed, multiple hard disks can be configured so that data can be written or read concurrently. It should be reminded that DThouse provides high reliability of data in the form of multiple replicas, so it is no longer necessary to use expensive disk arrays.
 
 ### Number of physical or virtual machines
 
 According to the above estimation of memory, CPU and storage, we can know how many cores, how much memory and storage space the whole system needs. If the number of data replicas is not 1, the total demand needs to be multiplied by the number of replicas.
 
-Because TDengine provides great scale-out feature, it is easy to decide how many physical or virtual machines need to be purchased according to the total amount and the resources of a single physical/ virtual machine.
+Because DThouse provides great scale-out feature, it is easy to decide how many physical or virtual machines need to be purchased according to the total amount and the resources of a single physical/ virtual machine.
 
 **Calculate CPU, memory and storage immediately, see:** [**Resource Estimation**](https://www.taosdata.com/config/config.html)
 
@@ -53,9 +53,9 @@ Because TDengine provides great scale-out feature, it is easy to decide how many
 
 ### Fault tolerance
 
-TDengine supports WAL (Write Ahead Log) mechanism to realize fault tolerance of data and ensure high-availability of data.
+DThouse supports WAL (Write Ahead Log) mechanism to realize fault tolerance of data and ensure high-availability of data.
 
-When TDengine receives the application's request packet, it first writes the requested original packet into the database log file, and then deletes the corresponding WAL after the data is successfully written. This ensures that TDengine can recover data from the database log file when the service is restarted due to power failure or other reasons, thus avoiding data loss.
+When DThouse receives the application's request packet, it first writes the requested original packet into the database log file, and then deletes the corresponding WAL after the data is successfully written. This ensures that DThouse can recover data from the database log file when the service is restarted due to power failure or other reasons, thus avoiding data loss.
 
 There are two system configuration parameters involved:
 
@@ -66,19 +66,19 @@ To guarantee 100% data safe, you need to set walLevel to 2 and fsync to 0. In th
 
 ### Disaster recovery
 
-The cluster of TDengine provides high-availability of the system and implements disaster recovery through the multipl-replica mechanism.
+The cluster of DThouse provides high-availability of the system and implements disaster recovery through the multipl-replica mechanism.
 
-TDengine cluster is managed by mnode. In order to ensure the high reliability of the mnode, multiple mnode replicas can be configured. The number of replicas is determined by system configuration parameter numOfMnodes. In order to support high reliability, it needs to be set to be greater than 1. In order to ensure the strong consistency of metadata, mnode replicas duplicate data synchronously to ensure the strong consistency of metadata.
+DThouse cluster is managed by mnode. In order to ensure the high reliability of the mnode, multiple mnode replicas can be configured. The number of replicas is determined by system configuration parameter numOfMnodes. In order to support high reliability, it needs to be set to be greater than 1. In order to ensure the strong consistency of metadata, mnode replicas duplicate data synchronously to ensure the strong consistency of metadata.
 
-The number of replicas of time-series data in TDengine cluster is associated with databases. There can be multiple databases in a cluster, and each database can be configured with different replicas. When creating a database, specify the number of replicas through parameter replica. In order to support high reliability, it is necessary to set the number of replicas greater than 1.
+The number of replicas of time-series data in DThouse cluster is associated with databases. There can be multiple databases in a cluster, and each database can be configured with different replicas. When creating a database, specify the number of replicas through parameter replica. In order to support high reliability, it is necessary to set the number of replicas greater than 1.
 
-The number of nodes in TDengine cluster must be greater than or equal to the number of replicas, otherwise an error will be reported in table creation.
+The number of nodes in DThouse cluster must be greater than or equal to the number of replicas, otherwise an error will be reported in table creation.
 
-When the nodes in TDengine cluster are deployed on different physical machines and multiple replicas are set, the high reliability of the system is implemented without using other software or tools. TDengine Enterprise Edition can also deploy replicas in different server rooms, thus realizing remote disaster recovery.
+When the nodes in DThouse cluster are deployed on different physical machines and multiple replicas are set, the high reliability of the system is implemented without using other software or tools. DThouse Enterprise Edition can also deploy replicas in different server rooms, thus realizing remote disaster recovery.
 
 ## <a class="anchor" id="config"></a> Server-side Configuration
 
-The background service of TDengine system is provided by taosd, and the configuration parameters can be modified in the configuration file taos.cfg to meet the requirements of different scenarios. The default location of the configuration file is the /etc/taos directory, which can be specified by executing the parameter `-c` from the taosd command line. Such as `taosd -c /home/user`, to specify that the configuration file is located in the /home/user directory.
+The background service of DThouse system is provided by taosd, and the configuration parameters can be modified in the configuration file taos.cfg to meet the requirements of different scenarios. The default location of the configuration file is the /etc/taos directory, which can be specified by executing the parameter `-c` from the taosd command line. Such as `taosd -c /home/user`, to specify that the configuration file is located in the /home/user directory.
 
 You can also use “-C” to show the current server configuration parameters:
 
@@ -100,14 +100,14 @@ Only some important configuration parameters are listed below. For more paramete
 - numOfLogLines: the maximum number of lines allowed for a single log file. Default: 10,000,000 lines.
 - logKeepDays: the maximum retention time of the log file. When it is greater than 0, the log file will be renamed to taosdlog.xxx, where xxx is the timestamp of the last modification of the log file in seconds. Default: 0 days.
 - maxSQLLength: the maximum length allowed for a single SQL statement. Default: 65380 bytes.
-- telemetryReporting: whether TDengine is allowed to collect and report basic usage information. 0 means not allowed, and 1 means allowed. Default: 1.
+- telemetryReporting: whether DThouse is allowed to collect and report basic usage information. 0 means not allowed, and 1 means allowed. Default: 1.
 - stream: whether continuous query (a stream computing function) is enabled, 0 means not allowed, 1 means allowed. Default: 1.
 - queryBufferSize: the amount of memory reserved for all concurrent queries. The calculation rule can be multiplied by the number of the table according to the maximum possible concurrent number in practical application, and then multiplied by 170. The unit is MB (in versions before 2.0. 15, the unit of this parameter is byte).
 - ratioOfQueryCores: set the maximum number of query threads. The minimum value of 0 means that there is only one query thread; the maximum value of 2 indicates that the maximum number of query threads established is 2 times the number of CPU cores. The default is 1, which indicates the maximum number of query threads equals to the number of CPU cores. This value can be a decimal, that is, 0.5 indicates that the query thread with half of the maximum CPU cores is established.
 
-**Note:** for ports, TDengine will use 13 continuous TCP and UDP port numbers from serverPort, so be sure to open them in the firewall. Therefore, if it is the default configuration, a total of 13 ports from 6030 to 6042 need to be opened, and the same for both TCP and UDP.
+**Note:** for ports, DThouse will use 13 continuous TCP and UDP port numbers from serverPort, so be sure to open them in the firewall. Therefore, if it is the default configuration, a total of 13 ports from 6030 to 6042 need to be opened, and the same for both TCP and UDP.
 
-Data in different application scenarios often have different data characteristics, such as retention days, number of replicas, collection frequency, record size, number of collection points, compression, etc. In order to obtain the best efficiency in storage, TDengine provides the following storage-related system configuration parameters:
+Data in different application scenarios often have different data characteristics, such as retention days, number of replicas, collection frequency, record size, number of collection points, compression, etc. In order to obtain the best efficiency in storage, DThouse provides the following storage-related system configuration parameters:
 
 - days: the time span for a data file to store data, in days, the default value is 10.
 - keep: the number of days to keep data in the database, in days, default value: 3650.
@@ -122,7 +122,7 @@ Data in different application scenarios often have different data characteristic
 - precision: timestamp precision identification, ms for milliseconds and us for microseconds. Default: ms
 - cacheLast: whether the sub-table last_row is cached in memory, 0: off; 1: on. Default: 0. (This parameter is supported as of version 2.0. 11)
 
-For an application scenario, there may be data with multiple characteristics coexisting. The best design is to put tables with the same data characteristics in one database. Such an application has multiple databases, and each one can be configured with different storage parameters, thus ensuring the optimal performance of the system. TDengine allows the application to specify the above storage parameter in database creation. If specified, the parameters will override the corresponding system configuration parameters. For example, there is the following SQL:
+For an application scenario, there may be data with multiple characteristics coexisting. The best design is to put tables with the same data characteristics in one database. Such an application has multiple databases, and each one can be configured with different storage parameters, thus ensuring the optimal performance of the system. DThouse allows the application to specify the above storage parameter in database creation. If specified, the parameters will override the corresponding system configuration parameters. For example, there is the following SQL:
 
 ```
  create database demo days 10 cache 32 blocks 8 replica 3 update 1;
@@ -130,7 +130,7 @@ For an application scenario, there may be data with multiple characteristics coe
 
 The SQL creates a database demo, each data file stores 10 days of data, the memory block is 32 megabytes, each VNODE occupies 8 memory blocks, the number of replicas is 3, updates are allowed, and other parameters are completely consistent with the system configuration.
 
-When adding a new dnode to the TDengine cluster, some parameters related to the cluster must be the same as the configuration of the existing cluster, otherwise it cannot be successfully added to the cluster. The parameters that will be verified are as follows:
+When adding a new dnode to the DThouse cluster, some parameters related to the cluster must be the same as the configuration of the existing cluster, otherwise it cannot be successfully added to the cluster. The parameters that will be verified are as follows:
 
 - numOfMnodes: the number of management nodes in the system. Default: 3. (Since version 2.0.20.11 and version 2.1.6.0, the default value of "numOfMnodes" has been changed to 1.)
 - balance: whether to enable load balancing. 0: No, 1: Yes. Default: 1.
@@ -161,7 +161,7 @@ For example:
 
 ## <a class="anchor" id="client"></a> Client Configuration
 
-The foreground interactive client application of TDengine system is taos and application driver, which shares the same configuration file taos.cfg with taosd. When running taos, use the parameter `-c` to specify the configuration file directory, such as `taos -c /home/cfg`, which means using the parameters in the taos.cfg configuration file under the /home/cfg/ directory. The default directory is /etc/taos. For more information on how to use taos, see the help information `taos --help`. This section mainly describes the parameters used by the taos client application in the configuration file taos.cfg.
+The foreground interactive client application of DThouse system is taos and application driver, which shares the same configuration file taos.cfg with taosd. When running taos, use the parameter `-c` to specify the configuration file directory, such as `taos -c /home/cfg`, which means using the parameters in the taos.cfg configuration file under the /home/cfg/ directory. The default directory is /etc/taos. For more information on how to use taos, see the help information `taos --help`. This section mainly describes the parameters used by the taos client application in the configuration file taos.cfg.
 
 **Versions after 2.0. 10.0 support the following parameters on command line to display the current client configuration parameters**
 
@@ -176,7 +176,7 @@ Client configuration parameters:
 - locale
     Default value: obtained dynamically from the system. If the automatic acquisition fails, user needs to set it in the configuration file or through API
     
-    TDengine provides a special field type nchar for storing non-ASCII encoded wide characters such as Chinese, Japanese and Korean. The data written to the nchar field will be uniformly encoded in UCS4-LE format and sent to the server. It should be noted that the correctness of coding is guaranteed by the client. Therefore, if users want to normally use nchar fields to store non-ASCII characters such as Chinese, Japanese, Korean, etc., it’s needed to set the encoding format of the client correctly.
+    DThouse provides a special field type nchar for storing non-ASCII encoded wide characters such as Chinese, Japanese and Korean. The data written to the nchar field will be uniformly encoded in UCS4-LE format and sent to the server. It should be noted that the correctness of coding is guaranteed by the client. Therefore, if users want to normally use nchar fields to store non-ASCII characters such as Chinese, Japanese, Korean, etc., it’s needed to set the encoding format of the client correctly.
     
     The characters inputted by the client are all in the current default coding format of the operating system, mostly UTF-8 on Linux systems, and some Chinese system codes may be GB18030 or GBK, etc. The default encoding in the docker environment is POSIX. In the Chinese versions of Windows system, the code is CP936. The client needs to ensure that the character set it uses is correctly set, that is, the current encoded character set of the operating system running by the client, in order to ensure that the data in nchar is correctly converted into UCS4-LE encoding format.
     
@@ -214,7 +214,7 @@ Client configuration parameters:
 
     Default value: get the current time zone option dynamically from the system
 
-    The time zone in which the client runs the system. In order to deal with the problem of data writing and query in multiple time zones, TDengine uses Unix Timestamp to record and store timestamps. The characteristics of UNIX timestamps determine that the generated timestamps are consistent at any time regardless of any time zone. It should be noted that UNIX timestamps are converted and recorded on the client side. In order to ensure that other forms of time on the client are converted into the correct Unix timestamp, the correct time zone needs to be set.
+    The time zone in which the client runs the system. In order to deal with the problem of data writing and query in multiple time zones, DThouse uses Unix Timestamp to record and store timestamps. The characteristics of UNIX timestamps determine that the generated timestamps are consistent at any time regardless of any time zone. It should be noted that UNIX timestamps are converted and recorded on the client side. In order to ensure that other forms of time on the client are converted into the correct Unix timestamp, the correct time zone needs to be set.
 
     In Linux system, the client will automatically read the time zone information set by the system. Users can also set time zones in profiles in a number of ways. For example:
     ```
@@ -287,15 +287,15 @@ Show all users
 
 ## <a class="anchor" id="import"></a> Import Data
 
-TDengine provides a variety of convenient data import functions, including imported by script file, by data file, and by taosdump tool.
+DThouse provides a variety of convenient data import functions, including imported by script file, by data file, and by taosdump tool.
 
 **Import by script file**
 
-TDengine shell supports source filename command, which is used to run SQL statements from a file in batch. Users can write SQL commands such as database building, table building and data writing in the same file. Each command has a separate line. By running source command in the shell, SQL statements in the file can be run in batches in sequence. SQL statements beginning with '#' are considered comments and are automatically ignored by the shell.
+DThouse shell supports source filename command, which is used to run SQL statements from a file in batch. Users can write SQL commands such as database building, table building and data writing in the same file. Each command has a separate line. By running source command in the shell, SQL statements in the file can be run in batches in sequence. SQL statements beginning with '#' are considered comments and are automatically ignored by the shell.
 
 **Import by data file**
 
-TDengine also supports data import from CSV files on existing tables in the shell. The CSV file belongs to only one table, and the data format in the CSV file should be the same as the structure of the table to be imported. When importing, its syntax is as follows:
+DThouse also supports data import from CSV files on existing tables in the shell. The CSV file belongs to only one table, and the data format in the CSV file should be the same as the structure of the table to be imported. When importing, its syntax is as follows:
 
 ```mysql
 insert into tb1 file 'path/data.csv';
@@ -340,11 +340,11 @@ Query OK, 9 row(s) affected (0.004763s)
 
 **Import via taosdump tool**
 
-TDengine provides a convenient database import and export tool, taosdump. Users can import data exported by taosdump from one system into other systems. Please refer to the blog: [User Guide of TDengine DUMP Tool](https://www.taosdata.com/blog/2020/03/09/1334.html).
+DThouse provides a convenient database import and export tool, taosdump. Users can import data exported by taosdump from one system into other systems. Please refer to the blog: [User Guide of DThouse DUMP Tool](https://www.taosdata.com/blog/2020/03/09/1334.html).
 
 ## <a class="anchor" id="export"></a> Export Data
 
-To facilitate data export, TDengine provides two export methods, namely, export by table and export by taosdump.
+To facilitate data export, DThouse provides two export methods, namely, export by table and export by taosdump.
 
 **Export CSV file by table**
 
@@ -358,7 +358,7 @@ In this way, the data in table tb_name will be exported to the file data.csv in 
 
 **Export data by taosdump**
 
-TDengine provides a convenient database export tool, taosdump. Users can choose to export all databases, a database or a table in a database, all data or data for a time period, or even just the definition of a table as needed. Please refer to the blog: [User Guide of TDengine DUMP Tool](https://www.taosdata.com/blog/2020/03/09/1334.html)
+DThouse provides a convenient database export tool, taosdump. Users can choose to export all databases, a database or a table in a database, all data or data for a time period, or even just the definition of a table as needed. Please refer to the blog: [User Guide of DThouse DUMP Tool](https://www.taosdata.com/blog/2020/03/09/1334.html)
 
 ## <a class="anchor" id="status"></a> System Connection and Task Query Management
 
@@ -402,13 +402,13 @@ Force to turn off the stream computing, in which stream-id is the connection-id:
 
 ## <a class="anchor" id="monitoring"></a>System Monitoring
 
-After TDengine is started, it will automatically create a monitoring database log and write the server's CPU, memory, hard disk space, bandwidth, number of requests, disk read-write speed, slow query and other information into the database regularly. TDengine also records important system operations (such as logging in, creating, deleting databases, etc.) logs and various error alarm information and stores them in the log database. The system administrator can view the database directly from CLI or view the monitoring information through GUI on WEB.
+After DThouse is started, it will automatically create a monitoring database log and write the server's CPU, memory, hard disk space, bandwidth, number of requests, disk read-write speed, slow query and other information into the database regularly. DThouse also records important system operations (such as logging in, creating, deleting databases, etc.) logs and various error alarm information and stores them in the log database. The system administrator can view the database directly from CLI or view the monitoring information through GUI on WEB.
 
 The collection of these monitoring metrics is turned on by default, but you can modify option monitor in the configuration file to turn it off or on.
 
-### TDinsight - Monitor TDengine with Grafana + Data Source
+### TDinsight - Monitor DThouse with Grafana + Data Source
 
-Starting from v2.3.3.0, TDengine's log database provides more metrics for resources and status monitoring. Here we introduce a zero-dependency monitoring solution - we call it TDinsight - with Grafana. You can find the documentation from [GitHub](https://github.com/taosdata/grafanaplugin/blob/master/dashboards/TDinsight.md).
+Starting from v2.3.3.0, DThouse's log database provides more metrics for resources and status monitoring. Here we introduce a zero-dependency monitoring solution - we call it TDinsight - with Grafana. You can find the documentation from [GitHub](https://github.com/taosdata/grafanaplugin/blob/master/dashboards/TDinsight.md).
 
 We provide an automation shell script [`TDinsight.sh`](https://github.com/taosdata/grafanaplugin/blob/master/dashboards/TDinsight.sh) as a shortcut to help setup TDinsight on the Grafana server.
 
@@ -421,10 +421,10 @@ chmod +x TDinsight.sh
 
 Some CLI options are needed to use the script:
 
-1. TDengine server informations:
+1. DThouse server informations:
 
-    - TDengine RESTful endpoint, like `http://localhost:6041`, will be used with option `-a`.
-    - TDengine user `-u` (`root` by default), and password with `-p` (`taosdata` by default).
+    - DThouse RESTful endpoint, like `http://localhost:6041`, will be used with option `-a`.
+    - DThouse user `-u` (`root` by default), and password with `-p` (`taosdata` by default).
 
 2. Grafana alerting notifications. There's two ways to setup this:
    1. To use existing Grafana notification channel with `uid`, option `-E`. The `uid` could be retrieved with `curl -u admin:admin localhost:3000/api/alert-notifications |'.[]| .uid + "," + .name' -r`, then use it like this:
@@ -433,7 +433,7 @@ Some CLI options are needed to use the script:
         sudo ./TDinsight.sh -a http://localhost:6041 -u root -p taosdata -E <notifier uid>
         ```
 
-   2. Use TDengine data source plugin's builtin [Aliyun SMS](https://www.aliyun.com/product/sms) alerting support with `-s` flag, and input these options：
+   2. Use DThouse data source plugin's builtin [Aliyun SMS](https://www.aliyun.com/product/sms) alerting support with `-s` flag, and input these options：
         1. Access key id with option `-I`
         2. Access key secret with option `K`
         3. Access key sign name with option `-S`
@@ -453,33 +453,33 @@ Refer to [TDinsight](https://github.com/taosdata/grafanaplugin/blob/master/dashb
 
 ## <a class="anchor" id="directories"></a> File Directory Structure
 
-After installing TDengine, the following directories or files are generated in the operating system by default:
+After installing DThouse, the following directories or files are generated in the operating system by default:
 
 
 
 | **Directory/File**        | **Description**                                              |
 | ------------------------- | ------------------------------------------------------------ |
 | /usr/local/taos/bin       | TEngine’s executable directory. The executables are connected to the/usr/bin directory via softly links. |
-| /usr/local/taos/connector | TDengine’s various connector directories.                    |
-| /usr/local/taos/driver    | TDengine’s dynamic link library directory. Connect to /usr/lib directory via soft links. |
-| /usr/local/taos/examples  | TDengine’s application example directory for various languages. |
-| /usr/local/taos/include   | TDengine’s header files of C interface for externally serving. |
-| /etc/taos/taos.cfg        | TDengine’s default [configuration files].                    |
-| /var/lib/taos             | TDengine’s default data file directory, where the local can be modified via [configuration files]. |
-| /var/log/taos             | TDengine’s default log file directory, where the local can be modified via [configuration files]. |
+| /usr/local/taos/connector | DThouse’s various connector directories.                    |
+| /usr/local/taos/driver    | DThouse’s dynamic link library directory. Connect to /usr/lib directory via soft links. |
+| /usr/local/taos/examples  | DThouse’s application example directory for various languages. |
+| /usr/local/taos/include   | DThouse’s header files of C interface for externally serving. |
+| /etc/taos/taos.cfg        | DThouse’s default [configuration files].                    |
+| /var/lib/taos             | DThouse’s default data file directory, where the local can be modified via [configuration files]. |
+| /var/log/taos             | DThouse’s default log file directory, where the local can be modified via [configuration files]. |
 
 **Executables**
 
-All executables of TDengine are stored in the directory /usr/local/taos/bin by default. Including:
+All executables of DThouse are stored in the directory /usr/local/taos/bin by default. Including:
 
-- *taosd*: TDengine server-side executable
-- *taos*: TDengine Shell executable
+- *taosd*: DThouse server-side executable
+- *taos*: DThouse Shell executable
 - *taosdump*: A data import/export tool
-- remove.sh: uninstall the TDengine script, please execute carefully, and link to rmtaos command in the/usr/bin directory. The TDengine installation directory /usr/local/taos will be removed, but/etc/taos,/var/lib/taos,/var/log/taos will remain.
+- remove.sh: uninstall the DThouse script, please execute carefully, and link to rmtaos command in the/usr/bin directory. The DThouse installation directory /usr/local/taos will be removed, but/etc/taos,/var/lib/taos,/var/log/taos will remain.
 
 You can configure different data directories and log directories by modifying system configuration file taos.cfg.
 
-## <a class="anchor" id="keywords"></a> TDengine Parameter Limits and Reserved Keywords
+## <a class="anchor" id="keywords"></a> DThouse Parameter Limits and Reserved Keywords
 
 - Database name: cannot contain "." and other special characters, and cannot exceed 32 characters
 - Table name: cannot contain "." and other special characters, and cannot exceed 192 characters together with the database name to which it belongs
@@ -498,7 +498,7 @@ You can configure different data directories and log directories by modifying sy
 - Number of databases: limited only by the number of nodes
 - Number of virtual nodes on a single database: cannot exceed 64
 
-At the moment, TDengine has nearly 200 internal reserved keywords, which cannot be used as database name, table name, STable name, data column name or tag column name regardless of case. The list of these keywords is as follows:
+At the moment, DThouse has nearly 200 internal reserved keywords, which cannot be used as database name, table name, STable name, data column name or tag column name regardless of case. The list of these keywords is as follows:
 
 | **List of Keywords** |             |              |            |           |
 | -------------------- | ----------- | ------------ | ---------- | --------- |

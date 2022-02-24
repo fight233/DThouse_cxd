@@ -1,4 +1,4 @@
-module github.com/taosdata/TDengine/importSampleData
+module github.com/taosdata/DThouse/importSampleData
 
 go 1.13
 

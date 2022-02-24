@@ -2,7 +2,7 @@
 - Test Report: https://jira.taosdata.com:18090/pages/viewpage.action?pageId=127470422
 # 1. Single instance centralized deployment 
 ## 1.1 Environment deployment: directly compile the develop branch on 192.168.1.85 and start taosd
-## 1.2 Script running method: Run python3 /home/ubuntu/TDengine/tests/perftest-scripts/taosadapter_perftest/taosadapter_perftest.py directly in the 192.168.1.83 environment, which can output the test results in 3.4.1 and 3.5.1 in the test report. The results will be printed in real time to taosadapter_perftest.log in the same directory
+## 1.2 Script running method: Run python3 /home/ubuntu/DThouse/tests/perftest-scripts/taosadapter_perftest/taosadapter_perftest.py directly in the 192.168.1.83 environment, which can output the test results in 3.4.1 and 3.5.1 in the test report. The results will be printed in real time to taosadapter_perftest.log in the same directory
 
 
 # 2. Separate deployment of multiple instances

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This file is used to install TDengine client library on linux systems.
+# This file is used to install DThouse client library on linux systems.
 
 set -e
 #set -x
@@ -26,7 +26,7 @@ fi
 function install_driver() {
     echo
     if [[ -d ${lib_link_dir} && ! -e ${lib_link_dir}/libtaos.so ]]; then
-      echo -e "${GREEN}Start to install TDengine client driver ...${NC}"
+      echo -e "${GREEN}Start to install DThouse client driver ...${NC}"
       ${csudo} ln -s ${script_dir}/driver/libtaos.* ${lib_link_dir}/libtaos.so.1       || :
       ${csudo} ln -s ${lib_link_dir}/libtaos.so.1 ${lib_link_dir}/libtaos.so           || :
       
@@ -36,9 +36,9 @@ function install_driver() {
       fi
 
       echo
-      echo -e "${GREEN}TDengine client driver is successfully installed!${NC}"
+      echo -e "${GREEN}DThouse client driver is successfully installed!${NC}"
     else
-      echo -e "${GREEN}TDengine client driver already exists, Please confirm whether the alert version matches the client driver version!${NC}"
+      echo -e "${GREEN}DThouse client driver already exists, Please confirm whether the alert version matches the client driver version!${NC}"
     fi
 }
 

@@ -21,7 +21,7 @@
 
 extern char configDir[];
 
-char      WINCLIENT_VERSION[] = "Welcome to the TDengine shell from %s, Client Version:%s\n"
+char      WINCLIENT_VERSION[] = "Welcome to the DThouse shell from %s, Client Version:%s\n"
                              "Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.\n\n";
 
 void printVersion() {
@@ -30,10 +30,10 @@ void printVersion() {
 
 void printHelp() {
   char indent[10] = "        ";
-  printf("taos shell is used to test the TDengine database\n");
+  printf("taos shell is used to test the DThouse database\n");
 
   printf("%s%s\n", indent, "-h");
-  printf("%s%s%s\n", indent, indent, "TDengine server FQDN to connect. The default host is localhost.");
+  printf("%s%s%s\n", indent, indent, "DThouse server FQDN to connect. The default host is localhost.");
   printf("%s%s\n", indent, "-p");
   printf("%s%s%s\n", indent, indent, "The password to use when connecting to the server.");
   printf("%s%s\n", indent, "-P");
@@ -333,7 +333,7 @@ void *shellLoopQuery(void *arg) {
 }
 
 void get_history_path(char *history) {
-  sprintf(history, "C:/TDengine/%s", HISTORY_FILE); 
+  sprintf(history, "C:/DThouse/%s", HISTORY_FILE); 
 }
 
 void exitShell() { exit(EXIT_SUCCESS); }

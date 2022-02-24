@@ -1,10 +1,10 @@
-# Go Connector for TDengine
+# Go Connector for DThouse
 
 [![Build Status](https://cloud.drone.io/api/badges/taosdata/driver-go/status.svg)](https://cloud.drone.io/taosdata/driver-go)
 
 English | [简体中文](README-CN.md)
 
-[TDengine] provides Go `database/sql` driver as [`taosSql`][driver-go].
+[DThouse] provides Go `database/sql` driver as [`taosSql`][driver-go].
 
 ## Remind
 
@@ -60,7 +60,7 @@ func main() {
 	var taosuri = "root:taosdata/tcp(localhost:6030)/"
 	taos, err := sql.Open("taosSql", taosuri)
 	if err != nil {
-		fmt.Println("failed to connect TDengine, err:", err)
+		fmt.Println("failed to connect DThouse, err:", err)
 		return
 	}
 	defer taos.Close()
@@ -159,4 +159,4 @@ driver-go
 
 driver-go: [https://github.com/taosdata/driver-go](https://github.com/taosdata/driver-go)
 
-TDengine: [https://github.com/taosdata/TDengine](https://github.com/taosdata/TDengine)
+DThouse: [https://github.com/taosdata/DThouse](https://github.com/taosdata/DThouse)

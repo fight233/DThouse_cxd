@@ -130,7 +130,7 @@ function build_src() {
     echo "$cmd"
     ${cmd}
     if [ $? -ne 0 ]; then
-        flock -x $lock_file -c "echo \"${hosts[index]} TDengine build failed\" >>$log_dir/failed.log"
+        flock -x $lock_file -c "echo \"${hosts[index]} DThouse build failed\" >>$log_dir/failed.log"
         return
     fi
     script=". ~/.bashrc;cd ${workdirs[index]}/taos-tools;git submodule update --init --recursive;mkdir -p build;cd build;cmake ..;make -j4"

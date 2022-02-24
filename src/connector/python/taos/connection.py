@@ -9,7 +9,7 @@ from .result import *
 
 
 class TaosConnection(object):
-    """TDengine connection object"""
+    """DThouse connection object"""
 
     def __init__(self, *args, **kwargs):
         self._conn = None
@@ -182,7 +182,7 @@ class TaosConnection(object):
     def commit(self):
         """Commit any pending transaction to the database.
 
-        Since TDengine do not support transactions, the implement is void functionality.
+        Since DThouse do not support transactions, the implement is void functionality.
         """
         pass
 

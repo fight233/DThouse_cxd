@@ -1,24 +1,24 @@
-1.±àÒë
-½«main.go±àÒë³É¿ÉÖ´ĞĞÎÄ¼ş£¬telegrafTest
-2.Ö´ĞĞ
+1.ï¿½ï¿½ï¿½ï¿½
+ï¿½ï¿½main.goï¿½ï¿½ï¿½ï¿½É¿ï¿½Ö´ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½telegrafTest
+2.Ö´ï¿½ï¿½
 ./telegrafTest
-3.²ÎÊı telegraf.jsonµÄÅäÖÃÎÄ¼ş
-  hostIp TDengine»úÆ÷IPµØÖ·
-  machineNum Ä£ÄâµÄ»úÆ÷ÊıÁ¿
-  loopNum Ã¿¸ö»úÆ÷·¢ËÍÇëÇóµÄ´ÎÊı
-  dbName ´´½¨µÄÊı¾İ¿âÃû³Æ
-  dataBegin Éú³ÉÄ£ÄâÊı¾İµÄ¿ªÊ¼Ê±¼ä´Á
-4.telegraf.req£¨Í¨³£²»±ä£©
-  1£©Ìæ»»panshi-gslºÍ1536750380000ÕâÁ½¸ö×Ö·û´®£¬Éú³ÉhttpÇëÇó
-  2£©Í¨¹ıhttp·¢ËÍ¸øTDengine
-5.×¢Òâ
-  1£©ĞŞ¸ÄÅäÖÃÎÄ¼ş/etc/taos/taos.cfg
-  httpDebugFlag ÉèÖÃÎª131£¨131-httpDebug,135-httpDebug£©
-  httpMaxThreads °´ÕÕ»úÆ÷Çé¿öÉèÖÃ£¬ÉèÖÃ·¶Î§Îª£¨1-cpu cores)
-  httpCacheSessions ÉèÖÃÎª¿ÉÄÜµÄhttpÁ¬½ÓµÄ2±¶
-  maxVnodeConnections ÉèÖÃÎª100000
-  maxMeterConnections ÉèÖÃÎª100000
-  maxShellConns ÉèÖÃÎª100000
-  maxMgmtConnections ÉèÖÃÎª100000
-  2£©ÉèÖÃlinux²ÎÊı£¬ÀıÈç
+3.ï¿½ï¿½ï¿½ï¿½ telegraf.jsonï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
+  hostIp DThouseï¿½ï¿½ï¿½ï¿½IPï¿½ï¿½Ö·
+  machineNum Ä£ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  loopNum Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½ï¿½ï¿½
+  dbName ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½İ¿ï¿½ï¿½ï¿½ï¿½ï¿½
+  dataBegin ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½ï¿½ï¿½ï¿½İµÄ¿ï¿½Ê¼Ê±ï¿½ï¿½ï¿½
+4.telegraf.reqï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ä£©
+  1ï¿½ï¿½ï¿½æ»»panshi-gslï¿½ï¿½1536750380000ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½httpï¿½ï¿½ï¿½ï¿½
+  2ï¿½ï¿½Í¨ï¿½ï¿½htDThouseDengine
+5.×¢ï¿½ï¿½
+  1ï¿½ï¿½ï¿½Ş¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½/etc/taos/taos.cfg
+  httpDebugFlag ï¿½ï¿½ï¿½ï¿½Îª131ï¿½ï¿½131-httpDebug,135-httpDebugï¿½ï¿½
+  httpMaxThreads ï¿½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã£ï¿½ï¿½ï¿½ï¿½Ã·ï¿½Î§Îªï¿½ï¿½1-cpu cores)
+  httpCacheSessions ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½Üµï¿½httpï¿½ï¿½ï¿½Óµï¿½2ï¿½ï¿½
+  maxVnodeConnections ï¿½ï¿½ï¿½ï¿½Îª100000
+  maxMeterConnections ï¿½ï¿½ï¿½ï¿½Îª100000
+  maxShellConns ï¿½ï¿½ï¿½ï¿½Îª100000
+  maxMgmtConnections ï¿½ï¿½ï¿½ï¿½Îª100000
+  2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½linuxï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
   ulimit -n 600000

@@ -26,7 +26,7 @@ class TwoClients:
         self.host = "127.0.0.1"
         self.user = "root"
         self.password = "taosdata"
-        self.config = "/home/chr/taosdata/TDengine/sim/dnode1/cfg "        
+        self.config = "/home/chr/taosdata/DThouse/sim/dnode1/cfg "        
     
     def newCloseCon(times):
         newConList = []

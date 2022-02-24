@@ -14,7 +14,7 @@ verMode=$6
 verType=$7
 pagMode=$8
 
-productName="TDengine"
+productName="DThouse"
 clientName="taos"
 configFile="taos.cfg"
 tarName="taos.tar.gz"
@@ -131,7 +131,7 @@ if [ "$pagMode" == "lite" ]; then
 fi
 chmod a+x ${install_dir}/install_client.sh
 
-if [[ $productName == "TDengine" ]]; then
+if [[ $productName == "DThouse" ]]; then
   # Copy example code
   mkdir -p ${install_dir}/examples
   examples_dir="${top_dir}/examples"

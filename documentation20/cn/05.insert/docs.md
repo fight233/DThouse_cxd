@@ -1,6 +1,6 @@
 # 高效写入数据
 
-TDengine支持多种接口写入数据，包括SQL，Prometheus，Telegraf，collectd，StatsD，EMQ MQTT Broker，HiveMQ Broker，CSV文件等，后续还将提供Kafka，OPC等接口。数据可以单条插入，也可以批量插入，可以插入一个数据采集点的数据，也可以同时插入多个数据采集点的数据。支持多线程插入，支持时间乱序数据插入，也支持历史数据插入。
+DThouse支持多种接口写入数据，包括SQL，Prometheus，Telegraf，collectd，StatsD，EMQ MQTT Broker，HiveMQ Broker，CSV文件等，后续还将提供Kafka，OPC等接口。数据可以单条插入，也可以批量插入，可以插入一个数据采集点的数据，也可以同时插入多个数据采集点的数据。支持多线程插入，支持时间乱序数据插入，也支持历史数据插入。
 
 ## <a class="anchor" id="sql"></a>SQL 写入
 
@@ -8,12 +8,12 @@ TDengine支持多种接口写入数据，包括SQL，Prometheus，Telegraf，col
 ```mysql
 INSERT INTO d1001 VALUES (1538548685000, 10.3, 219, 0.31);
 ```
-TDengine支持一次写入多条记录，比如下面这条命令就将两条记录写入到表d1001中：
+DThouse支持一次写入多条记录，比如下面这条命令就将两条记录写入到表d1001中：
 ```mysql
 INSERT INTO d1001 VALUES (1538548684000, 10.2, 220, 0.23) (1538548696650, 10.3, 218, 0.25);
 ```
 
-TDengine也支持一次向多个表写入数据，比如下面这条命令就向d1001写入两条记录，向d1002写入一条记录：
+DThouse也支持一次向多个表写入数据，比如下面这条命令就向d1001写入两条记录，向d1002写入一条记录：
 ```mysql
 INSERT INTO d1001 VALUES (1538548685000, 10.3, 219, 0.31) (1538548695000, 12.6, 218, 0.33) d1002 VALUES (1538548696800, 12.3, 221, 0.31);
 ```
@@ -23,20 +23,20 @@ INSERT INTO d1001 VALUES (1538548685000, 10.3, 219, 0.31) (1538548695000, 12.6, 
 **Tips:** 
 
 - 要提高写入效率，需要批量写入。一批写入的记录条数越多，插入效率就越高。但一条记录不能超过16K，一条SQL语句总长度不能超过1M 。
-- TDengine支持多线程同时写入，要进一步提高写入速度，一个客户端需要打开20个以上的线程同时写。但线程数达到一定数量后，无法再提高，甚至还会下降，因为线程频繁切换，带来额外开销。
+- DThouse支持多线程同时写入，要进一步提高写入速度，一个客户端需要打开20个以上的线程同时写。但线程数达到一定数量后，无法再提高，甚至还会下降，因为线程频繁切换，带来额外开销。
 - 对同一张表，如果新插入记录的时间戳已经存在，默认情形下（UPDATE=0）新记录将被直接抛弃，也就是说，在一张表里，时间戳必须是唯一的。如果应用自动生成记录，很有可能生成的时间戳是一样的，这样，成功插入的记录条数会小于应用插入的记录条数。如果在创建数据库时使用了 UPDATE 1 选项，插入相同时间戳的新记录将覆盖原有记录。
 - 写入的数据的时间戳必须大于当前时间减去配置参数keep的时间。如果keep配置为3650天，那么无法写入比3650天还早的数据。写入数据的时间戳也不能大于当前时间加配置参数days。如果days为2，那么无法写入比当前时间还晚2天的数据。
 
 ## <a class="anchor" id="schemaless"></a>无模式（Schemaless）写入
 **前言**
-<br/>在物联网应用中，常会采集比较多的数据项，用于实现智能控制、业务分析、设备监控等。由于应用逻辑的版本升级，或者设备自身的硬件调整等原因，数据采集项就有可能比较频繁地出现变动。为了在这种情况下方便地完成数据记录工作，TDengine 从 2.2.0.0 版本开始，提供调用 Schemaless 写入方式，可以免于预先创建超级表/子表的步骤，随着数据写入接口能够自动创建与数据对应的存储结构。并且在必要时，Schemaless 将自动增加必要的数据列，保证用户写入的数据可以被正确存储。
-<br/>目前，TDengine 的 C/C++ Connector 提供支持 Schemaless 的操作接口，详情请参见 [Schemaless 方式写入接口](https://www.taosdata.com/cn/documentation/connector#schemaless)章节。这里对 Schemaless 的数据表达格式进行了描述。
+<br/>在物联网应用中，常会采集比较多的数据项，用于实现智能控制、业务分析、设备监控等。由于应用逻辑的版本升级，或者设备自身的硬件调整等原因，数据采集项就有可能比较频繁地出现变动。为了在这种情况下方便地完成数据记录工作，DThouse 从 2.2.0.0 版本开始，提供调用 Schemaless 写入方式，可以免于预先创建超级表/子表的步骤，随着数据写入接口能够自动创建与数据对应的存储结构。并且在必要时，Schemaless 将自动增加必要的数据列，保证用户写入的数据可以被正确存储。
+<br/>目前，DThouse 的 C/C++ Connector 提供支持 Schemaless 的操作接口，详情请参见 [Schemaless 方式写入接口](https://www.taosdata.com/cn/documentation/connector#schemaless)章节。这里对 Schemaless 的数据表达格式进行了描述。
 <br/>无模式写入方式建立的超级表及其对应的子表与通过 SQL 直接建立的超级表和子表完全没有区别，您也可以通过 SQL 语句直接向其中写入数据。需要注意的是，通过无模式写入方式建立的表，其表名是基于标签值按照固定的映射规则生成，所以无法明确地进行表意，缺乏可读性。
 
 **无模式写入行协议**
-<br/>TDengine 的无模式写入的行协议兼容 InfluxDB 的 行协议（Line Protocol）、OpenTSDB 的 telnet 行协议、OpenTSDB 的 JSON 格式协议。但是使用这三种协议的时候，需要在 API 中指定输入内容使用解析协议的标准。
+<br/>DThouse 的无模式写入的行协议兼容 InfluxDB 的 行协议（Line Protocol）、OpenTSDB 的 telnet 行协议、OpenTSDB 的 JSON 格式协议。但是使用这三种协议的时候，需要在 API 中指定输入内容使用解析协议的标准。
 
-对于InfluxDB、OpenTSDB的标准写入协议请参考各自的文档。下面首先以 InfluxDB 的行协议为基础，介绍 TDengine 扩展的协议内容，允许用户采用更加精细的方式控制（超级表）模式。
+对于InfluxDB、OpenTSDB的标准写入协议请参考各自的文档。下面首先以 InfluxDB 的行协议为基础，介绍 DThouse 扩展的协议内容，允许用户采用更加精细的方式控制（超级表）模式。
 
 Schemaless 采用一个字符串来表达一个数据行（可以向写入 API 中一次传入多行字符串来实现多个数据行的批量写入），其格式约定如下：
 ```json
@@ -89,7 +89,7 @@ st,t1=3,t2=4,t3=t3 c1=3i64,c3="passit",c2=false,c4=4f64 1626006833639000000
 <br/>8. 整个处理过程中遇到的错误会中断写入过程，并返回错误代码。
 
 **备注：**
-<br/>无模式所有的处理逻辑，仍会遵循 TDengine 对数据结构的底层限制，例如每行数据的总长度不能超过 16k 字节。这方面的具体限制约束请参见 [TAOS SQL 边界限制](https://www.taosdata.com/cn/documentation/taos-sql#limitation) 章节。
+<br/>无模式所有的处理逻辑，仍会遵循 DThouse 对数据结构的底层限制，例如每行数据的总长度不能超过 16k 字节。这方面的具体限制约束请参见 [TAOS SQL 边界限制](https://www.taosdata.com/cn/documentation/taos-sql#limitation) 章节。
 
 **时间分辨率识别**
 <br/>无模式写入过程中支持三个指定的模式，具体如下
@@ -148,25 +148,25 @@ st,t1=3,t2=4,t3=t3 c1=3i64,c6="passit"   1626006833640000000
 第二行数据相对于第一行来说增加了一个列 c6，类型为binary(6)。那么此时会自动增加一个列 c6， 类型为  binary(6)。
 
 **写入完整性**
-<br/>TDengine 提供数据写入的幂等性保证，即您可以反复调用 API 进行出错数据的写入操作。但是不提供多行数据写入的原子性保证。即在多行数据一批次写入过程中，会出现部分数据写入成功，部分数据写入失败的情况。
+<br/>DThouse 提供数据写入的幂等性保证，即您可以反复调用 API 进行出错数据的写入操作。但是不提供多行数据写入的原子性保证。即在多行数据一批次写入过程中，会出现部分数据写入成功，部分数据写入失败的情况。
 
 **错误码**
 <br/>如果是无模式写入过程中的数据本身错误，应用会得到 TSDB_CODE_TSC_LINE_SYNTAX_ERROR 错误信息，该错误信息表明错误发生在写入文本中。其他的错误码与原系统一致，可以通过 taos_errstr 获取具体的错误原因。
 
 **后续升级计划**
-<br/>当前版本只提供了 C 版本的 API，后续将提供 其他高级语言的 API，例如 Java/Go/Python/C# 等。此外，在TDengine v2.3及后续版本中，您还可以通过 taosAdapter 采用 REST 的方式直接写入无模式数据。
+<br/>当前版本只提供了 C 版本的 API，后续将提供 其他高级语言的 API，例如 Java/Go/Python/C# 等。此外，在DThouse v2.3及后续版本中，您还可以通过 taosAdapter 采用 REST 的方式直接写入无模式数据。
 
 
 ## <a class="anchor" id="prometheus"></a>Prometheus 直接写入
 
-[Prometheus](https://www.prometheus.io/)作为Cloud Native Computing Fundation毕业的项目，在性能监控以及K8S性能监控领域有着非常广泛的应用。TDengine提供一个小工具[Bailongma](https://github.com/taosdata/Bailongma)，只需对Prometheus做简单配置，无需任何代码，就可将Prometheus采集的数据直接写入TDengine，并按规则在TDengine自动创建库和相关表项。博文[用Docker容器快速搭建一个Devops监控Demo](https://www.taosdata.com/blog/2020/02/03/1189.html)即是采用Bailongma将Prometheus和Telegraf的数据写入TDengine中的示例，可以参考。
+[Prometheus](https://www.prometheus.io/)作为Cloud Native Computing Fundation毕业的项目，在性能监控以及K8S性能监控领域有着非常广泛的应用。DThouse提供一个小工具[Bailongma](https://github.com/taosdata/Bailongma)，只需对Prometheus做简单配置，无需任何代码，就可将Prometheus采集的数据直接写入DThouse，并按规则在DThouse自动创建库和相关表项。博文[用Docker容器快速搭建一个Devops监控Demo](https://www.taosdata.com/blog/2020/02/03/1189.html)即是采用Bailongma将Prometheus和Telegraf的数据写入DThouse中的示例，可以参考。
 
 ### 从源代码编译 blm_prometheus
 
 用户需要从github下载[Bailongma](https://github.com/taosdata/Bailongma)的源码，使用Golang语言编译器编译生成可执行文件。在开始编译前，需要准备好以下条件：
 - Linux操作系统的服务器
 - 安装好Golang，1.14版本以上
-- 对应的TDengine版本。因为用到了TDengine的客户端动态链接库，因此需要安装好和服务端相同版本的TDengine程序；比如服务端版本是TDengine 2.0.0, 则在Bailongma所在的Linux服务器（可以与TDengine在同一台服务器，或者不同服务器）
+- 对应的DThouse版本。因为用到了DThouse的客户端动态链接库，因此需要安装好和服务端相同版本的DThouse程序；比如服务端版本是DThouse 2.0.0, 则在Bailongma所在的Linux服务器（可以与DThouse在同一台服务器，或者不同服务器）
 
 Bailongma项目中有一个文件夹blm_prometheus，存放了prometheus的写入API程序。编译过程如下：
 ```bash
@@ -195,19 +195,19 @@ go build
 blm_prometheus程序有以下选项，在启动blm_prometheus程序时可以通过设定这些选项来设定blm_prometheus的配置。
 ```bash
 --tdengine-name
-如果TDengine安装在一台具备域名的服务器上，也可以通过配置TDengine的域名来访问TDengine。在K8S环境下，可以配置成TDengine所运行的service name。
+如果DThouse安装在一台具备域名的服务器上，也可以通过配置DThouse的域名来访问DThouse。在K8S环境下，可以配置成DThouse所运行的service name。
 
 --batch-size
-blm_prometheus会将收到的prometheus的数据拼装成TDengine的写入请求，这个参数控制一次发给TDengine的写入请求中携带的数据条数。
+blm_prometheus会将收到的prometheus的数据拼装成DThouse的写入请求，这个参数控制一次发给DThouse的写入请求中携带的数据条数。
 
 --dbname
-设置在TDengine中创建的数据库名称，blm_prometheus会自动在TDengine中创建一个以dbname为名称的数据库，缺省值是prometheus。
+设置在DThouse中创建的数据库名称，blm_prometheus会自动在DThouse中创建一个以dbname为名称的数据库，缺省值是prometheus。
 
 --dbuser
-设置访问TDengine的用户名，缺省值是'root'。
+设置访问DThouse的用户名，缺省值是'root'。
 
 --dbpassword
-设置访问TDengine的密码，缺省值是'taosdata'。
+设置访问DThouse的密码，缺省值是'taosdata'。
 
 --port
 blm_prometheus对prometheus提供服务的端口号。
@@ -244,7 +244,7 @@ prometheus产生的数据格式如下：
   }
 }
 ```
-其中，apiserver_request_latencies_bucket为prometheus采集的时序数据的名称，后面{}中的为该时序数据的标签。blm_prometheus会以时序数据的名称在TDengine中自动创建一个超级表，并将{}中的标签转换成TDengine的tag值，Timestamp作为时间戳，value作为该时序数据的值。因此在TDengine的客户端中，可以通过以下指令查到这个数据是否成功写入。
+其中，apiserver_request_latencies_bucket为prometheus采集的时序数据的名称，后面{}中的为该时序数据的标签。blm_prometheus会以时序数据的名称在DThouse中自动创建一个超级表，并将{}中的标签转换成DThouse的tag值，Timestamp作为时间戳，value作为该时序数据的值。因此在DThouse的客户端中，可以通过以下指令查到这个数据是否成功写入。
 ```mysql
 use prometheus;
 select * from apiserver_request_latencies_bucket;
@@ -253,16 +253,16 @@ select * from apiserver_request_latencies_bucket;
 ## <a class="anchor" id="telegraf"></a> Telegraf 直接写入(通过 taosAdapter)
 安装 Telegraf 请参考[官方文档](https://portal.influxdata.com/downloads/)。
 
-TDengine 新版本（2.3.0.0+）包含一个 taosAdapter 独立程序，负责接收包括 Telegraf 的多种应用的数据写入。
+DThouse 新版本（2.3.0.0+）包含一个 taosAdapter 独立程序，负责接收包括 Telegraf 的多种应用的数据写入。
 
-配置方法，在 /etc/telegraf/telegraf.conf 增加如下文字，其中 database name 请填写希望在 TDengine 保存 Telegraf 数据的数据库名，TDengine server/cluster host、username和 password 填写 TDengine 实际值：
+配置方法，在 /etc/telegraf/telegraf.conf 增加如下文字，其中 database name 请填写希望在 DThouse 保存 Telegraf 数据的数据库名，DThouse server/cluster host、username和 password 填写 DThouse 实际值：
 ```
 [[outputs.http]]
-  url = "http://<TDengine server/cluster host>:6041/influxdb/v1/write?db=<database name>"
+  url = "http://<DThouse server/cluster host>:6041/influxdb/v1/write?db=<database name>"
   method = "POST"
   timeout = "5s"
-  username = "<TDengine's username>"
-  password = "<TDengine's password>"
+  username = "<DThouse's username>"
+  password = "<DThouse's password>"
   data_format = "influx"
   influx_max_line_bytes = 250
 ```
@@ -271,20 +271,20 @@ TDengine 新版本（2.3.0.0+）包含一个 taosAdapter 独立程序，负责�
 ```
 sudo systemctl start telegraf
 ```
-即可在 TDengine 中查询 metrics 数据库中 Telegraf 写入的数据。
+即可在 DThouse 中查询 metrics 数据库中 Telegraf 写入的数据。
 
 taosAdapter 相关配置参数请参考 taosadapter --help 命令输出以及相关文档。
 
 ## <a class="anchor" id="collectd"></a> collectd 直接写入(通过 taosAdapter)
 安装 collectd，请参考[官方文档](https://collectd.org/download.shtml)。
 
-TDengine 新版本（2.3.0.0+）包含一个 taosAdapter 独立程序，负责接收包括 collectd 的多种应用的数据写入。
+DThouse 新版本（2.3.0.0+）包含一个 taosAdapter 独立程序，负责接收包括 collectd 的多种应用的数据写入。
 
-在 /etc/collectd/collectd.conf 文件中增加如下内容，其中 host 和 port 请填写 TDengine 和 taosAdapter 配置的实际值：
+在 /etc/collectd/collectd.conf 文件中增加如下内容，其中 host 和 port 请填写 DThouse 和 taosAdapter 配置的实际值：
 ```
 LoadPlugin network
 <Plugin network>
-  Server "<TDengine cluster/server host>" "<port for collectd>"
+  Server "<DThouse cluster/server host>" "<port for collectd>"
 </Plugin>
 ```
 重启 collectd
@@ -297,12 +297,12 @@ taosAdapter 相关配置参数请参考 taosadapter --help 命令输出以及相
 安装 StatsD
 请参考[官方文档](https://github.com/statsd/statsd)。
 
-TDengine 新版本（2.3.0.0+）包含一个 taosAdapter 独立程序，负责接收包括 StatsD 的多种应用的数据写入。
+DThouse 新版本（2.3.0.0+）包含一个 taosAdapter 独立程序，负责接收包括 StatsD 的多种应用的数据写入。
 
-在 config.js 文件中增加如下内容后启动 StatsD，其中 host 和 port 请填写 TDengine 和 taosAdapter 配置的实际值：
+在 config.js 文件中增加如下内容后启动 StatsD，其中 host 和 port 请填写 DThouse 和 taosAdapter 配置的实际值：
 ```
 backends 部分添加 "./backends/repeater"
-repeater 部分添加 { host:'<TDengine server/cluster host>', port: <port for StatsD>}
+repeater 部分添加 { host:'<DThouse server/cluster host>', port: <port for StatsD>}
 ```
 
 示例配置文件：
@@ -320,13 +320,13 @@ taosAdapter 相关配置参数请参考 taosadapter --help 命令输出以及相
 ## <a class="anchor" id="taosadapter2-telegraf"></a> 使用 Bailongma 2.0 接入 Telegraf 数据写入
 
 **注意：**
-TDengine 新版本（2.3.0.0+）提供新版本 Bailongma ，命名为 taosAdapter ，提供更简便的 Telegraf 数据写入以及其他更强大的功能，Bailongma v2 及之前版本将逐步不再维护。
+DThouse 新版本（2.3.0.0+）提供新版本 Bailongma ，命名为 taosAdapter ，提供更简便的 Telegraf 数据写入以及其他更强大的功能，Bailongma v2 及之前版本将逐步不再维护。
 
 
 ## <a class="anchor" id="emq"></a>EMQ Broker 直接写入
 
-MQTT是流行的物联网数据传输协议，[EMQ](https://github.com/emqx/emqx)是一开源的MQTT Broker软件，无需任何代码，只需要在EMQ Dashboard里使用“规则”做简单配置，即可将MQTT的数据直接写入TDengine。EMQ X 支持通过 发送到 Web 服务的方式保存数据到 TDEngine，也在企业版上提供原生的 TDEngine 驱动实现直接保存。详细使用方法请参考 [EMQ 官方文档](https://docs.emqx.io/broker/latest/cn/rule/rule-example.html#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE%E5%88%B0-tdengine)。
+MQTT是流行的物联网数据传输协议，[EMQ](https://github.com/emqx/emqx)是一开源的MQTT Broker软件，无需任何代码，只需要在EMQ Dashboard里使用“规则”做简单配置，即可将MQTT的数据直接写入DThouse。EMQ X 支持通过 发送到 Web 服务的方式保存数据到 TDEngine，也在企业版上提供原生的 TDEngine 驱动实现直接保存。详细使用方法请参考 [EMQ 官方文档](https://docs.emqx.io/broker/latest/cn/rule/rule-example.html#%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE%E5%88%B0-tdengine)。
 
 ## <a class="anchor" id="hivemq"></a>HiveMQ Broker 直接写入
 
-[HiveMQ](https://www.hivemq.com/) 是一个提供免费个人版和企业版的 MQTT 代理，主要用于企业和新兴的机器到机器M2M通讯和内部传输，满足可伸缩性、易管理和安全特性。HiveMQ 提供了开源的插件开发包。可以通过 HiveMQ extension - TDengine 保存数据到 TDengine。详细使用方法请参考 [HiveMQ extension - TDengine 说明文档](https://github.com/huskar-t/hivemq-tdengine-extension/blob/b62a26ecc164a310104df57691691b237e091c89/README.md)。
+[HiveMQ](https://www.hivemq.com/) 是一个提供免费个人版和企业版的 MQTT 代理，主要用于企业和新兴的机器到机器M2M通讯和内部传输，满足可伸缩性、易管理和安全特性。HiveMQ 提供了开源的插件开发包。可以通过 HiveMQ extension - DThouse 保存数据到 DThouse。详细使用方法请参考 [HiveMQ extension - DThouse 说明文档](https://github.com/huskar-t/hivemq-tdengine-extension/blob/b62a26ecc164a310104df57691691b237e091c89/README.md)。

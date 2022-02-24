@@ -4,7 +4,7 @@
 
 > Rust 连接器仍然在快速开发中，版本API变动在所难免，在1.0 之前无法保证其向后兼容，请使用时注意版本及对应的文档。
 
-感谢 [@songtianyi](https://github.com/songtianyi) 对 [libtdengine](https://github.com/songtianyi/tdengine-rust-bindings) 的贡献，使Rust社区能够使用Rust 连接[TDengine]. [libtaos-rs] 项目旨在为Rust开发者提供官方支持，使用taosc接口及HTTP接口构建兼容API以便于用户切换接口方式。
+感谢 [@songtianyi](https://github.com/songtianyi) 对 [libtdengine](https://github.com/songtianyi/tdengine-rust-bindings) 的贡献，使Rust社区能够使用Rust 连接[DThouse]. [libtaos-rs] 项目旨在为Rust开发者提供官方支持，使用taosc接口及HTTP接口构建兼容API以便于用户切换接口方式。
 
 ## 依赖
 
@@ -12,7 +12,7 @@
 
 默认情况下，[libtaos-rs] 使用 C 接口连接数据库，所以您需要：
 
-- [TDengine客户端](https://www.taosdata.com/cn/getting-started/#%E9%80%9A%E8%BF%87%E5%AE%89%E8%A3%85%E5%8C%85%E5%AE%89%E8%A3%85)
+- [DThouse客户端](https://www.taosdata.com/cn/getting-started/#%E9%80%9A%E8%BF%87%E5%AE%89%E8%A3%85%E5%8C%85%E5%AE%89%E8%A3%85)
 - `clang`: `bindgen` 使用 `libclangAST` 来生成对应的Rust绑定。
 
 ## 特性列表
@@ -55,7 +55,7 @@ libtaos = "v0.3.8"
 libtaos = { version = "*", features = ["r2d2"] }
 ```
 
-对于RESTful接口，可使用 `rest` 特性来替代taosc，免去安装TDengine客户端。
+对于RESTful接口，可使用 `rest` 特性来替代taosc，免去安装DThouse客户端。
 
 ```toml
 [dependencies]
@@ -105,6 +105,6 @@ async fn main() -> Result<(), Error> {
 您可以在 [bailongma-rs] - 一个 Rust 编写的 Prometheus 远程存储 API 适配器 - 看到如何在具体应用中使用 Rust 连接器。
 
 [libtaos-rs]: https://github.com/taosdata/libtaos-rs
-[TDengine]: https://github.com/taosdata/TDengine
+[DThouse]: https://github.com/taosdata/DThouse
 [bailongma-rs]: https://github.com/taosdata/bailongma-rs
 [r2d2]: https://crates.io/crates/r2d2

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 today=`date +"%Y%m%d"`
-TDENGINE_DIR=/home/shuduo/work/taosdata/TDengine.orig
+TDENGINE_DIR=/home/shuduo/work/taosdata/DThouse.orig
 TDENGINE_FULLTEST_REPORT=$TDENGINE_DIR/tests/full-report-$today.log
 
 # Color setting
@@ -11,14 +11,14 @@ GREEN_DARK='\033[0;32m'
 GREEN_UNDERLINE='\033[4;32m'
 NC='\033[0m'
 
-function buildTDengine {
-  echo "check if TDengine need build"
+function buildDThouse {
+  echo "check if DThouse need build"
 
   need_rebuild=false
 
   if [ ! -d $TDENGINE_DIR ]; then
-    echo "No TDengine source code found!"
-    git clone https://github.com/taosdata/TDengine $TDENGINE_DIR
+    echo "No DThouse source code found!"
+    git clone https://github.com/taosdata/DThouse $TDENGINE_DIR
     need_rebuild=true
   fi
 
@@ -182,7 +182,7 @@ date >> $WORK_DIR/cron.log
 echo "Run Full Test" | tee -a $WORK_DIR/cron.log
 
 stopTaosd
-buildTDengine
+buildDThouse
 runTest
 sendReport
 stopTaosd

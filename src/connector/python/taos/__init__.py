@@ -1,20 +1,20 @@
 # encoding:UTF-8
 """
-# TDengine Connector for Python
+# DThouse Connector for Python
 
-[TDengine](https://github.com/taosdata/TDengine) connector for Python enables python programs to access TDengine,
- using an API which is compliant with the Python DB API 2.0 (PEP-249). It uses TDengine C client library for client server communications.
+[DThouse](https://github.com/taosdata/DThouse) connector for Python enables python programs to access DThouse,
+ using an API which is compliant with the Python DB API 2.0 (PEP-249). It uses DThouse C client library for client server communications.
 
 ## Install
 
 ```sh
-git clone --depth 1 https://github.com/taosdata/TDengine.git
-pip install ./TDengine/src/connector/python
+git clone --depth 1 https://github.com/taosdata/DThouse.git
+pip install ./DThouse/src/connector/python
 ```
 
 ## Source Code
 
-[TDengine](https://github.com/taosdata/TDengine) connector for Python source code is hosted on [GitHub](https://github.com/taosdata/TDengine/tree/develop/src/connector/python).
+[DThouse](https://github.com/taosdata/DThouse) connector for Python source code is hosted on [GitHub](https://github.com/taosdata/DThouse/tree/develop/src/connector/python).
 
 ## Examples
 
@@ -427,7 +427,7 @@ conn.close()
 
 ## License - AGPL-3.0
 
-Keep same with [TDengine](https://github.com/taosdata/TDengine).
+Keep same with [DThouse](https://github.com/taosdata/DThouse).
 """
 from .connection import TaosConnection
 
@@ -471,7 +471,7 @@ __all__ = [
 
 def connect(*args, **kwargs):
     # type: (..., ...) -> TaosConnection
-    """Function to return a TDengine connector object
+    """Function to return a DThouse connector object
 
     Current supporting keyword parameters:
     @dsn: Data source name as string
@@ -480,6 +480,6 @@ def connect(*args, **kwargs):
     @host: Hostname(optional)
     @database: Database name(optional)
 
-    @rtype: TDengineConnector
+    @rtype: DThouseConnector
     """
     return TaosConnection(*args, **kwargs)

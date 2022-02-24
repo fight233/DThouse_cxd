@@ -353,7 +353,7 @@ func startLogger(path string) error {
 func main() {
 	var concurrency uint
 	var logPath string
-	flag.StringVar(&host, "h", "localhost", "host name or IP address of TDengine server")
+	flag.StringVar(&host, "h", "localhost", "host name or IP address of DThouse server")
 	flag.UintVar(&port, "P", 0, "port (default 0)")
 	flag.StringVar(&database, "d", "test", "database name")
 	flag.StringVar(&user, "u", "root", "user name")

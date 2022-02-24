@@ -21,13 +21,13 @@ using System.Collections;
 using System.Threading;
 using System.Diagnostics;
 
-namespace TDengineDriver
+namespace DThouseDriver
 {
-    class TDengineTest
+    class DThouseTest
     {
         //connect parameters
         private string host = "127.0.0.1";
-        private string configDir = "C:/TDengine/cfg";
+        private string configDir = "C:/DThouse/cfg";
         private string user = "root";
         private string password = "taosdata";
         private short port = 0;
@@ -77,7 +77,7 @@ namespace TDengineDriver
                     HelpPrint("--help", "Show usage.");
                     Console.WriteLine("");
 
-                    HelpPrint("-h <hostname>", "host, The host to connect to TDengine. Default is localhost.");
+                    HelpPrint("-h <hostname>", "host, The host to connect to DThouse. Default is localhost.");
                     HelpPrint("-p <port>", "port, The TCP/IP port number to use for the connection. Default is 0.");
                     HelpPrint("-u <username>", "user, The user name to use when connecting to the server. Default is 'root'.");
                     HelpPrint("-P <password>", "password, The password to use when connecting to the server. Default is 'taosdata'.");
@@ -129,7 +129,7 @@ namespace TDengineDriver
             recordsPerTable = this.GetArgumentAsLong(argv, "-n", 1, 100000000000, 1);
             recordsPerRequest = (int)this.GetArgumentAsLong(argv, "-r", 1, 10000, 1);
             colsPerRecord = (int)this.GetArgumentAsLong(argv, "-l", 1, 1024, 3);
-            configDir = this.GetArgumentAsString(argv, "-c", "C:/TDengine/cfg");
+            configDir = this.GetArgumentAsString(argv, "-c", "C:/DThouse/cfg");
             useStable = this.GetArgumentAsFlag(argv, "-M", true);
 
             replica = (short)this.GetArgumentAsLong(argv, "-a", 1, 5, 1);
@@ -248,7 +248,7 @@ namespace TDengineDriver
 
         static void CleanAndExitProgram(int ret)
         {
-            TDengine.Cleanup();
+            DThouse.Cleanup();
             System.Environment.Exit(ret);
         }
 
@@ -289,28 +289,28 @@ namespace TDengineDriver
             }
         }
 
-        public void InitTDengine()
+        public void InitDThouse()
         {
-            TDengine.Options((int)TDengineInitOption.TDDB_OPTION_CONFIGDIR, this.configDir);
-            TDengine.Options((int)TDengineInitOption.TDDB_OPTION_SHELL_ACTIVITY_TIMER, "60");
-            TDengine.Init();
-            VerbosePrint("TDengine Initialization finished\n");
+            DThouse.Options((int)DThouseInitOption.TDDB_OPTION_CONFIGDIR, this.configDir);
+            DThouse.Options((int)DThouseInitOption.TDDB_OPTION_SHELL_ACTIVITY_TIMER, "60");
+            DThouse.Init();
+            VerbosePrint("DThouse Initialization finished\n");
         }
 
-        public void ConnectTDengine()
+        public void ConnectDThouse()
         {
             string db = "";
             VerbosePrintFormat("host:{0} user:{1}, pass:{2}; db:{3}, port:{4}\n",
                     this.host, this.user, this.password, db, this.port);
-            this.conn = TDengine.Connect(this.host, this.user, this.password, db, this.port);
+            this.conn = DThouse.Connect(this.host, this.user, this.password, db, this.port);
             if (this.conn == IntPtr.Zero)
             {
-                Console.WriteLine("Connect to TDengine failed");
+                Console.WriteLine("Connect to DThouse failed");
                 CleanAndExitProgram(1);
             }
             else
             {
-                VerbosePrint("Connect to TDengine success\n");
+                VerbosePrint("Connect to DThouse success\n");
             }
         }
 
@@ -372,12 +372,12 @@ namespace TDengineDriver
         {
             StringBuilder sql = new StringBuilder();
             sql.Append("DROP DATABASE IF EXISTS ").Append(this.dbName);
-            IntPtr res = TDengine.Query(this.conn, sql.ToString());
-            if ((res == IntPtr.Zero) || (TDengine.ErrorNo(res) != 0))
+            IntPtr res = DThouse.Query(this.conn, sql.ToString());
+            if ((res == IntPtr.Zero) || (DThouse.ErrorNo(res) != 0))
             {
                 Console.Write(sql.ToString() + " failure, ");
                 if (res != IntPtr.Zero) {
-                  Console.Write("reason: " + TDengine.Error(res));
+                  Console.Write("reason: " + DThouse.Error(res));
                 }
                 Console.WriteLine("");
                 CleanAndExitProgram(1);
@@ -392,12 +392,12 @@ namespace TDengineDriver
         {
             StringBuilder sql = new StringBuilder();
             sql.Append("CREATE DATABASE IF NOT EXISTS ").Append(this.dbName).Append(" replica ").Append(this.replica).Append(" keep 36500");
-            IntPtr res = TDengine.Query(this.conn, sql.ToString());
-            if ((res == IntPtr.Zero) || (TDengine.ErrorNo(res) != 0))
+            IntPtr res = DThouse.Query(this.conn, sql.ToString());
+            if ((res == IntPtr.Zero) || (DThouse.ErrorNo(res) != 0))
             {
                 Console.Write(sql.ToString() + " failure, ");
                 if (res != IntPtr.Zero) {
-                  Console.Write("reason: " + TDengine.Error(res));
+                  Console.Write("reason: " + DThouse.Error(res));
                 }
                 Console.WriteLine("");
                 CleanAndExitProgram(1);
@@ -406,7 +406,7 @@ namespace TDengineDriver
             {
                 VerbosePrint(sql.ToString() + " success\n");
             }
-            TDengine.FreeResult(res);
+            DThouse.FreeResult(res);
         }
 
         public void CreateStable()
@@ -417,12 +417,12 @@ namespace TDengineDriver
             sql.Append("CREATE TABLE IF NOT EXISTS ").
                 Append(this.dbName).Append(".").Append(this.stablePrefix).
                 Append("(ts timestamp, v1 bool, v2 tinyint, v3 smallint, v4 int, v5 bigint, v6 float, v7 double, v8 binary(10), v9 nchar(10), v10 tinyint unsigned, v11 smallint unsigned, v12 int unsigned, v13 bigint unsigned) tags(t1 int)");
-            IntPtr res = TDengine.Query(this.conn, sql.ToString());
-            if ((res == IntPtr.Zero) || (TDengine.ErrorNo(res) != 0))
+            IntPtr res = DThouse.Query(this.conn, sql.ToString());
+            if ((res == IntPtr.Zero) || (DThouse.ErrorNo(res) != 0))
             {
                 Console.Write(sql.ToString() + " failure, ");
                 if (res != IntPtr.Zero) {
-                  Console.Write("reason: " + TDengine.Error(res));
+                  Console.Write("reason: " + DThouse.Error(res));
                 }
                 Console.WriteLine("");
                 CleanAndExitProgram(1);
@@ -431,7 +431,7 @@ namespace TDengineDriver
             {
                 VerbosePrint(sql.ToString() + " success\n");
             }
-            TDengine.FreeResult(res);
+            DThouse.FreeResult(res);
         }
 
         public void InsertByThreads()
@@ -510,37 +510,37 @@ namespace TDengineDriver
                 }
                 DebugPrintFormat("query: {0}, sql:{1}\n", query, sql);
 
-                IntPtr res = TDengine.Query(conn, sql);
+                IntPtr res = DThouse.Query(conn, sql);
                 DebugPrintFormat("res: {0}\n", res);
-                if ((res == IntPtr.Zero) || (TDengine.ErrorNo(res) != 0))
+                if ((res == IntPtr.Zero) || (DThouse.ErrorNo(res) != 0))
                 {
                     Console.Write(sql.ToString() + " failure, ");
                     if (res != IntPtr.Zero) {
-                      Console.Write("reason: " + TDengine.Error(res));
+                      Console.Write("reason: " + DThouse.Error(res));
                     }
                     Console.WriteLine("");
                     CleanAndExitProgram(1);
                 }
 
-                int fieldCount = TDengine.FieldCount(res);
+                int fieldCount = DThouse.FieldCount(res);
                 DebugPrint("field count: " + fieldCount + "\n");
 
-                List<TDengineMeta> metas = TDengine.FetchFields(res);
+                List<DThouseMeta> metas = DThouse.FetchFields(res);
                 for (int j = 0; j < metas.Count; j++)
                 {
-                    TDengineMeta meta = (TDengineMeta)metas[j];
+                    DThouseMeta meta = (DThouseMeta)metas[j];
                     DebugPrint("index:" + j + ", type:" + meta.type + ", typename:" + meta.TypeName() + ", name:" + meta.name + ", size:" + meta.size + "\n");
                 }
 
                 IntPtr rowdata;
                 StringBuilder builder = new StringBuilder();
 
-                while ((rowdata = TDengine.FetchRows(res)) != IntPtr.Zero)
+                while ((rowdata = DThouse.FetchRows(res)) != IntPtr.Zero)
                 {
                     queryRows++;
                     for (int fields = 0; fields < fieldCount; ++fields)
                     {
-                        TDengineMeta meta = metas[fields];
+                        DThouseMeta meta = metas[fields];
                         int offset = IntPtr.Size * fields;
                         IntPtr data = Marshal.ReadIntPtr(rowdata, offset);
 
@@ -552,61 +552,61 @@ namespace TDengineDriver
                             continue;
                         }
 
-                        switch ((TDengineDataType)meta.type)
+                        switch ((DThouseDataType)meta.type)
                         {
-                            case TDengineDataType.TSDB_DATA_TYPE_BOOL:
+                            case DThouseDataType.TSDB_DATA_TYPE_BOOL:
                                 bool v1 = Marshal.ReadByte(data) == 0 ? false : true;
                                 builder.Append(v1);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_TINYINT:
+                            case DThouseDataType.TSDB_DATA_TYPE_TINYINT:
                                 sbyte v2 = (sbyte)Marshal.ReadByte(data);
                                 builder.Append(v2);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_SMALLINT:
+                            case DThouseDataType.TSDB_DATA_TYPE_SMALLINT:
                                 short v3 = Marshal.ReadInt16(data);
                                 builder.Append(v3);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_INT:
+                            case DThouseDataType.TSDB_DATA_TYPE_INT:
                                 int v4 = Marshal.ReadInt32(data);
                                 builder.Append(v4);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_BIGINT:
+                            case DThouseDataType.TSDB_DATA_TYPE_BIGINT:
                                 long v5 = Marshal.ReadInt64(data);
                                 builder.Append(v5);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_FLOAT:
+                            case DThouseDataType.TSDB_DATA_TYPE_FLOAT:
                                 float v6 = (float)Marshal.PtrToStructure(data, typeof(float));
                                 builder.Append(v6);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_DOUBLE:
+                            case DThouseDataType.TSDB_DATA_TYPE_DOUBLE:
                                 double v7 = (double)Marshal.PtrToStructure(data, typeof(double));
                                 builder.Append(v7);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_BINARY:
+                            case DThouseDataType.TSDB_DATA_TYPE_BINARY:
                                 string v8 = Marshal.PtrToStringAnsi(data);
                                 builder.Append(v8);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_TIMESTAMP:
+                            case DThouseDataType.TSDB_DATA_TYPE_TIMESTAMP:
                                 long v9 = Marshal.ReadInt64(data);
                                 builder.Append(v9);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_NCHAR:
+                            case DThouseDataType.TSDB_DATA_TYPE_NCHAR:
                                 string v10 = Marshal.PtrToStringAnsi(data);
                                 builder.Append(v10);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_UTINYINT:
+                            case DThouseDataType.TSDB_DATA_TYPE_UTINYINT:
                                 byte v11 = Marshal.ReadByte(data);
                                 builder.Append(v11);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_USMALLINT:
+                            case DThouseDataType.TSDB_DATA_TYPE_USMALLINT:
                                 ushort v12 = (ushort)Marshal.ReadInt16(data);
                                 builder.Append(v12);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_UINT:
+                            case DThouseDataType.TSDB_DATA_TYPE_UINT:
                                 uint v13 = (uint)Marshal.ReadInt32(data);
                                 builder.Append(v13);
                                 break;
-                            case TDengineDataType.TSDB_DATA_TYPE_UBIGINT:
+                            case DThouseDataType.TSDB_DATA_TYPE_UBIGINT:
                                 ulong v14 = (ulong)Marshal.ReadInt64(data);
                                 builder.Append(v14);
                                 break;
@@ -618,13 +618,13 @@ namespace TDengineDriver
                     builder.Clear();
                 }
 
-                if (TDengine.ErrorNo(res) != 0)
+                if (DThouse.ErrorNo(res) != 0)
                 {
                     Console.Write("Query is not complete, Error {0:G}",
-                            TDengine.ErrorNo(res), TDengine.Error(res));
+                            DThouse.ErrorNo(res), DThouse.Error(res));
                 }
 
-                TDengine.FreeResult(res);
+                DThouse.FreeResult(res);
             }
         }
 
@@ -632,7 +632,7 @@ namespace TDengineDriver
         {
             if (this.conn != IntPtr.Zero)
             {
-                TDengine.Close(this.conn);
+                DThouse.Close(this.conn);
             }
         }
 
@@ -641,11 +641,11 @@ namespace TDengineDriver
         {
             PrintHelp(args);
 
-            TDengineTest tester = new TDengineTest();
+            DThouseTest tester = new DThouseTest();
             tester.ReadArgument(args);
 
-            tester.InitTDengine();
-            tester.ConnectTDengine();
+            tester.InitDThouse();
+            tester.ConnectDThouse();
 
             if (tester.isInsertOnly == false)
             {
@@ -802,22 +802,22 @@ namespace TDengineDriver
 
                         }
                         VerbosePrint(sql.ToString() + "\n");
-                        IntPtr res = TDengine.Query(this.conn, sql.ToString());
-                        if ((res == IntPtr.Zero) || (TDengine.ErrorNo(res) != 0))
+                        IntPtr res = DThouse.Query(this.conn, sql.ToString());
+                        if ((res == IntPtr.Zero) || (DThouse.ErrorNo(res) != 0))
                         {
                             Console.Write(sql.ToString() + " failure, ");
                             if (res != IntPtr.Zero) {
-                              Console.Write("reason: " + TDengine.Error(res));
+                              Console.Write("reason: " + DThouse.Error(res));
                             }
                             Console.WriteLine("");
                         }
 
                         inserted += this.batchRows;
 
-                        int affectRows = TDengine.AffectRows(res);
+                        int affectRows = DThouse.AffectRows(res);
                         rowsInserted += affectRows;
 
-                        TDengine.FreeResult(res);
+                        DThouse.FreeResult(res);
                         if (table == end)
                         {
                             i = inserted;
@@ -885,12 +885,12 @@ namespace TDengineDriver
                     {
                         sql = sql.Append("(ts timestamp, v1 bool, v2 tinyint, v3 smallint, v4 int, v5 bigint, v6 float, v7 double, v8 binary(10), v9 nchar(10), v10 tinyint unsigned, v11 smallint unsigned, v12 int unsigned, v13 bigint unsigned)");
                     }
-                    IntPtr res = TDengine.Query(this.conn, sql.ToString());
-                    if ((res == IntPtr.Zero) || (TDengine.ErrorNo(res) != 0))
+                    IntPtr res = DThouse.Query(this.conn, sql.ToString());
+                    if ((res == IntPtr.Zero) || (DThouse.ErrorNo(res) != 0))
                     {
                         Console.Write(sql.ToString() + " failure, ");
                         if (res != IntPtr.Zero) {
-                          Console.Write("reason: " + TDengine.Error(res));
+                          Console.Write("reason: " + DThouse.Error(res));
                         }
                         Console.WriteLine("");
                         CleanAndExitProgram(1);
@@ -899,7 +899,7 @@ namespace TDengineDriver
                     {
                         VerbosePrint(sql.ToString() + " success\n");
                     }
-                    TDengine.FreeResult(res);
+                    DThouse.FreeResult(res);
                 }
 
             }

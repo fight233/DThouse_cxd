@@ -42,44 +42,44 @@ function prepareBuild {
   cd $CURR_DIR/../../../packaging 
 
   if [[ "$CURR_DIR" == *"$IN_TDINTERNAL"* ]]; then
-    if [ ! -e $DOCKER_DIR/TDengine-enterprise-server-$VERSION-Linux-x64.tar.gz ] || [ ! -e $DOCKER_DIR/TDengine-enterprise-arbitrator-$VERSION-Linux-x64.tar.gz ]; then
+    if [ ! -e $DOCKER_DIR/DThouse-enterprise-server-$VERSION-Linux-x64.tar.gz ] || [ ! -e $DOCKER_DIR/DThouse-enterprise-arbitrator-$VERSION-Linux-x64.tar.gz ]; then
               
       echo "generating TDeninge enterprise packages"
       ./release.sh -v cluster -n $VERSION >> /dev/null 2>&1
       
-      if [ ! -e $CURR_DIR/../../../release/TDengine-enterprise-server-$VERSION-Linux-x64.tar.gz ]; then
-        echo "no TDengine install package found"
+      if [ ! -e $CURR_DIR/../../../release/DThouse-enterprise-server-$VERSION-Linux-x64.tar.gz ]; then
+        echo "no DThouse install package found"
         exit 1
       fi
 
-      if [ ! -e $CURR_DIR/../../../release/TDengine-enterprise-arbitrator-$VERSION-Linux-x64.tar.gz ]; then
+      if [ ! -e $CURR_DIR/../../../release/DThouse-enterprise-arbitrator-$VERSION-Linux-x64.tar.gz ]; then
         echo "no arbitrator install package found"
         exit 1
       fi
 
       cd $CURR_DIR/../../../release
-      mv TDengine-enterprise-server-$VERSION-Linux-x64.tar.gz $DOCKER_DIR
-      mv TDengine-enterprise-arbitrator-$VERSION-Linux-x64.tar.gz $DOCKER_DIR
+      mv DThouse-enterprise-server-$VERSION-Linux-x64.tar.gz $DOCKER_DIR
+      mv DThouse-enterprise-arbitrator-$VERSION-Linux-x64.tar.gz $DOCKER_DIR
     fi
   else
-    if [ ! -e $DOCKER_DIR/TDengine-server-$VERSION-Linux-x64.tar.gz ] || [ ! -e $DOCKER_DIR/TDengine-arbitrator-$VERSION-Linux-x64.tar.gz ]; then
+    if [ ! -e $DOCKER_DIR/DThouse-server-$VERSION-Linux-x64.tar.gz ] || [ ! -e $DOCKER_DIR/DThouse-arbitrator-$VERSION-Linux-x64.tar.gz ]; then
 
       echo "generating TDeninge community packages"
       ./release.sh -v edge -n $VERSION >> /dev/null 2>&1
       
-      if [ ! -e $CURR_DIR/../../../release/TDengine-server-$VERSION-Linux-x64.tar.gz ]; then
-        echo "no TDengine install package found"
+      if [ ! -e $CURR_DIR/../../../release/DThouse-server-$VERSION-Linux-x64.tar.gz ]; then
+        echo "no DThouse install package found"
         exit 1
       fi
 
-      if [ ! -e $CURR_DIR/../../../release/TDengine-arbitrator-$VERSION-Linux-x64.tar.gz ]; then
+      if [ ! -e $CURR_DIR/../../../release/DThouse-arbitrator-$VERSION-Linux-x64.tar.gz ]; then
         echo "no arbitrator install package found"
         exit 1
       fi
 
       cd $CURR_DIR/../../../release
-      mv TDengine-server-$VERSION-Linux-x64.tar.gz $DOCKER_DIR
-      mv TDengine-arbitrator-$VERSION-Linux-x64.tar.gz $DOCKER_DIR
+      mv DThouse-server-$VERSION-Linux-x64.tar.gz $DOCKER_DIR
+      mv DThouse-arbitrator-$VERSION-Linux-x64.tar.gz $DOCKER_DIR
     fi   
   fi
   
@@ -96,9 +96,9 @@ function clusterUp {
   cd $DOCKER_DIR  
 
   if [[ "$CURR_DIR" == *"$IN_TDINTERNAL"* ]]; then
-    docker_run="PACKAGE=TDengine-enterprise-server-$VERSION-Linux-x64.tar.gz TARBITRATORPKG=TDengine-enterprise-arbitrator-$VERSION-Linux-x64.tar.gz DIR=TDengine-enterprise-server-$VERSION DIR2=TDengine-enterprise-arbitrator-$VERSION VERSION=$VERSION DATADIR=$DOCKER_DIR docker-compose -f docker-compose.yml "
+    docker_run="PACKAGE=DThouse-enterprise-server-$VERSION-Linux-x64.tar.gz TARBITRATORPKG=DThouse-enterprise-arbitrator-$VERSION-Linux-x64.tar.gz DIR=DThouse-enterprise-server-$VERSION DIR2=DThouse-enterprise-arbitrator-$VERSION VERSION=$VERSION DATADIR=$DOCKER_DIR docker-compose -f docker-compose.yml "
   else
-    docker_run="PACKAGE=TDengine-server-$VERSION-Linux-x64.tar.gz TARBITRATORPKG=TDengine-arbitrator-$VERSION-Linux-x64.tar.gz DIR=TDengine-server-$VERSION DIR2=TDengine-arbitrator-$VERSION VERSION=$VERSION DATADIR=$DOCKER_DIR docker-compose -f docker-compose.yml "
+    docker_run="PACKAGE=DThouse-server-$VERSION-Linux-x64.tar.gz TARBITRATORPKG=DThouse-arbitrator-$VERSION-Linux-x64.tar.gz DIR=DThouse-server-$VERSION DIR2=DThouse-arbitrator-$VERSION VERSION=$VERSION DATADIR=$DOCKER_DIR docker-compose -f docker-compose.yml "
   fi
 
   if [ $NUM_OF_NODES -ge 2 ];then

@@ -2,7 +2,7 @@ import pyodbc
 import argparse
 import sys
 
-parser = argparse.ArgumentParser(description='Access TDengine via ODBC.')
+parser = argparse.ArgumentParser(description='Access DThouse via ODBC.')
 parser.add_argument('--DSN', help='DSN to use')
 parser.add_argument('--UID', help='UID to use')
 parser.add_argument('--PWD', help='PWD to use')

@@ -34,8 +34,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: recursive
-          repository: 'taosdata/TDengine'
-          path: 'TDengine'
+          repository: 'taosdata/DThouse'
+          path: 'DThouse'
           ref: 'develop'
 
       - name: Change time zone
@@ -43,28 +43,28 @@ jobs:
           sudo timedatectl set-timezone Asia/Shanghai
           sudo date
 
-          #      - name: Checkout TDengine with same branch of taos-tools
+          #      - name: Checkout DThouse with same branch of taos-tools
           #run: |
-          #cd TDengine
+          #cd DThouse
           #git pull
-          #git branch -a | grep -w ${{ github.head_ref }} && git checkout ${{ github.head_ref }} || echo "${{ github.head_ref }} not found in TDengine"
+          #git branch -a | grep -w ${{ github.head_ref }} && git checkout ${{ github.head_ref }} || echo "${{ github.head_ref }} not found in DThouse"
           #git submodule update --init --recursive
           #if: github.event_name == 'pull_request'
 
       - name: Install packages
         run: sudo apt-get install lzma-dev libjansson-dev libsnappy-dev -y > /dev/null
 
-      - name: Checkout TDengine's taos-tools to PR number
+      - name: Checkout DThouse's taos-tools to PR number
         if: github.event_name == 'pull_request'
         run: |
-          cd TDengine/src/kit/taos-tools
+          cd DThouse/src/kit/taos-tools
           git fetch origin +refs/pull/${{env.PR_NUMBER}}/merge
           git checkout -qf FETCH_HEAD
 
       - name: Install tdengine
         run: |
           sudo apt install libjansson-dev libsnappy-dev liblzma-dev libz-dev pkg-config -y > /dev/null
-          cd TDengine
+          cd DThouse
           mkdir debug
           cd debug
           cmake .. -DBUILD_JDBC=false -DBUILD_HTTP=true -DBUILD_TOOLS=true -DCOVER=true -DBUILD_TYPE=Debug
@@ -133,7 +133,7 @@ jobs:
 
       - name: Generate report
         run: |
-          cd TDengine/debug
+          cd DThouse/debug
           gcov -abcfu ../src/kit/taos-tools/src/taosdump.c -o src/kit/taos-tools/src/CMakeFiles/taosdump.dir/taosdump.c.gcno
           gcov -abcfu ../src/kit/taos-tools/src/benchMain.c -o src/kit/taos-tools/src/CMakeFiles/taosBenchmark.dir/benchMain.c.gcno
           gcov -abcfu ../src/kit/taos-tools/src/benchCommandOpt.c -o src/kit/taos-tools/src/CMakeFiles/taosbench.dir/benchCommandOpt.c.gcno
@@ -149,4 +149,4 @@ jobs:
         uses: codecov/codecov-action@v2.1.0
         with:
          token: ${{ secrets.CODECOV_TOKEN }}
-         files: TDengine/debug/taosdump.c.gcov,TDengine/debug/benchMain.c.gcov,TDengine/debug/benchCommandOpt.c.gcov,TDengine/debug/benchData.c.gcov,TDengine/debug/benchInsert.c.gcov,TDengine/debug/benchJsonOpt.c.gcov,TDengine/debug/benchOutput.c.gcov,TDengine/debug/benchQuery.c.gcov,TDengine/debug/benchSubscribe.c.gcov,TDengine/debug/benchUtil.c.gcov
+         files: DThouse/debug/taosdump.c.gcov,DThouse/debug/benchMain.c.gcov,DThouse/debug/benchCommandOpt.c.gcov,DThouse/debug/benchData.c.gcov,DThouse/debug/benchInsert.c.gcov,DThouse/debug/benchJsonOpt.c.gcov,DThouse/debug/benchOutput.c.gcov,DThouse/debug/benchQuery.c.gcov,DThouse/debug/benchSubscribe.c.gcov,DThouse/debug/benchUtil.c.gcov

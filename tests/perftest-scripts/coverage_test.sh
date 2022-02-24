@@ -1,7 +1,7 @@
 #!/bin/bash
 
 today=`date +"%Y%m%d"`
-TDENGINE_DIR=/home/shuduo/work/taosdata/TDengine.cover
+TDENGINE_DIR=/home/shuduo/work/taosdata/DThouse.cover
 TDENGINE_COVERAGE_REPORT=$TDENGINE_DIR/tests/coverage-report-$today.log
 
 # Color setting
@@ -11,8 +11,8 @@ GREEN_DARK='\033[0;32m'
 GREEN_UNDERLINE='\033[4;32m'
 NC='\033[0m'
 
-function buildTDengine {
-	echo "check if TDengine need build"
+function buildDThouse {
+	echo "check if DThouse need build"
 	cd $TDENGINE_DIR
   git remote prune origin > /dev/null
 	git remote update > /dev/null
@@ -203,7 +203,7 @@ echo "Run Coverage Test" | tee -a $WORK_DIR/cron.log
 rm /tmp/core-*
 
 stopTaosd
-buildTDengine
+buildDThouse
 
 runTestRandomFail $TDENGINE_DIR/tests/script/sh/exec-random-fail.sh 
 runTestRandomFail $TDENGINE_DIR/tests/script/sh/exec-default.sh 

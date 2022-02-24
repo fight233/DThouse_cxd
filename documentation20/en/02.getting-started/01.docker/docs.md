@@ -1,8 +1,8 @@
-# Quickly experience TDengine through Docker
+# Quickly experience DThouse through Docker
 
-While it is not recommended to deploy TDengine services via Docker in a production environment, Docker tools do a good job of shielding the environmental differences in the underlying operating system and are well suited for use in development testing or first-time experience with the toolset for installing and running TDengine. In particular, Docker makes it relatively easy to try TDengine on Mac OSX and Windows systems without having to install a virtual machine or rent an additional Linux server. In addition, starting from version 2.0.14.0, TDengine provides images that support both X86-64, X86, arm64, and arm32 platforms, so non-mainstream computers that can run docker, such as NAS, Raspberry Pi, and embedded development boards, can also easily experience TDengine based on this document.
+While it is not recommended to deploy DThouse services via Docker in a production environment, Docker tools do a good job of shielding the environmental differences in the underlying operating system and are well suited for use in development testing or first-time experience with the toolset for installing and running DThouse. In particular, Docker makes it relatively easy to try DThouse on Mac OSX and Windows systems without having to install a virtual machine or rent an additional Linux server. In addition, starting from version 2.0.14.0, DThouse provides images that support both X86-64, X86, arm64, and arm32 platforms, so non-mainstream computers that can run docker, such as NAS, Raspberry Pi, and embedded development boards, can also easily experience DThouse based on this document.
 
-The following article explains how to quickly build a single-node TDengine runtime environment via Docker to support development and testing through a Step by Step style introduction.
+The following article explains how to quickly build a single-node DThouse runtime environment via Docker to support development and testing through a Step by Step style introduction.
 
 ## Docker download
 
@@ -15,9 +15,9 @@ $ docker -v
 Docker version 20.10.3, build 48d30b5
 ```
 
-## Running TDengine in a Docker container
+## Running DThouse in a Docker container
 
-1, Use the command to pull the TDengine image and make it run in the background.
+1, Use the command to pull the DThouse image and make it run in the background.
 
 ```bash
 $  docker run -d --name tdengine tdengine/tdengine
@@ -27,7 +27,7 @@ $  docker run -d --name tdengine tdengine/tdengine
 - **docker run**: Running a container via Docker
 - **--name tdengine**: Set the container name, we can see the corresponding container by the container name
 - **-d**: Keeping containers running in the background
-- **tdengine/tdengine**: Pulled from the official TDengine published application image
+- **tdengine/tdengine**: Pulled from the official DThouse published application image
 - **7760c955f225d72e9c1ec5a4cef66149a7b94dae7598b11eb392138877e7d292**: The long character returned is the container ID, and we can also view the corresponding container by its container ID
 
 2, Verify that the container is running correctly.
@@ -45,11 +45,11 @@ c452519b0f9b   tdengine/tdengine   "taosd"   14 minutes ago   Up 14 minutes   ·
 - **CREATED**: The time when the container was created.
 - **STATUS**: The container status. Up means running.
 
-3, Go inside the Docker container and use TDengine.
+3, Go inside the Docker container and use DThouse.
 
 ```bash
 $ docker exec -it tdengine /bin/bash
-root@c452519b0f9b:~/TDengine-server-2.4.0.4# 
+root@c452519b0f9b:~/DThouse-server-2.4.0.4# 
 ```
 
 - **docker exec**: Enter the container via the docker exec command; if you exit, the container will not stop.
@@ -61,52 +61,52 @@ root@c452519b0f9b:~/TDengine-server-2.4.0.4#
 4, After entering the container, execute the taos shell client program.
 
 ```bash
-$ root@c452519b0f9b:~/TDengine-server-2.4.0.4# taos
+$ root@c452519b0f9b:~/DThouse-server-2.4.0.4# taos
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.4
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.4
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos> 
 ```
 
-The TDengine terminal successfully connects to the server and prints out a welcome message and version information. If it fails, an error message is printed.
+The DThouse terminal successfully connects to the server and prints out a welcome message and version information. If it fails, an error message is printed.
 
-In the TDengine terminal, you can create/delete databases, tables, super tables, etc., and perform insert and query operations via SQL commands. For details, you can refer to [TAOS SQL guide](https://www.taosdata.com/en/documentation/taos-sql).
+In the DThouse terminal, you can create/delete databases, tables, super tables, etc., and perform insert and query operations via SQL commands. For details, you can refer to [TAOS SQL guide](https://www.taosdata.com/en/documentation/taos-sql).
 
-## Learn more about TDengine with taosBenchmark
+## Learn more about DThouse with taosBenchmark
 
 1, Execute `taosBenchmark` from the command line interface.
 
 ```bash
-root@c452519b0f9b:~/TDengine-server-2.4.0.4# taosBenchmark
+root@c452519b0f9b:~/DThouse-server-2.4.0.4# taosBenchmark
 ```
 $ taos
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.4
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.4
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos>
 ```
 
-You can also access the TDengine server inside the Docker container using `curl` command from the host side through the RESTful port.
+You can also access the DThouse server inside the Docker container using `curl` command from the host side through the RESTful port.
 
 ```
 $ curl -u root:taosdata -d 'show databases' 127.0.0.1:6041/rest/sql
 {"status":"succ","head":["name","created_time","ntables","vgroups","replica","quorum","days","keep0,keep1,keep(D)","cache(MB)","blocks","minrows","maxrows","wallevel","fsync","comp","cachelast","precision","update","status"],"column_meta":[["name",8,32],["created_time",9,8],["ntables",4,4],["vgroups",4,4],["replica",3,2],["quorum",3,2],["days",3,2],["keep0,keep1,keep(D)",8,24],["cache(MB)",4,4],["blocks",4,4],["minrows",4,4],["maxrows",4,4],["wallevel",2,1],["fsync",4,4],["comp",2,1],["cachelast",2,1],["precision",8,3],["update",2,1],["status",8,10]],"data":[["test","2021-08-18 06:01:11.021",10000,4,1,1,10,"3650,3650,3650",16,6,100,4096,1,3000,2,0,"ms",0,"ready"],["log","2021-08-18 05:51:51.065",4,1,1,1,10,"30,30,30",1,3,100,4096,1,3000,2,0,"us",0,"ready"]],"rows":2}
 ```
 
-This command accesses the TDengine server through the RESTful interface, which connects to port 6041 on the local machine, so the connection is successful.
+This command accesses the DThouse server through the RESTful interface, which connects to port 6041 on the local machine, so the connection is successful.
 
-TDengine RESTful interface details can be found in the [official documentation](https://www.taosdata.com/en/documentation/connector#restful).
+DThouse RESTful interface details can be found in the [official documentation](https://www.taosdata.com/en/documentation/connector#restful).
 
 
-### Running TDengine server and taosAdapter with a Docker container
+### Running DThouse server and taosAdapter with a Docker container
 
-Docker containers of TDegnine version 2.4.0.0 and later include a component named `taosAdapter`, which supports data writing and querying capabilities to the TDengine server through the RESTful interface and provides the data ingestion interfaces compatible with InfluxDB/OpenTSDB. Allows seamless migration of InfluxDB/OpenTSDB applications to access TDengine.
+Docker containers of TDegnine version 2.4.0.0 and later include a component named `taosAdapter`, which supports data writing and querying capabilities to the DThouse server through the RESTful interface and provides the data ingestion interfaces compatible with InfluxDB/OpenTSDB. Allows seamless migration of InfluxDB/OpenTSDB applications to access DThouse.
 
 Note: If taosAdapter is running inside the container, you need to add mapping to other additional ports as needed, please refer to [taosAdapter documentation](https://github.com/taosdata/taosadapter/blob/develop/README.md) for the default port number and modification methods for the specific purpose.
 
-Running TDengine version 2.4.0.4 image with docker.
+Running DThouse version 2.4.0.4 image with docker.
 
 ```
 $ docker run -d --name tdengine-taosa -p 6030-6049:6030-6049 -p 6030-6049:6030-6049/udp tdengine/tdengine:2.4.0.4
@@ -151,12 +151,12 @@ Query OK, 1 row(s) in set (0.001639s)
 taos>
 ```
 
-You can see that the simulation data has been written to TDengine.
+You can see that the simulation data has been written to DThouse.
 
 
-### Application example: write data to TDengine server in Docker container using `taosBenchmark` on the host
+### Application example: write data to DThouse server in Docker container using `taosBenchmark` on the host
 
-1, execute `taosBenchmark` (was named taosdemo) in the host command line interface to write data to the TDengine server in the Docker container
+1, execute `taosBenchmark` (was named taosdemo) in the host command line interface to write data to the DThouse server in the Docker container
 ```bash
 $ taosBenchmark
 
@@ -209,14 +209,14 @@ After enter, this command will automatically create a super table meters under t
 
 It takes about a few minutes to execute this command and ends up inserting a total of 100 million records.
 
-3, Go to the TDengine terminal and view the data generated by taosBenchmark.
+3, Go to the DThouse terminal and view the data generated by taosBenchmark.
 
 - **Go to the terminal interface.**
 
 ```bash
-$ root@c452519b0f9b:~/TDengine-server-2.4.0.4# taos
+$ root@c452519b0f9b:~/DThouse-server-2.4.0.4# taos
 
-Welcome to the TDengine shell from Linux, Client Version:2.4.0.4
+Welcome to the DThouse shell from Linux, Client Version:2.4.0.4
 Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.
 
 taos> 
@@ -280,7 +280,7 @@ Query OK, 1 row(s) in set (0.003490s)
 
 ```
 
-## Stop the TDengine service that is running in Docker
+## Stop the DThouse service that is running in Docker
 
 ```bash
 $ docker stop tdengine
@@ -290,9 +290,9 @@ tdengine
 - **docker stop**: Stop the specified running docker image with docker stop.
 - **tdengine**: The name of the container.
 
-## TDengine connected in Docker during programming development
+## DThouse connected in Docker during programming development
 
-There are two ideas for connecting from outside of Docker to use TDengine services running inside a Docker container:
+There are two ideas for connecting from outside of Docker to use DThouse services running inside a Docker container:
 
 1, By port mapping (-p), the open network port inside the container is mapped to the specified port of the host. By mounting the local directory (-v), you can synchronize the data inside the host and the container to prevent data loss after the container is deleted.
 
@@ -304,12 +304,12 @@ $ curl -u root:taosdata -d 'show databases' 127.0.0.1:6041/rest/sql
 {"status":"succ","head":["name","created_time","ntables","vgroups","replica","quorum","days","keep0,keep1,keep(D)","cache(MB)","blocks","minrows","maxrows","wallevel","fsync","comp","cachelast","precision","update","status"],"column_meta":[["name",8,32],["created_time",9,8],["ntables",4,4],["vgroups",4,4],["replica",3,2],["quorum",3,2],["days",3,2],["keep0,keep1,keep(D)",8,24],["cache(MB)",4,4],["blocks",4,4],["minrows",4,4],["maxrows",4,4],["wallevel",2,1],["fsync",4,4],["comp",2,1],["cachelast",2,1],["precision",8,3],["update",2,1],["status",8,10]],"data":[["test","2021-08-18 06:01:11.021",10000,4,1,1,10,"3650,3650,3650",16,6,100,4096,1,3000,2,0,"ms",0,"ready"],["log","2021-08-18 05:51:51.065",4,1,1,1,10,"30,30,30",1,3,100,4096,1,3000,2,0,"us",0,"ready"]],"rows":2}
 ```
 
-- The first command starts a docker container with TDengine running and maps the 6041 port of the container to port 6041 of the host.
-- The second command, accessing TDengine through the RESTful interface, connects to port 6041 on the local machine, so the connection is successful.
+- The first command starts a docker container with DThouse running and maps the 6041 port of the container to port 6041 of the host.
+- The second command, accessing DThouse through the RESTful interface, connects to port 6041 on the local machine, so the connection is successful.
 
-Note: In this example, for convenience reasons, only port 6041 is mapped, which is required for RESTful. If you wish to connect to the TDengine service in a non-RESTful manner, you will need to map a total of 11 ports starting at 6030. In the example, mounting the local directory also only deals with the /etc/taos directory where the configuration files are located, but not the data storage directory.
+Note: In this example, for convenience reasons, only port 6041 is mapped, which is required for RESTful. If you wish to connect to the DThouse service in a non-RESTful manner, you will need to map a total of 11 ports starting at 6030. In the example, mounting the local directory also only deals with the /etc/taos directory where the configuration files are located, but not the data storage directory.
 
-2, Go directly to the docker container to do development via the exec command. That is, put the program code in the same Docker container where the TDengine server is located and connect to the TDengine service local to the container.
+2, Go directly to the docker container to do development via the exec command. That is, put the program code in the same Docker container where the DThouse server is located and connect to the DThouse service local to the container.
 
 ```bash
 $ docker exec -it tdengine /bin/bash

@@ -31,7 +31,7 @@ import (
 	"sync"
 	"time"
 
-	dataImport "github.com/taosdata/TDengine/importSampleData/import"
+	dataImport "github.com/taosdata/DThouse/importSampleData/import"
 
 	_ "github.com/taosdata/driver-go/taosSql"
 )
@@ -64,7 +64,7 @@ const (
 )
 
 var (
-	cfg          string // 导入配置文件路径，包含样例数据文件相关描述及对应 TDengine 配置信息。默认使用 config/cfg.toml
+	cfg          string // 导入配置文件路径，包含样例数据文件相关描述及对应 DThouse 配置信息。默认使用 config/cfg.toml
 	cases        string // 需要导入的场景名称，该名称可从 -cfg 指定的配置文件中 [usecase] 查看，可同时导入多个场景，中间使用逗号分隔，如：sensor_info,camera_detection，默认为 sensor_info
 	hnum         int    // 需要将样例数据进行横向扩展的倍数，假设原有样例数据包含 1 张子表 t_0 数据，指定 hnum 为 2 时会根据原有表名创建 t、t_1 两张子表。默认为 100。
 	vnum         int    // 需要将样例数据进行纵向扩展的次数，如果设置为 0 代表将历史数据导入至当前时间后持续按照指定间隔导入。默认为 1000，表示将样例数据在时间轴上纵向复制1000 次
@@ -73,12 +73,12 @@ var (
 	auto         int    // 是否自动生成样例数据中的主键时间戳，1 是，0 否， 默认 0
 	startTimeStr string // 导入的记录开始时间，格式为 "yyyy-MM-dd HH:mm:ss.SSS"，不设置会使用样例数据中最小时间，设置后会忽略样例数据中的主键时间，会按照指定的 start 进行导入。如果 auto 为 1，则必须设置 start，默认为空
 	interval     int64  // 导入的记录时间间隔，该设置只会在指定 auto=1 之后生效，否则会根据样例数据自动计算间隔时间。单位为毫秒，默认 1000
-	host         string // 导入的 TDengine 服务器 IP，默认为 127.0.0.1
-	port         int    // 导入的 TDengine 服务器端口，默认为 6030
-	user         string // 导入的 TDengine 用户名，默认为 root
-	password     string // 导入的 TDengine 用户密码，默认为 taosdata
+	host         string // 导入的 DThouse 服务器 IP，默认为 127.0.0.1
+	port         int    // 导入的 DThouse 服务器端口，默认为 6030
+	user         string // 导入的 DThouse 用户名，默认为 root
+	password     string // 导入的 DThouse 用户密码，默认为 taosdata
 	dropdb       int    // 导入数据之前是否删除数据库，1 是，0 否， 默认 0
-	db           string // 导入的 TDengine 数据库名称，默认为 test_yyyyMMdd
+	db           string // 导入的 DThouse 数据库名称，默认为 test_yyyyMMdd
 	dbparam      string // 当指定的数据库不存在时，自动创建数据库时可选项配置参数，如 days 10 cache 16000 ablocks 4，默认为空
 
 	dataSourceName string
@@ -148,7 +148,7 @@ func init() {
 	parseArg() // parse argument
 
 	if db == "" {
-		// 导入的 TDengine 数据库名称，默认为 test_yyyyMMdd
+		// 导入的 DThouse 数据库名称，默认为 test_yyyyMMdd
 		db = fmt.Sprintf("test_%s", time.Now().Format("20060102"))
 	}
 

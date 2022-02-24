@@ -3,7 +3,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 
-namespace TDengineDriver
+namespace DThouseDriver
 {
     public class TaosMultiBind
     {
@@ -34,7 +34,7 @@ namespace TDengineDriver
                 Marshal.WriteByte(nullArr, byteSize * i, Convert.ToByte(arr[i].Equals(null) ? 1 : 0));
             }
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_BOOL;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_BOOL;
             multiBind.buffer = unmanagedBoolArr;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -73,7 +73,7 @@ namespace TDengineDriver
             }
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_TINYINT;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_TINYINT;
             multiBind.buffer = unmanagedTintIntArr;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -110,7 +110,7 @@ namespace TDengineDriver
 
             }
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_SMALLINT;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_SMALLINT;
             multiBind.buffer = unmanagedSmallIntArr;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -145,7 +145,7 @@ namespace TDengineDriver
 
             }
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_INT;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_INT;
             multiBind.buffer = intBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -181,7 +181,7 @@ namespace TDengineDriver
 
             }
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_BIGINT;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_BIGINT;
             multiBind.buffer = intBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -220,7 +220,7 @@ namespace TDengineDriver
             Marshal.Copy(arrTmp, 0, floatBuff, elementCount);
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_FLOAT;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_FLOAT;
             multiBind.buffer = floatBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -259,7 +259,7 @@ namespace TDengineDriver
             Marshal.Copy(arrTmp, 0, doubleBuff, elementCount);
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_DOUBLE;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_DOUBLE;
             multiBind.buffer = doubleBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -297,7 +297,7 @@ namespace TDengineDriver
 
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_UTINYINT;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_UTINYINT;
             multiBind.buffer = uTinyIntBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -339,7 +339,7 @@ namespace TDengineDriver
 
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_USMALLINT;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_USMALLINT;
             multiBind.buffer = uSmallIntBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -381,7 +381,7 @@ namespace TDengineDriver
 
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_UINT;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_UINT;
             multiBind.buffer = uIntBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -423,7 +423,7 @@ namespace TDengineDriver
 
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_UBIGINT;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_UBIGINT;
             multiBind.buffer = uBigIntBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -477,7 +477,7 @@ namespace TDengineDriver
             IntPtr uBinaryBuff = (IntPtr)Marshal.StringToHGlobalAnsi(arrStrBuilder.ToString());
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_BINARY;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_BINARY;
             multiBind.buffer = uBinaryBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -532,7 +532,7 @@ namespace TDengineDriver
             IntPtr uNcharBuff = (IntPtr)Marshal.StringToHGlobalAnsi(arrStrBuilder.ToString());
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_NCHAR;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_NCHAR;
             multiBind.buffer = uNcharBuff;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;
@@ -567,7 +567,7 @@ namespace TDengineDriver
             }
 
             //config TAOS_MULTI_BIND
-            multiBind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_TIMESTAMP;
+            multiBind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_TIMESTAMP;
             multiBind.buffer = unmanagedTsArr;
             multiBind.buffer_length = (ulong)typeSize;
             multiBind.length = lengthArr;

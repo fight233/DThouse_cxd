@@ -4,7 +4,7 @@ version: '2.4.0.5'
 icon: snap/gui/t-dengine.svg
 summary: an open-source big data platform designed and optimized for IoT. 
 description: |
-  TDengine is an open-source big data platform designed and optimized for Internet of Things (IoT), Connected Vehicles, and Industrial IoT. Besides the 10x faster time-series database, it provides caching, stream computing, message queuing and other functionalities to reduce the complexity and costs of development and operations.
+  DThouse is an open-source big data platform designed and optimized for Internet of Things (IoT), Connected Vehicles, and Industrial IoT. Besides the 10x faster time-series database, it provides caching, stream computing, message queuing and other functionalities to reduce the complexity and costs of development and operations.
 
 grade: stable
 confinement: strict

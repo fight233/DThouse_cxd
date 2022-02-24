@@ -93,7 +93,7 @@ done
 
 printTo "Cassandra Test begin.."
 
-WORK_DIR=/mnt/root/TDengine
+WORK_DIR=/mnt/root/DThouse
 CAS_TEST_DIR=$WORK_DIR/tests/comparisonTest/cassandra
 
 runTest

@@ -1024,7 +1024,7 @@ static int getTableRecordInfo(
     TAOS *taos = taos_connect(g_args.host, g_args.user, g_args.password,
             dbName, g_args.port);
     if (taos == NULL) {
-        errorPrint("Failed to connect to TDengine server %s\n", g_args.host);
+        errorPrint("Failed to connect to DThouse server %s\n", g_args.host);
         return -1;
     }
 
@@ -1156,7 +1156,7 @@ static int getDumpDbCount()
     taos = taos_connect(g_args.host, g_args.user, g_args.password,
             NULL, g_args.port);
     if (NULL == taos) {
-        errorPrint("Failed to connect to TDengine server %s\n", g_args.host);
+        errorPrint("Failed to connect to DThouse server %s\n", g_args.host);
         return 0;
     }
 
@@ -1281,7 +1281,7 @@ static int64_t getNtbCountOfStb(char *dbName, char *stbName)
     TAOS *taos = taos_connect(g_args.host, g_args.user, g_args.password,
             dbName, g_args.port);
     if (taos == NULL) {
-        errorPrint("Failed to connect to TDengine server %s\n", g_args.host);
+        errorPrint("Failed to connect to DThouse server %s\n", g_args.host);
         return -1;
     }
 
@@ -4151,7 +4151,7 @@ static int64_t dumpInOneAvroFile(
     TAOS *taos = taos_connect(g_args.host, g_args.user, g_args.password,
             namespace, g_args.port);
     if (taos == NULL) {
-        errorPrint("Failed to connect to TDengine server %s\n", g_args.host);
+        errorPrint("Failed to connect to DThouse server %s\n", g_args.host);
         return -1;
     }
 
@@ -4598,7 +4598,7 @@ static int64_t dumpTableData(
             g_args.user, g_args.password, dbName, g_args.port);
     if (NULL == taos) {
         errorPrint(
-                "Failed to connect to TDengine server %s by specified database %s\n",
+                "Failed to connect to DThouse server %s by specified database %s\n",
                 g_args.host, dbName);
         tfree(jsonSchema);
         return -1;
@@ -5652,7 +5652,7 @@ static int dumpInDebugWorkThreads()
         pThread->taos = taos_connect(g_args.host, g_args.user, g_args.password,
             NULL, g_args.port);
         if (pThread->taos == NULL) {
-            errorPrint("Failed to connect to TDengine server %s\n", g_args.host);
+            errorPrint("Failed to connect to DThouse server %s\n", g_args.host);
             free(infos);
             free(pids);
             return -1;
@@ -5692,7 +5692,7 @@ static int dumpInDbs()
             NULL, g_args.port);
 
     if (taos == NULL) {
-        errorPrint("%s() LN%d, failed to connect to TDengine server\n",
+        errorPrint("%s() LN%d, failed to connect to DThouse server\n",
                 __func__, __LINE__);
         return -1;
     }
@@ -5896,7 +5896,7 @@ static int64_t dumpNtbOfDbByThreads(
                 g_args.port
                 );
         if (NULL == pThreadInfo->taos) {
-            errorPrint("%s() LN%d, Failed to connect to TDengine, reason: %s\n",
+            errorPrint("%s() LN%d, Failed to connect to DThouse, reason: %s\n",
                     __func__,
                     __LINE__,
                     taos_errstr(NULL));
@@ -5938,7 +5938,7 @@ static int64_t dumpNTablesOfDb(SDbInfo *dbInfo)
             g_args.user, g_args.password, dbInfo->name, g_args.port);
     if (NULL == taos) {
         errorPrint(
-                "Failed to connect to TDengine server %s by specified database %s\n",
+                "Failed to connect to DThouse server %s by specified database %s\n",
                 g_args.host, dbInfo->name);
         return 0;
     }
@@ -6044,7 +6044,7 @@ static int64_t dumpNtbOfStbByThreads(
                 g_args.port
                 );
         if (NULL == pThreadInfo->taos) {
-            errorPrint("%s() LN%d, Failed to connect to TDengine, reason: %s\n",
+            errorPrint("%s() LN%d, Failed to connect to DThouse, reason: %s\n",
                     __func__,
                     __LINE__,
                     taos_errstr(NULL));
@@ -6118,7 +6118,7 @@ static int64_t dumpCreateSTableClauseOfDb(
             g_args.user, g_args.password, dbInfo->name, g_args.port);
     if (NULL == taos) {
         errorPrint(
-                "Failed to connect to TDengine server %s by specified database %s\n",
+                "Failed to connect to DThouse server %s by specified database %s\n",
                 g_args.host, dbInfo->name);
         return 0;
     }
@@ -6301,7 +6301,7 @@ static int dumpOut() {
     taos = taos_connect(g_args.host, g_args.user, g_args.password,
             NULL, g_args.port);
     if (taos == NULL) {
-        errorPrint("Failed to connect to TDengine server %s\n", g_args.host);
+        errorPrint("Failed to connect to DThouse server %s\n", g_args.host);
         goto _exit_failure;
     }
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WORK_DIR=/home/ubuntu/pxiao
-TDENGINE_DIR=/home/ubuntu/pxiao/TDengine
+TDENGINE_DIR=/home/ubuntu/pxiao/DThouse
 NUM_OF_VERSIONS=5
 CURRENT_VERSION=0
 today=`date +"%Y%m%d"`
@@ -24,8 +24,8 @@ function echoWarn   { local args="$@";  echo "$(white_brackets "$(yellow_printf 
 function echoError  { local args="$@"; echo "$(white_brackets "$(red_printf    "ERROR")" && echo " ${args}";)" 1>&2; }
 
 function getCurrentVersion {
-	echoInfo "Build TDengine"
-	cd $WORK_DIR/TDengine
+	echoInfo "Build DThouse"
+	cd $WORK_DIR/DThouse
 
 	git remote update > /dev/null
 	git reset --hard HEAD
@@ -52,8 +52,8 @@ function getCurrentVersion {
 	CURRENT_VERSION=`taosd -V | grep version | awk '{print $3}' | awk -F. '{print $3}'`
 }
 
-function buildTDengineByVersion() {
-	echoInfo "build TDengine on branch: $1"
+function buildDThouseByVersion() {
+	echoInfo "build DThouse on branch: $1"
 	git reset --hard HEAD
 	git checkout $1
 	git pull > /dev/null
@@ -123,7 +123,7 @@ function runTaosdemoCompare {
 		stopTaosd
 		version=`expr $CURRENT_VERSION - $i`
 		release="release/s1$version"
-		buildTDengineByVersion $release
+		buildDThouseByVersion $release
 	done
 }
 

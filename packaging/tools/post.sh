@@ -314,9 +314,9 @@ function install_config() {
     #PORT_FORMAT="(/[1-6][0-9][0-9][0-9][0-9]?/)"
     #FQDN_PATTERN=":[0-9]{1,5}$"
 
-    # first full-qualified domain name (FQDN) for TDengine cluster system
+    # first full-qualified domain name (FQDN) for DThouse cluster system
     echo
-    echo -e -n "${GREEN}Enter FQDN:port (like h1.taosdata.com:6030) of an existing TDengine cluster node to join${NC}"
+    echo -e -n "${GREEN}Enter FQDN:port (like h1.taosdata.com:6030) of an existing DThouse cluster node to join${NC}"
     echo
     echo -e -n "${GREEN}OR leave it blank to build one${NC}:"
     #read firstEp
@@ -412,7 +412,7 @@ function clean_service_on_systemd() {
 
     # taosd service already is stoped before install in preinst script
     #if systemctl is-active --quiet taosd; then
-    #    echo "TDengine is running, stopping it..."
+    #    echo "DThouse is running, stopping it..."
     #    ${csudo}systemctl stop taosd &> /dev/null || echo &> /dev/null
     #fi
     ${csudo}systemctl disable taosd &> /dev/null || echo &> /dev/null
@@ -428,7 +428,7 @@ function install_service_on_systemd() {
     taosd_service_config="${service_config_dir}/taosd.service"
 
     ${csudo}bash -c "echo '[Unit]'                             >> ${taosd_service_config}"
-    ${csudo}bash -c "echo 'Description=TDengine server service' >> ${taosd_service_config}"
+    ${csudo}bash -c "echo 'Description=DThouse server service' >> ${taosd_service_config}"
     ${csudo}bash -c "echo 'After=network-online.target'        >> ${taosd_service_config}"
     ${csudo}bash -c "echo 'Wants=network-online.target'        >> ${taosd_service_config}"
     ${csudo}bash -c "echo                                      >> ${taosd_service_config}"
@@ -472,8 +472,8 @@ function install_service() {
     fi
 }
 
-function install_TDengine() {
-    echo -e "${GREEN}Start to install TDengine...${NC}"
+function install_DThouse() {
+    echo -e "${GREEN}Start to install DThouse...${NC}"
 
     #install log and data dir , then ln to /usr/local/taos
     ${csudo}mkdir -p ${log_dir} && ${csudo}chmod 777 ${log_dir}
@@ -496,16 +496,16 @@ function install_TDengine() {
 
     # Ask if to start the service
     #echo
-    #echo -e "\033[44;32;1mTDengine is installed successfully!${NC}"
+    #echo -e "\033[44;32;1mDThouse is installed successfully!${NC}"
     echo
-    echo -e "${GREEN_DARK}To configure TDengine ${NC}: edit /etc/taos/taos.cfg"
+    echo -e "${GREEN_DARK}To configure DThouse ${NC}: edit /etc/taos/taos.cfg"
     if ((${service_mod}==0)); then
-        echo -e "${GREEN_DARK}To start TDengine     ${NC}: ${csudo}systemctl start taosd${NC}"
+        echo -e "${GREEN_DARK}To start DThouse     ${NC}: ${csudo}systemctl start taosd${NC}"
     elif ((${service_mod}==1)); then
-        echo -e "${GREEN_DARK}To start TDengine     ${NC}: ${csudo}update-rc.d taosd default  ${RED} for the first time${NC}"
+        echo -e "${GREEN_DARK}To start DThouse     ${NC}: ${csudo}update-rc.d taosd default  ${RED} for the first time${NC}"
         echo -e "                      : ${csudo}service taosd start ${RED} after${NC}"
     else
-        echo -e "${GREEN_DARK}To start TDengine     ${NC}: ./taosd${NC}"
+        echo -e "${GREEN_DARK}To start DThouse     ${NC}: ./taosd${NC}"
     fi
 
 
@@ -519,21 +519,21 @@ function install_TDengine() {
         tmpPort=""
       fi
       if [[ "$tmpPort" != "" ]];then
-           echo -e "${GREEN_DARK}To access TDengine    ${NC}: taos -h $tmpFqdn -P $tmpPort${GREEN_DARK} to login into cluster, then${NC}"
+           echo -e "${GREEN_DARK}To access DThouse    ${NC}: taos -h $tmpFqdn -P $tmpPort${GREEN_DARK} to login into cluster, then${NC}"
       else
-          echo -e "${GREEN_DARK}To access TDengine    ${NC}: taos -h $tmpFqdn${GREEN_DARK} to login into cluster, then${NC}"
+          echo -e "${GREEN_DARK}To access DThouse    ${NC}: taos -h $tmpFqdn${GREEN_DARK} to login into cluster, then${NC}"
       fi
       echo -e "${GREEN_DARK}execute ${NC}: create dnode 'newDnodeFQDN:port'; ${GREEN_DARK}to add this new node${NC}"
       echo
     elif [ ! -z "$serverFqdn" ]; then
-      echo -e "${GREEN_DARK}To access TDengine    ${NC}: taos -h $serverFqdn${GREEN_DARK} to login into TDengine server${NC}"
+      echo -e "${GREEN_DARK}To access DThouse    ${NC}: taos -h $serverFqdn${GREEN_DARK} to login into DThouse server${NC}"
       echo
     fi
     echo
-    echo -e "\033[44;32;1mTDengine is installed successfully!${NC}"
+    echo -e "\033[44;32;1mDThouse is installed successfully!${NC}"
 }
 
 
 ## ==============================Main program starts from here============================
 serverFqdn=$(hostname)
-install_TDengine
+install_DThouse

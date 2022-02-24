@@ -30,7 +30,7 @@ type Config struct {
 		Level string `json:"level,omitempty" yaml:"level,omitempty"`
 		Path  string `json:"path,omitempty" yaml:"path,omitempty"`
 	} `json:"log" yaml:"log"`
-	TDengine  string `json:"tdengine,omitempty" yaml:"tdengine,omitempty"`
+	DThouse  string `json:"tdengine,omitempty" yaml:"tdengine,omitempty"`
 	Receivers struct {
 		AlertManager string `json:"alertManager,omitempty" yaml:"alertManager,omitempty"`
 		Console      bool   `json:"console"`

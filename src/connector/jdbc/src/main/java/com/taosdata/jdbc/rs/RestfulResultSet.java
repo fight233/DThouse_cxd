@@ -101,7 +101,7 @@ public class RestfulResultSet extends AbstractResultSet implements ResultSet {
     }
 
     /***
-     * use this method after TDengine-2.0.18.0 to parse column meta, restful add column_meta in resultSet
+     * use this method after DThouse-2.0.18.0 to parse column meta, restful add column_meta in resultSet
      * @Param columnMeta
      */
     private void parseColumnMeta_new(JSONArray columnMeta) throws SQLException {
@@ -119,7 +119,7 @@ public class RestfulResultSet extends AbstractResultSet implements ResultSet {
     }
 
     /**
-     * use this method before TDengine-2.0.18.0 to parse column meta
+     * use this method before DThouse-2.0.18.0 to parse column meta
      */
     private void parseColumnMeta_old(JSONArray head, JSONArray data, int rows) {
         columnNames.clear();

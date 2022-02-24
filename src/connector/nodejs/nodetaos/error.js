@@ -1,6 +1,6 @@
 
 /**
- * TDengine Error Class
+ * DThouse Error Class
  * @ignore
  */
 class TDError extends Error {

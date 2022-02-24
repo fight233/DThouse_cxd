@@ -1,8 +1,8 @@
 #!/bin/bash
 ulimit -c unlimited
 
-function buildTDengine {
-	cd /root/TDengine
+function buildDThouse {
+	cd /root/DThouse
 
 	git remote update
 	REMOTE_COMMIT=`git rev-parse --short remotes/origin/develop`
@@ -37,7 +37,7 @@ function restartTaosd {
 	sleep 10
 }
 
-buildTDengine
+buildDThouse
 restartTaosd
-cd /root/TDengine/tests/pytest/insert
+cd /root/DThouse/tests/pytest/insert
 python3 writeDBNonStop.py

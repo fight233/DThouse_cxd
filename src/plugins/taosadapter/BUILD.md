@@ -1,7 +1,7 @@
 
 # Build taosAdapter
 
-We strongly recommend to deploy taosAdapter with TDengine server and install taosAdapter with official TDengine installation package. If you want to debug or contribute to taosAdapter, you can build it separately too.
+We strongly recommend to deploy taosAdapter with DThouse server and install taosAdapter with official DThouse installation package. If you want to debug or contribute to taosAdapter, you can build it separately too.
 
 ## Setup golang environment
 
@@ -14,13 +14,13 @@ go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
-## Build taosAdapter as a component of TDengine
+## Build taosAdapter as a component of DThouse
 
-taosAdapter source code is hosted as a stand-alone repository and also is part of TDengine as a submodule. You can download TDengine source code and build both of them. Following are steps:
+taosAdapter source code is hosted as a stand-alone repository and also is part of DThouse as a submodule. You can download DThouse source code and build both of them. Following are steps:
 
 ```shell
-git clone https://github.com/taosdata/TDengine
-cd TDengine
+git clone https://github.com/taosdata/DThouse
+cd DThouse
 git submodule update --init --recursive
 mkdir debug
 cd debug
@@ -29,15 +29,15 @@ make
 sudo make install
 ```
 
-Once make install is done, taosAdapter and its systemd service file be installed to the system with the TDengine server. You can use `sudo systemctl start taosd` and `sudo systemctl stop taosd` to launch both of them.
+Once make install is done, taosAdapter and its systemd service file be installed to the system with the DThouse server. You can use `sudo systemctl start taosd` and `sudo systemctl stop taosd` to launch both of them.
 
 ## Build stand-alone taosAdapter
 
-taosAdapter can be built as a stand-alone application too if you already deployed TDengine server v2.3.0.0 or an above version.
+taosAdapter can be built as a stand-alone application too if you already deployed DThouse server v2.3.0.0 or an above version.
 
-### Install TDengine server or client installation package
+### Install DThouse server or client installation package
 
-Please download the TDengine server or client installation package from the [official website](https://www.taosdata.com/en/all-downloads/).
+Please download the DThouse server or client installation package from the [official website](https://www.taosdata.com/en/all-downloads/).
 
 ### Build taosAdapter from source code
 

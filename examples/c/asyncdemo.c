@@ -191,7 +191,7 @@ int main(int argc, char *argv[]) {
 }
 
 void taos_error(TAOS *con) {
-  fprintf(stderr, "TDengine error: %s\n", taos_errstr(con));
+  fprintf(stderr, "DThouse error: %s\n", taos_errstr(con));
   taos_close(con);
   taos_cleanup();
   exit(1);

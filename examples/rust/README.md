@@ -1,6 +1,6 @@
-# TDengine rust bindings
+# DThouse rust bindings
 
-It's a rust bindings project for [TDengine](https://github.com/taosdata/TDengine)
+It's a rust bindings project for [DThouse](https://github.com/taosdata/DThouse)
 
 AND it's based on OUTDATED [tdengine-connector](https://github.com/tidyjiang8/tdengine-connector), thanks for [@tidyjiang8](https://github.com/tidyjiang8)'s prior work.
 
@@ -57,7 +57,7 @@ This binding has only been tested in following platforms
 let me know if it's running well in your platform or just edit this list.
 
 ## Contribution
-We should keep track of TDengine latest c interfaces and support as more interfaces as we need.
+We should keep track of DThouse latest c interfaces and support as more interfaces as we need.
 
 
 ## License

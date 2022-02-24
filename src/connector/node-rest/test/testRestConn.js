@@ -1,4 +1,4 @@
-import {TDRestConnection} from "../TDengineRest";
+import {TDRestConnection} from "../DThouseRest";
 import assert from "assert"
 
 let conn = new TDRestConnection({host: '127.0.0.1', user: 'root', pass: 'taosdata', port: 6041});

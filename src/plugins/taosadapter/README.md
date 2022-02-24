@@ -2,7 +2,7 @@
 
 [中文版](https://github.com/taosdata/taosadapter/blob/develop/README-CN.md)
 
-taosAdapter is a TDengine’s companion tool and is a bridge/adapter between TDengine cluster and application. It provides an easy-to-use and efficient way to ingest data from data collections agents(like Telegraf, StatsD, collectd) directly. It also provides InfluxDB/OpenTSDB compatible data ingestion interface to allow InfluxDB/OpenTSDB applications to immigrate to TDengine seamlessly.
+taosAdapter is a DThouse’s companion tool and is a bridge/adapter between DThouse cluster and application. It provides an easy-to-use and efficient way to ingest data from data collections agents(like Telegraf, StatsD, collectd) directly. It also provides InfluxDB/OpenTSDB compatible data ingestion interface to allow InfluxDB/OpenTSDB applications to immigrate to DThouse seamlessly.
 
 taosAdapter provides the following functions.
 
@@ -24,7 +24,7 @@ taosAdapter provides the following functions.
 
 ### Install taosAdapter
 
-taosAdapter is part of the TDengine server from TDengine v2.3.0.0. You don't need any additional steps to install taosAdapter if you already installed TDengine server. You can download TDengine server package (taosAdapter be included in v2.3.0.0 and above version) from the [official website](https://taosdata.com/en/all-downloads/). If you want to deploy taosAdapter on another server, you need to install official TDengine server installation package. If you want to build taosAdapter from source code, you can refer to the [How to build taosAdapter](https://github.com/taosdata/taosadapter/blob/develop/BUILD.md) instruction.
+taosAdapter is part of the DThouse server from DThouse v2.3.0.0. You don't need any additional steps to install taosAdapter if you already installed DThouse server. You can download DThouse server package (taosAdapter be included in v2.3.0.0 and above version) from the [official website](https://taosdata.com/en/all-downloads/). If you want to deploy taosAdapter on another server, you need to install official DThouse server installation package. If you want to build taosAdapter from source code, you can refer to the [How to build taosAdapter](https://github.com/taosdata/taosadapter/blob/develop/BUILD.md) instruction.
 
 ### Start/Stop taosAdapter
 
@@ -32,13 +32,13 @@ taosAdapter service is managed by the systemd by default on the Linux system. It
 
 ### Uninstall taosAdapter
 
-The command `rmtaos` will remove the TDengine server software including taosAdapter too.
+The command `rmtaos` will remove the DThouse server software including taosAdapter too.
 
 ### Upgrade taosAdapter
 
-taosAdapter only properly run with the same version of TDengine server.
-You need to upgrade TDengine server to upgrade taosAdapter.
-A separate deployed taosAdapter need to upgrade the corresponding version of TDengine server package too.
+taosAdapter only properly run with the same version of DThouse server.
+You need to upgrade DThouse server to upgrade taosAdapter.
+A separate deployed taosAdapter need to upgrade the corresponding version of DThouse server package too.
 
 ## taosAdapter's parameters
 
@@ -168,9 +168,9 @@ For the default configuration file, see [example/config/taosadapter.toml](https:
 
 ## Interface
 
-### TDengine RESTful interface
+### DThouse RESTful interface
 
-You can use any http client to access the RESTful interface address `http://<fqdn>:6041/<APIEndPoint>` to insert to or query from TDengine. Please refer to the [official documentation](https://www.taosdata.com/cn/documentation/connector#restful) for detail. The end point could be following:
+You can use any http client to access the RESTful interface address `http://<fqdn>:6041/<APIEndPoint>` to insert to or query from DThouse. Please refer to the [official documentation](https://www.taosdata.com/cn/documentation/connector#restful) for detail. The end point could be following:
 
 ```
 /rest/sql
@@ -180,7 +180,7 @@ You can use any http client to access the RESTful interface address `http://<fqd
 
 ### InfluxDB
 
-You can use any http client to access the RESTful interface address `http://<fqdn>:6041/<APIEndPoint>` to insert InfluxDB compatible protocol data to TDengine. The end point is:
+You can use any http client to access the RESTful interface address `http://<fqdn>:6041/<APIEndPoint>` to insert InfluxDB compatible protocol data to DThouse. The end point is:
 
 ```
 /influxdb/v1/write
@@ -197,7 +197,7 @@ Note: There is currently not supported token authentication in InfluxDB only sup
 
 ### OpenTSDB
 
-You can use any http client to access the RESTful interface address `http://<fqdn>:6041/<APIEndPoint>` to insert OpenTSDB compatible protocol data to TDengine. The end point is:
+You can use any http client to access the RESTful interface address `http://<fqdn>:6041/<APIEndPoint>` to insert OpenTSDB compatible protocol data to DThouse. The end point is:
 
 ```
 /opentsdb/v1/put/json/:db
@@ -292,8 +292,8 @@ Just use the REMOTE_READ and REMOTE_WRITE URL to point to the URL corresponding 
 
 Basic verification:
 
-* Username: TDengine connection username
-* Password: TDengine connection password
+* Username: DThouse connection username
+* Password: DThouse connection password
 
 Example Prometheus.yml is as follows:
 
@@ -371,9 +371,9 @@ You can use `systemctl status taosadapter` to check the running status of the ta
 
 Or you can set `--logLevel` or the environment variable "TAOS_ADAPTER_LOG_LEVEL" to adjust the detail level how many log taosAdapter output. The valid values include panic, fatal, error, warn, warning, info, debug, and trace.
 
-## How to migrate to taosAdapter from old version of TDengine server
+## How to migrate to taosAdapter from old version of DThouse server
 
-In the early version (2.2.x.x or earlier version), TDengine server provided an embedded http service by default. It will compulsorily running with the `taosd` process. As mentioned early, taosAdapter need be manually run by 'systemctl start taosadapter' and has its own process. Some parameters and behaviors are different between the embedded httpd and taosAdapter. Please see below:
+In the early version (2.2.x.x or earlier version), DThouse server provided an embedded http service by default. It will compulsorily running with the `taosd` process. As mentioned early, taosAdapter need be manually run by 'systemctl start taosadapter' and has its own process. Some parameters and behaviors are different between the embedded httpd and taosAdapter. Please see below:
 
 | **#** | **embedded httpd** | **taosAdapter** | **comment** |
 | ----- | ------------------ | --------------- | ----------- |

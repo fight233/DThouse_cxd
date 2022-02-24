@@ -597,7 +597,7 @@ int init_taos_list() {
             taos_connect(g_arguments->host, g_arguments->user,
                          g_arguments->password, NULL, g_arguments->port);
         if (pool->taos_list[i] == NULL) {
-            errorPrint("Failed to connect to TDengine, reason:%s\n",
+            errorPrint("Failed to connect to DThouse, reason:%s\n",
                        taos_errstr(NULL));
             return -1;
         }

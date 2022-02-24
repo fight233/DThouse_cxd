@@ -185,12 +185,12 @@ int32_t dnodeInitSystem() {
 
   if (!taosReadGlobalCfg()) {
     taosPrintGlobalCfg();
-    dError("TDengine read global config failed");
+    dError("DThouse read global config failed");
     return -1;
   }
 
   taosSetCoreDump();
-  dInfo("start to initialize TDengine");
+  dInfo("start to initialize DThouse");
 
   taosInitNotes();
 
@@ -202,8 +202,8 @@ int32_t dnodeInitSystem() {
   moduleStart();
 
   tsDnodeStartTime = taosGetTimestampMs();
-  dnodeReportStep("TDengine", "initialized successfully", 1);
-  dInfo("TDengine is initialized successfully");
+  dnodeReportStep("DThouse", "initialized successfully", 1);
+  dInfo("DThouse is initialized successfully");
 
   return 0;
 }

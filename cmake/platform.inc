@@ -1,5 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0...3.20)
-PROJECT(TDengine)
+PROJECT(DThouse)
 
 #
 # If it is a Windows operating system
@@ -10,7 +10,7 @@ PROJECT(TDengine)
 #   2.Use the VS development interface tool
 #     mkdir build; cd build;
 #     cmake -A x64 ..
-#     open the file named TDengine.sln
+#     open the file named DThouse.sln
 #
 
 # Set macro definitions according to os platform

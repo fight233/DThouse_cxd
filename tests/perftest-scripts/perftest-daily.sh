@@ -81,9 +81,9 @@ function collectSysInfo {
 	grep "^[^#;]" /etc/taos/taos.cfg | tee taos.cfg
 }
 
-function buildTDengine {
-	echoInfo "Build TDengine"
-	cd $WORK_DIR/TDengine
+function buildDThouse {
+	echoInfo "Build DThouse"
+	cd $WORK_DIR/DThouse
 
 	git remote update > /dev/null
 	REMOTE_COMMIT=`git rev-parse --short remotes/origin/develop`
@@ -148,7 +148,7 @@ today=`date +"%Y%m%d"`
 cd $WORK_DIR
 echo -e "cron-ran-at-${today}" >> $WORK_DIR/cron.log
 
-buildTDengine
+buildDThouse
 
 ############################
 setMaxConnections 1000

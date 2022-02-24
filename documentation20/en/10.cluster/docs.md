@@ -1,10 +1,10 @@
-# TDengine Cluster Management
+# DThouse Cluster Management
 
-Multiple TDengine servers, that is, multiple running instances of taosd, can form a cluster to ensure the highly reliable operation of TDengine and provide scale-out features. To understand cluster management in TDengine 2.0, it is necessary to understand the basic concepts of clustering. Please refer to the chapter "Overall Architecture of TDengine 2.0". And before installing the cluster, please follow the chapter ["Getting started"](https://www.taosdata.com/en/documentation/getting-started/) to install and experience the single node TDengine.
+Multiple DThouse servers, that is, multiple running instances of taosd, can form a cluster to ensure the highly reliable operation of DThouse and provide scale-out features. To understand cluster management in DThouse 2.0, it is necessary to understand the basic concepts of clustering. Please refer to the chapter "Overall Architecture of DThouse 2.0". And before installing the cluster, please follow the chapter ["Getting started"](https://www.taosdata.com/en/documentation/getting-started/) to install and experience the single node DThouse.
 
-Each data node of the cluster is uniquely identified by End Point, which is composed of FQDN (Fully Qualified Domain Name) plus Port, such as [h1.taosdata.com](http://h1.taosdata.com/):6030. The general FQDN is the hostname of the server, which can be obtained through the Linux command `hostname -f` (how to configure FQDN, please refer to: [All about FQDN of TDengine](https://www.taosdata.com/blog/2020/09/11/1824.html)). Port is the external service port number of this data node. The default is 6030, but it can be modified by configuring the parameter serverPort in taos.cfg. A physical node may be configured with multiple hostnames, and TDengine will automatically get the first one, but it can also be specified through the configuration parameter `fqdn` in taos.cfg. If you want to access via direct IP address, you can set the parameter `fqdn` to the IP address of this node.
+Each data node of the cluster is uniquely identified by End Point, which is composed of FQDN (Fully Qualified Domain Name) plus Port, such as [h1.taosdata.com](http://h1.taosdata.com/):6030. The general FQDN is the hostname of the server, which can be obtained through the Linux command `hostname -f` (how to configure FQDN, please refer to: [All about FQDN of DThouse](https://www.taosdata.com/blog/2020/09/11/1824.html)). Port is the external service port number of this data node. The default is 6030, but it can be modified by configuring the parameter serverPort in taos.cfg. A physical node may be configured with multiple hostnames, and DThouse will automatically get the first one, but it can also be specified through the configuration parameter `fqdn` in taos.cfg. If you want to access via direct IP address, you can set the parameter `fqdn` to the IP address of this node.
 
-The cluster management of TDengine is extremely simple. Except for manual intervention in adding and deleting nodes, all other tasks are completed automatically, thus minimizing the workload of operation. This chapter describes the operations of cluster management in detail.
+The cluster management of DThouse is extremely simple. Except for manual intervention in adding and deleting nodes, all other tasks are completed automatically, thus minimizing the workload of operation. This chapter describes the operations of cluster management in detail.
 
 Please refer to the [video tutorial](https://www.taosdata.com/blog/2020/11/11/1961.html) for cluster building.
 
@@ -12,15 +12,15 @@ Please refer to the [video tutorial](https://www.taosdata.com/blog/2020/11/11/19
 
 **Step 0:** Plan FQDN of all physical nodes in the cluster, and add the planned FQDN to /etc/hostname of each physical node respectively; modify the /etc/hosts of each physical node, and add the corresponding IP and FQDN of all cluster physical nodes. [If DNS is deployed, contact your network administrator to configure it on DNS]
 
-**Step 1:** If the physical nodes have previous test data, installed with version 1. x, or installed with other versions of TDengine, please backup all data, then delete it and drop all data. For specific steps, please refer to the blog "[Installation and Uninstallation of Various Packages of TDengine](https://www.taosdata.com/blog/2019/08/09/566.html)"
+**Step 1:** If the physical nodes have previous test data, installed with version 1. x, or installed with other versions of DThouse, please backup all data, then delete it and drop all data. For specific steps, please refer to the blog "[Installation and Uninstallation of Various Packages of DThouse](https://www.taosdata.com/blog/2019/08/09/566.html)"
 
-**Note 1:** Because the information of FQDN will be written into a file, if FQDN has not been configured or changed before, and TDengine has been started, be sure to clean up the previous data （`rm -rf /var/lib/taos/*`）on the premise of ensuring that the data is useless or backed up;
+**Note 1:** Because the information of FQDN will be written into a file, if FQDN has not been configured or changed before, and DThouse has been started, be sure to clean up the previous data （`rm -rf /var/lib/taos/*`）on the premise of ensuring that the data is useless or backed up;
 
 **Note 2:** The client also needs to be configured to ensure that it can correctly parse the FQDN configuration of each node, whether through DNS service or modify hosts file.
 
 **Step 2:** It is recommended to close the firewall of all physical nodes, and at least ensure that the TCP and UDP ports of ports 6030-6042 are open. It is **strongly recommended** to close the firewall first and configure the ports after the cluster is built;
 
-**Step 3:** Install TDengine on all physical nodes, and the version must be consistent, **but do not start taosd**. During installation, when prompted to enter whether to join an existing TDengine cluster, press enter for the first physical node directly to create a new cluster, and enter the FQDN: port number (default 6030) of any online physical node in the cluster for the subsequent physical nodes;
+**Step 3:** Install DThouse on all physical nodes, and the version must be consistent, **but do not start taosd**. During installation, when prompted to enter whether to join an existing DThouse cluster, press enter for the first physical node directly to create a new cluster, and enter the FQDN: port number (default 6030) of any online physical node in the cluster for the subsequent physical nodes;
 
 **Step 4:** Check the network settings of all data nodes and the physical nodes where the application is located:
 
@@ -29,7 +29,7 @@ Please refer to the [video tutorial](https://www.taosdata.com/blog/2020/11/11/19
 3. From the physical node where the application runs, ping the data node where taosd runs. If the ping fails, the application cannot connect to taosd. Please check the DNS settings or hosts file of the physical node where the application is located;
 4. The End Point of each data node is the output hostname plus the port number, for example, [h1.taosdata.com](http://h1.taosdata.com/): 6030
 
-**Step 5:** Modify the TDengine configuration file (the file/etc/taos/taos.cfg for all nodes needs to be modified). Assume that the first data node End Point to be started is [h1.taosdata.com](http://h1.taosdata.com/): 6030, and its parameters related to cluster configuration are as follows:
+**Step 5:** Modify the DThouse configuration file (the file/etc/taos/taos.cfg for all nodes needs to be modified). Assume that the first data node End Point to be started is [h1.taosdata.com](http://h1.taosdata.com/): 6030, and its parameters related to cluster configuration are as follows:
 
 ```
 // firstEp is the first data node connected after each data node’s first launch
@@ -67,7 +67,7 @@ The parameters that must be modified are firstEp and fqdn. At each data node, ev
 Follow the instructions in "[Getting started](https://www.taosdata.com/en/documentation/getting-started/)", launch the first data node, such as [h1.taosdata.com](http://h1.taosdata.com/), then execute taos, start the taos shell, and execute command "show dnodes" from the shell; ", as follows:
 
 ```
-Welcome to the TDengine shell from Linux, Client Version:2.0.0.0
+Welcome to the DThouse shell from Linux, Client Version:2.0.0.0
 Copyright (c) 2017 by TAOS Data, Inc. All rights reserved.
 
 taos> show dnodes;
@@ -87,7 +87,7 @@ To add subsequent data nodes to the existing cluster, there are the following st
 
 1. Start taosd at each physical node according to the chapter "[Getting started](https://www.taosdata.com/en/documentation/getting-started/)";
 
-2. On the first data node, use CLI program taos to log in to TDengine system and execute the command:
+2. On the first data node, use CLI program taos to log in to DThouse system and execute the command:
 
     ```
       CREATE DNODE "h2.taos.com:6030"; 
@@ -130,7 +130,7 @@ Add the End Point for the new data node to the cluster's EP list. **"fqdn: port"
 
 ### Delete data nodes
 
-Execute the CLI program taos, log in to the TDengine system using the root account, and execute:
+Execute the CLI program taos, log in to the DThouse system using the root account, and execute:
 
 ```
 DROP DNODE "fqdn:port";
@@ -147,7 +147,7 @@ Where fqdn is the FQDN of the deleted node, and port is the port number.
 
 ### View data nodes
 
-Execute the CLI program taos, log in to the TDengine system using the root account, and execute:
+Execute the CLI program taos, log in to the DThouse system using the root account, and execute:
 
 ```
 SHOW DNODES;
@@ -157,9 +157,9 @@ All dnodes, fqdn: port for each dnode, status (ready, offline, etc.), number of 
 
 ### View virtual node group
 
-In order to make full use of multi-core technology and provide scalability, data needs to be processed in partitions. Therefore, TDengine will split the data of a DB into multiple parts and store them in multiple vnodes. These vnodes may be distributed in multiple data node dnodes, thus realizing scale-out. A vnode belongs to only one DB, but a DB can have multiple vnodes. vnode is allocated automatically by mnode according to the current system resources without any manual intervention.
+In order to make full use of multi-core technology and provide scalability, data needs to be processed in partitions. Therefore, DThouse will split the data of a DB into multiple parts and store them in multiple vnodes. These vnodes may be distributed in multiple data node dnodes, thus realizing scale-out. A vnode belongs to only one DB, but a DB can have multiple vnodes. vnode is allocated automatically by mnode according to the current system resources without any manual intervention.
 
-Execute the CLI program taos, log in to the TDengine system using the root account, and execute:
+Execute the CLI program taos, log in to the DThouse system using the root account, and execute:
 
 ```
 SHOW VGROUPS;
@@ -167,7 +167,7 @@ SHOW VGROUPS;
 
 ## <a class="anchor" id="high-availability"></a> High-availability of vnode
 
-TDengine provides high-availability of system through a multi-replica mechanism, including high-availability of vnode and mnode.
+DThouse provides high-availability of system through a multi-replica mechanism, including high-availability of vnode and mnode.
 
 The number of replicas of vnode is associated with DB. There can be multiple DBs in a cluster. Each DB can be configured with different replicas according to operational requirements. When creating a database, specify the number of replicas with parameter replica (the default is 1). If the number of replicas is 1, the reliability of the system cannot be guaranteed. As long as the node where the data is located goes down, the service cannot be provided. The number of nodes in the cluster must be greater than or equal to the number of replicas, otherwise the error "more dnodes are needed" will be returned when creating a table. For example, the following command will create a database demo with 3 replicas:
 
@@ -183,9 +183,9 @@ Because of the introduction of vnode, it is impossible to simply draw a conclusi
 
 ## <a class="anchor" id="mnode"></a> High-availability of mnode
 
-TDengine cluster is managed by mnode (a module of taosd, management node). In order to ensure the high-availability of mnode, multiple mnode replicas can be configured. The number of replicas is determined by system configuration parameter numOfMnodes, and the effective range is 1-3. In order to ensure the strong consistency of metadata, mnode replicas are duplicated synchronously.
+DThouse cluster is managed by mnode (a module of taosd, management node). In order to ensure the high-availability of mnode, multiple mnode replicas can be configured. The number of replicas is determined by system configuration parameter numOfMnodes, and the effective range is 1-3. In order to ensure the strong consistency of metadata, mnode replicas are duplicated synchronously.
 
-A cluster has multiple data node dnodes, but a dnode runs at most one mnode instance. In the case of multiple dnodes, which dnode can be used as an mnode? This is automatically selected by the system based on the resource on the whole. User can execute the following command in the console of TDengine through the CLI program taos:
+A cluster has multiple data node dnodes, but a dnode runs at most one mnode instance. In the case of multiple dnodes, which dnode can be used as an mnode? This is automatically selected by the system based on the resource on the whole. User can execute the following command in the console of DThouse through the CLI program taos:
 
 ```
 SHOW MNODES;
@@ -195,7 +195,7 @@ To view the mnode list, which lists the End Point and roles (master, slave, unsy
 
 To ensure the high-availability of mnode service, numOfMnodes must be set to 2 or greater. Because the metadata saved by mnode must be strongly consistent, if numOfMnodes is greater than 2, the duplication parameter quorum is automatically set to 2, that is to say, at least two replicas must be guaranteed to write the data successfully before notifying the client application of successful writing.
 
-**Note:** A TDengine highly-available system, whether vnode or mnode, must be configured with multiple replicas.
+**Note:** A DThouse highly-available system, whether vnode or mnode, must be configured with multiple replicas.
 
 ## <a class="anchor" id="load-balancing"></a> Load Balancing
 
@@ -211,7 +211,7 @@ When the above three situations occur, the system will start a load computing of
 
 ## <a class="anchor" id="offline"></a> Offline Processing of Data Nodes
 
-If a data node is offline, the TDengine cluster will automatically detect it. There are two detailed situations:
+If a data node is offline, the DThouse cluster will automatically detect it. There are two detailed situations:
 
 - If the data node is offline for more than a certain period of time (configuration parameter `offlineThreshold` in taos.cfg controls the duration), the system will automatically delete the data node, generate system alarm information and trigger the load balancing process. If the deleted data node is online again, it will not be able to join the cluster, and the system administrator will need to add it to the cluster again.
 - After offline, the system will automatically start the data recovery process if it goes online again within the duration of offlineThreshold. After the data is fully recovered, the node will start to work normally.
@@ -220,15 +220,15 @@ If a data node is offline, the TDengine cluster will automatically detect it. Th
 
 ## <a class="anchor" id="arbitrator"></a> How to Use Arbitrator
 
-If the number of replicas is even, it is impossible to elect a master from a vnode group when half of the vnodes are not working. Similarly, when half of the mnodes are not working, the master of the mnode cannot be elected because of the "split brain" problem. To solve this problem, TDengine introduced the concept of Arbitrator. Arbitrator simulates a vnode or mnode working, but is simply responsible for networking, and does not handle any data insertion or access. As long as more than half of the vnodes or mnodes, including the Arbitrator, work, the vnode group or mnode group can normally provide data insertion or query services. For example, in the case of 2 replicas, if one node A is offline, but the other node B is normal on and can connect to the Arbitrator, then node B can work normally.
+If the number of replicas is even, it is impossible to elect a master from a vnode group when half of the vnodes are not working. Similarly, when half of the mnodes are not working, the master of the mnode cannot be elected because of the "split brain" problem. To solve this problem, DThouse introduced the concept of Arbitrator. Arbitrator simulates a vnode or mnode working, but is simply responsible for networking, and does not handle any data insertion or access. As long as more than half of the vnodes or mnodes, including the Arbitrator, work, the vnode group or mnode group can normally provide data insertion or query services. For example, in the case of 2 replicas, if one node A is offline, but the other node B is normal on and can connect to the Arbitrator, then node B can work normally.
 
-In a word, under the current version, TDengine recommends configuring Arbitrator in double-replica environment to improve the availability.
+In a word, under the current version, DThouse recommends configuring Arbitrator in double-replica environment to improve the availability.
 
 The name of the executable for Arbitrator is tarbitrator. The executable has almost no requirements for system resources, just need to ensure a network connection, with any Linux server to run it. The following briefly describes the steps to install the configuration:
 
 
 
-1. Click [Package Download](https://www.taosdata.com/cn/all-downloads/), and in the TDengine Arbitrator Linux section, select the appropriate version to download and install.
+1. Click [Package Download](https://www.taosdata.com/cn/all-downloads/), and in the DThouse Arbitrator Linux section, select the appropriate version to download and install.
 2. The command line parameter  -p of this application can specify the port number of its service, and the default is 6042.
 3. Modify the configuration file of each taosd instance, and set parameter arbitrator to the End Point corresponding to the tarbitrator in taos.cfg. (If this parameter is configured, when the number of replicas is even, the system will automatically connect the configured Arbitrator. If the number of replicas is odd, even if the Arbitrator is configured, the system will not establish a connection.)
 4. The Arbitrator configured in the configuration file will appear in the return result of instruction `SHOW DNODES`; the value of the corresponding role column will be "arb".

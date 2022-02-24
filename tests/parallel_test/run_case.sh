@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONTAINER_TESTDIR=/home/community
-# CONTAINER_TESTDIR=/root/tang/repository/TDengine
+# CONTAINER_TESTDIR=/root/tang/repository/DThouse
 
 # export PATH=$PATH:$CONTAINER_TESTDIR/debug/build/bin
 

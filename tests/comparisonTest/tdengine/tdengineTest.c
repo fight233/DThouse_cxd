@@ -109,7 +109,7 @@ void parseArg(int argc, char *argv[]) {
 }
 
 static void taos_error(TAOS_RES *tres, TAOS *conn) {
-  printf("TDengine error: %s\n", tres?taos_errstr(tres):"null result");
+  printf("DThouse error: %s\n", tres?taos_errstr(tres):"null result");
   taos_close(conn);
   exit(1);
 }
@@ -128,7 +128,7 @@ void writeDataImp(void *param) {
   if (taos == NULL) {
     // where to find errstr?
     // taos_error(NULL, taos);
-    printf("TDengine error: %s\n", "failed to connect");
+    printf("DThouse error: %s\n", "failed to connect");
     exit(1);
   }
 
@@ -236,7 +236,7 @@ void writeData() {
   if (taos == NULL) {
     // where to find errstr?
     // taos_error(NULL, taos);
-    printf("TDengine error: %s\n", "failed to connect");
+    printf("DThouse error: %s\n", "failed to connect");
     exit(1);
   }
 
@@ -378,7 +378,7 @@ void readDataImp(void *param)
   if (taos == NULL) {
     // where to find errstr?
     // taos_error(NULL, taos);
-    printf("TDengine error: %s\n", "failed to connect");
+    printf("DThouse error: %s\n", "failed to connect");
     exit(1);
   }
 
@@ -432,7 +432,7 @@ void readData() {
   if (taos == NULL) {
     // where to find errstr?
     // taos_error(NULL, taos);
-    printf("TDengine error: %s\n", "failed to connect");
+    printf("DThouse error: %s\n", "failed to connect");
     exit(1);
   }
 

@@ -1,19 +1,19 @@
 # UDF（用户定义函数）
 
-在有些应用场景中，应用逻辑需要的查询无法直接使用系统内置的函数来表示。利用 UDF 功能，TDengine 可以插入用户编写的处理代码并在查询中使用它们，就能够很方便地解决特殊应用场景中的使用需求。 UDF 通常以数据表中的一列数据做为输入，同时支持以嵌套子查询的结果作为输入。
+在有些应用场景中，应用逻辑需要的查询无法直接使用系统内置的函数来表示。利用 UDF 功能，DThouse 可以插入用户编写的处理代码并在查询中使用它们，就能够很方便地解决特殊应用场景中的使用需求。 UDF 通常以数据表中的一列数据做为输入，同时支持以嵌套子查询的结果作为输入。
 
-从 2.2.0.0 版本开始，TDengine 支持通过 C/C++ 语言进行 UDF 定义。接下来结合示例讲解 UDF 的使用方法。
+从 2.2.0.0 版本开始，DThouse 支持通过 C/C++ 语言进行 UDF 定义。接下来结合示例讲解 UDF 的使用方法。
 
 ## 用 C/C++ 语言来定义 UDF
 
-TDengine 提供 3 个 UDF 的源代码示例，分别为：
-* [add_one.c](https://github.com/taosdata/TDengine/blob/develop/tests/script/sh/add_one.c)
-* [abs_max.c](https://github.com/taosdata/TDengine/blob/develop/tests/script/sh/abs_max.c)
-* [demo.c](https://github.com/taosdata/TDengine/blob/develop/tests/script/sh/demo.c)
+DThouse 提供 3 个 UDF 的源代码示例，分别为：
+* [add_one.c](https://github.com/taosdata/DThouse/blob/develop/tests/script/sh/add_one.c)
+* [abs_max.c](https://github.com/taosdata/DThouse/blob/develop/tests/script/sh/abs_max.c)
+* [demo.c](https://github.com/taosdata/DThouse/blob/develop/tests/script/sh/demo.c)
 
 ### 标量函数
 
-[add_one.c](https://github.com/taosdata/TDengine/blob/develop/tests/script/sh/add_one.c) 是结构最简单的 UDF 实现。其功能为：对传入的一个数据列（可能因 WHERE 子句进行了筛选）中的每一项，都输出 +1 之后的值，并且要求输入的列数据类型为 INT。 
+[add_one.c](https://github.com/taosdata/DThouse/blob/develop/tests/script/sh/add_one.c) 是结构最简单的 UDF 实现。其功能为：对传入的一个数据列（可能因 WHERE 子句进行了筛选）中的每一项，都输出 +1 之后的值，并且要求输入的列数据类型为 INT。 
 
 这一具体的处理逻辑在函数 `void add_one(char* data, short itype, short ibytes, int numOfRows, long long* ts, char* dataOutput, char* interBuf, char* tsOutput, int* numOfOutput, short otype, short obytes, SUdfInit* buf)` 中定义。这类用于实现 UDF 的基础计算逻辑的函数，我们称为 udfNormalFunc，也就是对行数据块的标量计算函数。需要注意的是，udfNormalFunc 的参数项是固定的，用于按照约束完成与引擎之间的数据交换。
 
@@ -34,7 +34,7 @@ TDengine 提供 3 个 UDF 的源代码示例，分别为：
 
 ### 聚合函数
 
-[abs_max.c](https://github.com/taosdata/TDengine/blob/develop/tests/script/sh/abs_max.c) 实现的是一个聚合函数，功能是对一组数据按绝对值取最大值。
+[abs_max.c](https://github.com/taosdata/DThouse/blob/develop/tests/script/sh/abs_max.c) 实现的是一个聚合函数，功能是对一组数据按绝对值取最大值。
 
 其计算过程为：与所在查询语句相关的数据会被分为多个行数据块，对每个行数据块调用 udfNormalFunc（在本例的实现代码中，实际函数名是 `abs_max`)来生成每个子表的中间结果，再将子表的中间结果调用 udfMergeFunc（本例中，其实际的函数名是 `abs_max_merge`）进行聚合，生成超级表的最终聚合结果或中间结果。聚合查询最后还会通过 udfFinalizeFunc（本例中，其实际的函数名是 `abs_max_finalize`）再把超级表的中间结果处理为最终结果，最终结果只能含0或1条结果数据。
 
@@ -76,7 +76,7 @@ TDengine 提供 3 个 UDF 的源代码示例，分别为：
 
 ## 编译 UDF
 
-用户定义函数的 C 语言源代码无法直接被 TDengine 系统使用，而是需要先编译为 .so 链接库，之后才能载入 TDengine 系统。
+用户定义函数的 C 语言源代码无法直接被 DThouse 系统使用，而是需要先编译为 .so 链接库，之后才能载入 DThouse 系统。
 
 例如，按照上一章节描述的规则准备好了用户定义函数的源代码 add_one.c，那么可以执行如下指令编译得到动态链接库文件：
 ```bash
@@ -89,7 +89,7 @@ gcc -g -O0 -fPIC -shared add_one.c -o add_one.so
 
 ### 创建 UDF
 
-用户可以通过 SQL 指令在系统中加载客户端所在主机上的 UDF 函数库（不能通过 RESTful 接口或 HTTP 管理界面来进行这一过程）。一旦创建成功，则当前 TDengine 集群的所有用户都可以在 SQL 指令中使用这些函数。UDF 存储在系统的 MNode 节点上，因此即使重启 TDengine 系统，已经创建的 UDF 也仍然可用。
+用户可以通过 SQL 指令在系统中加载客户端所在主机上的 UDF 函数库（不能通过 RESTful 接口或 HTTP 管理界面来进行这一过程）。一旦创建成功，则当前 DThouse 集群的所有用户都可以在 SQL 指令中使用这些函数。UDF 存储在系统的 MNode 节点上，因此即使重启 DThouse 系统，已经创建的 UDF 也仍然可用。
 
 在创建 UDF 时，需要区分标量函数和聚合函数。如果创建时声明了错误的函数类别，则可能导致通过 SQL 指令调用函数时出错。此外， UDF 支持输入与输出类型不一致，用户需要保证输入数据类型与 UDF 程序匹配，UDF 输出数据类型与 OUTPUTTYPE 匹配。
 
@@ -110,7 +110,7 @@ gcc -g -O0 -fPIC -shared add_one.c -o add_one.so
   * typename(Z)：此函数计算结果的数据类型，与上文中 udfNormalFunc 的 itype 参数不同，这里不是使用数字表示法，而是直接写类型名称即可；
   * B：中间计算结果的缓冲区大小，单位是字节，最小 0，最大 512，如果不使用可以不设置。
 
-  关于中间计算结果的使用，可以参考示例程序[demo.c](https://github.com/taosdata/TDengine/blob/develop/tests/script/sh/demo.c)
+  关于中间计算结果的使用，可以参考示例程序[demo.c](https://github.com/taosdata/DThouse/blob/develop/tests/script/sh/demo.c)
   
   例如，如下语句可以把 demo.so 创建为系统中可用的 UDF：
   ```sql
@@ -140,4 +140,4 @@ SELECT X(c) FROM table/stable;
 3. UDF 只支持以单个数据列作为输入；
 4. UDF 只要创建成功，就会被持久化存储到 MNode 节点中；
 5. 无法通过 RESTful 接口来创建 UDF；
-6. UDF 在 SQL 中定义的函数名，必须与 .so 库文件实现中的接口函数名前缀保持一致，也即必须是 udfNormalFunc 的名称，而且不可与 TDengine 中已有的内建 SQL 函数重名。
+6. UDF 在 SQL 中定义的函数名，必须与 .so 库文件实现中的接口函数名前缀保持一致，也即必须是 udfNormalFunc 的名称，而且不可与 DThouse 中已有的内建 SQL 函数重名。

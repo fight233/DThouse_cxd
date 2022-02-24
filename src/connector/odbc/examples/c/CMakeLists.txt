@@ -1,4 +1,4 @@
-PROJECT(TDengine)
+PROJECT(DThouse)
 
 ADD_EXECUTABLE(tcodbc main.c ../../src/todbc_log.c)
 

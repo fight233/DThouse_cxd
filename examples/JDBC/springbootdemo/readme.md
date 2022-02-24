@@ -1,4 +1,4 @@
-## TDengine SpringBoot + Mybatis Demo
+## DThouse SpringBoot + Mybatis Demo
 
 ### 配置 application.properties
 ```properties

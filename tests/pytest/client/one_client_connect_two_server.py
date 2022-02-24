@@ -25,7 +25,7 @@ from util.dnodes import *
 
 '''
 
-Before test start，Two TDengine services have been set up on different servers 
+Before test start，Two DThouse services have been set up on different servers 
 
 '''
 
@@ -33,7 +33,7 @@ host1 = '192.168.1.101'
 host2 = '192.168.1.102'
 user = 'root'
 password = 'taosdata'
-cfgdir = '/home/cp/taos/TDengine/sim/dnode1/cfg'
+cfgdir = '/home/cp/taos/DThouse/sim/dnode1/cfg'
 
 conn1 = taos.connect(host=host1, user=user, password=password, config=cfgdir)
 conn2 = taos.connect(host=host2, user=user, password=password, config=cfgdir)

@@ -1,6 +1,6 @@
-# 如何在 windows环境下使用jdbc进行TDengine应用开发
+# 如何在 windows环境下使用jdbc进行DThouse应用开发
 
-本文以windows环境为例，介绍java如何进行TDengine开发应用
+本文以windows环境为例，介绍java如何进行DThouse开发应用
 
 ## 环境准备
 
@@ -77,15 +77,15 @@ OS name: "windows 10", version: "10.0", arch: "amd64", family: "windows"
 
 
 
-（3）在linux服务器上安装TDengine-server
+（3）在linux服务器上安装DThouse-server
 
-在taosdata官网下载TDengine-server，下载地址：https://www.taosdata.com/cn/all-downloads/
+在taosdata官网下载DThouse-server，下载地址：https://www.taosdata.com/cn/all-downloads/
 
-在linux服务器上安装TDengine-server
+在linux服务器上安装DThouse-server
 
 ```shell
-# tar -zxvf package/TDengine-server-2.0.1.1-Linux-x64.tar.gz 
-# cd TDengine-server/
+# tar -zxvf package/DThouse-server-2.0.1.1-Linux-x64.tar.gz 
+# cd DThouse-server/
 # ./install.sh 
 ```
 
@@ -106,18 +106,18 @@ taos> show dnodes;
 Query OK, 1 row(s) in set (0.005765s)
 ```
 
-如果可以正确连接到taosd实例，并打印出databases的信息，说明TDengine的server已经正确启动。这里查看server的hostname
+如果可以正确连接到taosd实例，并打印出databases的信息，说明DThouse的server已经正确启动。这里查看server的hostname
 
 ```shell
 # hostname -f
 td01
 ```
 
-注意，如果安装TDengine后，使用默认的taos.cfg配置文件，taosd会使用当前server的hostname创建dnode实例。之后，在client也需要使用这个hostname来连接taosd。
+注意，如果安装DThouse后，使用默认的taos.cfg配置文件，taosd会使用当前server的hostname创建dnode实例。之后，在client也需要使用这个hostname来连接taosd。
 
 
 
-（4）在windows上安装TDengine-client
+（4）在windows上安装DThouse-client
 
 在taosdata官网下载taos客户端，下载地址：
 https://www.taosdata.com/cn/all-downloads/
@@ -132,8 +132,8 @@ https://www.taosdata.com/cn/all-downloads/
 配置完成后，在命令行内使用taos shell连接server端
 
 ```shell
-C:\TDengine>taos -h td01
-Welcome to the TDengine shell from Linux, Client Version:2.0.1.1
+C:\DThouse>taos -h td01
+Welcome to the DThouse shell from Linux, Client Version:2.0.1.1
 Copyright (c) 2017 by TAOS Data, Inc. All rights reserved.
 
 taos> show databases;
@@ -173,7 +173,7 @@ Query OK, 2 row(s) in set (0.068000s)
 </project>
 ```
 
-（2）使用jdbc查询TDengine数据库
+（2）使用jdbc查询DThouse数据库
 
 下面是示例代码：
 

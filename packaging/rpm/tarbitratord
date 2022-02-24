@@ -3,7 +3,7 @@
 # tarbitratord      This shell script takes care of starting and stopping tarbitrator.
 #
 # chkconfig: 2345 99 01
-# description: tarbitrator is a arbitrator used in TDengine cluster.
+# description: tarbitrator is a arbitrator used in DThouse cluster.
 #
 #
 ### BEGIN INIT INFO
@@ -11,7 +11,7 @@
 # Required-Start: $network $local_fs $remote_fs
 # Required-Stop: $network $local_fs $remote_fs
 # Short-Description: start and stop tarbitrator
-# Description: tarbitrator is a arbitrator used in TDengine cluster.
+# Description: tarbitrator is a arbitrator used in DThouse cluster.
 ### END INIT INFO
 
 # Source init functions

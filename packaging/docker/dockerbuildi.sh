@@ -42,7 +42,7 @@ do
   esac
 done
 
-pkgFile=TDengine-server-${verNumber}-Linux-${cpuType}.tar.gz
+pkgFile=DThouse-server-${verNumber}-Linux-${cpuType}.tar.gz
 
 echo "cpuType=${cpuType} verNumber=${verNumber} pkgFile=${pkgFile} "
 

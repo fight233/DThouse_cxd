@@ -1,10 +1,10 @@
-// sample code for TDengine subscribe/consume API
+// sample code for DThouse subscribe/consume API
 // to compile: gcc -o subscribe subscribe.c -ltaos
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <taos.h>  // include TDengine header file
+#include <taos.h>  // include DThouse header file
 #include <unistd.h>
 
 int nTotalRows;

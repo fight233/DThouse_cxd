@@ -1,10 +1,10 @@
 # Connectors
 
-TDengine provides many connectors for development, including C/C++, JAVA, Python, RESTful, Go, Node.JS, etc.
+DThouse provides many connectors for development, including C/C++, JAVA, Python, RESTful, Go, Node.JS, etc.
 
 ![image-connector](../images/connector.png)
 
-At present, TDengine connectors support a wide range of platforms, including hardware platforms such as X64/X86/ARM64/ARM32/MIPS/Alpha, and development environments such as Linux/Win64/Win32. The comparison matrix is as follows:
+At present, DThouse connectors support a wide range of platforms, including hardware platforms such as X64/X86/ARM64/ARM32/MIPS/Alpha, and development environments such as Linux/Win64/Win32. The comparison matrix is as follows:
 
 | **CPU**     | **X64 64bit** | **X64 64bit** | **X64 64bit** | **X86 32bit** | **ARM64** | **ARM32** | **MIPS Godson** | **Alpha Sunway** | **X64 TimecomTech** |
 | ----------- | ------------- | ------------- | ------------- | ------------- | --------- | --------- | --------------- | ----------------- | ------------------- |
@@ -21,28 +21,28 @@ Note: ● stands for that has been verified by official tests; ○ stands for th
 
 Note:
 
-- To access the TDengine database through connectors (except RESTful) in the system without TDengine server software, it is necessary to install the corresponding version of the client installation package to make the application driver (the file name is [libtaos.so](http://libtaos.so/) in Linux system and taos.dll in Windows system) installed in the system, otherwise, the error that the corresponding library file cannot be found will occur.
+- To access the DThouse database through connectors (except RESTful) in the system without DThouse server software, it is necessary to install the corresponding version of the client installation package to make the application driver (the file name is [libtaos.so](http://libtaos.so/) in Linux system and taos.dll in Windows system) installed in the system, otherwise, the error that the corresponding library file cannot be found will occur.
 - All APIs that execute SQL statements, such as `tao_query`, `taos_query_a`, `taos_subscribe` in C/C++ Connector, and APIs corresponding to them in other languages, can only execute one SQL statement at a time. If the actual parameters contain multiple statements, their behavior is undefined.
-- Users upgrading to TDengine 2.0. 8.0 must update the JDBC connection. TDengine must upgrade taos-jdbcdriver to 2.0.12 and above.
-- No matter which programming language connector is selected, TDengine version 2.0 and above recommends that each thread of database application establish an independent connection or establish a connection pool based on threads to avoid mutual interference between threads of "USE statement" state variables in the connection (but query and write operations of the connection are thread-safe).
+- Users upgrading to DThouse 2.0. 8.0 must update the JDBC connection. DThouse must upgrade taos-jdbcdriver to 2.0.12 and above.
+- No matter which programming language connector is selected, DThouse version 2.0 and above recommends that each thread of database application establish an independent connection or establish a connection pool based on threads to avoid mutual interference between threads of "USE statement" state variables in the connection (but query and write operations of the connection are thread-safe).
 
 ## <a class="anchor" id="driver"></a> Steps of Connector Driver Installation
 
-The server should already have the TDengine server package installed. The connector driver installation steps are as follows:
+The server should already have the DThouse server package installed. The connector driver installation steps are as follows:
 
 **Linux**
 
 **1. Download from TAOS Data website(https://www.taosdata.com/cn/all-downloads/)**
 
-* X64 hardware environment: TDengine-client-2.x.x.x-Linux-x64.tar.gz
-* ARM64 hardware environment: TDengine-client-2.x.x.x-Linux-aarch64.tar.gz
-* ARM32 hardware environment: TDengine-client-2.x.x.x-Linux-aarch32.tar.gz
+* X64 hardware environment: DThouse-client-2.x.x.x-Linux-x64.tar.gz
+* ARM64 hardware environment: DThouse-client-2.x.x.x-Linux-aarch64.tar.gz
+* ARM32 hardware environment: DThouse-client-2.x.x.x-Linux-aarch32.tar.gz
 
 **2. Unzip the package**
 
 Place the package in any directory that current user can read/write, and then execute following command:
 
-`tar -xzvf TDengine-client-xxxxxxxxx.tar.gz`
+`tar -xzvf DThouse-client-xxxxxxxxx.tar.gz`
 
 Where xxxxxx needs to be replaced with you actual version as a string.
 
@@ -54,7 +54,7 @@ After extracting the package, you will see the following files (directories) in 
 
 *taos.tar.gz*: Application driver installation package 
 
-*driver*: TDengine application driver 
+*driver*: DThouse application driver 
 
 *connector*: Connectors for various programming languages (go/grafanaplugin/nodejs/python/JDBC) 
 
@@ -64,11 +64,11 @@ Run install_client.sh to install.
 
 **4. Configure taos.cfg**
 
-Edit the taos.cfg file (default path/etc/taos/taos.cfg) and change firstEP to End Point of the TDengine server, for example: [h1.taos.com](http://h1.taos.com/):6030.
+Edit the taos.cfg file (default path/etc/taos/taos.cfg) and change firstEP to End Point of the DThouse server, for example: [h1.taos.com](http://h1.taos.com/):6030.
 
 **Tip: **
 
-**1. If no TDengine service deployed in this machine, but only the application driver is installed, only firstEP needs to be configured in taos.cfg, and FQDN does not.**
+**1. If no DThouse service deployed in this machine, but only the application driver is installed, only firstEP needs to be configured in taos.cfg, and FQDN does not.**
 
 **2. To prevent “unable to resolve FQDN” error when connecting to the server, ensure that the hosts file of the client has the correct FQDN value.**
 
@@ -76,14 +76,14 @@ Edit the taos.cfg file (default path/etc/taos/taos.cfg) and change firstEP to En
 
 **1. Download from TAOS Data website(https://www.taosdata.com/cn/all-downloads/)**
 
-* X64 hardware environment: TDengine-client-2.X.X.X-Windows-x64.exe
-* X86 hardware environment: TDengine-client-2.X.X.X-Windows-x86.exe
+* X64 hardware environment: DThouse-client-2.X.X.X-Windows-x64.exe
+* X86 hardware environment: DThouse-client-2.X.X.X-Windows-x86.exe
 
 **2. Execute installation, select default values as prompted to complete**
 
 **3. Installation path**
 
-Default installation path is: C:\TDengine, with following files(directories):
+Default installation path is: C:\DThouse, with following files(directories):
 
 *taos.exe*: taos shell command line program
 
@@ -101,17 +101,17 @@ Default installation path is: C:\TDengine, with following files(directories):
 
 **4. Configure taos.cfg**
 
-Edit the taos.cfg file (default path/etc/taos/taos.cfg) and change firstEP to End Point of the TDengine server, for example: [h1.taos.com](http://h1.taos.com/):6030.
+Edit the taos.cfg file (default path/etc/taos/taos.cfg) and change firstEP to End Point of the DThouse server, for example: [h1.taos.com](http://h1.taos.com/):6030.
 
 **Note:**
 
 **1. If you use FQDN to connect to the server, you must confirm that the DNS of the local network environment has been configured, or add FQDN addressing records in the hosts file. For example, edit C:\ Windows\ system32\ drivers\ etc\ hosts, and add the following record: 192.168. 1.99 [h1.taos.com](http://h1.taos.com/)**
 
-**2. Uninstall: Run unins000. exe to uninstall the TDengine application driver.**
+**2. Uninstall: Run unins000. exe to uninstall the DThouse application driver.**
 
 **Installation verification**
 
-After the above installation and configuration completed, and confirm that the TDengine service has started running normally, the taos client can be logged in at this time.
+After the above installation and configuration completed, and confirm that the DThouse service has started running normally, the taos client can be logged in at this time.
 
 **Linux environment:**
 
@@ -119,7 +119,7 @@ If you execute taos directly under Linux shell, you should be able to connect to
 
 ```mysql
 $ taos     
-Welcome to the TDengine shell from Linux, Client  Version:2.0.5.0  
+Welcome to the DThouse shell from Linux, Client  Version:2.0.5.0  
 Copyright (c) 2017 by TAOS Data, Inc. All rights  reserved.     
 taos> show databases;           
 name       |   created_time    |   ntables  |  vgroups   | replica | quorum | days |    keep1,keep2,keep(D)   | cache(MB)|   blocks  |  minrows   |  maxrows  | wallevel |  fsync    | comp | precision |    status  |  
@@ -132,11 +132,11 @@ taos>
 
 **Windows (x64/x86) environment:**
 
-Under cmd, enter the c:\TDengine directory and directly execute taos.exe, and you should be able to connect to tdengine service normally and jump to taos shell interface. For example:
+Under cmd, enter the c:\DThouse directory and directly execute taos.exe, and you should be able to connect to tdengine service normally and jump to taos shell interface. For example:
 
 ```mysql
-  C:\TDengine>taos     
-  Welcome to the TDengine  shell from Linux, Client Version:2.0.5.0  
+  C:\DThouse>taos     
+  Welcome to the DThouse  shell from Linux, Client Version:2.0.5.0  
   Copyright (c) 2017 by  TAOS Data, Inc. All rights reserved.     
   taos> show  databases;         
   name       |   created_time    |   ntables  |  vgroups   | replica | quorum | days |    keep1,keep2,keep(D)   | cache(MB)   |  blocks  |   minrows  |  maxrows   | wallevel |  fsync  | comp | precision |  status    |  
@@ -156,7 +156,7 @@ Under cmd, enter the c:\TDengine directory and directly execute taos.exe, and yo
 | **OS Type**          | Linux                        | Win64   | Win32   | Linux     | Linux              |
 | **Supported or Not** | Yes                          | **Yes** | **Yes** | **Yes**   | **Yes** |
 
-The C/C++ API is similar to MySQL's C API. When application use it, it needs to include the TDengine header file taos.h (after installed, it is located in/usr/local/taos/include):
+The C/C++ API is similar to MySQL's C API. When application use it, it needs to include the DThouse header file taos.h (after installed, it is located in/usr/local/taos/include):
 
 ```C
 #include <taos.h>
@@ -164,10 +164,10 @@ The C/C++ API is similar to MySQL's C API. When application use it, it needs to 
 
 Note:
 
-- The TDengine dynamic library needs to be linked at compiling. The library in Linux is [libtaos.so](http://libtaos.so/), which installed at/usr/local/taos/driver. By Windows, it is taos.dll and installed at C:\ TDengine.
+- The DThouse dynamic library needs to be linked at compiling. The library in Linux is [libtaos.so](http://libtaos.so/), which installed at/usr/local/taos/driver. By Windows, it is taos.dll and installed at C:\ DThouse.
 - Unless otherwise specified, when the return value of API is an integer, 0 represents success, others are error codes representing the cause of failure, and when the return value is a pointer, NULL represents failure.
 
-More sample codes for using C/C++ connectors, please visit https://github.com/taosdata/TDengine/tree/develop/tests/examples/c.
+More sample codes for using C/C++ connectors, please visit https://github.com/taosdata/DThouse/tree/develop/tests/examples/c.
 
 ### Basic API
 
@@ -193,7 +193,7 @@ Get version information of the client.
 
 Create a database connection and initialize the connection context. The parameters that need to be provided by user include:
 
-* host: FQDN used by TDengine to manage the master node
+* host: FQDN used by DThouse to manage the master node
 * user: User name
 * pass: Password
 * db: Database name. If user does not provide it, it can be connected normally, means user can create a new database through this connection. If user provides a database name, means the user has created the database and the database is used by default
@@ -217,7 +217,7 @@ Close the connection, where `taos` is the pointer returned by `taos_connect` fun
 
 ### Synchronous query API
 
-Traditional database operation APIs all make synchronous operations. After the application calls an API, it remains blocked until the server returns the result. TDengine supports the following APIs:
+Traditional database operation APIs all make synchronous operations. After the application calls an API, it remains blocked until the server returns the result. DThouse supports the following APIs:
 
 - `TAOS_RES* taos_query(TAOS *taos, const char *sql)`
 
@@ -275,11 +275,11 @@ Get the reason why the last API call failed, and the return value is a string.
 
 Get the reason why the last API call failed, and the return value is the error code.
 
-**Note:** TDengine 2.0 and above recommends that each thread of a database application establish an independent connection or establish a connection pool based on threads. It is not recommended to pass the connection (TAOS\*) structure to different threads for sharing in applications. Query and write operations based on TAOS structure have multithread safety, but state variables such as "USE statement" may interfere with each other among threads. In addition, C connector can dynamically establish new database-oriented connections according to requirements (this process is not visible to users), and it is recommended to call `taos_close` to close the connection only when the program finally exits.
+**Note:** DThouse 2.0 and above recommends that each thread of a database application establish an independent connection or establish a connection pool based on threads. It is not recommended to pass the connection (TAOS\*) structure to different threads for sharing in applications. Query and write operations based on TAOS structure have multithread safety, but state variables such as "USE statement" may interfere with each other among threads. In addition, C connector can dynamically establish new database-oriented connections according to requirements (this process is not visible to users), and it is recommended to call `taos_close` to close the connection only when the program finally exits.
 
 ### Asynchronous query API
 
-In addition to synchronous API, TDengine also provides higher performance asynchronous call API to handle data insertion and query operations. Under the same software and hardware environment, asynchronous API processes data insertion 2 ~ 4 times faster than synchronous API. Asynchronous API adopts a non-blocking call mode and returns immediately before the system really completes a given database operation. The calling thread can handle other work, thus improving the performance of the whole application. Asynchronous API has outstanding advantages in the case of poor network delay.
+In addition to synchronous API, DThouse also provides higher performance asynchronous call API to handle data insertion and query operations. Under the same software and hardware environment, asynchronous API processes data insertion 2 ~ 4 times faster than synchronous API. Asynchronous API adopts a non-blocking call mode and returns immediately before the system really completes a given database operation. The calling thread can handle other work, thus improving the performance of the whole application. Asynchronous API has outstanding advantages in the case of poor network delay.
 
 Asynchronous APIs all need applications to provide corresponding callback function. The callback function parameters are set as follows: the first two parameters are consistent, and the third parameter depends on different APIs. The first parameter param is provided to the system when the application calls the asynchronous API. When used for callback, the application can retrieve the context of the specific operation, depending on the specific implementation. The second parameter is the result set of SQL operation. If it is empty, such as insert operation, it means that there is no record returned. If it is not empty, such as select operation, it means that there is record returned.
 
@@ -299,13 +299,13 @@ Asynchronous APIs have relatively high requirements for users, who can selective
   * res: The result set returned when backcall `taos_query_a`
   * fp: Callback function. Its parameter `param` is a user-definable parameter construct passed to the callback function; `numOfRows` is the number of rows of data obtained (not a function of the entire query result set). In the callback function, applications can get each row of the batch records by calling `taos_fetch_rows` forward iteration. After reading all the records in a block, the application needs to continue calling `taos_fetch_rows_a` in the callback function to obtain the next batch of records for processing until the number of records returned (`numOfRows`) is zero (the result is returned) or the number of records is negative (the query fails).
 
-The asynchronous APIs of TDengine all use non-blocking calling mode. Applications can use multithreading to open multiple tables at the same time, and can query or insert to each open table at the same time. It should be pointed out that the **application client must ensure that the operation on the same table is completely serialized**, that is, when the insertion or query operation on the same table is not completed (when no result returned), the second insertion or query operation cannot be performed.
+The asynchronous APIs of DThouse all use non-blocking calling mode. Applications can use multithreading to open multiple tables at the same time, and can query or insert to each open table at the same time. It should be pointed out that the **application client must ensure that the operation on the same table is completely serialized**, that is, when the insertion or query operation on the same table is not completed (when no result returned), the second insertion or query operation cannot be performed.
 
 
 <a class="anchor" id="stmt"></a>
 ### Parameter binding API
 
-In addition to calling `taos_query` directly for queries, TDengine also provides a Prepare API that supports parameter binding. Like MySQL, these APIs currently only support using question mark `?` to represent the parameters to be bound, as follows:
+In addition to calling `taos_query` directly for queries, DThouse also provides a Prepare API that supports parameter binding. Like MySQL, these APIs currently only support using question mark `?` to represent the parameters to be bound, as follows:
 
 - `TAOS_STMT* taos_stmt_init(TAOS *taos)`
 
@@ -347,7 +347,7 @@ Execution completed, release all resources.
 
 ### Continuous query interface
 
-TDengine provides time-driven real-time stream computing APIs. You can perform various real-time aggregation calculation operations on tables (data streams) of one or more databases at regular intervals. The operation is simple, only APIs for opening and closing streams. The details are as follows:
+DThouse provides time-driven real-time stream computing APIs. You can perform various real-time aggregation calculation operations on tables (data streams) of one or more databases at regular intervals. The operation is simple, only APIs for opening and closing streams. The details are as follows:
 
 - `TAOS_STREAM *taos_open_stream(TAOS *taos, const char *sql, void (*fp)(void *param, TAOS_RES *, TAOS_ROW row), int64_t stime, void *param, void (*callback)(void *))`
 
@@ -355,7 +355,7 @@ This API is used to create data streams where:
 
   * taos: Database connection established
   * sql: SQL query statement (query statement only)
-  * fp: user-defined callback function pointer. After each stream computing is completed, TDengine passes the query result (TAOS_ROW), query status (TAOS_RES), and user-defined parameters (PARAM) to the callback function. In the callback function, the user can use taos_num_fields to obtain the number of columns in the result set, and taos_fetch_fields to obtain the type of data in each column of the result set.
+  * fp: user-defined callback function pointer. After each stream computing is completed, DThouse passes the query result (TAOS_ROW), query status (TAOS_RES), and user-defined parameters (PARAM) to the callback function. In the callback function, the user can use taos_num_fields to obtain the number of columns in the result set, and taos_fetch_fields to obtain the type of data in each column of the result set.
   * stime: The time when stream computing starts. If it is 0, it means starting from now. If it is not zero, it means starting from the specified time (the number of milliseconds from 1970/1/1 UTC time).
   * param: It is a parameter provided by the application for callback. During callback, the parameter is provided to the application
   * callback: The second callback function is called when the continuous query stop automatically.
@@ -411,7 +411,7 @@ See [video tutorials](https://www.taosdata.com/blog/2020/11/11/1963.html) for th
 
 ### Python connector installation
 
-From TDengine 2.4, users can install python connector for TDengine with `pip`. Note that the package name is **taospy** (not `taos` - a fully unrelated package). For backward compatibility, we still use `import taos` to import connector package.
+From DThouse 2.4, users can install python connector for DThouse with `pip`. Note that the package name is **taospy** (not `taos` - a fully unrelated package). For backward compatibility, we still use `import taos` to import connector package.
 
 ```bash
 pip install taospy
@@ -424,9 +424,9 @@ pip2 install taospy
 pip3 install taospy
 ```
 
-The python connector requires `libtaos` library (`libtaos.so` in Linux, or `taos.dll` in Windows). For Windows client, if `import taos` failed, you could copy the dll `C:\TDengine\driver\taos.dll` to `C:\windows\system32` and try it again.
+The python connector requires `libtaos` library (`libtaos.so` in Linux, or `taos.dll` in Windows). For Windows client, if `import taos` failed, you could copy the dll `C:\DThouse\driver\taos.dll` to `C:\windows\system32` and try it again.
 
-For users that has a limited network environment, just add the `connector/python` of installed directory(commonly `/usr/local/taos/connector/python/` in Linux,  `C:\TDengine\connector\python` in Windows) to `PYTHONPATH` environment variable.
+For users that has a limited network environment, just add the `connector/python` of installed directory(commonly `/usr/local/taos/connector/python/` in Linux,  `C:\DThouse\connector\python` in Windows) to `PYTHONPATH` environment variable.
 
 ### How to use
 
@@ -448,7 +448,7 @@ for row in results:
 
 ##### Code sample
 
-- Import the TDengine client module
+- Import the DThouse client module
 
     ```python
     import taos
@@ -461,7 +461,7 @@ for row in results:
     c1 = conn.cursor()
     ```
 
-    *host* covers all IPs of TDengine server-side, and *config* is the directory where the client configuration files is located
+    *host* covers all IPs of DThouse server-side, and *config* is the directory where the client configuration files is located
 
 - Write data
 
@@ -577,7 +577,7 @@ conn.close()
 
 #### JSON Type Support
 
-Python connector `taospy` starts supporting JSON type as tags since `v2.2.0` (requires TDengine beta v2.3.5+, or stable v2.4.0+).
+Python connector `taospy` starts supporting JSON type as tags since `v2.2.0` (requires DThouse beta v2.3.5+, or stable v2.4.0+).
 
 Create stable and table with JSON tag.
 
@@ -629,25 +629,25 @@ So far Python still does not completely support nanosecond type. Please refer to
 
 Users can directly view the usage information of the module through Python's helper, or refer to the sample program in tests/examples/Python. The following are some common classes and methods:
 
-- *TDengineConnection* class
+- *DThouseConnection* class
 
-Refer to help (taos.TDEngineConnection) in python. This class corresponds to a connection between the client and TDengine. In the scenario of client multithreading, it is recommended that each thread apply for an independent connection instance, but not recommended that multiple threads share a connection.
+Refer to help (taos.TDEngineConnection) in python. This class corresponds to a connection between the client and DThouse. In the scenario of client multithreading, it is recommended that each thread apply for an independent connection instance, but not recommended that multiple threads share a connection.
 
-- *TDengineCursor* class
+- *DThouseCursor* class
 
-Refer to help (taos.TDengineCursor) in python. This class corresponds to the write and query operations performed by the client. In the scenario of client multithreading, this cursor instance must be kept exclusive to threads and cannot be used by threads, otherwise errors will occur in the returned results.
+Refer to help (taos.DThouseCursor) in python. This class corresponds to the write and query operations performed by the client. In the scenario of client multithreading, this cursor instance must be kept exclusive to threads and cannot be used by threads, otherwise errors will occur in the returned results.
 
 - *connect* method
 
-Used to generate an instance of taos.TDengineConnection.
+Used to generate an instance of taos.DThouseConnection.
 
 ### Python connector code sample
 
 In tests/examples/python, we provide a sample Python program read_example. py to guide you to design your own write and query program. After installing the corresponding client, introduce the taos class through `import taos`. The steps are as follows:
 
-- Get the `TDengineConnection` object through `taos.connect`, which can be applied for only one by a program and shared among multiple threads.
+- Get the `DThouseConnection` object through `taos.connect`, which can be applied for only one by a program and shared among multiple threads.
 
-- Get a new cursor object through the `.cursor ()` method of the `TDengineConnection` object, which must be guaranteed to be exclusive to each thread.
+- Get a new cursor object through the `.cursor ()` method of the `DThouseConnection` object, which must be guaranteed to be exclusive to each thread.
 
 - Execute SQL statements for writing or querying through the `execute()` method of the cursor object.
 
@@ -659,7 +659,7 @@ In tests/examples/python, we provide a sample Python program read_example. py to
 
 ## <a class="anchor" id="restful"></a> RESTful Connector
 
-To support the development of various types of platforms, TDengine provides an API that conforms to REST design standards, that is, RESTful API. In order to minimize the learning cost, different from other designs of database RESTful APIs, TDengine directly requests SQL statements contained in BODY through HTTP POST to operate the database, and only needs a URL. See the [video tutorial](https://www.taosdata.com/blog/2020/11/11/1965.html) for the use of RESTful connectors.
+To support the development of various types of platforms, DThouse provides an API that conforms to REST design standards, that is, RESTful API. In order to minimize the learning cost, different from other designs of database RESTful APIs, DThouse directly requests SQL statements contained in BODY through HTTP POST to operate the database, and only needs a URL. See the [video tutorial](https://www.taosdata.com/blog/2020/11/11/1965.html) for the use of RESTful connectors.
 
 Note: One difference from the native connector is that the RESTful interface is stateless, so the `USE db_name` command has no effect and all references to table names and super table names require the database name to be specified. (Starting from version 2.2.0.0, we support specifying db_name in the RESTful url, in which case if the database name prefix is not specified in the SQL statement. Since version 2.4.0.0, RESTful service is provided by taosAdapter by default, which requires that db_name must be specified in the url.)
 
@@ -676,7 +676,7 @@ Parameter description:
 
 For example: [http://192.168.0.1](http://192.168.0.1/): 6041/rest/sql is a URL that points to an IP address of 192.168. 0.1.
 
-The header of HTTP request needs to carry identity authentication information. TDengine supports Basic authentication and custom authentication. Subsequent versions will provide standard and secure digital signature mechanism for identity authentication.
+The header of HTTP request needs to carry identity authentication information. DThouse supports Basic authentication and custom authentication. Subsequent versions will provide standard and secure digital signature mechanism for identity authentication.
 
 - Custom identity authentication information is as follows (We will introduce <token> later)
 
@@ -752,7 +752,7 @@ The HTTP request requires the authorization code `<TOKEN>` for identification. A
 curl http://<ip>:6041/rest/login/<username>/<password>
 ```
 
-Where `ip` is the IP address of the TDengine database, `username` is the database user name, `password` is the database password, and the return value is in `JSON` format. The meanings of each field are as follows:
+Where `ip` is the IP address of the DThouse database, `username` is the database user name, `password` is the database password, and the return value is in `JSON` format. The meanings of each field are as follows:
 
 - status: flag bit for request result
 - code: code of return value
@@ -870,7 +870,7 @@ Only some configuration parameters related to RESTful interface are listed below
 - httpPort: The port number that provides RESTful services externally, which is bound to 6041 by default
 - httpMaxThreads: The number of threads started, the default is 2 (starting with version 2.0. 17, the default value is changed to half of the CPU cores and rounded down)
 - restfulRowLimit: The maximum number of result sets returned (in JSON format), default 10240
-- httpEnableCompress: Compression is not supported by default. Currently, TDengine only supports gzip compression format
+- httpEnableCompress: Compression is not supported by default. Currently, DThouse only supports gzip compression format
 - httpdebugflag: Logging switch, 131: error and alarm information only, 135: debugging information, 143: very detailed debugging information, default 131
 
 
@@ -879,21 +879,21 @@ Only some configuration parameters related to RESTful interface are listed below
 
 
 * The C # connector supports: Linux 64/Windows x64/Windows x86.
-* C# connector can be download and include as normal table form [Nuget.org](https://www.nuget.org/packages/TDengine.Connector/).
-* On Windows, C # applications can use the native C interface of TDengine to perform all database operations, and future versions will provide the ORM (Dapper) framework driver.
+* C# connector can be download and include as normal table form [Nuget.org](https://www.nuget.org/packages/DThouse.Connector/).
+* On Windows, C # applications can use the native C interface of DThouse to perform all database operations, and future versions will provide the ORM (Dapper) framework driver.
 
 ### Installation preparation
 
 * For application driver installation, please refer to the[ steps of installing connector driver](https://www.taosdata.com/en/documentation/connector#driver).
-* .NET interface file TDengineDrivercs.cs and reference sample TDengineTest.cs are both located in the Windows client install_directory/examples/C# directory.
+* .NET interface file DThouseDrivercs.cs and reference sample DThouseTest.cs are both located in the Windows client install_directory/examples/C# directory.
 * Install [.NET SDK](https://dotnet.microsoft.com/download)
 
 ### Example Source Code
 you can find sample code under follow directions:
 * {client_install_directory}/examples/C#
-* [github C# example source code](https://github.com/taosdata/TDengine/tree/develop/tests/examples/C%2523)
+* [github C# example source code](https://github.com/taosdata/DThouse/tree/develop/tests/examples/C%2523)
 
-**Tips:** TDengineTest.cs       One of C# connector's sample code that include basic examples like connection,sql executions and so on.
+**Tips:** DThouseTest.cs       One of C# connector's sample code that include basic examples like connection,sql executions and so on.
 
 ### Installation verification
 Run {client_install_directory}/examples/C#/C#Checker/C#Checker.cs
@@ -906,7 +906,7 @@ dotnet run -- -h <FQDN> //dotnet run will build project first by default.
 ```
 
 ### How to use C# connector
-On Windows system, .NET applications can use the .NET interface of TDengine to perform all database operations. The steps to use it are as follows:
+On Windows system, .NET applications can use the .NET interface of DThouse to perform all database operations. The steps to use it are as follows:
 
 need to install .NET SDK first
 * create a c# project. 
@@ -915,26 +915,26 @@ mkdir test
 cd test 
 dotnet new console
 ```
-* add TDengineDriver as an package through Nuget
+* add DThouseDriver as an package through Nuget
 
 ``` cmd
-dotnet add package TDengine.Connector
+dotnet add package DThouse.Connector
 ```
 * include the TDnengineDriver in you application's namespace 
 ```C#
-using TDengineDriver;
+using DThouseDriver;
 ```
-* user can reference from[TDengineTest.cs](https://github.com/taosdata/TDengine/tree/develop/tests/examples/C%2523/TDengineTest) and learn how to define database connection,query,insert and other basic data manipulations.
+* user can reference from[DThouseTest.cs](https://github.com/taosdata/DThouse/tree/develop/tests/examples/C%2523/DThouseTest) and learn how to define database connection,query,insert and other basic data manipulations.
 
 **Note:**
 
-* TDengine V2.0. 3.0 supports both 32-bit and 64-bit Windows systems, so when. NET project generates a .exe file, please select the corresponding "X86" or "x64" for the "Platform" under "Solution"/"Project".
+* DThouse V2.0. 3.0 supports both 32-bit and 64-bit Windows systems, so when. NET project generates a .exe file, please select the corresponding "X86" or "x64" for the "Platform" under "Solution"/"Project".
 * This. NET interface has been verified in Visual Studio 2015/2017, and other VS versions have yet to be verified.
-* Since this. NET connector interface requires the taos.dll file, so before executing the application, copy the taos.dll file in the Windows {client_install_directory}/driver directory to the folder where the. NET project finally generated the .exe executable file. After running the exe file, you can access the TDengine database and do operations such as insert and query(This step can be skip if the client has been installed on you machine).
+* Since this. NET connector interface requires the taos.dll file, so before executing the application, copy the taos.dll file in the Windows {client_install_directory}/driver directory to the folder where the. NET project finally generated the .exe executable file. After running the exe file, you can access the DThouse database and do operations such as insert and query(This step can be skip if the client has been installed on you machine).
 
 ### Third-party Driver
 
-Maikebing.Data.Taos is an ADO.Net provider for TDengine that supports Linux, Windows. This development package is provided by enthusiastic contributor 麦壳饼@@maikebing. For more details:
+Maikebing.Data.Taos is an ADO.Net provider for DThouse that supports Linux, Windows. This development package is provided by enthusiastic contributor 麦壳饼@@maikebing. For more details:
 
 ```
 // Download
@@ -949,9 +949,9 @@ https://www.taosdata.com/blog/2020/11/02/1901.html
 
 - For application driver installation, please refer to the [steps of installing connector driver](https://www.taosdata.com/en/documentation/connector#driver).
 
-The TDengine provides the GO driver taosSql. taosSql implements the GO language's built-in interface database/sql/driver. Users can access TDengine in the application by simply importing the package as follows, see https://github.com/taosdata/driver-go/blob/develop/taosSql/driver_test.go for details.
+The DThouse provides the GO driver taosSql. taosSql implements the GO language's built-in interface database/sql/driver. Users can access DThouse in the application by simply importing the package as follows, see https://github.com/taosdata/driver-go/blob/develop/taosSql/driver_test.go for details.
 
-Sample code for using the Go connector can be found in https://github.com/taosdata/TDengine/tree/develop/tests/examples/go .
+Sample code for using the Go connector can be found in https://github.com/taosdata/DThouse/tree/develop/tests/examples/go .
 
 ```Go
 import (
@@ -973,7 +973,7 @@ go env -w GOPROXY=https://goproxy.io,direct
 
 - `sql.Open(DRIVER_NAME string, dataSourceName string) *DB`
 
-This API is used to open DB and return an object of type \* DB. Generally, DRIVER_NAME is set to the string `taosSql`, and dataSourceName is set to the string `user:password@/tcp(host:port)/dbname`. If the customer wants to access TDengine with multiple goroutines concurrently, it is necessary to create a `sql.Open` object in each goroutine and use it to access TDengine.
+This API is used to open DB and return an object of type \* DB. Generally, DRIVER_NAME is set to the string `taosSql`, and dataSourceName is set to the string `user:password@/tcp(host:port)/dbname`. If the customer wants to access DThouse with multiple goroutines concurrently, it is necessary to create a `sql.Open` object in each goroutine and use it to access DThouse.
 
 **Note**: When the API is successfully created, there is no permission check. Only when Query or Exec is actually executed can the connection be truly created and whether the user/password/host/port is legal can be checked at the same time. In addition, because most of the implementation of the whole driver sinks into libtaos, which taosSql depends on. Therefore, sql.Open itself is particularly lightweight.
 
@@ -1028,7 +1028,7 @@ npm install td2.0-connector
 
 We recommend that use npm to install the node.js connector. If you do not have npm installed, you can copy src/connector/nodejs/ to your nodejs project directory.
 
-We use [node-gyp](https://github.com/nodejs/node-gyp) to interact with the TDengine server. Before installing the node.js connector, you also need to install the following software:
+We use [node-gyp](https://github.com/nodejs/node-gyp) to interact with the DThouse server. Before installing the node.js connector, you also need to install the following software:
 
 ### Linux
 
@@ -1063,11 +1063,11 @@ Node-example.js node.js sample source code Node-example-raw. js
 
 ### Installation verification
 
-After installing the TDengine client, the nodejsChecker.js program can verify whether the current environment supports access to TDengine via nodejs.
+After installing the DThouse client, the nodejsChecker.js program can verify whether the current environment supports access to DThouse via nodejs.
 
 Steps:
 
-1. Create a new installation verification directory, for example: `~/tdengine-test`, copy the nodejsChecker.js source program on github. Download address: （https://github.com/taosdata/TDengine/tree/develop/tests/examples/nodejs/nodejsChecker.js）.
+1. Create a new installation verification directory, for example: `~/tdengine-test`, copy the nodejsChecker.js source program on github. Download address: （https://github.com/taosdata/DThouse/tree/develop/tests/examples/nodejs/nodejsChecker.js）.
 
 2. Execute the following command:
 
@@ -1081,11 +1081,11 @@ Steps:
 
 ### How to use Node.js
 
-The following are some basic uses of node.js connector. Please refer to [TDengine Node.js connector](https://github.com/taosdata/TDengine/tree/develop/src/connector/nodejs)for details.
+The following are some basic uses of node.js connector. Please refer to [DThouse Node.js connector](https://github.com/taosdata/DThouse/tree/develop/src/connector/nodejs)for details.
 
 ### Create connection
 
-When using the node.js connector, you must execute <em>require</em> `td2.0-connector`, and then use the `taos.connect` function. The parameter that `taos.connect` function must provide is `host`, and other parameters will use the following default values if they are not provided. Finally, the `cursor` needs to be initialized to communicate with the TDengine server-side.
+When using the node.js connector, you must execute <em>require</em> `td2.0-connector`, and then use the `taos.connect` function. The parameter that `taos.connect` function must provide is `host`, and other parameters will use the following default values if they are not provided. Finally, the `cursor` needs to be initialized to communicate with the DThouse server-side.
 
 ```javascript
 const taos = require('td2.0-connector');
@@ -1117,7 +1117,7 @@ var affectRows = cursor.execute('insert into test.weather values(now, 22.3, 34);
 
 The return value of the execute method is the number of rows affected by the statement. If the sql above inserts a piece of data into the weather table of the test database, the return value affectRows is 1.
 
-TDengine does not currently support update and delete statements.
+DThouse does not currently support update and delete statements.
 
 #### Query
 
@@ -1171,6 +1171,6 @@ promise2.then(function(result) {
 
 ### Example
 
-[node-example.js](https://github.com/taosdata/TDengine/tree/master/tests/examples/nodejs/node-example.js) provides a code example that uses the NodeJS connector to create a table, insert weather data, and query the inserted data.
+[node-example.js](https://github.com/taosdata/DThouse/tree/master/tests/examples/nodejs/node-example.js) provides a code example that uses the NodeJS connector to create a table, insert weather data, and query the inserted data.
 
-[node-example-raw.js](https://github.com/taosdata/TDengine/tree/master/tests/examples/nodejs/node-example-raw.js) is also a code example that uses the NodeJS connector to create a table, insert weather data, and query the inserted data, but unlike the above, this example only uses cursor.
+[node-example-raw.js](https://github.com/taosdata/DThouse/tree/master/tests/examples/nodejs/node-example-raw.js) is also a code example that uses the NodeJS connector to create a table, insert weather data, and query the inserted data, but unlike the above, this example only uses cursor.

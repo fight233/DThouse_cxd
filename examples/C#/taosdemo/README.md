@@ -40,7 +40,7 @@ Usage: mono taosdemo.exe [OPTION...]
 
         --help                   Show usage.
 
-        -h <hostname>            host, The host to connect to TDengine. Default is localhost.
+        -h <hostname>            host, The host to connect to DThouse. Default is localhost.
         -p <port>                port, The TCP/IP port number to use for the connection. Default is 0.
         -u <username>            user, The user name to use when connecting to the server. Default is 'root'.
         -P <password>            password, The password to use when connecting to the server. Default is 'taosdata'.

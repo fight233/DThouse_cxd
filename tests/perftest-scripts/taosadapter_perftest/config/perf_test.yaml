@@ -1,6 +1,6 @@
 deploy_mode: no
 taosd_autodeploy: False
-install_package: /home/ubuntu/TDengine/release/TDengine-server-2.3.4.0-beta-Linux-x64.tar.gz
+install_package: /home/ubuntu/DThouse/release/DThouse-server-2.3.4.0-beta-Linux-x64.tar.gz
 clean_env: True
 hostname_prefix: vm
 timeout: 10

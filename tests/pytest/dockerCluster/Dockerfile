@@ -1,9 +1,9 @@
 FROM ubuntu:latest AS builder
  
-ARG PACKAGE=TDengine-server-1.6.5.10-Linux-x64.tar.gz
-ARG EXTRACTDIR=TDengine-enterprise-server
-ARG TARBITRATORPKG=TDengine-tarbitrator-1.6.5.10-Linux-x64.tar.gz
-ARG EXTRACTDIR2=TDengine-enterprise-arbitrator
+ARG PACKAGE=DThouse-server-1.6.5.10-Linux-x64.tar.gz
+ARG EXTRACTDIR=DThouse-enterprise-server
+ARG TARBITRATORPKG=DThouse-tarbitrator-1.6.5.10-Linux-x64.tar.gz
+ARG EXTRACTDIR2=DThouse-enterprise-arbitrator
 ARG CONTENT=taos.tar.gz
  
 WORKDIR /root

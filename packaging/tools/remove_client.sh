@@ -79,5 +79,5 @@ clean_config
 
 ${csudo}rm -rf ${install_main_dir}
 
-echo -e "${GREEN}TDengine client is removed successfully!${NC}"
+echo -e "${GREEN}DThouse client is removed successfully!${NC}"
 echo

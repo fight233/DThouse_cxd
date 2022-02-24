@@ -1,5 +1,5 @@
 [Unit]
-Description=TDengine arbitrator service
+Description=DThouse arbitrator service
 After=network-online.target
 Wants=network-online.target
 

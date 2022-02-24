@@ -54,22 +54,22 @@ echo "version=${version}"
 
 GOOS=${osType} GOARCH=${cpuType} go mod tidy && go build -ldflags '-X main.version='${version}
 
-mkdir -p TDengine-alert/driver
+mkdir -p DThouse-alert/driver
 
-cp alert alert.cfg install_driver.sh ./TDengine-alert/.
-cp ../../../debug/build/lib/libtaos.so.${version} ./TDengine-alert/driver/.
-chmod 777 ./TDengine-alert/install_driver.sh
+cp alert alert.cfg install_driver.sh ./DThouse-alert/.
+cp ../../../debug/build/lib/libtaos.so.${version} ./DThouse-alert/driver/.
+chmod 777 ./DThouse-alert/install_driver.sh
 
-tar -I 'gzip -9' -cf ${scriptdir}/TDengine-alert-${version}-${osType^}-${archMap[${cpuType}]}.tar.gz TDengine-alert/
-rm -rf ./TDengine-alert
+tar -I 'gzip -9' -cf ${scriptdir}/DThouse-alert-${version}-${osType^}-${archMap[${cpuType}]}.tar.gz DThouse-alert/
+rm -rf ./DThouse-alert
 
 
 
 # mv package to comminuty/release/
-pkg_name=TDengine-alert-${version}-${osType^}-${archMap[${cpuType}]}
+pkg_name=DThouse-alert-${version}-${osType^}-${archMap[${cpuType}]}
 
 if [ "$verType" == "beta" ]; then
-  pkg_name=TDengine-alert-${version}-${verType}-${osType^}-${archMap[${cpuType}]}
+  pkg_name=DThouse-alert-${version}-${verType}-${osType^}-${archMap[${cpuType}]}
 elif [ "$verType" == "stable" ]; then
   pkg_name=${pkg_name}
 else
@@ -78,4 +78,4 @@ else
 fi
 
 cd ${scriptdir}/../release/
-mv ${scriptdir}/TDengine-alert-${version}-${osType^}-${archMap[${cpuType}]}.tar.gz  ${pkg_name}.tar.gz
+mv ${scriptdir}/DThouse-alert-${version}-${osType^}-${archMap[${cpuType}]}.tar.gz  ${pkg_name}.tar.gz

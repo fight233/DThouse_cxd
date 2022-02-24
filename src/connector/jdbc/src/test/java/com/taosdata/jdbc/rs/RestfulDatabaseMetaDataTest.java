@@ -74,7 +74,7 @@ public class RestfulDatabaseMetaDataTest {
 
     @Test
     public void getDatabaseProductName() throws SQLException {
-        Assert.assertEquals("TDengine", metaData.getDatabaseProductName());
+        Assert.assertEquals("DThouse", metaData.getDatabaseProductName());
     }
 
     @Test

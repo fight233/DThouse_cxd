@@ -3,12 +3,12 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 
-namespace TDengineDriver
+namespace DThouseDriver
 {
     /// <summary>
     /// this class used to get an instance of struct of TAO_BIND or TAOS_MULTI_BIND
-    /// And the instance is corresponding with TDengine data type. For example, calling 
-    /// "bindBinary"  will return a TAOS_BIND object that is corresponding with TDengine's
+    /// And the instance is corresponding with DThouse data type. For example, calling 
+    /// "bindBinary"  will return a TAOS_BIND object that is corresponding with DThouse's
     /// binary type.
     /// </summary>
     public class TaosBind
@@ -25,7 +25,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_BOOL;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_BOOL;
             bind.buffer = bo;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -46,7 +46,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_TINYINT;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_TINYINT;
             bind.buffer = uManageTinyInt;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -66,7 +66,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_SMALLINT;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_SMALLINT;
             bind.buffer = uManageSmallInt;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -85,7 +85,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_INT;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_INT;
             bind.buffer = uManageInt;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -105,7 +105,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_BIGINT;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_BIGINT;
             bind.buffer = uManageBigInt;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -125,7 +125,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_UTINYINT;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_UTINYINT;
             bind.buffer = uManageTinyInt;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -147,7 +147,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_USMALLINT;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_USMALLINT;
             bind.buffer = uManageUnsignSmallInt;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -169,7 +169,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_UINT;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_UINT;
             bind.buffer = uManageInt;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -191,7 +191,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_UBIGINT;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_UBIGINT;
             bind.buffer = uManageBigInt;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -213,7 +213,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_FLOAT;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_FLOAT;
             bind.buffer = uManageFloat;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -235,7 +235,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_DOUBLE;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_DOUBLE;
             bind.buffer = uManageDouble;
             bind.buffer_length = length;
             bind.length = lengPtr;
@@ -255,7 +255,7 @@ namespace TDengineDriver
             IntPtr lenPtr = Marshal.AllocHGlobal(sizeof(ulong));
             Marshal.WriteInt64(lenPtr, leng);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_BINARY;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_BINARY;
             bind.buffer = umanageBinary;
             bind.buffer_length = leng;
             bind.length = lenPtr;
@@ -274,7 +274,7 @@ namespace TDengineDriver
             IntPtr lenPtr = Marshal.AllocHGlobal(sizeof(ulong));
             Marshal.WriteInt64(lenPtr, leng);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_NCHAR;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_NCHAR;
             bind.buffer = umanageNchar;
             bind.buffer_length = leng;
             bind.length = lenPtr;
@@ -291,7 +291,7 @@ namespace TDengineDriver
             IntPtr lenPtr = Marshal.AllocHGlobal(sizeof(int));
             Marshal.WriteInt32(lenPtr, isNull);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_NULL;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_NULL;
             bind.is_null = lenPtr;
             return bind;
         }
@@ -307,7 +307,7 @@ namespace TDengineDriver
             IntPtr lengPtr = Marshal.AllocHGlobal(4);
             Marshal.WriteInt32(lengPtr, length);
 
-            bind.buffer_type = (int)TDengineDataType.TSDB_DATA_TYPE_TIMESTAMP;
+            bind.buffer_type = (int)DThouseDataType.TSDB_DATA_TYPE_TIMESTAMP;
             bind.buffer = uManageTs;
             bind.buffer_length = length;
             bind.length = lengPtr;

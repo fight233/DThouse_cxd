@@ -120,16 +120,16 @@ sed -i "2c$debver" ${pkg_dir}/DEBIAN/control
 
 #get taos version, then set deb name
 if [ "$verMode" == "cluster" ]; then
-  debname="TDengine-server-"${tdengine_ver}-${osType}-${cpuType}
+  debname="DThouse-server-"${tdengine_ver}-${osType}-${cpuType}
 elif [ "$verMode" == "edge" ]; then
-  debname="TDengine-server"-${tdengine_ver}-${osType}-${cpuType}
+  debname="DThouse-server"-${tdengine_ver}-${osType}-${cpuType}
 else
   echo "unknow verMode, nor cluster or edge"
   exit 1
 fi
 
 if [ "$verType" == "beta" ]; then
-  debname="TDengine-server-"${tdengine_ver}-${verType}-${osType}-${cpuType}".deb"
+  debname="DThouse-server-"${tdengine_ver}-${verType}-${osType}-${cpuType}".deb"
 elif [ "$verType" == "stable" ]; then
   debname=${debname}".deb"
 else

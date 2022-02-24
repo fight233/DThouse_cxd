@@ -17,9 +17,9 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace TDengineDriver
+namespace DThouseDriver
 {
-    public enum TDengineDataType
+    public enum DThouseDataType
     {
         TSDB_DATA_TYPE_NULL = 0,     // 1 bytes
         TSDB_DATA_TYPE_BOOL = 1,     // 1 bytes
@@ -39,7 +39,7 @@ namespace TDengineDriver
         TSDB_DATA_TYPE_JSONTAG = 15   //4096 bytes 
     }
 
-    public enum TDengineInitOption
+    public enum DThouseInitOption
     {
         TSDB_OPTION_LOCALE = 0,
         TSDB_OPTION_CHARSET = 1,
@@ -55,44 +55,44 @@ namespace TDengineDriver
         BYTES_OFFSET = 66,
 
     }
-    public class TDengineMeta
+    public class DThouseMeta
     {
         public string name;
         public short size;
         public byte type;
         public string TypeName()
         {
-            switch ((TDengineDataType)type)
+            switch ((DThouseDataType)type)
             {
-                case TDengineDataType.TSDB_DATA_TYPE_BOOL:
+                case DThouseDataType.TSDB_DATA_TYPE_BOOL:
                     return "BOOL";
-                case TDengineDataType.TSDB_DATA_TYPE_TINYINT:
+                case DThouseDataType.TSDB_DATA_TYPE_TINYINT:
                     return "TINYINT";
-                case TDengineDataType.TSDB_DATA_TYPE_SMALLINT:
+                case DThouseDataType.TSDB_DATA_TYPE_SMALLINT:
                     return "SMALLINT";
-                case TDengineDataType.TSDB_DATA_TYPE_INT:
+                case DThouseDataType.TSDB_DATA_TYPE_INT:
                     return "INT";
-                case TDengineDataType.TSDB_DATA_TYPE_BIGINT:
+                case DThouseDataType.TSDB_DATA_TYPE_BIGINT:
                     return "BIGINT";
-                case TDengineDataType.TSDB_DATA_TYPE_UTINYINT:
+                case DThouseDataType.TSDB_DATA_TYPE_UTINYINT:
                     return "TINYINT UNSIGNED";
-                case TDengineDataType.TSDB_DATA_TYPE_USMALLINT:
+                case DThouseDataType.TSDB_DATA_TYPE_USMALLINT:
                     return "SMALLINT UNSIGNED";
-                case TDengineDataType.TSDB_DATA_TYPE_UINT:
+                case DThouseDataType.TSDB_DATA_TYPE_UINT:
                     return "INT UNSIGNED";
-                case TDengineDataType.TSDB_DATA_TYPE_UBIGINT:
+                case DThouseDataType.TSDB_DATA_TYPE_UBIGINT:
                     return "BIGINT UNSIGNED";
-                case TDengineDataType.TSDB_DATA_TYPE_FLOAT:
+                case DThouseDataType.TSDB_DATA_TYPE_FLOAT:
                     return "FLOAT";
-                case TDengineDataType.TSDB_DATA_TYPE_DOUBLE:
+                case DThouseDataType.TSDB_DATA_TYPE_DOUBLE:
                     return "DOUBLE";
-                case TDengineDataType.TSDB_DATA_TYPE_BINARY:
+                case DThouseDataType.TSDB_DATA_TYPE_BINARY:
                     return "STRING";
-                case TDengineDataType.TSDB_DATA_TYPE_TIMESTAMP:
+                case DThouseDataType.TSDB_DATA_TYPE_TIMESTAMP:
                     return "TIMESTAMP";
-                case TDengineDataType.TSDB_DATA_TYPE_NCHAR:
+                case DThouseDataType.TSDB_DATA_TYPE_NCHAR:
                     return "NCHAR";
-                case TDengineDataType.TSDB_DATA_TYPE_JSONTAG:
+                case DThouseDataType.TSDB_DATA_TYPE_JSONTAG:
                     return "JSON";
                 default:
                     return "undefine";
@@ -145,7 +145,7 @@ namespace TDengineDriver
     }
 
 
-    public class TDengine
+    public class DThouse
     {
         public const int TSDB_CODE_SUCCESS = 0;
 
@@ -183,11 +183,11 @@ namespace TDengineDriver
 
         [DllImport("taos", EntryPoint = "taos_fetch_fields", CallingConvention = CallingConvention.Cdecl)]
         static extern private IntPtr taos_fetch_fields(IntPtr res);
-        static public List<TDengineMeta> FetchFields(IntPtr res)
+        static public List<DThouseMeta> FetchFields(IntPtr res)
         {
             // const int fieldSize = 68;
 
-            List<TDengineMeta> metas = new List<TDengineMeta>();
+            List<DThouseMeta> metas = new List<DThouseMeta>();
             if (res == IntPtr.Zero)
             {
                 return metas;
@@ -199,7 +199,7 @@ namespace TDengineDriver
             for (int i = 0; i < fieldCount; ++i)
             {
                 int offset = i * (int)TaosField.STRUCT_SIZE;
-                TDengineMeta meta = new TDengineMeta();
+                DThouseMeta meta = new DThouseMeta();
                 meta.name = Marshal.PtrToStringAnsi(fieldsPtr + offset);
                 meta.type = Marshal.ReadByte(fieldsPtr + offset + (int)TaosField.TYPE_OFFSET);
                 meta.size = Marshal.ReadInt16(fieldsPtr + offset + (int)TaosField.BYTES_OFFSET);

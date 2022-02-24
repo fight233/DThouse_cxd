@@ -23,12 +23,12 @@ extern void taosWinSocketInit();
 void osInit() {
   taosSetCoreDump();
   if (configDir[0] == 0) {
-    strcpy(configDir, "C:/TDengine/cfg");
+    strcpy(configDir, "C:/DThouse/cfg");
   }
-  strcpy(tsVnodeDir, "C:/TDengine/data");
-  strcpy(tsDataDir, "C:/TDengine/data");
-  strcpy(tsLogDir, "C:/TDengine/log");
-  strcpy(tsScriptDir, "C:/TDengine/script");
+  strcpy(tsVnodeDir, "C:/DThouse/data");
+  strcpy(tsDataDir, "C:/DThouse/data");
+  strcpy(tsLogDir, "C:/DThouse/log");
+  strcpy(tsScriptDir, "C:/DThouse/script");
   strcpy(tsDnodeDir, "");
   strcpy(tsMnodeDir, "");  
   strcpy(tsOsName, "Windows");

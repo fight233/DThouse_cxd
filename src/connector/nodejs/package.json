@@ -1,7 +1,7 @@
 {
   "name": "td2.0-connector",
   "version": "2.0.10",
-  "description": "A Node.js connector for TDengine.",
+  "description": "A Node.js connector for DThouse.",
   "main": "tdengine.js",
   "directories": {
     "test": "test"
@@ -14,7 +14,7 @@
     "url": "git+https://github.com/taosdata/tdengine.git"
   },
   "keywords": [
-    "TDengine",
+    "DThouse",
     "TAOS Data",
     "Time Series Database",
     "Connector"

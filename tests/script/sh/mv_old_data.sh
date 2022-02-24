@@ -46,4 +46,4 @@ tar zxf $SCRIPT_DIR/general/connection/sim.tar.gz -C $SIM_DIR/../
 cd $SIM_DIR/../sim
 fqdn=`hostname -f || hostname`
 grep 'test4' -l -r ./* | xargs sed -i "s/test4/${fqdn}/g"
-grep 'dataDir' -l -r ./* | xargs sed -i "s#/root/TDengine#${TAOS_DIR}#g"
+grep 'dataDir' -l -r ./* | xargs sed -i "s#/root/DThouse#${TAOS_DIR}#g"

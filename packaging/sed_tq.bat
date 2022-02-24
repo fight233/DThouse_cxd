@@ -2,7 +2,7 @@ set sed="C:\Program Files\Git\usr\bin\sed.exe"
 set community_dir=%1
 
 ::cmake\install.inc
-%sed% -i "s/C:\/TDengine/C:\/TQ/g" %community_dir%\cmake\install.inc
+%sed% -i "s/C:\/DThouse/C:\/TQ/g" %community_dir%\cmake\install.inc
 %sed% -i "s/taos\.cfg/tq\.cfg/g" %community_dir%\cmake\install.inc
 %sed% -i "s/taos\.exe/tq\.exe/g" %community_dir%\cmake\install.inc
 %sed% -i "/src\/connector/d" %community_dir%\cmake\install.inc
@@ -19,9 +19,9 @@ set community_dir=%1
 ::src\util\src\tlog.c
 %sed% -i "s/log\/taos/log\/tq/g"   %community_dir%\src\util\src\tlog.c
 ::src\dnode\src\dnodeSystem.c
-%sed% -i "s/TDengine/TQ/g"  %community_dir%\src\dnode\src\dnodeSystem.c
+%sed% -i "s/DThouse/TQ/g"  %community_dir%\src\dnode\src\dnodeSystem.c
 ::src\dnode\src\dnodeMain.c
-%sed% -i "s/TDengine/TQ/g"   %community_dir%\src\dnode\src\dnodeMain.c
+%sed% -i "s/DThouse/TQ/g"   %community_dir%\src\dnode\src\dnodeMain.c
 %sed% -i "s/taosdlog/tqdlog/g"  %community_dir%\src\dnode\src\dnodeMain.c
 ::src\client\src\tscSystem.c
 %sed% -i "s/taoslog/tqlog/g"  %community_dir%\src\client\src\tscSystem.c
@@ -34,9 +34,9 @@ set community_dir=%1
 %sed% -i "s/lib\/taos/lib\/tq/g" %community_dir%\src\os\src\linux\linuxEnv.c
 %sed% -i "s/log\/taos/log\/tq/g" %community_dir%\src\os\src\linux\linuxEnv.c
 ::src\os\src\windows\wEnv.c
-%sed% -i "s/TDengine/TQ/g" %community_dir%\src\os\src\windows\wEnv.c
+%sed% -i "s/DThouse/TQ/g" %community_dir%\src\os\src\windows\wEnv.c
 ::src\kit\shell\src\shellEngine.c
-%sed% -i "s/TDengine shell/TQ shell/g" %community_dir%\src\kit\shell\src\shellEngine.c
+%sed% -i "s/DThouse shell/TQ shell/g" %community_dir%\src\kit\shell\src\shellEngine.c
 %sed% -i "s/\"taos^> \"/\"tq^> \"/g" %community_dir%\src\kit\shell\src\shellEngine.c
 %sed% -i "s/\"   -^> \"/\" -^> \"/g" %community_dir%\src\kit\shell\src\shellEngine.c
 %sed% -i "s/prompt_size = 6/prompt_size = 4/g" %community_dir%\src\kit\shell\src\shellEngine.c

@@ -30,7 +30,7 @@ class TDTestCase:
     def run(self):
         tdSql.prepare()
         binPath = tdFindPath.getTaosdemoPath()
-        TDenginePath = tdFindPath.getTDenginePath()
+        DThousePath = tdFindPath.getDThousePath()
 
         ## change system time to 2020/10/20
         os.system ('timedatectl set-ntp off')
@@ -42,7 +42,7 @@ class TDTestCase:
         #vnode at TDinternal/community/sim/dnode1/data/vnode
         try:
             os.system(f"{binPath}taosBenchmark -f tools/taosdemoAllTest/manual_change_time_1_1_A.json") 
-            commandArray = ['ls', '-l', f'{TDenginePath}/sim/dnode1/data/vnode/vnode2/tsdb/data']
+            commandArray = ['ls', '-l', f'{DThousePath}/sim/dnode1/data/vnode/vnode2/tsdb/data']
             result = subprocess.run(commandArray, stdout=subprocess.PIPE).stdout.decode('utf-8')
         except BaseException:
             os.system('sudo timedatectl set-ntp on')
@@ -80,7 +80,7 @@ class TDTestCase:
 
         os.system('sudo timedatectl set-ntp on')
         tdLog.sleep(10)
-        commandArray = ['ls', '-l', f'{TDenginePath}/sim/dnode1/data/vnode/vnode2/tsdb/data']
+        commandArray = ['ls', '-l', f'{DThousePath}/sim/dnode1/data/vnode/vnode2/tsdb/data']
         result = subprocess.run(commandArray, stdout=subprocess.PIPE).stdout.decode('utf-8')
         print(result.count('data'))
         if result.count('data') != 7:

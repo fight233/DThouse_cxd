@@ -88,7 +88,7 @@ class Node:
         self.conn.put(packagePath, self.homeDir)
         self.conn.cd(self.homeDir)
         self.conn.run("tar -zxf $(basename '%s')" % packagePath)
-        with self.conn.cd("TDengine-enterprise-server"):
+        with self.conn.cd("DThouse-enterprise-server"):
             self.conn.run("yes|./install.sh")
 
     def configTaosd(self, taosConfigKey, taosConfigValue):

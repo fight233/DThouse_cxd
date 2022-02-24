@@ -46,7 +46,7 @@ function getType(typecode) {
  * @module FieldTypes
  */
 /**
- * TDengine Field Types and their type codes
+ * DThouse Field Types and their type codes
  * @typedef {Object} FieldTypes
  * @global
  * @property {number} C_NULL - Null

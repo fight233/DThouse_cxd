@@ -1,19 +1,19 @@
-const TDengineCursor = require('./cursor')
+const DThouseCursor = require('./cursor')
 const CTaosInterface = require('./cinterface')
-module.exports = TDengineConnection;
+module.exports = DThouseConnection;
 
 /**
- * TDengine Connection Class
- * @param {object} options - Options for configuring the connection with TDengine
- * @return {TDengineConnection}
- * @class TDengineConnection
+ * DThouse Connection Class
+ * @param {object} options - Options for configuring the connection with DThouse
+ * @return {DThouseConnection}
+ * @class DThouseConnection
  * @constructor
  * @example
  * //Initialize a new connection
- * var conn = new TDengineConnection({host:"127.0.0.1", user:"root", password:"taosdata", config:"/etc/taos",port:0})
+ * var conn = new DThouseConnection({host:"127.0.0.1", user:"root", password:"taosdata", config:"/etc/taos",port:0})
  *
  */
-function TDengineConnection(options) {
+function DThouseConnection(options) {
   this._conn = null;
   this._host = null;
   this._user = "root"; //The default user
@@ -26,11 +26,11 @@ function TDengineConnection(options) {
   return this;
 }
 /**
- * Configure the connection to TDengine
+ * Configure the connection to DThouse
  * @private
- * @memberof TDengineConnection
+ * @memberof DThouseConnection
  */
-TDengineConnection.prototype._configConn = function _configConn(options) {
+DThouseConnection.prototype._configConn = function _configConn(options) {
   if (options['host']) {
     this._host = options['host'];
   }
@@ -52,22 +52,22 @@ TDengineConnection.prototype._configConn = function _configConn(options) {
   this._chandle = new CTaosInterface(this._config);
   this._conn = this._chandle.connect(this._host, this._user, this._password, this._database, this._port);
 }
-/** Close the connection to TDengine */
-TDengineConnection.prototype.close = function close() {
+/** Close the connection to DThouse */
+DThouseConnection.prototype.close = function close() {
   this._chandle.close(this._conn);
 }
 /**
- * Initialize a new cursor to interact with TDengine with
- * @return {TDengineCursor}
+ * Initialize a new cursor to interact with DThouse with
+ * @return {DThouseCursor}
  */
-TDengineConnection.prototype.cursor = function cursor() {
+DThouseConnection.prototype.cursor = function cursor() {
   //Pass the connection object to the cursor
-  return new TDengineCursor(this);
+  return new DThouseCursor(this);
 }
-TDengineConnection.prototype.commit = function commit() {
+DThouseConnection.prototype.commit = function commit() {
   return this;
 }
-TDengineConnection.prototype.rollback = function rollback() {
+DThouseConnection.prototype.rollback = function rollback() {
   return this;
 }
 /**
@@ -75,7 +75,7 @@ TDengineConnection.prototype.rollback = function rollback() {
  * @private
  */
 /*
- TDengineConnection.prototype._clearResultSet = function _clearResultSet() {
+ DThouseConnection.prototype._clearResultSet = function _clearResultSet() {
   var result = this._chandle.useResult(this._conn).result;
   if (result) {
     this._chandle.freeResult(result)

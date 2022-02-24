@@ -401,7 +401,7 @@ def _buildCmdLineParser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.RawDescriptionHelpFormatter,
         description=textwrap.dedent('''\
-            TDengine Performance Benchmarking Tool
+            DThouse Performance Benchmarking Tool
             ---------------------------------------------------------------------
             
             '''))

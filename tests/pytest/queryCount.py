@@ -28,7 +28,7 @@ class QueryCountMultiThread:
         self.host = "127.0.0.1"
         self.user = "root"
         self.password = "taosdata"
-        self.config = "/home/xp/git/TDengine/sim/dnode1/cfg"
+        self.config = "/home/xp/git/DThouse/sim/dnode1/cfg"
         self.conn = taos.connect(
             self.host,
             self.user,

@@ -23,7 +23,7 @@ dotnet run --project src/test/Cases/Cases.csproj
 
 cd ${WKC}/tests/examples/C#
 dotnet run --project C#checker/C#checker.csproj
-dotnet run --project TDengineTest/TDengineTest.csproj
+dotnet run --project DThouseTest/DThouseTest.csproj
 dotnet run --project schemaless/schemaless.csproj
 
 cd ${WKC}/tests/examples/C#/taosdemo

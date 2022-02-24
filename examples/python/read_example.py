@@ -1,5 +1,5 @@
 """
-This is the sample code for TDengine python2 client.
+This is the sample code for DThouse python2 client.
 """
 import taos
 import sys
@@ -14,13 +14,13 @@ if __name__ == '__main__':
     start_time = datetime.datetime(2019, 7, 1)
     time_interval = datetime.timedelta(seconds=60)
 
-    # Connect to TDengine server.
+    # Connect to DThouse server.
     # 
     # parameters:
-    # @host     : TDengine server IP address 
-    # @user     : Username used to connect to TDengine server
+    # @host     : DThouse server IP address 
+    # @user     : Username used to connect to DThouse server
     # @password : Password 
-    # @database : Database to use when connecting to TDengine server
+    # @database : Database to use when connecting to DThouse server
     # @config   : Configuration directory
     if len(sys.argv)>1:
         hostname=sys.argv[1]

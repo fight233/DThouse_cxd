@@ -228,7 +228,7 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "TDengine",
+      "datasource": "DThouse",
       "description": "General CPU monitor",
       "fill": 1,
       "fillGradient": 0,
@@ -350,7 +350,7 @@
     ]
   },
   "timezone": "",
-  "title": "TDengineDashboardDemo",
+  "title": "DThouseDashboardDemo",
   "uid": "2lF1wNUWz",
   "version": 4
 }

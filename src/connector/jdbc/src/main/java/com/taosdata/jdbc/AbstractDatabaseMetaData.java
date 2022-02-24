@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class AbstractDatabaseMetaData extends WrapperImpl implements DatabaseMetaData {
 
-    private final static String PRODUCT_NAME = "TDengine";
+    private final static String PRODUCT_NAME = "DThouse";
     private final static String PRODUCT_VESION = "2.0.x.x";
     private final static String DRIVER_VERSION = "2.0.x";
     private final static int DRIVER_MAJAR_VERSION = 2;

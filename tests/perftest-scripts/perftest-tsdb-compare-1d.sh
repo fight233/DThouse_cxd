@@ -59,7 +59,7 @@ function runPerfTest1d {
 	restartTaosd
 
 	cd $WORK_DIR/$TSDB_CMP_DIR
-	./runTDengine.sh -d 1 -w -q 2>&1 | tee $WORK_DIR/perftest-1d-$walPostfix-$today.log
+	./runDThouse.sh -d 1 -w -q 2>&1 | tee $WORK_DIR/perftest-1d-$walPostfix-$today.log
 }
 
 function generatePerfPlot1d {

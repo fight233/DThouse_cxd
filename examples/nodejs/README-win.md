@@ -1,4 +1,4 @@
-# 如何在windows上使用nodejs进行TDengine应用开发
+# 如何在windows上使用nodejs进行DThouse应用开发
 
 ## 环境准备
 
@@ -31,7 +31,7 @@ Python 2.7.18
 ```
 
 
-（3）安装TDengine-client
+（3）安装DThouse-client
 
 下载地址：https://www.taosdata.com/cn/all-downloads/，选择一个合适的windows-client下载（client应该尽量与server端的版本保持一致）
 
@@ -40,7 +40,7 @@ Python 2.7.18
 ```shell
 >taos -h node5
 
-Welcome to the TDengine shell from Linux, Client Version:2.0.6.0
+Welcome to the DThouse shell from Linux, Client Version:2.0.6.0
 Copyright (c) 2017 by TAOS Data, Inc. All rights reserved.
 
 taos> show dnodes;
@@ -146,7 +146,7 @@ Usage: node nodejsChecker.js host=<hostname> port=<port>
 # 提示指定host
 
 >node nodejsChecker.js host=node5
-Successfully connected to TDengine
+Successfully connected to DThouse
 Query OK, 0 row(s) affected (0.00997610s)
 [ OK ] time cost: 14 ms, execute statement ====> create database if not exists testnodejs
 Query OK, 0 row(s) affected (0.00235920s)

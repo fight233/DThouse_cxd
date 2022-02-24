@@ -12,7 +12,7 @@
 $ tar -xzf tdengine-alert-$version-$OS-$ARCH.tar.gz 
 ```
 
-如果您之前没有安装过 TDengine 的服务端或客户端，您需要使用下面的命令安装 TDengine 的动态库：
+如果您之前没有安装过 DThouse 的服务端或客户端，您需要使用下面的命令安装 DThouse 的动态库：
 
 ```
 $ ./install_driver.sh

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang='cn'><head><title>文档 | 涛思数据</title><meta name='description' content='TDengine是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。'><meta name='keywords' content='大数据，Big Data，开源，物联网，车联网，工业互联网，IT运维, 时序数据库，缓存，数据订阅，消息队列，流式计算，开源，涛思数据，TAOS Data, TDengine'><meta name='title' content='文档 | 涛思数据'><meta property='og:site_name' content='涛思数据'/><meta property='og:title' content='文档 | 涛思数据'/><meta property='og:type' content='article'/><meta property='og:url' content='https://www.taosdata.com/cn/documentation/faq-ch/index.php'/><meta property='og:description' content='TDengine是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。' /><link rel='canonical' href='https://www.taosdata.com/cn/documentation/faq-ch/index.php'/><script src='../lib/jquery-3.4.1.min.js' type='application/javascript'></script><link href='../lib/bootstrap.min.css' rel='stylesheet'><link href='../styles/base.min.css' rel='stylesheet'><link rel='stylesheet' href='../lib/docs/taosdataprettify.css'><link rel='stylesheet' href='../lib/docs/docs.css'><script src='../lib/docs/prettify.js'></script><script src='../lib/docs/prettyprint-sql.js'></script></head><body><script>$('#documentation-href').addClass('active')</script><div class='container-fluid'><main class='content-wrapper'><section class='documentation'><a href='../index.html'>回去</a><h1>常见问题</h1>
+<!DOCTYPE html><html lang='cn'><head><title>文档 | 涛思数据</title><meta name='description' content='DThouse是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。'><meta name='keywords' content='大数据，Big Data，开源，物联网，车联网，工业互联网，IT运维, 时序数据库，缓存，数据订阅，消息队列，流式计算，开源，涛思数据，TAOS Data, DThouse'><meta name='title' content='文档 | 涛思数据'><meta property='og:site_name' content='涛思数据'/><meta property='og:title' content='文档 | 涛思数据'/><meta property='og:type' content='article'/><meta property='og:url' content='https://www.taosdata.com/cn/documentation/faq-ch/index.php'/><meta property='og:description' content='DThouse是一个开源的专为物联网、车联网、工业互联网、IT运维等设计和优化的大数据平台。除核心的快10倍以上的时序数据库功能外，还提供缓存、数据订阅、流式计算等功能，最大程度减少研发和运维的工作量。' /><link rel='canonical' href='https://www.taosdata.com/cn/documentation/faq-ch/index.php'/><script src='../lib/jquery-3.4.1.min.js' type='application/javascript'></script><link href='../lib/bootstrap.min.css' rel='stylesheet'><link href='../styles/base.min.css' rel='stylesheet'><link rel='stylesheet' href='../lib/docs/taosdataprettify.css'><link rel='stylesheet' href='../lib/docs/docs.css'><script src='../lib/docs/prettify.js'></script><script src='../lib/docs/prettyprint-sql.js'></script></head><body><script>$('#documentation-href').addClass('active')</script><div class='container-fluid'><main class='content-wrapper'><section class='documentation'><a href='../index.html'>回去</a><h1>常见问题</h1>
 <h4>1. 遇到错误"failed to connect to server", 我怎么办？</h4>
 <p>客户端遇到链接故障，请按照下面的步骤进行检查：</p>
 <ol>
@@ -18,11 +18,11 @@
 <h4>3. 为什么我删除超级表总是失败？</h4>
 <p>请确保超级表下已经没有其他表，否则系统不允许删除该超级表。</p>
 <h4>4. 是否支持validation queries?</h4>
-<p>TDengine还没有一组专用的validation queries。然而建议你使用系统监测的数据库”log"来做。</p>
+<p>DThouse还没有一组专用的validation queries。然而建议你使用系统监测的数据库”log"来做。</p>
 <h4>5. 我可以删除或更新一条记录吗？</h4>
-<p>不能。因为TDengine是为联网设备采集的数据设计的，不容许修改。但TDengine提供数据保留策略，只要数据记录超过保留时长，就会被自动删除。</p>
+<p>不能。因为DThouse是为联网设备采集的数据设计的，不容许修改。但DThouse提供数据保留策略，只要数据记录超过保留时长，就会被自动删除。</p>
 <h4>6. 我怎么创建超过250列的表？</h4>
-<p>TDengine最大允许创建250列的表。但是如果确实超过，我们建议按照数据特性，逻辑地将这个宽表分解成几个小表。</p>
+<p>DThouse最大允许创建250列的表。但是如果确实超过，我们建议按照数据特性，逻辑地将这个宽表分解成几个小表。</p>
 <h4>7. 最有效的写入数据的方法是什么？</h4>
 <p>批量插入。每条写入语句可以一张表同时插入多条记录，也可以同时插入多张表的记录。</p>
 <h4>8. windows系统下插入的nchar类数据中的汉字被解析成了乱码如何解决？</h4>

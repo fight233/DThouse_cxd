@@ -1,6 +1,6 @@
 using System;
 using Test.UtilsTools;
-using TDengineDriver;
+using DThouseDriver;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 namespace Cases
@@ -19,15 +19,15 @@ namespace Cases
             res = UtilsTools.ExecuteQuery(conn, selectSql);
             UtilsTools.ExecuteQuery(conn, dropSql);
 
-            List<TDengineMeta> metas = new List<TDengineMeta>();
-            metas = TDengine.FetchFields(res);
+            List<DThouseMeta> metas = new List<DThouseMeta>();
+            metas = DThouse.FetchFields(res);
             if (metas.Capacity == 0)
             {
                 Console.WriteLine("empty result");
             }
             else
             {
-                foreach(TDengineMeta meta in metas){
+                foreach(DThouseMeta meta in metas){
                     Console.WriteLine("col_name:{0},col_type_code:{1},col_type:{2}({3})",meta.name,meta.type,meta.TypeName(),meta.size);
                 }
             }

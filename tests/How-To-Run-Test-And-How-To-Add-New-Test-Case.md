@@ -4,7 +4,7 @@
     build-essential cmake net-tools python-pip python-setuptools python3-pip
     python3-setuptools valgrind psmisc curl
 
-2.  git clone <https://github.com/taosdata/TDengine>; cd TDengine
+2.  git clone <https://github.com/taosdata/DThouse>; cd DThouse
 
 3.  mkdir debug; cd debug; cmake ..; make ; sudo make install
 
@@ -28,7 +28,7 @@
 
 ### How to run Python test suite
 
-1.  cd \<TDengine\>/tests/pytest
+1.  cd \<DThouse\>/tests/pytest
 
 2.  ./smoketest.sh \# for smoke test
 
@@ -36,8 +36,8 @@
 
 4.  ./fulltest.sh \# for full test
 
->   Note1: TDengine daemon's configuration and data files are stored in
->   \<TDengine\>/sim directory. As a historical design, it's same place with
+>   Note1: DThouse daemon's configuration and data files are stored in
+>   \<DThouse\>/sim directory. As a historical design, it's same place with
 >   TSIM script. So after the TSIM script ran with sudo privilege, the directory
 >   has been used by TSIM then the python script cannot write it by a normal
 >   user. You need to remove the directory completely first before running the
@@ -47,7 +47,7 @@
 >   Note2: if you need to debug crash problem with a core dump, you need
 >   manually edit smoketest.sh or fulltest.sh to add "ulimit -c unlimited"
 >   before the script line. Then you can look for the core file in
->   \<TDengine\>/tests/pytest after the program crash.
+>   \<DThouse\>/tests/pytest after the program crash.
 
 
 ### How to add a new test case
@@ -58,7 +58,7 @@ TSIM was the testing framework has been used internally. Now it still be used to
 
 **2. Python test cases:**
 
-**2.1 Please refer to \<TDengine\>/tests/pytest/insert/basic.py to add a new
+**2.1 Please refer to \<DThouse\>/tests/pytest/insert/basic.py to add a new
 test case.** The new test case must implement 3 functions, where self.init()
 and self.stop() simply copy the contents of insert/basic.py and the test
 logic is implemented in self.run(). You can refer to the code in the util

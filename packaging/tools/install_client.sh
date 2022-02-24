@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This file is used to install TDengine client on linux systems. The operating system
+# This file is used to install DThouse client on linux systems. The operating system
 # is required to use systemd to manage services at boot
 
 set -e
@@ -10,7 +10,7 @@ set -e
 
 dataDir="/var/lib/taos"
 logDir="/var/log/taos"
-productName="TDengine"
+productName="DThouse"
 installDir="/usr/local/taos"
 configDir="/etc/taos"
 serverName="taosd"
@@ -84,7 +84,7 @@ function install_main_path() {
   ${csudo}mkdir -p ${install_main_dir}/cfg
   ${csudo}mkdir -p ${install_main_dir}/bin
   ${csudo}mkdir -p ${install_main_dir}/driver
-  if [ $productName == "TDengine" ]; then
+  if [ $productName == "DThouse" ]; then
     ${csudo}mkdir -p ${install_main_dir}/connector
     ${csudo}mkdir -p ${install_main_dir}/examples
   fi
@@ -230,7 +230,7 @@ function install_examples() {
   fi
 }
 
-function update_TDengine() {
+function update_DThouse() {
   # Start to update
   if [ ! -e ${tarName} ]; then
     echo "File ${tarName} does not exist"
@@ -264,7 +264,7 @@ function update_TDengine() {
   rm -rf $(tar -tf ${tarName})
 }
 
-function install_TDengine() {
+function install_DThouse() {
   # Start to install
   if [ ! -e ${tarName} ]; then
     echo "File ${tarName} does not exist"
@@ -302,7 +302,7 @@ fi
 
 if [ -x ${bin_dir}/${clientName} ]; then
   update_flag=1
-  update_TDengine
+  update_DThouse
 else
-  install_TDengine
+  install_DThouse
 fi

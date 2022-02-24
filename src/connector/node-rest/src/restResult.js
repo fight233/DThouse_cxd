@@ -1,7 +1,7 @@
 import {getTaoType} from '../src/restConstant'
 
 
-export class TDengineRestResultSet {
+export class DThouseRestResultSet {
   constructor(result) {
     this.status = ''    //succ
     this.column_name = {} //head

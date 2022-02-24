@@ -235,7 +235,7 @@ public class TSDBJNIConnector {
         } else if (code == 0) {
             this.taos = TSDBConstants.JNI_NULL_POINTER;
         } else {
-            throw new SQLException("Undefined error code returned by TDengine when closing a connection");
+            throw new SQLException("Undefined error code returned by DThouse when closing a connection");
         }
 
         // invoke closeConnectionImpl only here

@@ -28,7 +28,7 @@ function replace_community_kh() {
   sed -i "s/support@taosdata\.com/support@wellintech\.com/g" ${top_dir}/src/kit/taos-tools/src/benchCommandOpt.c
   sed -i "s/taosc/khclient/g" ${top_dir}/src/kit/taos-tools/src/benchCommandOpt.c
   sed -i "s/default is taosdata/default is khroot/g" ${top_dir}/src/kit/taos-tools/src/benchCommandOpt.c
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/src/kit/taos-tools/src/benchCommandOpt.c
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/src/kit/taos-tools/src/benchCommandOpt.c
   # src/kit/taos-tools/src/taosdump.c
   sed -i "s/support@taosdata\.com/support@wellintech\.com/g" ${top_dir}/src/kit/taos-tools/src/taosdump.c
   sed -i "s/\/etc\/taos/\/etc\/kinghistorian/g" ${top_dir}/src/kit/taos-tools/src/taosdump.c
@@ -37,11 +37,11 @@ function replace_community_kh() {
   sed -i "s/taosdump --help/khdump --help/g" ${top_dir}/src/kit/taos-tools/src/taosdump.c
   sed -i "s/taosdump --usage/khdump --usage/g" ${top_dir}/src/kit/taos-tools/src/taosdump.c
   sed -i "s/\"taosdump\"/\"khdump\"/g" ${top_dir}/src/kit/taos-tools/src/taosdump.c
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/src/kit/taos-tools/src/taosdump.c
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/src/kit/taos-tools/src/taosdump.c
   sed -i "s/taosdump requires/khdump requires/g" ${top_dir}/src/kit/taos-tools/src/taosdump.c
 
   # cmake/install.inc
-  sed -i "s/C:\/TDengine/C:\/KingHistorian/g" ${top_dir}/cmake/install.inc
+  sed -i "s/C:\/DThouse/C:\/KingHistorian/g" ${top_dir}/cmake/install.inc
   sed -i "s/taos\.cfg/kinghistorian\.cfg/g" ${top_dir}/cmake/install.inc
   sed -i "s/taos\.exe/khclient\.exe/g" ${top_dir}/cmake/install.inc
   # src/kit/shell/CMakeLists.txt
@@ -57,8 +57,8 @@ function replace_community_kh() {
   # src/util/src/tlog.c
   sed -i "s/log\/taos/log\/kinghistorian/g" ${top_dir}/src/util/src/tlog.c
   # src/dnode/src/dnodeSystem.c
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/src/dnode/src/dnodeSystem.c
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/src/dnode/src/dnodeMain.c
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/src/dnode/src/dnodeSystem.c
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/src/dnode/src/dnodeMain.c
   sed -i "s/taosdlog/khserverlog/g" ${top_dir}/src/dnode/src/dnodeMain.c
   # src/client/src/tscSystem.c
   sed -i "s/taoslog/khclientlog/g" ${top_dir}/src/client/src/tscSystem.c
@@ -73,33 +73,33 @@ function replace_community_kh() {
   sed -i "s/log\/taos/log\/kinghistorian/g" ${top_dir}/src/os/src/linux/linuxEnv.c
 
   # src/kit/shell/src/shellDarwin.c
-  sed -i "s/TDengine shell/KingHistorian shell/g" ${top_dir}/src/kit/shell/src/shellDarwin.c
+  sed -i "s/DThouse shell/KingHistorian shell/g" ${top_dir}/src/kit/shell/src/shellDarwin.c
   sed -i "s/2020 by TAOS Data/2021 by Wellintech/g" ${top_dir}/src/kit/shell/src/shellDarwin.c
   # src/kit/shell/src/shellEngine.c
-  sed -i "s/TDengine shell/KingHistorian shell/g" ${top_dir}/src/kit/shell/src/shellEngine.c
+  sed -i "s/DThouse shell/KingHistorian shell/g" ${top_dir}/src/kit/shell/src/shellEngine.c
   sed -i "s/2020 by TAOS Data, Inc/2021 by Wellintech, Inc/g" ${top_dir}/src/kit/shell/src/shellEngine.c
   sed -i "s/taos connect failed/khclient connect failed/g" ${top_dir}/src/kit/shell/src/shellEngine.c
   sed -i "s/\"taos> \"/\"khclient> \"/g" ${top_dir}/src/kit/shell/src/shellEngine.c
   sed -i "s/\"   -> \"/\"       -> \"/g" ${top_dir}/src/kit/shell/src/shellEngine.c
   sed -i "s/prompt_size = 6/prompt_size = 10/g" ${top_dir}/src/kit/shell/src/shellEngine.c
   # src/kit/shell/src/shellImport.c
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/src/kit/shell/src/shellImport.c
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/src/kit/shell/src/shellImport.c
   # src/kit/shell/src/shellLinux.c
   sed -i "s/support@taosdata\.com/support@wellintech\.com/g" ${top_dir}/src/kit/shell/src/shellLinux.c
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/src/kit/shell/src/shellLinux.c
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/src/kit/shell/src/shellLinux.c
   sed -i "s/2020 by TAOS Data/2021 by Wellintech/g" ${top_dir}/src/kit/shell/src/shellLinux.c
   # src/kit/shell/src/shellMain.c
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/src/kit/shell/src/shellMain.c
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/src/kit/shell/src/shellMain.c
 
   # src/os/src/windows/wEnv.c
-  sed -i "s/C:\/TDengine/C:\/KingHistorian/g" ${top_dir}/src/os/src/windows/wEnv.c
+  sed -i "s/C:\/DThouse/C:\/KingHistorian/g" ${top_dir}/src/os/src/windows/wEnv.c
   # src/rpc/src/rpcMain.c
   sed -i "s/taos connections/kh connections/g" ${top_dir}/src/rpc/src/rpcMain.c
   # src/plugins/monitor/src/monMain.c
   sed -i "s/taosd is quiting/khserver is quiting/g" ${top_dir}/src/plugins/monitor/src/monMain.c
 
   # packaging/tools/makepkg.sh
-  sed -i "s/productName=\"TDengine\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/makepkg.sh
+  sed -i "s/productName=\"DThouse\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/makepkg.sh
   sed -i "s/serverName=\"taosd\"/serverName=\"khserver\"/g" ${top_dir}/packaging/tools/makepkg.sh
   sed -i "s/clientName=\"taos\"/clientName=\"khclient\"/g" ${top_dir}/packaging/tools/makepkg.sh
   sed -i "s/configFile=\"taos\.cfg\"/configFile=\"kinghistorian\.cfg\"/g" ${top_dir}/packaging/tools/makepkg.sh
@@ -115,7 +115,7 @@ function replace_community_kh() {
   sed -i "s/serverName=\"taosd\"/serverName=\"khserver\"/g" ${top_dir}/packaging/tools/remove.sh
   sed -i "s/clientName=\"taos\"/clientName=\"khclient\"/g" ${top_dir}/packaging/tools/remove.sh
   sed -i "s/uninstallScript=\"rmtaos\"/uninstallScript=\"rmkh\"/g" ${top_dir}/packaging/tools/remove.sh
-  sed -i "s/productName=\"TDengine\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/remove.sh
+  sed -i "s/productName=\"DThouse\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/remove.sh
   sed -i "s/adapterName=\"taosadapter\"/adapterName=\"khadapter\"/g" ${top_dir}/packaging/tools/remove.sh
 
   # packaging/tools/startPre.sh
@@ -129,7 +129,7 @@ function replace_community_kh() {
   sed -i "s/clientName=\"taos\"/clientName=\"khclient\"/g" ${top_dir}/packaging/tools/install.sh
   sed -i "s/serverName=\"taosd\"/serverName=\"khserver\"/g" ${top_dir}/packaging/tools/install.sh
   sed -i "s/configFile=\"taos\.cfg\"/configFile=\"kinghistorian\.cfg\"/g" ${top_dir}/packaging/tools/install.sh
-  sed -i "s/productName=\"TDengine\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/install.sh
+  sed -i "s/productName=\"DThouse\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/install.sh
   sed -i "s/emailName=\"taosdata\.com\"/emailName=\"\wellintech\.com\"/g" ${top_dir}/packaging/tools/install.sh
   sed -i "s/uninstallScript=\"rmtaos\"/uninstallScript=\"rmkh\"/g" ${top_dir}/packaging/tools/install.sh
   sed -i "s/historyFile=\"taos_history\"/historyFile=\"kh_history\"/g" ${top_dir}/packaging/tools/install.sh
@@ -142,7 +142,7 @@ function replace_community_kh() {
   sed -i "s/\${csudo}mkdir -p \${install_main_dir}\/examples/#\${csudo}mkdir -p \${install_main_dir}\/examples/g" ${top_dir}/packaging/tools/install.sh
 
   # packaging/tools/makeclient.sh
-  sed -i "s/productName=\"TDengine\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/makeclient.sh
+  sed -i "s/productName=\"DThouse\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/makeclient.sh
   sed -i "s/clientName=\"taos\"/clientName=\"khclient\"/g" ${top_dir}/packaging/tools/makeclient.sh
   sed -i "s/configFile=\"taos\.cfg\"/configFile=\"kinghistorian\.cfg\"/g" ${top_dir}/packaging/tools/makeclient.sh
   sed -i "s/tarName=\"taos\.tar\.gz\"/tarName=\"kinghistorian\.tar\.gz\"/g" ${top_dir}/packaging/tools/makeclient.sh
@@ -153,7 +153,7 @@ function replace_community_kh() {
   # packaging/tools/install_client.sh
   sed -i "s/dataDir=\"\/var\/lib\/taos\"/dataDir=\"\/var\/lib\/kinghistorian\"/g" ${top_dir}/packaging/tools/install_client.sh
   sed -i "s/logDir=\"\/var\/log\/taos\"/logDir=\"\/var\/log\/kinghistorian\"/g" ${top_dir}/packaging/tools/install_client.sh
-  sed -i "s/productName=\"TDengine\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/install_client.sh
+  sed -i "s/productName=\"DThouse\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/install_client.sh
   sed -i "s/installDir=\"\/usr\/local\/taos\"/installDir=\"\/usr\/local\/kinghistorian\"/g" ${top_dir}/packaging/tools/install_client.sh
   sed -i "s/configDir=\"\/etc\/taos\"/configDir=\"\/etc\/kinghistorian\"/g" ${top_dir}/packaging/tools/install_client.sh
   sed -i "s/serverName=\"taosd\"/serverName=\"khserver\"/g" ${top_dir}/packaging/tools/install_client.sh
@@ -163,11 +163,11 @@ function replace_community_kh() {
   sed -i "s/tarName=\"taos\.tar\.gz\"/tarName=\"kinghistorian\.tar\.gz\"/g" ${top_dir}/packaging/tools/install_client.sh
 
   # packaging/tools/makearbi.sh
-  sed -i "s/productName=\"TDengine\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/makearbi.sh
+  sed -i "s/productName=\"DThouse\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/makearbi.sh
   # packaging/tools/remove_arbi.sh
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/packaging/tools/remove_arbi.sh
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/packaging/tools/remove_arbi.sh
   # packaging/tools/install_arbi.sh
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/packaging/tools/install_arbi.sh
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/packaging/tools/install_arbi.sh
   sed -i "s/taosdata\.com/wellintech\.com/g" ${top_dir}/packaging/tools/install_arbi.sh
 
   # packaging/tools/make_install.sh
@@ -178,16 +178,16 @@ function replace_community_kh() {
   sed -i "s/configDir=\"\/etc\/taos\"/configDir=\"\/etc\/kinghistorian\"/g" ${top_dir}/packaging/tools/make_install.sh
   sed -i "s/configFile=\"taos\.cfg\"/configFile=\"kinghistorian\.cfg\"/g" ${top_dir}/packaging/tools/make_install.sh
   sed -i "s/installDir=\"\/usr\/local\/taos\"/installDir=\"\/usr\/local\/kinghistorian\"/g" ${top_dir}/packaging/tools/make_install.sh
-  sed -i "s/productName=\"TDengine\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/make_install.sh
+  sed -i "s/productName=\"DThouse\"/productName=\"KingHistorian\"/g" ${top_dir}/packaging/tools/make_install.sh
   sed -i "s/emailName=\"taosdata\.com\"/emailName=\"wellintech\.com\"/g" ${top_dir}/packaging/tools/make_install.sh
   sed -i "s/uninstallScript=\"rmtaos\"/uninstallScript=\"rmkh\"/g" ${top_dir}/packaging/tools/make_install.sh
 
   # packaging/rpm/taosd
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/packaging/rpm/taosd
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/packaging/rpm/taosd
   sed -i "s/usr\/local\/taos/usr\/local\/kinghistorian/g" ${top_dir}/packaging/rpm/taosd
   sed -i "s/taosd/khserver/g" ${top_dir}/packaging/rpm/taosd
   # packaging/deb/taosd
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/packaging/deb/taosd
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/packaging/deb/taosd
   sed -i "s/usr\/local\/taos/usr\/local\/kinghistorian/g" ${top_dir}/packaging/deb/taosd
   sed -i "s/taosd/khserver/g" ${top_dir}/packaging/deb/taosd
 }
@@ -195,7 +195,7 @@ function replace_community_kh() {
 function replace_enterprise_kh() {
   # enterprise/src/kit/perfMonitor/perfMonitor.c
   sed -i "s/\"taosdata\"/\"khroot\"/g" ${top_dir}/../enterprise/src/kit/perfMonitor/perfMonitor.c
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/../enterprise/src/kit/perfMonitor/perfMonitor.c
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/../enterprise/src/kit/perfMonitor/perfMonitor.c
   # enterprise/src/plugins/admin/src/httpAdminHandle.c
   sed -i "s/taos\.cfg/kinghistorian\.cfg/g" ${top_dir}/../enterprise/src/plugins/admin/src/httpAdminHandle.c
   # enterprise/src/plugins/grant/src/grantMain.c
@@ -212,8 +212,8 @@ function replace_enterprise_kh() {
   sed -i -e "s/data:\['taosd', 'system'\],/data:\['khserver', 'system'\],/g" ${top_dir}/../enterprise/src/plugins/web/admin/monitor.html
   sed -i -e "s/name: 'taosd',/name: 'khserver',/g" ${top_dir}/../enterprise/src/plugins/web/admin/monitor.html
   # enterprise/src/plugins/web/admin/*.html
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/../enterprise/src/plugins/web/admin/*.html
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/../enterprise/src/plugins/web/admin/*.html
   # enterprise/src/plugins/web/admin/js/*.js
-  sed -i "s/TDengine/KingHistorian/g" ${top_dir}/../enterprise/src/plugins/web/admin/js/*.js
+  sed -i "s/DThouse/KingHistorian/g" ${top_dir}/../enterprise/src/plugins/web/admin/js/*.js
 
 }

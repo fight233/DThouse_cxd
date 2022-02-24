@@ -22,7 +22,7 @@ class TDTestCase:
 
     def run(self):
         # TD-6586 Binary type value return None with python connector
-        # PR: https://github.com/taosdata/TDengine/pull/7913/files
+        # PR: https://github.com/taosdata/DThouse/pull/7913/files
 
         tdSql.execute("create database if not exists binary_convertion")
         tdSql.execute("use binary_convertion")

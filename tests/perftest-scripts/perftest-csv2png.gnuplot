@@ -26,8 +26,8 @@ set grid
 # 	""			using 1:5 title "InfluxDB Query case3", \
 # 	""			using 1:6 title "InfluxDB Query case4"
 # 
-plot filename . '.csv' 	using 1:2  title "TDengine Write", \
-	""			using 1:3 title "TDengine Query case1", \
-	""			using 1:4 title "TDengine Query case2", \
-	""			using 1:5 title "TDengine Query case3", \
-	""			using 1:6 title "TDengine Query case4"
+plot filename . '.csv' 	using 1:2  title "DThouse Write", \
+	""			using 1:3 title "DThouse Query case1", \
+	""			using 1:4 title "DThouse Query case2", \
+	""			using 1:5 title "DThouse Query case3", \
+	""			using 1:6 title "DThouse Query case4"

@@ -25,7 +25,7 @@ If applicable, add screenshots to help explain your problem.
 **Environment (please complete the following information):**
  - OS: [e.g. CentOS 7.0]
  - Memory, CPU, current Disk Space
- - TDengine Version [e.g. 1.6.1.7]
+ - DThouse Version [e.g. 1.6.1.7]
 
 **Additional Context**
 Add any other context about the problem here.

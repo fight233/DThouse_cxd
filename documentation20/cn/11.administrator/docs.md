@@ -1,8 +1,8 @@
-# TDengine的运营与维护
+# DThouse的运营与维护
 
 ## <a class="anchor" id="planning"></a>容量规划
 
-使用 TDengine 来搭建一个物联网大数据平台，计算资源、存储资源需要根据业务场景进行规划。下面分别讨论系统运行所需要的内存、CPU 以及硬盘空间。
+使用 DThouse 来搭建一个物联网大数据平台，计算资源、存储资源需要根据业务场景进行规划。下面分别讨论系统运行所需要的内存、CPU 以及硬盘空间。
 
 ### 内存需求
 
@@ -14,13 +14,13 @@ Database Memory Size = maxVgroupsPerDb * (blocks * cache + 10MB) + numOfTables *
 
 示例：假设是 4 核机器，cache 是缺省大小 16M, blocks 是缺省值 6，并且一个 DB 中有 10 万张表，标签总长度是 256 字节，则这个 DB 总的内存需求为：4 \* (16 \* 6 + 10) + 100000 \* (0.25 + 0.5) / 1000 = 499M。
 
-在实际的系统运维中，我们通常会更关心 TDengine 服务进程（taosd）会占用的内存量。
+在实际的系统运维中，我们通常会更关心 DThouse 服务进程（taosd）会占用的内存量。
 ```
 taosd 内存总量 = vnode 内存 + mnode 内存 + 查询内存
 ```
 
 其中：
-1. “vnode 内存”指的是集群中所有的 Database 存储分摊到当前 taosd 节点上所占用的内存资源。可以按上文“Database Memory Size”计算公式估算每个 DB 的内存占用量进行加总，再按集群中总共的 TDengine 节点数做平均（如果设置为多副本，则还需要乘以对应的副本倍数）。
+1. “vnode 内存”指的是集群中所有的 Database 存储分摊到当前 taosd 节点上所占用的内存资源。可以按上文“Database Memory Size”计算公式估算每个 DB 的内存占用量进行加总，再按集群中总共的 DThouse 节点数做平均（如果设置为多副本，则还需要乘以对应的副本倍数）。
 2. “mnode 内存”指的是集群中管理节点所占用的资源。如果一个 taosd 节点上分布有 mnode 管理节点，则内存消耗还需要增加“0.2KB * 集群中数据表总数”。
 3. “查询内存”指的是服务端处理查询请求时所需要占用的内存。单条查询语句至少会占用“0.2KB * 查询涉及的数据表总数”的内存量。
 
@@ -48,30 +48,30 @@ M = (T * S * 3 + (N / 4096) + 100)
 
 CPU 的需求取决于如下两方面：
 
-* **数据插入** TDengine 单核每秒能至少处理一万个插入请求。每个插入请求可以带多条记录，一次插入一条记录与插入 10 条记录，消耗的计算资源差别很小。因此每次插入，条数越大，插入效率越高。如果一个插入请求带 200 条以上记录，单核就能达到每秒插入 100 万条记录的速度。但对前端数据采集的要求越高，因为需要缓存记录，然后一批插入。
-* **查询需求** TDengine 提供高效的查询，但是每个场景的查询差异很大，查询频次变化也很大，难以给出客观数字。需要用户针对自己的场景，写一些查询语句，才能确定。
+* **数据插入** DThouse 单核每秒能至少处理一万个插入请求。每个插入请求可以带多条记录，一次插入一条记录与插入 10 条记录，消耗的计算资源差别很小。因此每次插入，条数越大，插入效率越高。如果一个插入请求带 200 条以上记录，单核就能达到每秒插入 100 万条记录的速度。但对前端数据采集的要求越高，因为需要缓存记录，然后一批插入。
+* **查询需求** DThouse 提供高效的查询，但是每个场景的查询差异很大，查询频次变化也很大，难以给出客观数字。需要用户针对自己的场景，写一些查询语句，才能确定。
 
 因此仅对数据插入而言，CPU 是可以估算出来的，但查询所耗的计算资源无法估算。在实际运营过程中，不建议 CPU 使用率超过 50%，超过后，需要增加新的节点，以获得更多计算资源。
 
 ### 存储需求
 
-TDengine 相对于通用数据库，有超高的压缩比，在绝大多数场景下，TDengine 的压缩比不会低于 5 倍，有的场合，压缩比可达到 10 倍以上，取决于实际场景的数据特征。压缩前的原始数据大小可通过如下方式计算：
+DThouse 相对于通用数据库，有超高的压缩比，在绝大多数场景下，DThouse 的压缩比不会低于 5 倍，有的场合，压缩比可达到 10 倍以上，取决于实际场景的数据特征。压缩前的原始数据大小可通过如下方式计算：
 
 ```
 Raw DataSize = numOfTables * rowSizePerTable * rowsPerTable
 ```
 
-示例：1000 万台智能电表，每台电表每 15 分钟采集一次数据，每次采集的数据 128 字节，那么一年的原始数据量是：10000000 \* 128 \* 24 \* 60 / 15 \* 365 = 44.8512T。TDengine大概需要消耗 44.851 / 5 = 8.97024T 空间。
+示例：1000 万台智能电表，每台电表每 15 分钟采集一次数据，每次采集的数据 128 字节，那么一年的原始数据量是：10000000 \* 128 \* 24 \* 60 / 15 \* 365 = 44.8512T。DThouse大概需要消耗 44.851 / 5 = 8.97024T 空间。
 
-用户可以通过参数 keep，设置数据在磁盘中的最大保存时长。为进一步减少存储成本，TDengine 还提供多级存储，最冷的数据可以存放在最廉价的存储介质上，应用的访问不用做任何调整，只是读取速度降低了。
+用户可以通过参数 keep，设置数据在磁盘中的最大保存时长。为进一步减少存储成本，DThouse 还提供多级存储，最冷的数据可以存放在最廉价的存储介质上，应用的访问不用做任何调整，只是读取速度降低了。
 
-为提高速度，可以配置多块硬盘，这样可以并发写入或读取数据。需要提醒的是，TDengine 采取多副本的方式提供数据的高可靠，因此不再需要采用昂贵的磁盘阵列。
+为提高速度，可以配置多块硬盘，这样可以并发写入或读取数据。需要提醒的是，DThouse 采取多副本的方式提供数据的高可靠，因此不再需要采用昂贵的磁盘阵列。
 
 ### 物理机或虚拟机台数
 
 根据上面的内存、CPU、存储的预估，就可以知道整个系统需要多少核、多少内存、多少存储空间。如果数据副本数不为 1，总需求量需要再乘以副本数。
 
-因为 TDengine 具有很好的水平扩展能力，根据总量，再根据单个物理机或虚拟机的资源，就可以轻松决定需要购置多少台物理机或虚拟机了。
+因为 DThouse 具有很好的水平扩展能力，根据总量，再根据单个物理机或虚拟机的资源，就可以轻松决定需要购置多少台物理机或虚拟机了。
 
 **立即计算 CPU、内存、存储，请参见：[资源估算方法](https://www.taosdata.com/config/config.html)。**
 
@@ -79,9 +79,9 @@ Raw DataSize = numOfTables * rowSizePerTable * rowsPerTable
 
 ### 容错
 
-TDengine支持**WAL**（Write Ahead Log）机制，实现数据的容错能力，保证数据的高可用。
+DThouse支持**WAL**（Write Ahead Log）机制，实现数据的容错能力，保证数据的高可用。
 
-TDengine接收到应用的请求数据包时，先将请求的原始数据包写入数据库日志文件，等数据成功写入数据库数据文件后，再删除相应的WAL。这样保证了TDengine能够在断电等因素导致的服务重启时从数据库日志文件中恢复数据，避免数据的丢失。
+DThouse接收到应用的请求数据包时，先将请求的原始数据包写入数据库日志文件，等数据成功写入数据库数据文件后，再删除相应的WAL。这样保证了DThouse能够在断电等因素导致的服务重启时从数据库日志文件中恢复数据，避免数据的丢失。
 
 涉及的系统配置参数有两个：
 
@@ -92,19 +92,19 @@ TDengine接收到应用的请求数据包时，先将请求的原始数据包写
 
 ### 灾备
 
-TDengine的集群通过多个副本的机制，来提供系统的高可用性，实现灾备能力。
+DThouse的集群通过多个副本的机制，来提供系统的高可用性，实现灾备能力。
 
-TDengine集群是由mnode负责管理的，为保证mnode的高可靠，可以配置多个mnode副本，副本数由系统配置参数numOfMnodes决定，为了支持高可靠，需要设置大于1。为保证元数据的强一致性，mnode副本之间通过同步方式进行数据复制，保证了元数据的强一致性。
+DThouse集群是由mnode负责管理的，为保证mnode的高可靠，可以配置多个mnode副本，副本数由系统配置参数numOfMnodes决定，为了支持高可靠，需要设置大于1。为保证元数据的强一致性，mnode副本之间通过同步方式进行数据复制，保证了元数据的强一致性。
 
-TDengine集群中的时序数据的副本数是与数据库关联的，一个集群里可以有多个数据库，每个数据库可以配置不同的副本数。创建数据库时，通过参数replica 指定副本数。为了支持高可靠，需要设置副本数大于1。
+DThouse集群中的时序数据的副本数是与数据库关联的，一个集群里可以有多个数据库，每个数据库可以配置不同的副本数。创建数据库时，通过参数replica 指定副本数。为了支持高可靠，需要设置副本数大于1。
 
-TDengine集群的节点数必须大于等于副本数，否则创建表时将报错。
+DThouse集群的节点数必须大于等于副本数，否则创建表时将报错。
 
-当TDengine集群中的节点部署在不同的物理机上，并设置多个副本数时，就实现了系统的高可靠性，无需再使用其他软件或工具。TDengine企业版还可以将副本部署在不同机房，从而实现异地容灾。
+当DThouse集群中的节点部署在不同的物理机上，并设置多个副本数时，就实现了系统的高可靠性，无需再使用其他软件或工具。DThouse企业版还可以将副本部署在不同机房，从而实现异地容灾。
 
 ## <a class="anchor" id="config"></a>服务端配置
 
-TDengine系统后台服务由taosd提供，可以在配置文件taos.cfg里修改配置参数，以满足不同场景的需求。配置文件的缺省位置在/etc/taos目录，可以通过taosd命令行执行参数-c指定配置文件目录。比如taosd -c /home/user来指定配置文件位于/home/user这个目录。
+DThouse系统后台服务由taosd提供，可以在配置文件taos.cfg里修改配置参数，以满足不同场景的需求。配置文件的缺省位置在/etc/taos目录，可以通过taosd命令行执行参数-c指定配置文件目录。比如taosd -c /home/user来指定配置文件位于/home/user这个目录。
 
 另外可以使用 “-C” 显示当前服务器配置参数：
 
@@ -128,7 +128,7 @@ taosd -C
 | 10    | ratioOfQueryThreads     |          | **S**    |          | 设置查询线程的最大数量                                      | 0：表示只有1个查询线程；1：表示最大和CPU核数相等的查询线程；2：表示最大建立2倍CPU核数的查询线程。                                                             | 1                                                          | 该值可以为小数，即0.5表示最大建立CPU核数一半的查询线程。                                      |
 | 11    | numOfMnodes             |          | **S**    |          | 系统中管理节点个数                                           |                                                              | 3                                                            |                                                              |
 | 12    | vnodeBak                |          | **S**    |          | 删除vnode时是否备份vnode目录                                 | 0：否，1：是                                                 | 1                                                            |                                                              |
-| 13    | telemetryRePorting      |          | **S**    |          | 是否允许 TDengine 采集和上报基本使用信息                       | 0：不允许；1：允许                                                 | 1                                                            |                                                              |
+| 13    | telemetryRePorting      |          | **S**    |          | 是否允许 DThouse 采集和上报基本使用信息                       | 0：不允许；1：允许                                                 | 1                                                            |                                                              |
 | 14    | balance                 |          | **S**    |          | 是否启动负载均衡                                             | 0，1                                                         | 1                                                            |                                                              |
 | 15    | balanceInterval         | YES      | **S**    | 秒       | 管理节点在正常运行状态下，检查负载均衡的时间间隔             | 1-30000                                                      | 300                                                          |                                                              |
 | 16    | role                    |          | **S**    |          | dnode的可选角色                                              | 0：any（既可作为mnode，也可分配vnode）；1：mgmt（只能作为mnode，不能分配vnode）；2：dnode（不能作为mnode，只能分配vnode） | 0                                                            |                                                              |
@@ -228,9 +228,9 @@ taosd -C
 | 110   | httpDBNameMandatory | | **S**|  | 是否在URL中输入 数据库名称|0：不开启，1：开启|  0 | 2.3版本新增。|
 | 111   | maxRegexStringLen  | | **C**|  | 正则表达式最大允许长度 |默认值128，最大长度 16384 |  128 | 2.3版本新增。|
 
-**注意：**对于端口，TDengine会使用从serverPort起13个连续的TCP和UDP端口号，请务必在防火墙打开。因此如果是缺省配置，需要打开从6030到6042共13个端口，而且必须TCP和UDP都打开。（详细的端口情况请参见 [TDengine 2.0 端口说明](https://www.taosdata.com/cn/documentation/faq#port)）
+**注意：**对于端口，DThouse会使用从serverPort起13个连续的TCP和UDP端口号，请务必在防火墙打开。因此如果是缺省配置，需要打开从6030到6042共13个端口，而且必须TCP和UDP都打开。（详细的端口情况请参见 [DThouse 2.0 端口说明](https://www.taosdata.com/cn/documentation/faq#port)）
 
-不同应用场景的数据往往具有不同的数据特征，比如保留天数、副本数、采集频次、记录大小、采集点的数量、压缩等都可完全不同。为获得在存储上的最高效率，TDengine提供如下存储相关的系统配置参数（既可以作为 create database 指令的参数，也可以写在 taos.cfg 配置文件中用来设定创建新数据库时所采用的默认值）：
+不同应用场景的数据往往具有不同的数据特征，比如保留天数、副本数、采集频次、记录大小、采集点的数量、压缩等都可完全不同。为获得在存储上的最高效率，DThouse提供如下存储相关的系统配置参数（既可以作为 create database 指令的参数，也可以写在 taos.cfg 配置文件中用来设定创建新数据库时所采用的默认值）：
 
 | **#** | **配置参数名称** | **单位** | **含义**                                                     | **取值范围**                                     | **缺省值** |
 | ----- | ---------------- | -------- | ------------------------------------------------------------ | ------------------------------------------------ | ---------- |
@@ -249,7 +249,7 @@ taosd -C
 | 13    | update           |          | 是否允许数据更新（从 2.1.7.0 版本开始此参数支持 0～2 的取值范围，在此之前取值只能是 [0, 1]；而 2.0.8.0 之前的版本在 SQL 指令中不支持此参数。）                                                  | 0：不允许；1：允许更新整行；2：允许部分列更新。                                           | 0          |
 | 14    | cacheLast        |          | （可通过 alter database 修改）是否在内存中缓存子表的最近数据（从 2.1.2.0 版本开始此参数支持 0～3 的取值范围，在此之前取值只能是 [0, 1]；而 2.0.11.0 之前的版本在 SQL 指令中不支持此参数。）（2.1.2.0 版本之前、2.0.20.7 版本之前在 taos.cfg 文件中不支持此参数。）                         | 0：关闭；1：缓存子表最近一行数据；2：缓存子表每一列的最近的非NULL值；3：同时打开缓存最近行和列功能               | 0          |
 
-对于一个应用场景，可能有多种数据特征的数据并存，最佳的设计是将具有相同数据特征的表放在一个库里，这样一个应用有多个库，而每个库可以配置不同的存储参数，从而保证系统有最优的性能。TDengine允许应用在创建库时指定上述存储参数，如果指定，该参数就将覆盖对应的系统配置参数。举例，有下述SQL：
+对于一个应用场景，可能有多种数据特征的数据并存，最佳的设计是将具有相同数据特征的表放在一个库里，这样一个应用有多个库，而每个库可以配置不同的存储参数，从而保证系统有最优的性能。DThouse允许应用在创建库时指定上述存储参数，如果指定，该参数就将覆盖对应的系统配置参数。举例，有下述SQL：
 
 ```mysql
  CREATE DATABASE demo DAYS 10 CACHE 32 BLOCKS 8 REPLICA 3 UPDATE 1;
@@ -283,7 +283,7 @@ taosd -C
 
 **说明：**在 2.1.3.0 版本之前，通过 ALTER DATABASE 语句修改这些参数后，需要重启服务器才能生效。
 
-TDengine集群中加入一个新的dnode时，涉及集群相关的一些参数必须与已有集群的配置相同，否则不能成功加入到集群中。会进行校验的参数如下：
+DThouse集群中加入一个新的dnode时，涉及集群相关的一些参数必须与已有集群的配置相同，否则不能成功加入到集群中。会进行校验的参数如下：
 
 - numOfMnodes：系统中管理节点个数。默认值：3。（2.0 版本从 2.0.20.11 开始、2.1 及以上版本从 2.1.6.0 开始，numOfMnodes 默认值改为 1。）
 - mnodeEqualVnodeNum: 一个mnode等同于vnode消耗的个数。默认值：4。
@@ -316,7 +316,7 @@ ALTER DNODE <dnode_id> <config>
 
 ## <a class="anchor" id="client"></a>客户端及应用驱动配置
 
-TDengine系统的前台交互客户端应用程序为taos，以及应用驱动，它与taosd共享同一个配置文件taos.cfg。运行taos时，使用参数-c指定配置文件目录，如taos -c /home/cfg，表示使用/home/cfg/目录下的taos.cfg配置文件中的参数，缺省目录是/etc/taos。更多taos的使用方法请见帮助信息 `taos --help`。本节主要说明 taos 客户端应用在配置文件 taos.cfg 文件中使用到的参数。
+DThouse系统的前台交互客户端应用程序为taos，以及应用驱动，它与taosd共享同一个配置文件taos.cfg。运行taos时，使用参数-c指定配置文件目录，如taos -c /home/cfg，表示使用/home/cfg/目录下的taos.cfg配置文件中的参数，缺省目录是/etc/taos。更多taos的使用方法请见帮助信息 `taos --help`。本节主要说明 taos 客户端应用在配置文件 taos.cfg 文件中使用到的参数。
 
 **2.0.10.0 之后版本支持命令行以下参数显示当前客户端参数的配置**
 
@@ -334,7 +334,7 @@ taos -C  或  taos --dump-config
 
     默认值：系统中动态获取，如果自动获取失败，需要用户在配置文件设置或通过API设置。
 
-    TDengine为存储中文、日文、韩文等非ASCII编码的宽字符，提供一种专门的字段类型nchar。写入nchar字段的数据将统一采用UCS4-LE格式进行编码并发送到服务器。需要注意的是，编码正确性是客户端来保证。因此，如果用户想要正常使用nchar字段来存储诸如中文、日文、韩文等非ASCII字符，需要正确设置客户端的编码格式。
+    DThouse为存储中文、日文、韩文等非ASCII编码的宽字符，提供一种专门的字段类型nchar。写入nchar字段的数据将统一采用UCS4-LE格式进行编码并发送到服务器。需要注意的是，编码正确性是客户端来保证。因此，如果用户想要正常使用nchar字段来存储诸如中文、日文、韩文等非ASCII字符，需要正确设置客户端的编码格式。
 
     客户端的输入的字符均采用操作系统当前默认的编码格式，在Linux系统上多为UTF-8，部分中文系统编码则可能是GB18030或GBK等。在docker环境中默认的编码是POSIX。在中文版Windows系统中，编码则是CP936。客户端需要确保正确设置自己所使用的字符集，即客户端运行的操作系统当前编码字符集，才能保证nchar中的数据正确转换为UCS4-LE编码格式。
 
@@ -374,7 +374,7 @@ taos -C  或  taos --dump-config
 
     默认值：动态获取当前客户端运行系统所在的时区。
   
-    为应对多时区的数据写入和查询问题，TDengine 采用 Unix 时间戳(Unix Timestamp)来记录和存储时间戳。Unix 时间戳的特点决定了任一时刻不论在任何时区，产生的时间戳均一致。需要注意的是，Unix时间戳是在客户端完成转换和记录。为了确保客户端其他形式的时间转换为正确的 Unix 时间戳，需要设置正确的时区。
+    为应对多时区的数据写入和查询问题，DThouse 采用 Unix 时间戳(Unix Timestamp)来记录和存储时间戳。Unix 时间戳的特点决定了任一时刻不论在任何时区，产生的时间戳均一致。需要注意的是，Unix时间戳是在客户端完成转换和记录。为了确保客户端其他形式的时间转换为正确的 Unix 时间戳，需要设置正确的时区。
 
     在Linux系统中，客户端会自动读取系统设置的时区信息。用户也可以采用多种方式在配置文件设置时区。例如：
     ```
@@ -444,15 +444,15 @@ SHOW USERS;
 
 ## <a class="anchor" id="import"></a>数据导入
 
-TDengine提供多种方便的数据导入功能，一种按脚本文件导入，一种按数据文件导入，一种是taosdump工具导入本身导出的文件。
+DThouse提供多种方便的数据导入功能，一种按脚本文件导入，一种按数据文件导入，一种是taosdump工具导入本身导出的文件。
 
 **按脚本文件导入**
 
-TDengine的shell支持source filename命令，用于批量运行文件中的SQL语句。用户可将建库、建表、写数据等SQL命令写在同一个文件中，每条命令单独一行，在shell中运行source命令，即可按顺序批量运行文件中的SQL语句。以‘#’开头的SQL语句被认为是注释，shell将自动忽略。
+DThouse的shell支持source filename命令，用于批量运行文件中的SQL语句。用户可将建库、建表、写数据等SQL命令写在同一个文件中，每条命令单独一行，在shell中运行source命令，即可按顺序批量运行文件中的SQL语句。以‘#’开头的SQL语句被认为是注释，shell将自动忽略。
 
 **按数据文件导入**
 
-TDengine也支持在shell对已存在的表从CSV文件中进行数据导入。CSV文件只属于一张表且CSV文件中的数据格式需与要导入表的结构相同，在导入的时候，其语法如下：
+DThouse也支持在shell对已存在的表从CSV文件中进行数据导入。CSV文件只属于一张表且CSV文件中的数据格式需与要导入表的结构相同，在导入的时候，其语法如下：
 
 ```mysql
 insert into tb1 file 'path/data.csv';
@@ -494,11 +494,11 @@ Query OK, 9 row(s) affected (0.004763s)
 
 **taosdump工具导入**
 
-TDengine提供了方便的数据库导入导出工具taosdump。用户可以将taosdump从一个系统导出的数据，导入到其他系统中。具体使用方法，请参见博客：[TDengine DUMP工具使用指南](https://www.taosdata.com/blog/2020/03/09/1334.html)。
+DThouse提供了方便的数据库导入导出工具taosdump。用户可以将taosdump从一个系统导出的数据，导入到其他系统中。具体使用方法，请参见博客：[DThouse DUMP工具使用指南](https://www.taosdata.com/blog/2020/03/09/1334.html)。
 
 ## <a class="anchor" id="export"></a>数据导出
 
-为方便数据导出，TDengine提供了两种导出方式，分别是按表导出和用taosdump导出。
+为方便数据导出，DThouse提供了两种导出方式，分别是按表导出和用taosdump导出。
 
 **按表导出CSV文件**
 
@@ -514,7 +514,7 @@ select * from <tb_name> >> data.csv;
 
 利用taosdump，用户可以根据需要选择导出所有数据库、一个数据库或者数据库中的一张表，所有数据或一时间段的数据，甚至仅仅表的定义。
 
-具体使用方法，请参见博客：[TDengine DUMP工具使用指南](https://www.taosdata.com/blog/2020/03/09/1334.html)。
+具体使用方法，请参见博客：[DThouse DUMP工具使用指南](https://www.taosdata.com/blog/2020/03/09/1334.html)。
 
 ## <a class="anchor" id="status"></a>系统连接、任务查询管理
 
@@ -558,13 +558,13 @@ KILL STREAM <stream-id>;
 
 ## <a class="anchor" id="monitoring"></a>系统监控
 
-TDengine启动后，会自动创建一个监测数据库log，并自动将服务器的CPU、内存、硬盘空间、带宽、请求数、磁盘读写速度、慢查询等信息定时写入该数据库。TDengine还将重要的系统操作（比如登录、创建、删除数据库等）日志以及各种错误报警信息记录下来存放在log库里。系统管理员可以从CLI直接查看这个数据库，也可以在WEB通过图形化界面查看这些监测信息。
+DThouse启动后，会自动创建一个监测数据库log，并自动将服务器的CPU、内存、硬盘空间、带宽、请求数、磁盘读写速度、慢查询等信息定时写入该数据库。DThouse还将重要的系统操作（比如登录、创建、删除数据库等）日志以及各种错误报警信息记录下来存放在log库里。系统管理员可以从CLI直接查看这个数据库，也可以在WEB通过图形化界面查看这些监测信息。
 
 这些监测信息的采集缺省是打开的，但可以修改配置文件里的选项monitor将其关闭或打开。
 
-### TDinsight - 使用监控数据库 + Grafana 对 TDengine 进行监控的解决方案
+### TDinsight - 使用监控数据库 + Grafana 对 DThouse 进行监控的解决方案
 
-从 2.3.3.0 开始，监控数据库将提供更多的监控项，您可以从 [TDinsight Grafana Dashboard](https://grafana.com/grafana/dashboards/15167) 了解如何使用 TDinsight 方案对 TDengine 进行监控。
+从 2.3.3.0 开始，监控数据库将提供更多的监控项，您可以从 [TDinsight Grafana Dashboard](https://grafana.com/grafana/dashboards/15167) 了解如何使用 TDinsight 方案对 DThouse 进行监控。
 
 我们提供了一个自动化脚本 `TDinsight.sh` 对TDinsight进行部署。
 
@@ -577,9 +577,9 @@ chmod +x TDinsight.sh
 
 准备：
 
-1. TDengine Server 信息：
-    * TDengine RESTful 服务：对本地而言，可以是 http://localhost:6041 ，使用参数 `-a`。
-    * TDengine 用户名和密码，使用 `-u` `-p` 参数设置。
+1. DThouse Server 信息：
+    * DThouse RESTful 服务：对本地而言，可以是 http://localhost:6041 ，使用参数 `-a`。
+    * DThouse 用户名和密码，使用 `-u` `-p` 参数设置。
 
 2. Grafana 告警通知
    * 使用已经存在的Grafana Notification Channel `uid`，参数 `-E`。该参数可以使用 `curl -u admin:admin localhost:3000/api/alert-notifications |jq` 来获取。
@@ -588,7 +588,7 @@ chmod +x TDinsight.sh
         sudo ./TDinsight.sh -a http://localhost:6041 -u root -p taosdata -E <notifier uid>
         ```
 
-   * 使用 TDengine 数据源插件内置的阿里云短信告警通知，使用 `-s` 启用之，并设置如下参数：
+   * 使用 DThouse 数据源插件内置的阿里云短信告警通知，使用 `-s` 启用之，并设置如下参数：
         1. 阿里云短信服务Key ID，参数 `-I`
         2. 阿里云短信服务Key Secret，参数 `K`
         3. 阿里云短信服务签名，参数 `-S`
@@ -609,7 +609,7 @@ chmod +x TDinsight.sh
 <a class="anchor" id="optimize"></a>
 ## 性能优化
 
-因数据行 [update](https://www.taosdata.com/cn/documentation/faq#update)、表删除、数据过期等原因，TDengine 的磁盘存储文件有可能出现数据碎片，影响查询操作的性能表现。从 2.1.3.0 版本开始，新增 SQL 指令 COMPACT 来启动碎片重整过程：
+因数据行 [update](https://www.taosdata.com/cn/documentation/faq#update)、表删除、数据过期等原因，DThouse 的磁盘存储文件有可能出现数据碎片，影响查询操作的性能表现。从 2.1.3.0 版本开始，新增 SQL 指令 COMPACT 来启动碎片重整过程：
 
 ```mysql
 COMPACT VNODES IN (vg_id1, vg_id2, ...)
@@ -621,36 +621,36 @@ COMPACT 命令对指定的一个或多个 VGroup 启动碎片重整，系统会�
 
 ## <a class="anchor" id="directories"></a>文件目录结构
 
-安装TDengine后，默认会在操作系统中生成下列目录或文件：
+安装DThouse后，默认会在操作系统中生成下列目录或文件：
 
 | **目录/文件**             | **说明**                                                     |
 | ------------------------- | ------------------------------------------------------------ |
-| /usr/local/taos/bin       | TDengine可执行文件目录。其中的执行文件都会软链接到/usr/bin目录下。 |
-| /usr/local/taos/connector | TDengine各种连接器目录。                                     |
-| /usr/local/taos/driver    | TDengine动态链接库目录。会软链接到/usr/lib目录下。           |
-| /usr/local/taos/examples  | TDengine各种语言应用示例目录。                               |
-| /usr/local/taos/include   | TDengine对外提供的C语言接口的头文件。                        |
-| /etc/taos/taos.cfg        | TDengine默认[配置文件]                                       |
-| /var/lib/taos             | TDengine默认数据文件目录。可通过[配置文件]修改位置。         |
-| /var/log/taos             | TDengine默认日志文件目录。可通过[配置文件]修改位置。         |
+| /usr/local/taos/bin       | DThouse可执行文件目录。其中的执行文件都会软链接到/usr/bin目录下。 |
+| /usr/local/taos/connector | DThouse各种连接器目录。                                     |
+| /usr/local/taos/driver    | DThouse动态链接库目录。会软链接到/usr/lib目录下。           |
+| /usr/local/taos/examples  | DThouse各种语言应用示例目录。                               |
+| /usr/local/taos/include   | DThouse对外提供的C语言接口的头文件。                        |
+| /etc/taos/taos.cfg        | DThouse默认[配置文件]                                       |
+| /var/lib/taos             | DThouse默认数据文件目录。可通过[配置文件]修改位置。         |
+| /var/log/taos             | DThouse默认日志文件目录。可通过[配置文件]修改位置。         |
 
 **可执行文件**
 
-TDengine的所有可执行文件默认存放在 _/usr/local/taos/bin_ 目录下。其中包括：
+DThouse的所有可执行文件默认存放在 _/usr/local/taos/bin_ 目录下。其中包括：
 
-- *taosd*：TDengine服务端可执行文件
-- *taos*：TDengine Shell可执行文件
+- *taosd*：DThouse服务端可执行文件
+- *taos*：DThouse Shell可执行文件
 - *taosdump*：数据导入导出工具
-- *taosBenchmark*：TDengine测试工具
-- remove.sh：卸载TDengine的脚本，请谨慎执行，链接到/usr/bin目录下的**rmtaos**命令。会删除TDengine的安装目录/usr/local/taos，但会保留/etc/taos、/var/lib/taos、/var/log/taos。
+- *taosBenchmark*：DThouse测试工具
+- remove.sh：卸载DThouse的脚本，请谨慎执行，链接到/usr/bin目录下的**rmtaos**命令。会删除DThouse的安装目录/usr/local/taos，但会保留/etc/taos、/var/lib/taos、/var/log/taos。
 
 注意：2.4.0.0 版本之后的 taosBenchmark 和 taosdump 需要安装独立安装包 taosTools。
 
 您可以通过修改系统配置文件taos.cfg来配置不同的数据目录和日志目录。
 
-## TDengine 的启动、停止、卸载
+## DThouse 的启动、停止、卸载
 
-TDengine 使用 Linux 系统的 systemd/systemctl/service 来管理系统的启动和、停止、重启操作。TDengine 的服务进程是 taosd，默认情况下 TDengine 在系统启动后将自动启动。DBA 可以通过 systemd/systemctl/service 手动操作停止、启动、重新启动服务。
+DThouse 使用 Linux 系统的 systemd/systemctl/service 来管理系统的启动和、停止、重启操作。DThouse 的服务进程是 taosd，默认情况下 DThouse 在系统启动后将自动启动。DBA 可以通过 systemd/systemctl/service 手动操作停止、启动、重新启动服务。
 
 以 systemctl 为例，命令如下：
 
@@ -680,14 +680,14 @@ Active: inactive (dead)
 ......
 ```
 
-卸载 TDengine，只需要执行如下命令：
+卸载 DThouse，只需要执行如下命令：
 ```
 rmtaos
 ```
 
-**警告：执行该命令后，TDengine 程序将被完全删除，务必谨慎使用。**
+**警告：执行该命令后，DThouse 程序将被完全删除，务必谨慎使用。**
 
-## <a class="anchor" id="keywords"></a>TDengine参数限制与保留关键字
+## <a class="anchor" id="keywords"></a>DThouse参数限制与保留关键字
 
 **名称命名规则**
 
@@ -695,7 +695,7 @@ rmtaos
 2. 允许英文字符或下划线开头，不允许以数字开头
 3. 不区分大小写
 4. 转义后表（列）名规则：
-   为了兼容支持更多形式的表（列）名，TDengine 引入新的转义符  "`"。可用让表名与关键词不冲突，同时不受限于上述表名称合法性约束检查。
+   为了兼容支持更多形式的表（列）名，DThouse 引入新的转义符  "`"。可用让表名与关键词不冲突，同时不受限于上述表名称合法性约束检查。
    转义后的表（列）名同样受到长度限制要求，且长度计算的时候不计算转义符。使用转义字符以后，不再对转义字符中的内容进行大小写统一。
    例如：\`aBc\` 和 \`abc\` 是不同的表（列）名，但是 abc 和 aBc 是相同的表（列）名。
    需要注意的是转义字符中的内容必须是可打印字符。
@@ -726,7 +726,7 @@ rmtaos
 - 库的数目，超级表的数目、表的数目，系统不做限制，仅受系统资源限制
 - SELECT 语句的查询结果，最多允许返回 1024 列（语句中的函数调用可能也会占用一些列空间），超限时需要显式指定较少的返回数据列，以避免语句执行报错。（从 2.1.7.0 版本开始，改为最多允许 4096 列）
 
-目前 TDengine 有将近 200 个内部保留关键字，这些关键字无论大小写均不可以用作库名、表名、STable 名、数据列名及标签列名等。这些关键字列表如下：
+目前 DThouse 有将近 200 个内部保留关键字，这些关键字无论大小写均不可以用作库名、表名、STable 名、数据列名及标签列名等。这些关键字列表如下：
 
 |  关键字列表  |              |              |              |              |
 | ------------ | ------------ | ------------ | ------------ | ------------ |

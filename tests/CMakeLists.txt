@@ -4,7 +4,7 @@
 # mkdir release; cd release; cmake -DCMAKE_BUILD_TYPE=Release ..
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0...3.20)
-PROJECT(TDengine)
+PROJECT(DThouse)
 
 SET(CMAKE_C_STANDARD 11)
 

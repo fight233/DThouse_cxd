@@ -75,7 +75,7 @@ class TDTestCase:
         tdSql.execute('alter database db blocks 3') # minimize the data in cache
         tdSql.checkData(0,14,2)
         os.system("%staosBenchmark -f tools/taosdemoAllTest/manual_block1_comp.json" % binPath)
-        print("default location is at /home/bryan/Documents/Github/TDengine/sim/dnode1/data/vnode")
+        print("default location is at /home/bryan/Documents/Github/DThouse/sim/dnode1/data/vnode")
         print('comp = 2')
         input("please check disk usage for taosd. After checking, press enter")
         
@@ -92,7 +92,7 @@ class TDTestCase:
         tdSql.query('show databases')
         tdSql.checkData(0,14,0)
         os.system("%staosBenchmark -f tools/taosdemoAllTest/manual_block1_comp.json" % binPath)
-        print("default location is at /home/bryan/Documents/Github/TDengine/sim/dnode1/data")
+        print("default location is at /home/bryan/Documents/Github/DThouse/sim/dnode1/data")
         print('comp = 0')
         input("please check disk usage for taosd. After checking, press enter")
 
@@ -109,7 +109,7 @@ class TDTestCase:
         tdSql.query('show databases')
         tdSql.checkData(0,14,1)
         os.system("%staosBenchmark -f tools/taosdemoAllTest/manual_block1_comp.json" % binPath)
-        print("default location is at /home/bryan/Documents/Github/TDengine/sim/dnode1/data")
+        print("default location is at /home/bryan/Documents/Github/DThouse/sim/dnode1/data")
         print('comp = 1')
         input("please check disk usage for taosd. After checking, press enter")
 

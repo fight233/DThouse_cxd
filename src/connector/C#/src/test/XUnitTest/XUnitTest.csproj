@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\TDengineDriver\TDengineDriver.csproj" />
+    <ProjectReference Include="..\..\DThouseDriver\DThouseDriver.csproj" />
   </ItemGroup>
 
 </Project>

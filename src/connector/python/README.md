@@ -1,7 +1,7 @@
-# TDengine Connector for Python
+# DThouse Connector for Python
 
-[TDengine](https://github.com/taosdata/TDengine) connector for Python enables python programs to access TDengine,
- using an API which is compliant with the Python DB API 2.0 (PEP-249). It uses TDengine C client library for client server communications.
+[DThouse](https://github.com/taosdata/DThouse) connector for Python enables python programs to access DThouse,
+ using an API which is compliant with the Python DB API 2.0 (PEP-249). It uses DThouse C client library for client server communications.
 
 ## Install
 
@@ -17,7 +17,7 @@ Or with git url:
 pip install git+https://github.com/taosdata/taos-connector-python.git
 ```
 
-If you have installed TDengine server or client with prebuilt packages, then you can install the connector from path:
+If you have installed DThouse server or client with prebuilt packages, then you can install the connector from path:
 
 ```bash
 pip install /usr/local/taos/connector/python
@@ -25,7 +25,7 @@ pip install /usr/local/taos/connector/python
 
 ## Source Code
 
-[TDengine](https://github.com/taosdata/TDengine) connector for Python source code is hosted on [GitHub](https://github.com/taosdata/taos-connector-python).
+[DThouse](https://github.com/taosdata/DThouse) connector for Python source code is hosted on [GitHub](https://github.com/taosdata/taos-connector-python).
 
 ## Examples
 

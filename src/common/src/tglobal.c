@@ -190,7 +190,7 @@ char   tsMqttHostName[TSDB_MQTT_HOSTNAME_LEN] = "test.mosquitto.org";
 char   tsMqttPort[TSDB_MQTT_PORT_LEN] = "1883";
 char   tsMqttUser[TSDB_MQTT_USER_LEN] = {0};
 char   tsMqttPass[TSDB_MQTT_PASS_LEN] = {0};
-char   tsMqttClientId[TSDB_MQTT_CLIENT_ID_LEN] = "TDengineMqttSubscriber";
+char   tsMqttClientId[TSDB_MQTT_CLIENT_ID_LEN] = "DThouseMqttSubscriber";
 char   tsMqttTopic[TSDB_MQTT_TOPIC_LEN] = "/test";  // #
 
 // monitor

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Script to stop the service and uninstall TDengine's arbitrator
+# Script to stop the service and uninstall DThouse's arbitrator
 
 set -e
 #set -x
@@ -70,7 +70,7 @@ function clean_service_on_systemd() {
   tarbitratord_service_config="${service_config_dir}/${tarbitrator_service_name}.service"
 
   if systemctl is-active --quiet ${tarbitrator_service_name}; then
-      echo "TDengine tarbitrator is running, stopping it..."
+      echo "DThouse tarbitrator is running, stopping it..."
       ${csudo}systemctl stop ${tarbitrator_service_name} &> /dev/null || echo &> /dev/null
   fi
   ${csudo}systemctl disable ${tarbitrator_service_name} &> /dev/null || echo &> /dev/null
@@ -80,7 +80,7 @@ function clean_service_on_systemd() {
 
 function clean_service_on_sysvinit() {
     if pidof tarbitrator &> /dev/null; then
-        echo "TDengine's tarbitrator is running, stopping it..."
+        echo "DThouse's tarbitrator is running, stopping it..."
         ${csudo}service tarbitratord stop || :
     fi
     
@@ -127,4 +127,4 @@ clean_log
 
 ${csudo}rm -rf ${install_main_dir}
 
-echo -e "${GREEN}TDengine's arbitrator is removed successfully!${NC}"
+echo -e "${GREEN}DThouse's arbitrator is removed successfully!${NC}"

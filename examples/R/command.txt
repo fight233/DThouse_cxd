@@ -4,9 +4,9 @@ install.packages('rJDBC', repos='http://cran.us.r-project.org')
 # Loading RJDBC packages
 library('RJDBC')
 # Set up working path and JDBC driver storage location
-setwd('C:/TDengine')
+setwd('C:/DThouse')
 
-# Load JDBC Driver for TDengine
+# Load JDBC Driver for DThouse
 drv<-JDBC("com.taosdata.jdbc.TSDBDriver","JDBCDriver-1.0.0-dist.jar", identifier.quote="\"")
 
 # Connect to the database

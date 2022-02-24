@@ -1,30 +1,30 @@
-# TDengine connectors
+# DThouse connectors
 
-TDengine provides many connectors for development, including C/C++, JAVA, Python, RESTful, Go, Node.JS, etc.
+DThouse provides many connectors for development, including C/C++, JAVA, Python, RESTful, Go, Node.JS, etc.
 
 NOTE: All APIs which require a SQL string as parameter, including but not limit to `taos_query`, `taos_query_a`, `taos_subscribe` in the C/C++ Connector and their counterparts in other connectors, can ONLY process one SQL statement at a time. If more than one SQL statements are provided, their behaviors are undefined.
 
 ## C/C++ API
 
-C/C++ APIs are similar to the MySQL APIs. Applications should include TDengine head file _taos.h_ to use C/C++ APIs by adding the following line in code:
+C/C++ APIs are similar to the MySQL APIs. Applications should include DThouse head file _taos.h_ to use C/C++ APIs by adding the following line in code:
 ```C
 #include <taos.h>
 ```
-Make sure TDengine library _libtaos.so_ is installed and use _-ltaos_ option to link the library when compiling. In most cases, if the return value of an API is integer, it return _0_ for success and other values as an error code for failure; if the return value is pointer, then _NULL_ is used for failure.
+Make sure DThouse library _libtaos.so_ is installed and use _-ltaos_ option to link the library when compiling. In most cases, if the return value of an API is integer, it return _0_ for success and other values as an error code for failure; if the return value is pointer, then _NULL_ is used for failure.
 
 
 ### C/C++ sync API
 
-Sync APIs are those APIs waiting for responses from the server after sending a request. TDengine has the following sync APIs:
+Sync APIs are those APIs waiting for responses from the server after sending a request. DThouse has the following sync APIs:
 
 
 - `TAOS *taos_connect(char *ip, char *user, char *pass, char *db, int port)`
 
-  Open a connection to a TDengine server. The parameters are _ip_ (IP address of the server), _user_ (username to login), _pass_ (password to login), _db_ (database to use after connection) and _port_ (port number to connect). The parameter _db_ can be NULL for no database to use after connection. Otherwise, the database should exist before connection or a connection error is reported. The handle returned by this API should be kept for future use.
+  Open a connection to a DThouse server. The parameters are _ip_ (IP address of the server), _user_ (username to login), _pass_ (password to login), _db_ (database to use after connection) and _port_ (port number to connect). The parameter _db_ can be NULL for no database to use after connection. Otherwise, the database should exist before connection or a connection error is reported. The handle returned by this API should be kept for future use.
 
 - `void taos_close(TAOS *taos)`
 
-  Close a connection to a TDengine server by the handle returned by _taos_connect_`
+  Close a connection to a DThouse server by the handle returned by _taos_connect_`
 
 
 - `int taos_query(TAOS *taos, char *sqlstr)`
@@ -59,7 +59,7 @@ Sync APIs are those APIs waiting for responses from the server after sending a r
 
 - `void taos_init()`
 
-  Initialize the environment variable used by TDengine client. The API is not necessary since it is called int _taos_connect_ by default.
+  Initialize the environment variable used by DThouse client. The API is not necessary since it is called int _taos_connect_ by default.
 
 
 - `char *taos_errstr(TAOS *taos)`
@@ -78,11 +78,11 @@ Sync APIs are those APIs waiting for responses from the server after sending a r
 
 The 12 APIs are the most important APIs frequently used. Users can check _taos.h_ file for more API information.
 
-**Note**: The connection to a TDengine server is not multi-thread safe. So a connection can only be used by one thread.
+**Note**: The connection to a DThouse server is not multi-thread safe. So a connection can only be used by one thread.
 
 ### C/C++ parameter binding API
 
-TDengine also provides parameter binding APIs, like MySQL, only question mark `?` can be used to represent a parameter in these APIs.
+DThouse also provides parameter binding APIs, like MySQL, only question mark `?` can be used to represent a parameter in these APIs.
 
 - `TAOS_STMT* taos_stmt_init(TAOS *taos)`
 
@@ -100,11 +100,11 @@ TDengine also provides parameter binding APIs, like MySQL, only question mark `?
   typedef struct TAOS_BIND {
     int            buffer_type;
     void *         buffer;
-    unsigned long  buffer_length;  // not used in TDengine
+    unsigned long  buffer_length;  // not used in DThouse
     unsigned long *length;
     int *          is_null;
-    int            is_unsigned;    // not used in TDengine
-    int *          error;          // not used in TDengine
+    int            is_unsigned;    // not used in DThouse
+    int *          error;          // not used in DThouse
   } TAOS_BIND;
   ```
 
@@ -127,7 +127,7 @@ TDengine also provides parameter binding APIs, like MySQL, only question mark `?
 
 ### C/C++ async API
 
-In addition to sync APIs, TDengine also provides async APIs, which are more efficient. Async APIs are returned right away without waiting for a response from the server, allowing the application to continute with other tasks without blocking. So async APIs are more efficient, especially useful when in a poor network.
+In addition to sync APIs, DThouse also provides async APIs, which are more efficient. Async APIs are returned right away without waiting for a response from the server, allowing the application to continute with other tasks without blocking. So async APIs are more efficient, especially useful when in a poor network.
 
 All async APIs require callback functions. The callback functions have the format:
 ```C
@@ -154,7 +154,7 @@ Applications may apply operations on multiple tables. However, **it is important
 
 ### C/C++ continuous query interface
 
-TDengine provides APIs for continuous query driven by time, which run queries periodically in the background. There are only two APIs:
+DThouse provides APIs for continuous query driven by time, which run queries periodically in the background. There are only two APIs:
 
 
 - `TAOS_STREAM *taos_open_stream(TAOS *taos, char *sqlstr, void (*fp)(void *param, TAOS_RES *, TAOS_ROW row), int64_t stime, void *param, void (*callback)(void *));`
@@ -177,7 +177,7 @@ TDengine provides APIs for continuous query driven by time, which run queries pe
 
 ### C/C++ subscription API
 
-For the time being, TDengine supports subscription on one or multiple tables. It is implemented through periodic pulling from a TDengine server. 
+For the time being, DThouse supports subscription on one or multiple tables. It is implemented through periodic pulling from a DThouse server. 
 
 * `TAOS_SUB *taos_subscribe(TAOS* taos, int restart, const char* topic, const char *sql, TAOS_SUBSCRIBE_CALLBACK fp, void *param, int interval)`
 
@@ -200,7 +200,7 @@ For the time being, TDengine supports subscription on one or multiple tables. It
 
 * `TAOS_RES *taos_consume(TAOS_SUB *tsub)`
 
-  The API used to get the new data from a TDengine server. It should be put in an loop. The parameter `tsub` is the handle returned by `taos_subscribe`. This API should only be called in synchronization mode. If the duration between two call to `taos_consume` is less than pulling interval, the second call blocks until the duration exceed the interval. The API returns the new rows if new data arrives, or empty rowset otherwise, and if there's an error, it returns `NULL`.
+  The API used to get the new data from a DThouse server. It should be put in an loop. The parameter `tsub` is the handle returned by `taos_subscribe`. This API should only be called in synchronization mode. If the duration between two call to `taos_consume` is less than pulling interval, the second call blocks until the duration exceed the interval. The API returns the new rows if new data arrives, or empty rowset otherwise, and if there's an error, it returns `NULL`.
   
 * `void taos_unsubscribe(TAOS_SUB *tsub, int keepProgress)`
 
@@ -208,37 +208,37 @@ For the time being, TDengine supports subscription on one or multiple tables. It
 
 ##  Java Connector
 
-To Java delevopers, TDengine provides `taos-jdbcdriver` according to the JDBC(3.0) API. Users can find and download it through [Sonatype Repository][1].
+To Java delevopers, DThouse provides `taos-jdbcdriver` according to the JDBC(3.0) API. Users can find and download it through [Sonatype Repository][1].
 
-Since the native language of TDengine is C, the necessary TDengine library should be checked before using the taos-jdbcdriver:
+Since the native language of DThouse is C, the necessary DThouse library should be checked before using the taos-jdbcdriver:
 
 * libtaos.so (Linux)
-    After TDengine is installed successfully, the library `libtaos.so` will be automatically copied to the `/usr/lib/`, which is the system's default search path. 
+    After DThouse is installed successfully, the library `libtaos.so` will be automatically copied to the `/usr/lib/`, which is the system's default search path. 
     
 * taos.dll (Windows)
-    After TDengine client is installed, the library `taos.dll` will be automatically copied to the `C:/Windows/System32`, which is the system's default search path. 
+    After DThouse client is installed, the library `taos.dll` will be automatically copied to the `C:/Windows/System32`, which is the system's default search path. 
     
-> Note: Please make sure that [TDengine Windows client][14] has been installed if developing on Windows. Now although TDengine client would be defaultly installed together with TDengine server, it can also be installed [alone][15].
+> Note: Please make sure that [DThouse Windows client][14] has been installed if developing on Windows. Now although DThouse client would be defaultly installed together with DThouse server, it can also be installed [alone][15].
 
-Since TDengine is time-series database, there are still some differences compared with traditional databases in using TDengine JDBC driver: 
-* TDengine doesn't allow to delete/modify a single record, and thus JDBC driver also has no such method. 
+Since DThouse is time-series database, there are still some differences compared with traditional databases in using DThouse JDBC driver: 
+* DThouse doesn't allow to delete/modify a single record, and thus JDBC driver also has no such method. 
 * No support for transaction
 * No support for union between tables
 * No support for nested query，`There is at most one open ResultSet for each Connection. Thus, TSDB JDBC Driver will close current ResultSet if it is not closed and a new query begins`.
 
-## Version list of TAOS-JDBCDriver and required TDengine and JDK 
+## Version list of TAOS-JDBCDriver and required DThouse and JDK 
 
-| taos-jdbcdriver | TDengine  | JDK  | 
+| taos-jdbcdriver | DThouse  | JDK  | 
 | --- | --- | --- | 
 | 1.0.3 | 1.6.1.x or higher | 1.8.x |
 | 1.0.2 | 1.6.1.x or higher | 1.8.x |  
 | 1.0.1 | 1.6.1.x or higher | 1.8.x |  
 
-## DataType in TDengine and Java
+## DataType in DThouse and Java
 
-The datatypes in TDengine include timestamp, number, string and boolean, which are converted as follows in Java:
+The datatypes in DThouse include timestamp, number, string and boolean, which are converted as follows in Java:
 
-| TDengine | Java | 
+| DThouse | Java | 
 | --- | --- | 
 | TIMESTAMP | java.sql.Timestamp | 
 | INT | java.lang.Integer | 
@@ -272,7 +272,7 @@ Using the following pom.xml for maven projects
 
 ### JAR file from the source code
 
-After downloading the [TDengine][3] source code, execute `mvn clean package` in the directory `src/connector/jdbc` and then the corresponding jar file is generated.
+After downloading the [DThouse][3] source code, execute `mvn clean package` in the directory `src/connector/jdbc` and then the corresponding jar file is generated.
 
 ## Usage 
 
@@ -293,7 +293,7 @@ values in `{}` are necessary while values in `[]` are optional。Each option in 
 * user：user name for login, defaultly root。
 * password：password for login，defaultly taosdata。
 * charset：charset for client，defaultly system charset
-* cfgdir：log directory for client, defaultly _/etc/taos/_ on Linux and _C:/TDengine/cfg_ on Windows。
+* cfgdir：log directory for client, defaultly _/etc/taos/_ on Linux and _C:/DThouse/cfg_ on Windows。
 * locale：language for client，defaultly system locale。
 * timezone：timezone for client，defaultly system timezone。
 
@@ -320,7 +320,7 @@ public Connection getConn() throws Exception{
 
 3. Configuration file (taos.cfg)
 
-    Default configuration file is _/var/lib/taos/taos.cfg_ On Linux and _C:\TDengine\cfg\taos.cfg_ on Windows
+    Default configuration file is _/var/lib/taos/taos.cfg_ On Linux and _C:\DThouse\cfg\taos.cfg_ on Windows
 ```properties
 # client default username
 # defaultUser           root
@@ -484,7 +484,7 @@ public static void main(String[] args) throws Exception {
 > More instructions can refer to [User Guide][6]
 
 **Notice**
-* TDengine `v1.6.4.1` provides a function `select server_status()` to check heartbeat. It is highly recommended to use this function for `Validation Query`.
+* DThouse `v1.6.4.1` provides a function `select server_status()` to check heartbeat. It is highly recommended to use this function for `Validation Query`.
 
 As follows，`1` will be returned if `select server_status()` is successfully executed。
 ```shell
@@ -506,11 +506,11 @@ Query OK, 1 row(s) in set (0.000141s)
   
   **Cause**：The application program cannot find Library function _taos_
   
-  **Answer**：Copy `C:\TDengine\driver\taos.dll` to `C:\Windows\System32\` on Windows and make a soft link through ` ln -s /usr/local/taos/driver/libtaos.so.x.x.x.x /usr/lib/libtaos.so` on Linux.
+  **Answer**：Copy `C:\DThouse\driver\taos.dll` to `C:\Windows\System32\` on Windows and make a soft link through ` ln -s /usr/local/taos/driver/libtaos.so.x.x.x.x /usr/lib/libtaos.so` on Linux.
   
 * java.lang.UnsatisfiedLinkError: taos.dll Can't load AMD 64 bit on a IA 32-bit platform
   
-  **Cause**：Currently TDengine only support 64bit JDK
+  **Cause**：Currently DThouse only support 64bit JDK
   
   **Answer**：re-install 64bit JDK.
 
@@ -520,7 +520,7 @@ Query OK, 1 row(s) in set (0.000141s)
 ## Python Connector
 
 ### Pre-requirement
-* TDengine installed, TDengine-client installed if on Windows [(Windows TDengine client installation)](https://www.taosdata.com/cn/documentation/connector/#Windows客户端及程序接口)
+* DThouse installed, DThouse-client installed if on Windows [(Windows DThouse client installation)](https://www.taosdata.com/cn/documentation/connector/#Windows客户端及程序接口)
 * python 2.7 or >= 3.4
 * pip installed
 
@@ -539,21 +539,21 @@ or
 pip install src/connector/python/linux/python2/
 ```
 #### Windows
-Assumed the Windows TDengine client has been installed , copy the file "C:\TDengine\driver\taos.dll" to the folder "C:\windows\system32", and then enter the _cmd_ Windows command interface
+Assumed the Windows DThouse client has been installed , copy the file "C:\DThouse\driver\taos.dll" to the folder "C:\windows\system32", and then enter the _cmd_ Windows command interface
 ```
-cd C:\TDengine\connector\python\windows
+cd C:\DThouse\connector\python\windows
 pip install python3\
 ```
 or
 ```
-cd C:\TDengine\connector\python\windows
+cd C:\DThouse\connector\python\windows
 pip install python2\
 ```
 *If _pip_ command is not installed on the system, users can choose to install pip or just copy the _taos_ directory in the python client directory to the application directory to use.
 
 ### Usage
 #### Examples
-* import TDengine module
+* import DThouse module
 
 ```python
 import taos 
@@ -563,7 +563,7 @@ import taos
 conn = taos.connect(host="127.0.0.1", user="root", password="taosdata", config="/etc/taos")
 c1 = conn.cursor()
 ```
-*<em>host</em> is the IP of TDengine server, and <em>config</em> is the directory where exists the TDengine client configure file
+*<em>host</em> is the IP of DThouse server, and <em>config</em> is the directory where exists the DThouse client configure file
 * insert records into the database
 ```python
 import datetime
@@ -631,13 +631,13 @@ conn.close()
 
 Users can get module information from Python help interface or refer to our [python code example](). We list the main classes and methods below:
 
-- _TDengineConnection_ class
+- _DThouseConnection_ class
 
-  Run `help(taos.TDengineConnection)` in python terminal for details.
+  Run `help(taos.DThouseConnection)` in python terminal for details.
 
-- _TDengineCursor_ class
+- _DThouseCursor_ class
 
-  Run `help(taos.TDengineCursor)` in python terminal for details.
+  Run `help(taos.DThouseCursor)` in python terminal for details.
 
 - connect method
 
@@ -645,22 +645,22 @@ Users can get module information from Python help interface or refer to our [pyt
 
 ## RESTful Connector
 
-TDengine also provides RESTful API to satisfy developing on different platforms. Unlike other databases, TDengine RESTful API applies operations to the database through the SQL command in the body of HTTP POST request. What users are required to provide is just a URL.
+DThouse also provides RESTful API to satisfy developing on different platforms. Unlike other databases, DThouse RESTful API applies operations to the database through the SQL command in the body of HTTP POST request. What users are required to provide is just a URL.
 
 
-For the time being, TDengine RESTful API uses a _\<TOKEN\>_ generated from username and password for identification. Safer identification methods will be provided in the future.
+For the time being, DThouse RESTful API uses a _\<TOKEN\>_ generated from username and password for identification. Safer identification methods will be provided in the future.
 
 
 ### HTTP URL encoding 
 
-To use TDengine RESTful API, the URL should have the following encoding format:
+To use DThouse RESTful API, the URL should have the following encoding format:
 ```
 http://<ip>:<PORT>/rest/sql
 ```
-- _ip_: IP address of any node in a TDengine cluster
-- _PORT_: TDengine HTTP service port. It is 6020 by default.
+- _ip_: IP address of any node in a DThouse cluster
+- _PORT_: DThouse HTTP service port. It is 6020 by default.
 
-For example, the URL encoding _http://192.168.0.1:6020/rest/sql_ used to send HTTP request to a TDengine server with IP address as 192.168.0.1.
+For example, the URL encoding _http://192.168.0.1:6020/rest/sql_ used to send HTTP request to a DThouse server with IP address as 192.168.0.1.
 
 It is required to add a token in an HTTP request header for identification.
 
@@ -742,7 +742,7 @@ The return value is like:
 
 ## Go Connector
 
-TDengine also provides a Go client package named _taosSql_ for users to access TDengine with Go. The package is in _/usr/local/taos/connector/go/src/taosSql_ by default if you installed TDengine. Users can copy the directory _/usr/local/taos/connector/go/src/taosSql_ to the _src_ directory of your project and import the package in the source code for use.
+DThouse also provides a Go client package named _taosSql_ for users to access DThouse with Go. The package is in _/usr/local/taos/connector/go/src/taosSql_ by default if you installed DThouse. Users can copy the directory _/usr/local/taos/connector/go/src/taosSql_ to the _src_ directory of your project and import the package in the source code for use.
 
 ```Go
 import (
@@ -751,13 +751,13 @@ import (
 )
 ```
 
-The _taosSql_ package is in _cgo_ form, which calls TDengine C/C++ sync interfaces. So a connection is allowed to be used by one thread at the same time. Users can open multiple connections for multi-thread operations.
+The _taosSql_ package is in _cgo_ form, which calls DThouse C/C++ sync interfaces. So a connection is allowed to be used by one thread at the same time. Users can open multiple connections for multi-thread operations.
 
 Please refer the the demo code in the package for more information.
 
 ## Node.js Connector
 
-TDengine also provides a node.js connector package that is installable through [npm](https://www.npmjs.com/). The package is also in our source code at *src/connector/nodejs/*. The following instructions are also available [here](https://github.com/taosdata/tdengine/tree/master/src/connector/nodejs)
+DThouse also provides a node.js connector package that is installable through [npm](https://www.npmjs.com/). The package is also in our source code at *src/connector/nodejs/*. The following instructions are also available [here](https://github.com/taosdata/tdengine/tree/master/src/connector/nodejs)
 
 To get started, just type in the following to install the connector through [npm](https://www.npmjs.com/).
 
@@ -767,7 +767,7 @@ npm install td-connector
 
 It is highly suggested you use npm. If you don't have it installed, you can also just copy the nodejs folder from *src/connector/nodejs/* into your node project folder.
 
-To interact with TDengine, we make use of the [node-gyp](https://github.com/nodejs/node-gyp) library. To install, you will need to install the following depending on platform (the following instructions are quoted from node-gyp)
+To interact with DThouse, we make use of the [node-gyp](https://github.com/nodejs/node-gyp) library. To install, you will need to install the following depending on platform (the following instructions are quoted from node-gyp)
 
 ### On Unix
 
@@ -827,9 +827,9 @@ The following is a short summary of the basic usage of the connector, the  full 
 
 #### Connection
 
-To use the connector, first require the library ```td-connector```. Running the function ```taos.connect``` with the connection options passed in as an object will return a TDengine connection object. The required connection option is ```host```, other options if not set, will be the default values as shown below.
+To use the connector, first require the library ```td-connector```. Running the function ```taos.connect``` with the connection options passed in as an object will return a DThouse connection object. The required connection option is ```host```, other options if not set, will be the default values as shown below.
 
-A cursor also needs to be initialized in order to interact with TDengine from Node.js.
+A cursor also needs to be initialized in order to interact with DThouse from Node.js.
 
 ```javascript
 const taos = require('td-connector');
@@ -860,7 +860,7 @@ promise.then(function(result) {
 });
 ```
 
-You can also query by binding parameters to a query by filling in the question marks in a string as so. The query will automatically parse what was binded and convert it to the proper format for use with TDengine
+You can also query by binding parameters to a query by filling in the question marks in a string as so. The query will automatically parse what was binded and convert it to the proper format for use with DThouse
 
 ```javascript
 var query = cursor.query('select * from meterinfo.meters where ts <= ? and areaid = ?;').bind(new Date(), 5);
@@ -897,22 +897,22 @@ promise2.then(function(result) {
 
 ### Example
 
-An example of using the NodeJS connector to create a table with weather data and create and execute queries can be found [here](https://github.com/taosdata/TDengine/tree/master/tests/examples/nodejs/node-example.js) (The preferred method for using the connector)
+An example of using the NodeJS connector to create a table with weather data and create and execute queries can be found [here](https://github.com/taosdata/DThouse/tree/master/tests/examples/nodejs/node-example.js) (The preferred method for using the connector)
 
-An example of using the NodeJS connector to achieve the same things but without all the object wrappers that wrap around the data returned to achieve higher functionality can be found [here](https://github.com/taosdata/TDengine/tree/master/tests/examples/nodejs/node-example-raw.js)
+An example of using the NodeJS connector to achieve the same things but without all the object wrappers that wrap around the data returned to achieve higher functionality can be found [here](https://github.com/taosdata/DThouse/tree/master/tests/examples/nodejs/node-example-raw.js)
 
 [1]: https://search.maven.org/artifact/com.taosdata.jdbc/taos-jdbcdriver
 [2]: https://mvnrepository.com/artifact/com.taosdata.jdbc/taos-jdbcdriver
-[3]: https://github.com/taosdata/TDengine
+[3]: https://github.com/taosdata/DThouse
 [4]: https://www.taosdata.com/blog/2019/12/03/jdbcdriver%e6%89%be%e4%b8%8d%e5%88%b0%e5%8a%a8%e6%80%81%e9%93%be%e6%8e%a5%e5%ba%93/
 [5]: https://github.com/brettwooldridge/HikariCP
 [6]: https://github.com/alibaba/druid
-[7]: https://github.com/taosdata/TDengine/issues
+[7]: https://github.com/taosdata/DThouse/issues
 [8]: https://search.maven.org/artifact/com.taosdata.jdbc/taos-jdbcdriver
 [9]: https://mvnrepository.com/artifact/com.taosdata.jdbc/taos-jdbcdriver
 [10]: https://maven.aliyun.com/mvn/search
-[11]:  https://github.com/taosdata/TDengine/tree/develop/tests/examples/JDBC/SpringJdbcTemplate
-[12]: https://github.com/taosdata/TDengine/tree/develop/tests/examples/JDBC/springbootdemo
+[11]:  https://github.com/taosdata/DThouse/tree/develop/tests/examples/JDBC/SpringJdbcTemplate
+[12]: https://github.com/taosdata/DThouse/tree/develop/tests/examples/JDBC/springbootdemo
 [13]: https://www.taosdata.com/cn/documentation/administrator/#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE
 [14]: https://www.taosdata.com/cn/documentation/connector/#Windows%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%8F%8A%E7%A8%8B%E5%BA%8F%E6%8E%A5%E5%8F%A3
 [15]: https://www.taosdata.com/cn/getting-started/#%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B

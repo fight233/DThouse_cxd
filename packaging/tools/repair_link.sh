@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script is used to repaire links when you what to move TDengine
+# This script is used to repaire links when you what to move DThouse
 # data to other places and to access data.
 
 # Read link path

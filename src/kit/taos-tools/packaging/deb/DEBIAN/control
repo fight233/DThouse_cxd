@@ -10,4 +10,4 @@ Installed-Size: 66666
 Maintainer: support@taosdata.com
 Provides: taosdata
 Homepage: http://taosdata.com
-Description: The tools for TDengine
+Description: The tools for DThouse

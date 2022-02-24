@@ -1,17 +1,17 @@
-[![Build Status](https://cloud.drone.io/api/badges/taosdata/TDengine/status.svg?ref=refs/heads/master)](https://cloud.drone.io/taosdata/TDengine)
+[![Build Status](https://cloud.drone.io/api/badges/taosdata/DThouse/status.svg?ref=refs/heads/master)](https://cloud.drone.io/taosdata/DThouse)
 [![Build status](https://ci.appveyor.com/api/projects/status/kf3pwh2or5afsgl9/branch/master?svg=true)](https://ci.appveyor.com/project/sangshuduo/tdengine-2n8ge/branch/master)
-[![Coverage Status](https://coveralls.io/repos/github/taosdata/TDengine/badge.svg?branch=develop)](https://coveralls.io/github/taosdata/TDengine?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/taosdata/DThouse/badge.svg?branch=develop)](https://coveralls.io/github/taosdata/DThouse?branch=develop)
 [![CII Best Practices](https://bestpractices.coreinfrastructure.org/projects/4201/badge)](https://bestpractices.coreinfrastructure.org/projects/4201)
 [![tdengine](https://snapcraft.io//tdengine/badge.svg)](https://snapcraft.io/tdengine)
 
-[![TDengine](TDenginelogo.png)](https://www.taosdata.com)
+[![DThouse](DThouselogo.png)](https://www.taosdata.com)
 
 English | [简体中文](./README-CN.md)
 We are hiring, check [here](https://www.taosdata.com/en/careers/)
 
-# What is TDengine？
+# What is DThouse？
 
-TDengine is an open-sourced big data platform under [GNU AGPL v3.0](http://www.gnu.org/licenses/agpl-3.0.html), designed and optimized for the Internet of Things (IoT), Connected Cars, Industrial IoT, and IT Infrastructure and Application Monitoring. Besides the 10x faster time-series database, it provides caching, stream computing, message queuing and other functionalities to reduce the complexity and cost of development and operation.
+DThouse is an open-sourced big data platform under [GNU AGPL v3.0](http://www.gnu.org/licenses/agpl-3.0.html), designed and optimized for the Internet of Things (IoT), Connected Cars, Industrial IoT, and IT Infrastructure and Application Monitoring. Besides the 10x faster time-series database, it provides caching, stream computing, message queuing and other functionalities to reduce the complexity and cost of development and operation.
 
 - **10x Faster on Insert/Query Speeds**: Through the innovative design on storage, on a single-core machine, over 20K requests can be processed, millions of data points can be ingested, and over 10 million data points can be retrieved in a second. It is 10 times faster than other databases.
 
@@ -19,20 +19,20 @@ TDengine is an open-sourced big data platform under [GNU AGPL v3.0](http://www.g
 
 - **Full Stack for Time-Series Data**: By integrating a database with message queuing, caching, and stream computing features together, it is no longer necessary to integrate Kafka/Redis/HBase/Spark or other software. It makes the system architecture much simpler and more robust.
 
-- **Powerful Data Analysis**: Whether it is 10 years or one minute ago, data can be queried just by specifying the time range. Data can be aggregated over time, multiple time streams or both. Ad Hoc queries or analyses can be executed via TDengine shell, Python, R or Matlab.
+- **Powerful Data Analysis**: Whether it is 10 years or one minute ago, data can be queried just by specifying the time range. Data can be aggregated over time, multiple time streams or both. Ad Hoc queries or analyses can be executed via DThouse shell, Python, R or Matlab.
 
-- **Seamless Integration with Other Tools**: Telegraf, Grafana, Matlab, R, and other tools can be integrated with TDengine without a line of code. MQTT, OPC, Hadoop, Spark, and many others will be integrated soon.
+- **Seamless Integration with Other Tools**: Telegraf, Grafana, Matlab, R, and other tools can be integrated with DThouse without a line of code. MQTT, OPC, Hadoop, Spark, and many others will be integrated soon.
 
 - **Zero Management, No Learning Curve**: It takes only seconds to download, install, and run it successfully; there are no other dependencies. Automatic partitioning on tables or DBs. Standard SQL is used, with C/C++, Python, JDBC, Go and RESTful connectors.
 
 # Documentation
-For user manual, system design and architecture, engineering blogs, refer to [TDengine Documentation](https://www.taosdata.com/en/documentation/)(中文版请点击[这里](https://www.taosdata.com/cn/documentation20/))
+For user manual, system design and architecture, engineering blogs, refer to [DThouse Documentation](https://www.taosdata.com/en/documentation/)(中文版请点击[这里](https://www.taosdata.com/cn/documentation20/))
  for details. The documentation from our website can also be downloaded locally from *documentation/tdenginedocs-en* or *documentation/tdenginedocs-cn*.
 
 # Building
-At the moment, TDengine only supports building and running on Linux systems. You can choose to [install from packages](https://www.taosdata.com/en/getting-started/#Install-from-Package) or from the source code. This quick guide is for installation from the source only.
+At the moment, DThouse only supports building and running on Linux systems. You can choose to [install from packages](https://www.taosdata.com/en/getting-started/#Install-from-Package) or from the source code. This quick guide is for installation from the source only.
 
-To build TDengine, use [CMake](https://cmake.org/) 3.0.2 or higher versions in the project directory.
+To build DThouse, use [CMake](https://cmake.org/) 3.0.2 or higher versions in the project directory.
 
 ## Install build dependencies
 
@@ -59,8 +59,8 @@ sudo apt-get install -y  maven
 ```
 
 #### Install build dependencies for taos-tools 
-We provide a few useful tools such as taosBenchmark (was named taosdemo) and taosdump. They were part of TDengine. From TDengine 2.4.0.0, taosBenchmark and taosdump were not released together with TDengine.
-By default, TDengine compiling does not include taos-tools. You can use 'cmake .. -DBUILD_TOOLS=true' to make them be compiled with TDengine.
+We provide a few useful tools such as taosBenchmark (was named taosdemo) and taosdump. They were part of DThouse. From DThouse 2.4.0.0, taosBenchmark and taosdump were not released together with DThouse.
+By default, DThouse compiling does not include taos-tools. You can use 'cmake .. -DBUILD_TOOLS=true' to make them be compiled with DThouse.
 
 To build the [taos-tools](https://github.com/taosdata/taos-tools) on Ubuntu/Debian, the following packages need to be installed.
 ```bash
@@ -108,7 +108,7 @@ sudo yum install zlib-devel xz-devel snappy-devel jansson-devel pkgconfig libato
 Note: Since snappy lacks pkg-config support (refer to [link](https://github.com/google/snappy/pull/86)), it lead a cmake prompt libsnappy not found. But snappy will works well.
 
 ### Setup golang environment
-TDengine includes few components developed by Go language. Please refer to golang.org official documentation for golang environment setup.
+DThouse includes few components developed by Go language. Please refer to golang.org official documentation for golang environment setup.
 
 Please use version 1.14+. For the user in China, we recommend using a proxy to accelerate package downloading.
 ```
@@ -120,12 +120,12 @@ go env -w GOPROXY=https://goproxy.cn,direct
 
 First of all, you may clone the source codes from github:
 ```bash
-git clone https://github.com/taosdata/TDengine.git
-cd TDengine
+git clone https://github.com/taosdata/DThouse.git
+cd DThouse
 ```
 
 The connectors for go & grafana and some tools have been moved to separated repositories,
-so you should run this command in the TDengine directory to install them:
+so you should run this command in the DThouse directory to install them:
 ```bash
 git submodule update --init --recursive
 ```
@@ -136,7 +136,7 @@ You can modify the file ~/.gitconfig to use ssh protocol instead of https for be
     insteadOf = https://github.com/
 ```
 
-## Build TDengine
+## Build DThouse
 
 ### On Linux platform
 
@@ -145,13 +145,13 @@ mkdir debug && cd debug
 cmake .. && cmake --build .
 ```
 
-Note TDengine 2.3.x.0 and later use a component named 'taosAdapter' to play http daemon role by default instead of the http daemon embedded in the early version of TDengine. The taosAdapter is programmed by go language. If you pull TDengine source code to the latest from an existing codebase, please execute 'git submodule update --init --recursive' to pull taosAdapter source code. Please install go language version 1.14 or above for compiling taosAdapter. If you meet difficulties regarding 'go mod', especially you are from China, you can use a proxy to solve the problem.
+Note DThouse 2.3.x.0 and later use a component named 'taosAdapter' to play http daemon role by default instead of the http daemon embedded in the early version of DThouse. The taosAdapter is programmed by go language. If you pull DThouse source code to the latest from an existing codebase, please execute 'git submodule update --init --recursive' to pull taosAdapter source code. Please install go language version 1.14 or above for compiling taosAdapter. If you meet difficulties regarding 'go mod', especially you are from China, you can use a proxy to solve the problem.
 ```
 go env -w GO111MODULE=on
 go env -w GOPROXY=https://goproxy.cn,direct
 ```
 
-The embedded http daemon still be built from TDengine source code by default. Or you can use the following command to choose to build taosAdapter.
+The embedded http daemon still be built from DThouse source code by default. Or you can use the following command to choose to build taosAdapter.
 ```
 cmake .. -DBUILD_HTTP=false
 ```
@@ -162,7 +162,7 @@ apt install autoconf
 cmake .. -DJEMALLOC_ENABLED=true
 ```
 
-TDengine build script can detect the host machine's architecture on X86-64, X86, arm64, arm32 and mips64 platform.
+DThouse build script can detect the host machine's architecture on X86-64, X86, arm64, arm32 and mips64 platform.
 You can also specify CPUTYPE option like aarch64 or aarch32 too if the detection result is not correct:
 
 aarch64:
@@ -221,12 +221,12 @@ cmake .. && cmake --build .
 
 # Installing
 
-After building successfully, TDengine can be installed by: (On Windows platform, the following command should be `nmake install`)
+After building successfully, DThouse can be installed by: (On Windows platform, the following command should be `nmake install`)
 ```bash
 sudo make install
 ```
 
-Users can find more information about directories installed on the system in the [directory and files](https://www.taosdata.com/en/documentation/administrator/#Directory-and-Files) section. Since version 2.0, installing from source code will also configure service management for TDengine.
+Users can find more information about directories installed on the system in the [directory and files](https://www.taosdata.com/en/documentation/administrator/#Directory-and-Files) section. Since version 2.0, installing from source code will also configure service management for DThouse.
 Users can also choose to [install from packages](https://www.taosdata.com/en/getting-started/#Install-from-Package) for it.
 
 To start the service after installation, in a terminal, use:
@@ -234,16 +234,16 @@ To start the service after installation, in a terminal, use:
 sudo systemctl start taosd
 ```
 
-Then users can use the [TDengine shell](https://www.taosdata.com/en/getting-started/#TDengine-Shell) to connect the TDengine server. In a terminal, use:
+Then users can use the [DThouse shell](https://www.taosdata.com/en/getting-started/#DThouse-Shell) to connect the DThouse server. In a terminal, use:
 ```bash
 taos
 ```
 
-If TDengine shell connects the server successfully, welcome messages and version info are printed. Otherwise, an error message is shown.
+If DThouse shell connects the server successfully, welcome messages and version info are printed. Otherwise, an error message is shown.
 
-## Install TDengine by apt-get
+## Install DThouse by apt-get
 
-If you use Debian or Ubuntu system, you can use 'apt-get' command to intall TDengine from official repository. Please use following commands to setup:
+If you use Debian or Ubuntu system, you can use 'apt-get' command to intall DThouse from official repository. Please use following commands to setup:
 
 ```
 wget -qO - http://repos.taosdata.com/tdengine.key | sudo apt-key add -
@@ -256,20 +256,20 @@ sudo apt-get install tdengine
 
 ## Quick Run
 
-If you don't want to run TDengine as a service, you can run it in current shell. For example, to quickly start a TDengine server after building, run the command below in terminal: (We take Linux as an example, command on Windows will be `taosd.exe`)
+If you don't want to run DThouse as a service, you can run it in current shell. For example, to quickly start a DThouse server after building, run the command below in terminal: (We take Linux as an example, command on Windows will be `taosd.exe`)
 ```bash
 ./build/bin/taosd -c test/cfg
 ```
 
-In another terminal, use the TDengine shell to connect the server:
+In another terminal, use the DThouse shell to connect the server:
 ```bash
 ./build/bin/taos -c test/cfg
 ```
 
 option "-c test/cfg" specifies the system configuration file directory.
 
-# Try TDengine
-It is easy to run SQL commands from TDengine shell which is the same as other SQL databases.
+# Try DThouse
+It is easy to run SQL commands from DThouse shell which is the same as other SQL databases.
 ```sql
 create database db;
 use db;
@@ -280,10 +280,10 @@ select * from t;
 drop database db;
 ```
 
-# Developing with TDengine
+# Developing with DThouse
 ### Official Connectors
 
-TDengine provides abundant developing tools for users to develop on TDengine. Follow the links below to find your desired connectors and relevant documentation.
+DThouse provides abundant developing tools for users to develop on DThouse. Follow the links below to find your desired connectors and relevant documentation.
 
 - [Java](https://www.taosdata.com/en/documentation/connector/java)
 - [C/C++](https://www.taosdata.com/en/documentation/connector#c-cpp)
@@ -295,17 +295,17 @@ TDengine provides abundant developing tools for users to develop on TDengine. Fo
 
 ### Third Party Connectors
 
-The TDengine community has also kindly built some of their own connectors! Follow the links below to find the source code for them.
+The DThouse community has also kindly built some of their own connectors! Follow the links below to find the source code for them.
 
 - [Rust Bindings](https://github.com/songtianyi/tdengine-rust-bindings/tree/master/examples)
 - [.Net Core Connector](https://github.com/maikebing/Maikebing.EntityFrameworkCore.Taos)
-- [Lua Connector](https://github.com/taosdata/TDengine/tree/develop/tests/examples/lua)
+- [Lua Connector](https://github.com/taosdata/DThouse/tree/develop/tests/examples/lua)
 
 # How to run the test cases and how to add a new test case?
-  TDengine's test framework and all test cases are fully open source.
+  DThouse's test framework and all test cases are fully open source.
   Please refer to [this document](tests/How-To-Run-Test-And-How-To-Add-New-Test-Case.md) for how to run test and develop new test case.
 
-# TDengine Roadmap
+# DThouse Roadmap
 - Support event-driven stream computing
 - Support user defined functions
 - Support MQTT connection
@@ -313,14 +313,14 @@ The TDengine community has also kindly built some of their own connectors! Follo
 - Support Hadoop, Spark connections
 - Support Tableau and other BI tools
 
-# Contribute to TDengine
+# Contribute to DThouse
 
 Please follow the [contribution guidelines](CONTRIBUTING.md) to contribute to the project.
 
-# Join TDengine WeChat Group
+# Join DThouse WeChat Group
 
 Add WeChat “tdengine” to join the group，you can communicate with other users.
 
-# [User List](https://github.com/taosdata/TDengine/issues/2432)
+# [User List](https://github.com/taosdata/DThouse/issues/2432)
 
-If you are using TDengine and feel it helps or you'd like to do some contributions, please add your company to [user list](https://github.com/taosdata/TDengine/issues/2432) and let us know your needs.
+If you are using DThouse and feel it helps or you'd like to do some contributions, please add your company to [user list](https://github.com/taosdata/DThouse/issues/2432) and let us know your needs.

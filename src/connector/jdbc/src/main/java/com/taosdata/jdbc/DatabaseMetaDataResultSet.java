@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 
 /*
- * TDengine only supports a subset of the standard SQL, thus this implementation of the
+ * DThouse only supports a subset of the standard SQL, thus this implementation of the
  * standard JDBC API contains more or less some adjustments customized for certain
  * compatibility needs.
  */

@@ -166,7 +166,7 @@ def getBuildPath():
     return binPath
 
 
-def runTDengine():
+def runDThouse():
     stopProgram("taosd")
 
     buildPath = getBuildPath()
@@ -184,7 +184,7 @@ def runTDengine():
     if not checkProgramRunning("taosd"):
         return False
     else:
-        v_print("%s", "TDengine is running")
+        v_print("%s", "DThouse is running")
         return True
 
 
@@ -203,7 +203,7 @@ def sendMqttMsg(topic: str, payload: str):
     time.sleep(3)
 
 
-def checkTDengineData(topic: str, payload: str):
+def checkDThouseData(topic: str, payload: str):
     buildPath = getBuildPath()
     binPath = buildPath + "/build/bin/taos"
 
@@ -233,7 +233,7 @@ if __name__ == "__main__":
 
     installExtension()
 
-    if not runTDengine():
+    if not runDThouse():
         sys.exit(1)
 
     reCreateDatabase()
@@ -243,7 +243,7 @@ if __name__ == "__main__":
 
     sendMqttMsg(testTopic, testPayload)
 
-    if not checkTDengineData(testTopic, testPayload):
+    if not checkDThouseData(testTopic, testPayload):
         sys.exit(1)
 
     sys.exit(0)

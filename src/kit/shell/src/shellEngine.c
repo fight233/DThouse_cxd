@@ -30,7 +30,7 @@
 #include <regex.h>
 
 /**************** Global variables ****************/
-char      CLIENT_VERSION[] = "Welcome to the TDengine shell from %s, Client Version:%s\n"
+char      CLIENT_VERSION[] = "Welcome to the DThouse shell from %s, Client Version:%s\n"
                              "Copyright (c) 2020 by TAOS Data, Inc. All rights reserved.\n\n";
 char      PROMPT_HEADER[] = "taos> ";
 char      CONTINUE_PROMPT[] = "   -> ";

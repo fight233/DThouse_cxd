@@ -12,7 +12,7 @@ Precompiled binaries is available at [taosdata website](https://www.taosdata.com
 $ tar -xzf tdengine-alert-$version-$OS-$ARCH.tar.gz 
 ```
 
-If you have no TDengine server or client installed, please execute below command to install the required driver library:
+If you have no DThouse server or client installed, please execute below command to install the required driver library:
 
 ```
 $ ./install_driver.sh

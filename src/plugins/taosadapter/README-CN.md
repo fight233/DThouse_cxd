@@ -2,7 +2,7 @@
 
 [English edition](https://github.com/taosdata/taosadapter/blob/develop/README.md)
 
-taosAdapter 是一个 TDengine 的配套工具，是 TDengine 集群和应用程序之间的桥梁和适配器。它提供了一种易于使用和高效的方式来直接从数据收集代理软件（如 Telegraf、StatsD、collectd 等）摄取数据。它还提供了 InfluxDB/OpenTSDB 兼容的数据摄取接口，允许 InfluxDB/OpenTSDB 应用程序无缝移植到 TDengine。
+taosAdapter 是一个 DThouse 的配套工具，是 DThouse 集群和应用程序之间的桥梁和适配器。它提供了一种易于使用和高效的方式来直接从数据收集代理软件（如 Telegraf、StatsD、collectd 等）摄取数据。它还提供了 InfluxDB/OpenTSDB 兼容的数据摄取接口，允许 InfluxDB/OpenTSDB 应用程序无缝移植到 DThouse。
 
 taosAdapter提供以下功能：
 
@@ -24,7 +24,7 @@ taosAdapter提供以下功能：
 
 ### 安装 taosAdapter
 
-taosAdapter 从 TDengine v2.3.0.0 版本开始成为 TDengine 服务端软件 的一部分，如果您使用 TDengine server 您不需要任何额外的步骤来安装 taosAdapter。您可以从[涛思数据官方网站](https://taosdata.com/cn/all-downloads/)下载TDengine server（taosAdapter包含在v2.3.0.0及以上版本）安装包。如果需要将 taosAdapter 分离部署在 TDengine server 之外的服务器上，则应该在该服务器上安装完整的 TDengine 来安装 taosAdapter。如果您需要使用源代码编译生成 taosAdapter，您可以参考[构建 taosAdapter](https://github.com/taosdata/taosadapter/blob/develop/BUILD-CN.md)文档。
+taosAdapter 从 DThouse v2.3.0.0 版本开始成为 DThouse 服务端软件 的一部分，如果您使用 DThouse server 您不需要任何额外的步骤来安装 taosAdapter。您可以从[涛思数据官方网站](https://taosdata.com/cn/all-downloads/)下载DThouse server（taosAdapter包含在v2.3.0.0及以上版本）安装包。如果需要将 taosAdapter 分离部署在 DThouse server 之外的服务器上，则应该在该服务器上安装完整的 DThouse 来安装 taosAdapter。如果您需要使用源代码编译生成 taosAdapter，您可以参考[构建 taosAdapter](https://github.com/taosdata/taosadapter/blob/develop/BUILD-CN.md)文档。
 
 ### start/stop taosAdapter
 
@@ -32,12 +32,12 @@ taosAdapter 从 TDengine v2.3.0.0 版本开始成为 TDengine 服务端软件 �
 
 ### 移除 taosAdapter
 
-使用命令 rmtaos 可以移除包括 taosAddapter 在内的 TDengine server 软件。
+使用命令 rmtaos 可以移除包括 taosAddapter 在内的 DThouse server 软件。
 
 ### 升级 taosAdapter
 
-taosAdapter 和 TDengine server 需要使用相同版本。请通过升级 TDengine server 来升级 taosAdapter。
-与taosd分离部署的taosAdapter必须通过升级其所在服务器的TDengine server才能得到升级。
+taosAdapter 和 DThouse server 需要使用相同版本。请通过升级 DThouse server 来升级 taosAdapter。
+与taosd分离部署的taosAdapter必须通过升级其所在服务器的DThouse server才能得到升级。
 
 ## taosAdapter 参数列表
 
@@ -164,9 +164,9 @@ Usage of taosAdapter:
 
 ## 接口
 
-### TDengine RESTful 接口
+### DThouse RESTful 接口
 
-您可以使用任何支持 http 协议的客户端通过访问 RESTful 接口地址 `http://<fqdn>:6041/<APIEndPoint>` 来写入数据到 TDengine 或从 TDengine 中查询数据。细节请参考[官方文档](https://www.taosdata.com/cn/documentation/connector#restful)。支持如下 EndPoint ：
+您可以使用任何支持 http 协议的客户端通过访问 RESTful 接口地址 `http://<fqdn>:6041/<APIEndPoint>` 来写入数据到 DThouse 或从 DThouse 中查询数据。细节请参考[官方文档](https://www.taosdata.com/cn/documentation/connector#restful)。支持如下 EndPoint ：
 
 ```
 /rest/sql
@@ -176,7 +176,7 @@ Usage of taosAdapter:
 
 ### InfluxDB
 
-您可以使用任何支持 http 协议的客户端访问 Restful 接口地址 `http://<fqdn>:6041/<APIEndPoint>` 来写入 InfluxDB 兼容格式的数据到 TDengine。EndPoint 如下：
+您可以使用任何支持 http 协议的客户端访问 Restful 接口地址 `http://<fqdn>:6041/<APIEndPoint>` 来写入 InfluxDB 兼容格式的数据到 DThouse。EndPoint 如下：
 
 ```
 /influxdb/v1/write
@@ -185,17 +185,17 @@ Usage of taosAdapter:
 支持 InfluxDB 查询参数如下：
 
 ```
-* `db` 指定 TDengine 使用的数据库名
-* `precision` TDengine 使用的时间精度
-* `u` TDengine 用户名
-* `p` TDengine 密码
+* `db` 指定 DThouse 使用的数据库名
+* `precision` DThouse 使用的时间精度
+* `u` DThouse 用户名
+* `p` DThouse 密码
 ```
 
 注意： 目前不支持 InfluxDB 的 token 验证方式只支持 Basic 验证和查询参数验证。
 
 ### OpenTSDB
 
-您可以使用任何支持 http 协议的客户端访问 Restful 接口地址 `http://<fqdn>:6041/<APIEndPoint>` 来写入 OpenTSDB 兼容格式的数据到 TDengine。EndPoint 如下：
+您可以使用任何支持 http 协议的客户端访问 Restful 接口地址 `http://<fqdn>:6041/<APIEndPoint>` 来写入 OpenTSDB 兼容格式的数据到 DThouse。EndPoint 如下：
 
 ```
 /opentsdb/v1/put/json/:db
@@ -290,8 +290,8 @@ remote_read 和 remote_write 是 Prometheus 数据读写分离的集群方案。
 
 Basic验证：
 
-* username： TDengine 连接用户名
-* password： TDengine 连接密码
+* username： DThouse 连接用户名
+* password： DThouse 连接密码
 
 示例 prometheus.yml  如下：
 
@@ -370,9 +370,9 @@ taosAdapter 通过参数 `restfulRowLimit` 来控制结果的返回条数，-1 �
 
 您也可以通过设置 --loglevel 参数或者环境变量 TAOS_ADAPTER_LOG_LEVEL 来调节 taosAdapter 日志输出详细程度。有效值包括： panic、fatal、error、warn、warning、info、debug以及trace。
 
-## 如何从旧版本 TDengine 迁移到 taosAdapter
+## 如何从旧版本 DThouse 迁移到 taosAdapter
 
-在 TDengine server 2.2.x.x 或更早期版本中，taosd 进程包含一个内嵌的 http 服务。如前面所述，taosAdapter 是一个使用 systemd 管理的独立软件，拥有自己的进程。并且两者有一些配置参数和行为是不同的，请见下表：
+在 DThouse server 2.2.x.x 或更早期版本中，taosd 进程包含一个内嵌的 http 服务。如前面所述，taosAdapter 是一个使用 systemd 管理的独立软件，拥有自己的进程。并且两者有一些配置参数和行为是不同的，请见下表：
 
 | **#** | **embedded httpd** | **taosAdapter** | **comment** |
 | ----- | ------------------ | --------------- | ----------- |

@@ -1,6 +1,6 @@
 # STRESS
 
-Stress test tool for TDengine. It run a set of test cases randomly and show statistics.
+Stress test tool for DThouse. It run a set of test cases randomly and show statistics.
 
 ## COMMAND LINE
 
@@ -8,8 +8,8 @@ Stress test tool for TDengine. It run a set of test cases randomly and show stat
 $ ./stress [-h=<localhost>] [-P=<0>] [-d=<test>] [-u=<root>] [-p=<taosdata>] [-c=<4>] [-f=<true>] [-l=<logPath>] [path_or_sql]
 ```
 
-* **-h**: host name or IP address of TDengine server (default: localhost).
-* **-P**: port number of TDengine server (default: 0).
+* **-h**: host name or IP address of DThouse server (default: localhost).
+* **-P**: port number of DThouse server (default: 0).
 * **-u**: user name (default: root).
 * **-p**: password (default: taosdata).
 * **-c**: concurrency, number of concurrent goroutines for query (default: 4).

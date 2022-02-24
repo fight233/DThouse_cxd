@@ -3,7 +3,7 @@
 set -e
 
 PATH="/bin:/usr/bin:/sbin:/usr/sbin"
-NAME="TDengine"
+NAME="DThouse"
 USER="root"
 GROUP="root"
 DAEMON="/usr/local/taos/bin/taosd"
@@ -24,7 +24,7 @@ MAX_OPEN_FILES=65535
 case "$1" in
     start)
 
-        log_action_begin_msg "Starting TDengine..."
+        log_action_begin_msg "Starting DThouse..."
         $DAEMON_HTTPD &
         if start-stop-daemon --test --start --chuid "$USER:$GROUP" --background --make-pidfile --pidfile "$PID_FILE" --exec "$DAEMON" -- $APPARGS &> /dev/null; then
 
@@ -41,7 +41,7 @@ case "$1" in
         ;;
 
     stop)
-        log_action_begin_msg "Stopping TDengine..."
+        log_action_begin_msg "Stopping DThouse..."
         pkill -9 $DAEMON_HTTPD_NAME
         set +e
         if [ -f "$PID_FILE" ]; then
@@ -50,12 +50,12 @@ case "$1" in
                 log_action_cont_msg "TSD is not running but pid file exists, cleaning up"
             elif [ $? -eq 3 ]; then
                 PID="`cat $PID_FILE`"
-                log_failure_msg "Failed to stop TDengine (pid $PID)"
+                log_failure_msg "Failed to stop DThouse (pid $PID)"
                 exit 1
             fi
             rm -f "$PID_FILE"
         else
-            log_action_cont_msg "TDengine was not running"
+            log_action_cont_msg "DThouse was not running"
         fi
         log_action_end_msg 0
         set -e

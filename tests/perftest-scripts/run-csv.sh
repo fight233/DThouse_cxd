@@ -17,9 +17,9 @@ echo "Prepare data for InfluxDB...."
 bin/bulk_data_gen -seed 123 -format influx-bulk -sampling-interval 1s -scale-var 10 -use-case devops -timestamp-start "2018-01-01T00:00:00Z" -timestamp-end "2018-01-02T00:00:00Z" >data/influx.dat
 
 echo 
-echo "Prepare data for TDengine...."
-#bin/bulk_data_gen -seed 123 -format tdengine -tdschema-file config/TDengineSchema.toml -scale-var 100 -use-case devops -timestamp-start "2018-01-01T00:00:00Z" -timestamp-end "2018-01-02T00:00:00Z"  > data/tdengine.dat
-bin/bulk_data_gen -seed 123 -format tdengine -sampling-interval 1s -tdschema-file config/TDengineSchema.toml -scale-var 10 -use-case devops -timestamp-start "2018-01-01T00:00:00Z" -timestamp-end "2018-01-02T00:00:00Z"  > data/tdengine.dat
+echo "Prepare data for DThouse...."
+#bin/bulk_data_gen -seed 123 -format tdengine -tdschema-file config/DThouseSchema.toml -scale-var 100 -use-case devops -timestamp-start "2018-01-01T00:00:00Z" -timestamp-end "2018-01-02T00:00:00Z"  > data/tdengine.dat
+bin/bulk_data_gen -seed 123 -format tdengine -sampling-interval 1s -tdschema-file config/DThouseSchema.toml -scale-var 10 -use-case devops -timestamp-start "2018-01-01T00:00:00Z" -timestamp-end "2018-01-02T00:00:00Z"  > data/tdengine.dat
 
 
 
@@ -32,12 +32,12 @@ echo "------------------Writing Data-----------------"
 echo
 sleep 5
 echo
-echo -e "Start test TDengine, result in ${GREEN}Green line${NC}"
+echo -e "Start test DThouse, result in ${GREEN}Green line${NC}"
 
 TDENGINERES=`cat data/tdengine.dat |bin/bulk_load_tdengine --url 172.15.1.6:0 --batch-size 300   -do-load -report-tags n1 -workers 20 -fileout=false| grep loaded`
 #TDENGINERES=`cat data/tdengine.dat |gunzip|bin/bulk_load_tdengine --url 172.15.1.6:0 --batch-size 300   -do-load -report-tags n1 -workers 10 -fileout=false| grep loaded`
 echo
-echo -e "${GREEN}TDengine writing result:${NC}"
+echo -e "${GREEN}DThouse writing result:${NC}"
 echo -e "${GREEN}$TDENGINERES${NC}"
 DATA=`echo $TDENGINERES|awk '{print($2)}'`
 TMP=`echo $TDENGINERES|awk '{print($5)}'`
@@ -66,7 +66,7 @@ echo
 
 sleep 10
 echo 
-echo  "start query test, query max from 8 hosts group by 1 hour, TDengine"
+echo  "start query test, query max from 8 hosts group by 1 hour, DThouse"
 echo
 
 #Test case 1
@@ -75,7 +75,7 @@ echo
 # a,b,c,d,e,f,g,h are random 8 numbers.
 TDQS1=`bin/bulk_query_gen  -seed 123 -format tdengine -query-type 8-host-all -scale-var 10 -queries 1000 | bin/query_benchmarker_tdengine  -urls="http://172.15.1.6:6020" -workers 50 -print-interval 0|grep wall`
 echo
-echo -e "${GREEN}TDengine query test case 1 result:${NC}"
+echo -e "${GREEN}DThouse query test case 1 result:${NC}"
 echo -e "${GREEN}$TDQS1${NC}"
 TMP=`echo $TDQS1|awk '{print($4)}'`
 TDQ1=`echo ${TMP%s*}`
@@ -87,7 +87,7 @@ TDQ1=`echo ${TMP%s*}`
 TDQS2=`bin/bulk_query_gen  -seed 123 -format tdengine -query-type 8-host-allbyhr -scale-var 10 -queries 1000 | bin/query_benchmarker_tdengine  -urls="http://172.15.1.6:6020" -workers 50 -print-interval 0|grep wall`
 
 echo
-echo -e "${GREEN}TDengine query test case 2 result:${NC}"
+echo -e "${GREEN}DThouse query test case 2 result:${NC}"
 echo -e "${GREEN}$TDQS2${NC}"
 TMP=`echo $TDQS2|awk '{print($4)}'`
 TDQ2=`echo ${TMP%s*}`
@@ -98,7 +98,7 @@ TDQ2=`echo ${TMP%s*}`
 # a,b,c,d,e,f,g,h are random 8 numbers, y-x =12 hour
 TDQS3=`bin/bulk_query_gen  -seed 123 -format tdengine -query-type 8-host-12-hr -scale-var 10 -queries 1000 | bin/query_benchmarker_tdengine  -urls="http://172.15.1.6:6020" -workers 50 -print-interval 0|grep wall`
 echo
-echo -e "${GREEN}TDengine query test case 3 result:${NC}"
+echo -e "${GREEN}DThouse query test case 3 result:${NC}"
 echo -e "${GREEN}$TDQS3${NC}"
 TMP=`echo $TDQS3|awk '{print($4)}'`
 TDQ3=`echo ${TMP%s*}`
@@ -109,7 +109,7 @@ TDQ3=`echo ${TMP%s*}`
 # a,b,c,d,e,f,g,h are random 8 numbers, y-x =1 hours
 TDQS4=`bin/bulk_query_gen  -seed 123 -format tdengine -query-type 8-host-1-hr -scale-var 10 -queries 1000 | bin/query_benchmarker_tdengine  -urls="http://172.15.1.6:6020" -workers 50 -print-interval 0|grep wall`
 echo
-echo -e "${GREEN}TDengine query test case 4 result:${NC}"
+echo -e "${GREEN}DThouse query test case 4 result:${NC}"
 echo -e "${GREEN}$TDQS4${NC}"
 TMP=`echo $TDQS4|awk '{print($4)}'`
 TDQ4=`echo ${TMP%s*}`
@@ -166,33 +166,33 @@ echo    "             tsdb performance comparision             "
 echo    "======================================================"
 echo -e "       Writing $DATA records test takes:          "
 printf  "       InfluxDB           |       %-4.2f Seconds    \n" $IFWTM 
-printf  "       TDengine           |       %-4.2f Seconds    \n" $TDWTM
+printf  "       DThouse           |       %-4.2f Seconds    \n" $TDWTM
 echo    "------------------------------------------------------"
 echo    "                   Query test cases:                "
 echo    " case 1: select the max(value) from all data    "
 echo    " filtered out 8 hosts                                 "
 echo    "       Query test case 1 takes:                      "
 printf  "       InfluxDB           |       %-4.2f Seconds    \n" $IFQ1 
-printf  "       TDengine           |       %-4.2f Seconds    \n" $TDQ1
+printf  "       DThouse           |       %-4.2f Seconds    \n" $TDQ1
 echo    "------------------------------------------------------"
 echo    " case 2: select the max(value) from all data          "
 echo    " filtered out 8 hosts with an interval of 1 hour     "
 echo    " case 2 takes:                                       "
 printf  "       InfluxDB           |       %-4.2f Seconds    \n" $IFQ2 
-printf  "       TDengine           |       %-4.2f Seconds    \n" $TDQ2
+printf  "       DThouse           |       %-4.2f Seconds    \n" $TDQ2
 echo    "------------------------------------------------------"
 echo    " case 3: select the max(value) from random 12 hours"
 echo    " data filtered out 8 hosts with an interval of 10 min         "
 echo    " filtered out 8 hosts interval(1h)                   "
 echo    " case 3 takes:                                       "
 printf  "       InfluxDB           |       %-4.2f Seconds    \n" $IFQ3 
-printf  "       TDengine           |       %-4.2f Seconds    \n" $TDQ3
+printf  "       DThouse           |       %-4.2f Seconds    \n" $TDQ3
 echo    "------------------------------------------------------"
 echo    " case 4: select the max(value) from random 1 hour data  "
 echo    " data filtered out 8 hosts with an interval of 1 min         "
 echo    " case 4 takes:                                        "
 printf  "       InfluxDB           |       %-4.2f Seconds    \n" $IFQ4 
-printf  "       TDengine           |       %-4.2f Seconds    \n" $TDQ4
+printf  "       DThouse           |       %-4.2f Seconds    \n" $TDQ4
 echo    "------------------------------------------------------"
 echo
 docker stop $INFLUX >>/dev/null 2>&1

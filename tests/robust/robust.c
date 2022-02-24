@@ -82,7 +82,7 @@ void create() {
   int64_t st = getTimeStampMs();
   void *taos = taos_connect("127.0.0.1", "root", "taosdata", NULL, 0);
   if (taos == NULL) {
-    printf("TDengine error: failed to connect\n");
+    printf("DThouse error: failed to connect\n");
     exit(EXIT_FAILURE);
   }
   TAOS_RES *result = taos_query(taos, "drop database if exists db");

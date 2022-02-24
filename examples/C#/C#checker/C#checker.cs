@@ -19,9 +19,9 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Collections;
 
-namespace TDengineDriver
+namespace DThouseDriver
 {
-    class TDengineTest
+    class DThouseTest
     {
         //connect parameters
         private string host;
@@ -48,12 +48,12 @@ namespace TDengineDriver
 
         static void Main(string[] args)
         {
-            TDengineTest tester = new TDengineTest();
+            DThouseTest tester = new DThouseTest();
             tester.ReadArgument(args);
 
 
-            tester.InitTDengine();
-            tester.ConnectTDengine();
+            tester.InitDThouse();
+            tester.ConnectDThouse();
             tester.createDatabase();
             tester.useDatabase();
             tester.checkDropTable();
@@ -131,7 +131,7 @@ namespace TDengineDriver
                 if ("--help" == argv[i])
                 {
                     String indent = "    ";
-                    Console.WriteLine("taosTest is simple example to operate TDengine use C# Language.\n");
+                    Console.WriteLine("taosTest is simple example to operate DThouse use C# Language.\n");
                     Console.WriteLine("{0:G}{1:G}", indent, "-h");
                     Console.WriteLine("{0:G}{1:G}{2:G}", indent, indent, "TDEngine server IP address to connect");
                     Console.WriteLine("{0:G}{1:G}", indent, "-u");
@@ -178,22 +178,22 @@ namespace TDengineDriver
             tableCount = this.GetArgumentAsLong(argv, "-n", 1, 10000, 10);
             batchRows = this.GetArgumentAsLong(argv, "-b", 1, 1000, 500);
             totalRows = this.GetArgumentAsLong(argv, "-i", 1, 10000000, 10000);
-            configDir = this.GetArgumentAsString(argv, "-c", "C:/TDengine/cfg");
+            configDir = this.GetArgumentAsString(argv, "-c", "C:/DThouse/cfg");
         }
 
-        public void InitTDengine()
+        public void InitDThouse()
         {
-            TDengine.Options((int)TDengineInitOption.TDDB_OPTION_CONFIGDIR, this.configDir);
-            TDengine.Options((int)TDengineInitOption.TDDB_OPTION_SHELL_ACTIVITY_TIMER, "60");
+            DThouse.Options((int)DThouseInitOption.TDDB_OPTION_CONFIGDIR, this.configDir);
+            DThouse.Options((int)DThouseInitOption.TDDB_OPTION_SHELL_ACTIVITY_TIMER, "60");
             Console.WriteLine("init...");
-            TDengine.Init();
+            DThouse.Init();
             Console.WriteLine("get connection starting...");
         }
 
-        public void ConnectTDengine()
+        public void ConnectDThouse()
         {
             string db = "";
-            this.conn = TDengine.Connect(this.host, this.user, this.password, db, this.port);
+            this.conn = DThouse.Connect(this.host, this.user, this.password, db, this.port);
             if (this.conn == IntPtr.Zero)
             {
                 Console.WriteLine("connection failed: " + this.host);
@@ -249,15 +249,15 @@ namespace TDengineDriver
         public void execute(string sql)
         {
             DateTime dt1 = DateTime.Now;
-            IntPtr res = TDengine.Query(this.conn, sql.ToString());
+            IntPtr res = DThouse.Query(this.conn, sql.ToString());
             DateTime dt2 = DateTime.Now;
             TimeSpan span = dt2 - dt1;
 
-            if ((res == IntPtr.Zero) || (TDengine.ErrorNo(res) != 0))
+            if ((res == IntPtr.Zero) || (DThouse.ErrorNo(res) != 0))
             {
               Console.Write(sql.ToString() + " failure, ");
               if (res != IntPtr.Zero) {
-                Console.Write("reason: " + TDengine.Error(res));
+                Console.Write("reason: " + DThouse.Error(res));
               }
               Console.WriteLine("");
               ExitProgram();
@@ -266,7 +266,7 @@ namespace TDengineDriver
             {
                 Console.WriteLine(sql.ToString() + " success");
             }
-            TDengine.FreeResult(res);
+            DThouse.FreeResult(res);
         }
 
         public void ExecuteQuery(string sql)
@@ -274,13 +274,13 @@ namespace TDengineDriver
 
             DateTime dt1 = DateTime.Now;
             long queryRows = 0;
-            IntPtr res = TDengine.Query(conn, sql);
+            IntPtr res = DThouse.Query(conn, sql);
             getPrecision(res);
-            if ((res == IntPtr.Zero) || (TDengine.ErrorNo(res) != 0))
+            if ((res == IntPtr.Zero) || (DThouse.ErrorNo(res) != 0))
             {
               Console.Write(sql.ToString() + " failure, ");
               if (res != IntPtr.Zero) {
-                Console.Write("reason: " + TDengine.Error(res));
+                Console.Write("reason: " + DThouse.Error(res));
               }
               Console.WriteLine("");
               ExitProgram();
@@ -288,22 +288,22 @@ namespace TDengineDriver
             DateTime dt2 = DateTime.Now;
             TimeSpan span = dt2 - dt1;
             Console.WriteLine("[OK] time cost: " + span.ToString() + "ms, execute statement ====> " + sql.ToString());
-            int fieldCount = TDengine.FieldCount(res);
+            int fieldCount = DThouse.FieldCount(res);
 
-            List<TDengineMeta> metas = TDengine.FetchFields(res);
+            List<DThouseMeta> metas = DThouse.FetchFields(res);
             for (int j = 0; j < metas.Count; j++)
             {
-                TDengineMeta meta = (TDengineMeta)metas[j];
+                DThouseMeta meta = (DThouseMeta)metas[j];
             }
 
             IntPtr rowdata;
             StringBuilder builder = new StringBuilder();
-            while ((rowdata = TDengine.FetchRows(res)) != IntPtr.Zero)
+            while ((rowdata = DThouse.FetchRows(res)) != IntPtr.Zero)
             {
                 queryRows++;
                 for (int fields = 0; fields < fieldCount; ++fields)
                 {
-                    TDengineMeta meta = metas[fields];
+                    DThouseMeta meta = metas[fields];
                     int offset = IntPtr.Size * fields;
                     IntPtr data = Marshal.ReadIntPtr(rowdata, offset);
 
@@ -315,45 +315,45 @@ namespace TDengineDriver
                         continue;
                     }
 
-                    switch ((TDengineDataType)meta.type)
+                    switch ((DThouseDataType)meta.type)
                     {
-                        case TDengineDataType.TSDB_DATA_TYPE_BOOL:
+                        case DThouseDataType.TSDB_DATA_TYPE_BOOL:
                             bool v1 = Marshal.ReadByte(data) == 0 ? false : true;
                             builder.Append(v1);
                             break;
-                        case TDengineDataType.TSDB_DATA_TYPE_TINYINT:
+                        case DThouseDataType.TSDB_DATA_TYPE_TINYINT:
                             byte v2 = Marshal.ReadByte(data);
                             builder.Append(v2);
                             break;
-                        case TDengineDataType.TSDB_DATA_TYPE_SMALLINT:
+                        case DThouseDataType.TSDB_DATA_TYPE_SMALLINT:
                             short v3 = Marshal.ReadInt16(data);
                             builder.Append(v3);
                             break;
-                        case TDengineDataType.TSDB_DATA_TYPE_INT:
+                        case DThouseDataType.TSDB_DATA_TYPE_INT:
                             int v4 = Marshal.ReadInt32(data);
                             builder.Append(v4);
                             break;
-                        case TDengineDataType.TSDB_DATA_TYPE_BIGINT:
+                        case DThouseDataType.TSDB_DATA_TYPE_BIGINT:
                             long v5 = Marshal.ReadInt64(data);
                             builder.Append(v5);
                             break;
-                        case TDengineDataType.TSDB_DATA_TYPE_FLOAT:
+                        case DThouseDataType.TSDB_DATA_TYPE_FLOAT:
                             float v6 = (float)Marshal.PtrToStructure(data, typeof(float));
                             builder.Append(v6);
                             break;
-                        case TDengineDataType.TSDB_DATA_TYPE_DOUBLE:
+                        case DThouseDataType.TSDB_DATA_TYPE_DOUBLE:
                             double v7 = (double)Marshal.PtrToStructure(data, typeof(double));
                             builder.Append(v7);
                             break;
-                        case TDengineDataType.TSDB_DATA_TYPE_BINARY:
+                        case DThouseDataType.TSDB_DATA_TYPE_BINARY:
                             string v8 = Marshal.PtrToStringAnsi(data);
                             builder.Append(v8);
                             break;
-                        case TDengineDataType.TSDB_DATA_TYPE_TIMESTAMP:
+                        case DThouseDataType.TSDB_DATA_TYPE_TIMESTAMP:
                             long v9 = Marshal.ReadInt64(data);
                             builder.Append(v9);
                             break;
-                        case TDengineDataType.TSDB_DATA_TYPE_NCHAR:
+                        case DThouseDataType.TSDB_DATA_TYPE_NCHAR:
                             string v10 = Marshal.PtrToStringAnsi(data);
                             builder.Append(v10);
                             break;
@@ -368,13 +368,13 @@ namespace TDengineDriver
                 builder.Clear();
             }
 
-            if (TDengine.ErrorNo(res) != 0)
+            if (DThouse.ErrorNo(res) != 0)
             {
-                Console.Write("Query is not complete, Error {0:G}", TDengine.ErrorNo(res), TDengine.Error(res));
+                Console.Write("Query is not complete, Error {0:G}", DThouse.ErrorNo(res), DThouse.Error(res));
             }
             Console.WriteLine("");
 
-            TDengine.FreeResult(res);
+            DThouse.FreeResult(res);
 
         }
 
@@ -382,7 +382,7 @@ namespace TDengineDriver
         {
             if (this.conn != IntPtr.Zero)
             {
-                TDengine.Close(this.conn);
+                DThouse.Close(this.conn);
                 Console.WriteLine("connection closed.");
             }
         }
@@ -400,7 +400,7 @@ namespace TDengineDriver
         // method to get db precision
         public void getPrecision(IntPtr res)
         {
-            int psc=TDengine.ResultPrecision(res);
+            int psc=DThouse.ResultPrecision(res);
             switch(psc)
             {
                 case 0:

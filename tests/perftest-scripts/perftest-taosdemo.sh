@@ -1,7 +1,7 @@
 #!/bin/bash
 
 WORK_DIR=/mnt/root
-TDENGINE_DIR=/root/TDengine
+TDENGINE_DIR=/root/DThouse
 
 walLevel=`grep "^walLevel" /etc/taos/taos.cfg | awk '{print $2}'`
 if [[ "$walLevel" -eq "2" ]]; then

@@ -1,10 +1,10 @@
 C#checker/bin/
 C#checker/obj/
-TDengineTest/bin/
-TDengineTest/obj/
+DThouseTest/bin/
+DThouseTest/obj/
 schemaless/bin/
 schemaless/obj/
-stmt/TDengineDriver.cs
+stmt/DThouseDriver.cs
 stmt/TaosBind.cs
 stmt/TaosMultiBind.cs
 stmt/bin/

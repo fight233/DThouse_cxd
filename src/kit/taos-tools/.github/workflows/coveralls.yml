@@ -34,8 +34,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: recursive
-          repository: 'taosdata/TDengine'
-          path: 'TDengine'
+          repository: 'taosdata/DThouse'
+          path: 'DThouse'
           ref: 'develop'
 
       - name: Change time zone
@@ -43,30 +43,30 @@ jobs:
           sudo timedatectl set-timezone Asia/Shanghai
           sudo date
 
-          #      - name: Checkout TDengine with same branch of taos-tools
+          #      - name: Checkout DThouse with same branch of taos-tools
           #run: |
-          #cd TDengine
+          #cd DThouse
           #git pull
           #git branch -a | grep -w ${{ github.head_ref }} \
           #  && git checkout ${{ github.head_ref }} \
           #  && git submodule update --init --recursive \
-          #  || echo "${{ github.head_ref }} not found in TDengine"
+          #  || echo "${{ github.head_ref }} not found in DThouse"
 
           #if: github.event_name == 'pull_request'
 
       - name: Install packages
         run: sudo apt-get install lzma-dev liblzma-dev libjansson-dev libz-dev libsnappy-dev pkg-config lcov -y > /dev/null
 
-      - name: Checkout TDengine's taos-tools to develop latest
+      - name: Checkout DThouse's taos-tools to develop latest
         run: |
-          cd TDengine/src/kit/taos-tools
+          cd DThouse/src/kit/taos-tools
           git checkout develop
           git pull
 
-      - name: Checkout TDengine's taos-tools to PR number
+      - name: Checkout DThouse's taos-tools to PR number
         if: github.event_name == 'pull_request'
         run: |
-          cd TDengine/src/kit/taos-tools
+          cd DThouse/src/kit/taos-tools
           git fetch origin +refs/pull/${{env.PR_NUMBER}}/merge
           git checkout -qf FETCH_HEAD
           git submodule update --init --recursive
@@ -78,7 +78,7 @@ jobs:
 
       - name: Install tdengine
         run: |
-          cd TDengine
+          cd DThouse
           mkdir debug
           cd debug
           cmake .. -DBUILD_JDBC=false -DBUILD_HTTP=false -DBUILD_TOOLS=true -DCOVER=true -DBUILD_TYPE=Debug > /dev/null 2>&1
@@ -200,17 +200,17 @@ jobs:
       - name: Generate report
         run: |
           topdir=`pwd`
-          cd TDengine/debug/src/kit/taos-tools
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/taosdump.c -o src/CMakeFiles/taosdump.dir/taosdump.c.gcno
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/benchMain.c -o src/CMakeFiles/taosBenchmark.dir/benchMain.c.gcno
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/benchCommandOpt.c -o src/CMakeFiles/taosBenchmark.dir/benchCommandOpt.c.gcno
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/benchData.c -o src/CMakeFiles/taosBenchmark.dir/benchData.c.gcno
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/benchInsert.c -o src/CMakeFiles/taosBenchmark.dir/benchInsert.c.gcno
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/benchJsonOpt.c -o src/CMakeFiles/taosBenchmark.dir/benchJsonOpt.c.gcno
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/benchOutput.c -o src/CMakeFiles/taosBenchmark.dir/benchOutput.c.gcno
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/benchQuery.c -o src/CMakeFiles/taosBenchmark.dir/benchQuery.c.gcno
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/benchSubscribe.c -o src/CMakeFiles/taosBenchmark.dir/benchSubscribe.c.gcno
-          gcov -abcfu ${topdir}/TDengine/src/kit/taos-tools/src/benchUtil.c -o src/CMakeFiles/taosBenchmark.dir/benchUtil.c.gcno
+          cd DThouse/debug/src/kit/taos-tools
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/taosdump.c -o src/CMakeFiles/taosdump.dir/taosdump.c.gcno
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/benchMain.c -o src/CMakeFiles/taosBenchmark.dir/benchMain.c.gcno
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/benchCommandOpt.c -o src/CMakeFiles/taosBenchmark.dir/benchCommandOpt.c.gcno
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/benchData.c -o src/CMakeFiles/taosBenchmark.dir/benchData.c.gcno
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/benchInsert.c -o src/CMakeFiles/taosBenchmark.dir/benchInsert.c.gcno
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/benchJsonOpt.c -o src/CMakeFiles/taosBenchmark.dir/benchJsonOpt.c.gcno
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/benchOutput.c -o src/CMakeFiles/taosBenchmark.dir/benchOutput.c.gcno
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/benchQuery.c -o src/CMakeFiles/taosBenchmark.dir/benchQuery.c.gcno
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/benchSubscribe.c -o src/CMakeFiles/taosBenchmark.dir/benchSubscribe.c.gcno
+          gcov -abcfu ${topdir}/DThouse/src/kit/taos-tools/src/benchUtil.c -o src/CMakeFiles/taosBenchmark.dir/benchUtil.c.gcno
           mkdir ${topdir}/coverage || :
           lcov -c -d . -o ${topdir}/coverage/lcov-with-deps.info
           lcov -r ${topdir}/coverage/lcov-with-deps.info "*/deps/*" -o ${topdir}/coverage/lcov.info

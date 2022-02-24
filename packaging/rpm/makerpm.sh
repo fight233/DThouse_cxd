@@ -43,7 +43,7 @@ function cp_rpm_package() {
             cd ..
         fi
         if test -e ${dirlist}; then
-            cp ${cur_dir}/${dirlist} ${output_dir}/TDengine-${tdengine_ver}.rpm
+            cp ${cur_dir}/${dirlist} ${output_dir}/DThouse-${tdengine_ver}.rpm
         fi
     done
 }
@@ -64,16 +64,16 @@ cp_rpm_package ${pkg_dir}/RPMS
 
 
 if [ "$verMode" == "cluster" ]; then
-  rpmname="TDengine-server-"${tdengine_ver}-${osType}-${cpuType}
+  rpmname="DThouse-server-"${tdengine_ver}-${osType}-${cpuType}
 elif [ "$verMode" == "edge" ]; then
-  rpmname="TDengine-server"-${tdengine_ver}-${osType}-${cpuType}
+  rpmname="DThouse-server"-${tdengine_ver}-${osType}-${cpuType}
 else
   echo "unknow verMode, nor cluster or edge"
   exit 1
 fi
 
 if [ "$verType" == "beta" ]; then
-  rpmname="TDengine-server-"${tdengine_ver}-${verType}-${osType}-${cpuType}".rpm"
+  rpmname="DThouse-server-"${tdengine_ver}-${verType}-${osType}-${cpuType}".rpm"
 elif [ "$verType" == "stable" ]; then
   rpmname=${rpmname}".rpm"
 else
@@ -81,7 +81,7 @@ else
   exit 1
 fi
 
-mv ${output_dir}/TDengine-${tdengine_ver}.rpm ${output_dir}/${rpmname}
+mv ${output_dir}/DThouse-${tdengine_ver}.rpm ${output_dir}/${rpmname}
 
 cd ..
 ${csudo}rm -rf ${pkg_dir}

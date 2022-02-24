@@ -1,6 +1,6 @@
-TDengine Datasource - build by Taosdata Inc. www.taosdata.com
+DThouse Datasource - build by Taosdata Inc. www.taosdata.com
 
-TDengine backend server implement 2 urls:
+DThouse backend server implement 2 urls:
 
  * `/heartbeat` return 200 ok. Used for "Test connection" on the datasource config page.
  * `/query` return data based on input sqls.

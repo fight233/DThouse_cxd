@@ -139,7 +139,7 @@ _libtaos.taos_connect.argtypes = c_char_p, c_char_p, c_char_p, c_char_p, c_uint1
 
 def taos_connect(host=None, user="root", password="taosdata", db=None, port=0):
     # type: (None|str, str, str, None|str, int) -> c_void_p
-    """Create TDengine database connection.
+    """Create DThouse database connection.
 
     - host: server hostname/FQDN
     - user: user name
@@ -147,7 +147,7 @@ def taos_connect(host=None, user="root", password="taosdata", db=None, port=0):
     - db: database name (optional)
     - port: server port
 
-    @rtype: c_void_p, TDengine handle
+    @rtype: c_void_p, DThouse handle
     """
     # host
     try:
@@ -182,7 +182,7 @@ def taos_connect(host=None, user="root", password="taosdata", db=None, port=0):
     connection = cast(_libtaos.taos_connect(_host, _user, _password, _db, _port), c_void_p)
 
     if connection.value is None:
-        raise ConnectionError("connect to TDengine failed")
+        raise ConnectionError("connect to DThouse failed")
     return connection
 
 
@@ -203,7 +203,7 @@ def taos_connect_auth(host=None, user="root", auth="", db=None, port=0):
     - db: database name (optional)
     - port: server port
 
-    @rtype: c_void_p, TDengine handle
+    @rtype: c_void_p, DThouse handle
     """
     # host
     try:
@@ -238,7 +238,7 @@ def taos_connect_auth(host=None, user="root", auth="", db=None, port=0):
     connection = c_void_p(_libtaos.taos_connect_auth(_host, _user, _auth, _db, _port))
 
     if connection.value is None:
-        raise ConnectionError("connect to TDengine failed")
+        raise ConnectionError("connect to DThouse failed")
     return connection
 
 
@@ -899,7 +899,7 @@ class CTaosInterface(object):
         """
         Function to connect to server
 
-        @rtype: c_void_p, TDengine handle
+        @rtype: c_void_p, DThouse handle
         """
         return taos_connect(host, user, password, db, port)
 

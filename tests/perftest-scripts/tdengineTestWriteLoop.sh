@@ -151,12 +151,12 @@ done
 
 if $v16 ; then
   echo "Test v16 branch.."
-  WORK_DIR=/mnt/root/TDengine.v16
+  WORK_DIR=/mnt/root/DThouse.v16
   cp /mnt/root/cfg/v16/taos.cfg /etc/taos/taos.cfg
 else
   echo "Test v20 branch.."
   cp /mnt/root/cfg/v20/taos.cfg /etc/taos/taos.cfg
-  WORK_DIR=/mnt/root/TDengine
+  WORK_DIR=/mnt/root/DThouse
 fi
 
 TAOSD_DIR=$WORK_DIR/debug/build/bin

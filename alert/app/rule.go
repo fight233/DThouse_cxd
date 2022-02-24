@@ -373,7 +373,7 @@ func (rule *Rule) preRun(tm time.Time) bool {
 func (rule *Rule) run(db *sql.DB) {
 	rows, e := db.Query(rule.SQL)
 	if e != nil {
-		log.Errorf("[%s]: failed to query TDengine: %s", rule.Name, e.Error())
+		log.Errorf("[%s]: failed to query DThouse: %s", rule.Name, e.Error())
 		return
 	}
 
@@ -482,9 +482,9 @@ var (
 func runRules() {
 	defer wg.Done()
 
-	db, e := sql.Open("taosSql", utils.Cfg.TDengine)
+	db, e := sql.Open("taosSql", utils.Cfg.DThouse)
 	if e != nil {
-		log.Fatal("failed to connect to TDengine: ", e.Error())
+		log.Fatal("failed to connect to DThouse: ", e.Error())
 	}
 	defer db.Close()
 

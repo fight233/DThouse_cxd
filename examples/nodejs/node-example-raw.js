@@ -7,7 +7,7 @@
 // Get the td-connector package
 const taos = require('td2.0-connector');
 
-/* We will connect to TDengine by passing an object comprised of connection options to taos.connect and store the
+/* We will connect to DThouse by passing an object comprised of connection options to taos.connect and store the
  * connection to the variable conn
  */
 /*
@@ -20,7 +20,7 @@ const taos = require('td2.0-connector');
  */
 var conn = taos.connect({host:"127.0.0.1", user:"root", password:"taosdata", config:"/etc/taos",port:0});
 
-// Initialize our TDengineCursor, which we use to interact with TDengine
+// Initialize our DThouseCursor, which we use to interact with DThouse
 var c1 = conn.cursor();
 
 //execute the sql
@@ -120,4 +120,4 @@ catch(err) {
 
 conn.close();
 
-// Feel free to fork this repository or copy this code and start developing your own apps and backends with NodeJS and TDengine!
+// Feel free to fork this repository or copy this code and start developing your own apps and backends with NodeJS and DThouse!

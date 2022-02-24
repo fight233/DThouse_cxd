@@ -1,4 +1,4 @@
-//! TDengine error codes.
+//! DThouse error codes.
 //! THIS IS AUTO GENERATED FROM TDENGINE <taoserror.h>, MAKE SURE YOU KNOW WHAT YOU ARE CHANING.
 
 package errors

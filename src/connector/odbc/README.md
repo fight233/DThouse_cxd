@@ -75,7 +75,7 @@ SQLTransact
 - **still going on**...
 
 # Building and Testing
-**Note**: all `work` is done in TDengine's project directory
+**Note**: all `work` is done in DThouse's project directory
 **Note**: please make sure src/connector/odbc is included in src/CMakeLists.txt
 ```
 ...
@@ -98,7 +98,7 @@ rm -rf debug && cmake -B debug && cmake --build debug && cmake --install debug &
 - `cmake --build debug`
 - `cmake --install debug`
 - open your `Command Prompt` with Administrator's priviledge
-- install TAOS ODBC driver that was just built: run `odbcconf /A {INSTALLDRIVER "TAOS | Driver=C:/TDengine/driver/todbc.dll | ConnectFunctions=YYN | DriverODBCVer=03.00"}`
+- install TAOS ODBC driver that was just built: run `odbcconf /A {INSTALLDRIVER "TAOS | Driver=C:/DThouse/driver/todbc.dll | ConnectFunctions=YYN | DriverODBCVer=03.00"}`
 - add a new user dsn: run `odbcconf /A {CONFIGDSN "TAOS" "DSN=TAOS_DSN | Server=host:port"}`
 
 # Test

@@ -6,15 +6,15 @@
 
 ![tdengine-connector](../../images/tdengine-jdbc-connector.png)
 
-上图显示了 3 种 Java 应用使用连接器访问 TDengine 的方式：
+上图显示了 3 种 Java 应用使用连接器访问 DThouse 的方式：
 
 * JDBC-JNI：Java 应用在物理节点1（pnode1）上使用 JDBC-JNI 的 API ，直接调用客户端 API（libtaos.so 或 taos.dll）将写入和查询请求发送到位于物理节点2（pnode2）上的 taosd 实例。
 * RESTful：应用将 SQL 发送给位于物理节点2（pnode2）上的 RESTful 连接器，再调用客户端 API（libtaos.so）。
 * JDBC-RESTful：Java 应用通过 JDBC-RESTful 的 API ，将 SQL 封装成一个 RESTful 请求，发送给物理节点2的 RESTful 连接器。
 
-TDengine 的 JDBC 驱动实现尽可能与关系型数据库驱动保持一致，但TDengine与关系对象型数据库的使用场景和技术特征存在差异，导致 `taos-jdbcdriver` 与传统的 JDBC driver 也存在一定差异。在使用时需要注意以下几点：
+DThouse 的 JDBC 驱动实现尽可能与关系型数据库驱动保持一致，但DThouse与关系对象型数据库的使用场景和技术特征存在差异，导致 `taos-jdbcdriver` 与传统的 JDBC driver 也存在一定差异。在使用时需要注意以下几点：
 
-* TDengine 目前不支持针对单条数据记录的删除操作。
+* DThouse 目前不支持针对单条数据记录的删除操作。
 * 目前不支持事务操作。
 
 ### JDBC-JNI和JDBC-RESTful的对比
@@ -46,14 +46,14 @@ TDengine 的 JDBC 驱动实现尽可能与关系型数据库驱动保持一致�
 </tr>
 </table>
 
-注意：与 JNI 方式不同，RESTful 接口是无状态的。在使用JDBC-RESTful时，需要在sql中指定表、超级表的数据库名称。（从 TDengine 2.2.0.0 版本开始，也可以在 RESTful url 中指定当前 SQL 语句所使用的默认数据库名。）例如：
+注意：与 JNI 方式不同，RESTful 接口是无状态的。在使用JDBC-RESTful时，需要在sql中指定表、超级表的数据库名称。（从 DThouse 2.2.0.0 版本开始，也可以在 RESTful url 中指定当前 SQL 语句所使用的默认数据库名。）例如：
 ```sql
 INSERT INTO test.t1 USING test.weather (ts, temperature) TAGS('beijing') VALUES(now, 24.6);
 ```
 
-## <a class="anchor" id="version"></a>TAOS-JDBCDriver 版本以及支持的 TDengine 版本和 JDK 版本
+## <a class="anchor" id="version"></a>TAOS-JDBCDriver 版本以及支持的 DThouse 版本和 JDK 版本
 
-| taos-jdbcdriver 版本 | TDengine 版本        | JDK 版本 |
+| taos-jdbcdriver 版本 | DThouse 版本        | JDK 版本 |
 |--------------------|--------------------| -------- |
 | 2.0.36             | 2.4.0 及以上          | 1.8.x    |
 | 2.0.35             | 2.3.0 及以上          | 1.8.x    |
@@ -66,11 +66,11 @@ INSERT INTO test.t1 USING test.weather (ts, temperature) TAGS('beijing') VALUES(
 | 1.0.2              | 1.6.1.x 及以上        | 1.8.x    |
 | 1.0.1              | 1.6.1.x 及以上        | 1.8.x    |
 
-## TDengine DataType 和 Java DataType
+## DThouse DataType 和 Java DataType
 
-TDengine 目前支持时间戳、数字、字符、布尔类型，与 Java 对应类型转换如下：
+DThouse 目前支持时间戳、数字、字符、布尔类型，与 Java 对应类型转换如下：
 
-| TDengine DataType | JDBCType （driver 版本 < 2.0.24） | JDBCType （driver 版本 >= 2.0.24） |
+| DThouse DataType | JDBCType （driver 版本 < 2.0.24） | JDBCType （driver 版本 >= 2.0.24） |
 |-------------------|-------------------------------| ------------------ |
 | TIMESTAMP         | java.lang.Long                | java.sql.Timestamp |
 | INT               | java.lang.Integer             | java.lang.Integer  |
@@ -93,13 +93,13 @@ TDengine 目前支持时间戳、数字、字符、布尔类型，与 Java 对�
 使用Java Connector连接数据库前，需要具备以下条件：
 1. Linux或Windows操作系统
 2. Java 1.8以上运行时环境
-3. TDengine-client（使用JDBC-JNI时必须，使用JDBC-RESTful时非必须）
+3. DThouse-client（使用JDBC-JNI时必须，使用JDBC-RESTful时非必须）
 
-**注意**：由于 TDengine 的应用驱动是使用C语言开发的，使用 taos-jdbcdriver 驱动包时需要依赖系统对应的本地函数库。
-- libtaos.so 在 Linux 系统中成功安装 TDengine 后，依赖的本地函数库 libtaos.so 文件会被自动拷贝至 /usr/lib/libtaos.so，该目录包含在 Linux 自动扫描路径上，无需单独指定。
+**注意**：由于 DThouse 的应用驱动是使用C语言开发的，使用 taos-jdbcdriver 驱动包时需要依赖系统对应的本地函数库。
+- libtaos.so 在 Linux 系统中成功安装 DThouse 后，依赖的本地函数库 libtaos.so 文件会被自动拷贝至 /usr/lib/libtaos.so，该目录包含在 Linux 自动扫描路径上，无需单独指定。
 - taos.dll 在 Windows 系统中安装完客户端之后，驱动包依赖的 taos.dll 文件会自动拷贝到系统默认搜索路径 C:/Windows/System32 下，同样无需要单独指定。
 
-**注意**：在 Windows 环境开发时需要安装 TDengine 对应的 [windows 客户端](https://www.taosdata.com/cn/all-downloads/#TDengine-Windows-Client)，Linux 服务器安装完 TDengine 之后默认已安装 client，也可以单独安装 [Linux 客户端](https://www.taosdata.com/cn/getting-started/#快速上手) 连接远程 TDengine Server。
+**注意**：在 Windows 环境开发时需要安装 DThouse 对应的 [windows 客户端](https://www.taosdata.com/cn/all-downloads/#DThouse-Windows-Client)，Linux 服务器安装完 DThouse 之后默认已安装 client，也可以单独安装 [Linux 客户端](https://www.taosdata.com/cn/getting-started/#快速上手) 连接远程 DThouse Server。
 
 ### 通过maven获取JDBC driver
 
@@ -119,10 +119,10 @@ maven 项目中，在pom.xml 中添加以下依赖：
 
 ### 通过源码编译获取JDBC driver
 
-可以通过下载TDengine的源码，自己编译最新版本的java connector
+可以通过下载DThouse的源码，自己编译最新版本的java connector
 ```shell
-git clone https://github.com/taosdata/TDengine.git
-cd TDengine/src/connector/jdbc
+git clone https://github.com/taosdata/DThouse.git
+cd DThouse/src/connector/jdbc
 mvn clean package -Dmaven.test.skip=true
 ```
 
@@ -156,21 +156,21 @@ String jdbcUrl = "jdbc:TAOS://taosdemo.com:6030/test?user=root&password=taosdata
 Connection conn = DriverManager.getConnection(jdbcUrl);
 ```
 
-以上示例，使用了 JDBC-JNI 的 driver，建立了到 hostname 为 taosdemo.com，端口为 6030（TDengine 的默认端口），数据库名为 test 的连接。这个 URL 中指定用户名（user）为 root，密码（password）为 taosdata。
+以上示例，使用了 JDBC-JNI 的 driver，建立了到 hostname 为 taosdemo.com，端口为 6030（DThouse 的默认端口），数据库名为 test 的连接。这个 URL 中指定用户名（user）为 root，密码（password）为 taosdata。
 
 **注意**：使用 JDBC-JNI 的 driver，taos-jdbcdriver 驱动包时需要依赖系统对应的本地函数库（Linux 下是 libtaos.so；Windows 下是 taos.dll）。
 
-> 在 Windows 环境开发时需要安装 TDengine 对应的 [windows 客户端](https://www.taosdata.com/cn/all-downloads/#TDengine-Windows-Client)，Linux 服务器安装完 TDengine 之后默认已安装 client，也可以单独安装 [Linux 客户端](https://www.taosdata.com/cn/getting-started/#%E5%AE%A2%E6%88%B7%E7%AB%AF) 连接远程 TDengine Server。
+> 在 Windows 环境开发时需要安装 DThouse 对应的 [windows 客户端](https://www.taosdata.com/cn/all-downloads/#DThouse-Windows-Client)，Linux 服务器安装完 DThouse 之后默认已安装 client，也可以单独安装 [Linux 客户端](https://www.taosdata.com/cn/getting-started/#%E5%AE%A2%E6%88%B7%E7%AB%AF) 连接远程 DThouse Server。
 
 JDBC-JNI 的使用请参见[视频教程](https://www.taosdata.com/blog/2020/11/11/1955.html)。
 
-TDengine 的 JDBC URL 规范格式为：
+DThouse 的 JDBC URL 规范格式为：
 `jdbc:[TAOS|TAOS-RS]://[host_name]:[port]/[database_name]?[user={user}|&password={password}|&charset={charset}|&cfgdir={config_dir}|&locale={locale}|&timezone={timezone}]`
 
 url中的配置参数如下：
-* user：登录 TDengine 用户名，默认值 'root'。
+* user：登录 DThouse 用户名，默认值 'root'。
 * password：用户登录密码，默认值 'taosdata'。
-* cfgdir：客户端配置文件目录路径，Linux OS 上默认值 `/etc/taos`，Windows OS 上默认值 `C:/TDengine/cfg`。
+* cfgdir：客户端配置文件目录路径，Linux OS 上默认值 `/etc/taos`，Windows OS 上默认值 `C:/DThouse/cfg`。
 * charset：客户端使用的字符集，默认值为系统字符集。
 * locale：客户端语言环境，默认值系统当前 locale。
 * timezone：客户端使用的时区，默认值为系统当前时区。
@@ -199,9 +199,9 @@ public Connection getConn() throws Exception{
 以上示例，建立一个到 hostname 为 taosdemo.com，端口为 6030，数据库名为 test 的连接。注释为使用 JDBC-RESTful 时的方法。这个连接在 url 中指定了用户名(user)为 root，密码（password）为 taosdata，并在 connProps 中指定了使用的字符集、语言环境、时区等信息。
 
 properties 中的配置参数如下：
-* TSDBDriver.PROPERTY_KEY_USER：登录 TDengine 用户名，默认值 'root'。
+* TSDBDriver.PROPERTY_KEY_USER：登录 DThouse 用户名，默认值 'root'。
 * TSDBDriver.PROPERTY_KEY_PASSWORD：用户登录密码，默认值 'taosdata'。
-* TSDBDriver.PROPERTY_KEY_CONFIG_DIR：客户端配置文件目录路径，Linux OS 上默认值 `/etc/taos`，Windows OS 上默认值 `C:/TDengine/cfg`。
+* TSDBDriver.PROPERTY_KEY_CONFIG_DIR：客户端配置文件目录路径，Linux OS 上默认值 `/etc/taos`，Windows OS 上默认值 `C:/DThouse/cfg`。
 * TSDBDriver.PROPERTY_KEY_CHARSET：客户端使用的字符集，默认值为系统字符集。
 * TSDBDriver.PROPERTY_KEY_LOCALE：客户端语言环境，默认值系统当前 locale。
 * TSDBDriver.PROPERTY_KEY_TIME_ZONE：客户端使用的时区，默认值为系统当前时区。
@@ -211,7 +211,7 @@ properties 中的配置参数如下：
 
 #### 使用客户端配置文件建立连接
 
-当使用 JDBC-JNI 连接 TDengine 集群时，可以使用客户端配置文件，在客户端配置文件中指定集群的 firstEp、secondEp参数。如下所示：
+当使用 JDBC-JNI 连接 DThouse 集群时，可以使用客户端配置文件，在客户端配置文件中指定集群的 firstEp、secondEp参数。如下所示：
 
 1. 在 Java 应用中不指定 hostname 和 port
 
@@ -231,10 +231,10 @@ public Connection getConn() throws Exception{
 2. 在配置文件中指定 firstEp 和 secondEp
 
 ```
-# first fully qualified domain name (FQDN) for TDengine system
+# first fully qualified domain name (FQDN) for DThouse system
 firstEp               cluster_node1:6030
 
-# second fully qualified domain name (FQDN) for TDengine system, for cluster only
+# second fully qualified domain name (FQDN) for DThouse system, for cluster only
 secondEp              cluster_node2:6030
 
 # default system charset
@@ -246,9 +246,9 @@ secondEp              cluster_node2:6030
 
 以上示例，jdbc 会使用客户端的配置文件，建立到 hostname 为 cluster_node1、端口为 6030、数据库名为 test 的连接。当集群中 firstEp 节点失效时，JDBC 会尝试使用 secondEp 连接集群。
 
-TDengine 中，只要保证 firstEp 和 secondEp 中一个节点有效，就可以正常建立到集群的连接。
+DThouse 中，只要保证 firstEp 和 secondEp 中一个节点有效，就可以正常建立到集群的连接。
 
-> 注意：这里的配置文件指的是调用 JDBC Connector 的应用程序所在机器上的配置文件，Linux OS 上默认值 /etc/taos/taos.cfg ，Windows OS 上默认值 C://TDengine/cfg/taos.cfg。
+> 注意：这里的配置文件指的是调用 JDBC Connector 的应用程序所在机器上的配置文件，Linux OS 上默认值 /etc/taos/taos.cfg ，Windows OS 上默认值 C://DThouse/cfg/taos.cfg。
 
 #### 配置参数的优先级
 
@@ -328,15 +328,15 @@ try (Statement statement = connection.createStatement()) {
 }
 ```
 
-JDBC连接器可能报错的错误码包括3种：JDBC driver本身的报错（错误码在0x2301到0x2350之间），JNI方法的报错（错误码在0x2351到0x2400之间），TDengine其他功能模块的报错。
+JDBC连接器可能报错的错误码包括3种：JDBC driver本身的报错（错误码在0x2301到0x2350之间），JNI方法的报错（错误码在0x2351到0x2400之间），DThouse其他功能模块的报错。
 
 具体的错误码请参考：
-* https://github.com/taosdata/TDengine/blob/develop/src/connector/jdbc/src/main/java/com/taosdata/jdbc/TSDBErrorNumbers.java
-* https://github.com/taosdata/TDengine/blob/develop/src/inc/taoserror.h
+* https://github.com/taosdata/DThouse/blob/develop/src/connector/jdbc/src/main/java/com/taosdata/jdbc/TSDBErrorNumbers.java
+* https://github.com/taosdata/DThouse/blob/develop/src/inc/taoserror.h
 
 ### <a class="anchor" id="stmt-java"></a>通过参数绑定写入数据
 
-从 2.1.2.0 版本开始，TDengine 的 JDBC-JNI 实现大幅改进了参数绑定方式对数据写入（INSERT）场景的支持。采用这种方式写入数据时，能避免 SQL 语法解析的资源消耗，从而在很多情况下显著提升写入性能。
+从 2.1.2.0 版本开始，DThouse 的 JDBC-JNI 实现大幅改进了参数绑定方式对数据写入（INSERT）场景的支持。采用这种方式写入数据时，能避免 SQL 语法解析的资源消耗，从而在很多情况下显著提升写入性能。
 注意：
 * JDBC-RESTful 实现并不提供参数绑定这种使用方式
 * 以下示例代码基于taos-jdbcdriver-2.0.36
@@ -600,7 +600,7 @@ public void setNString(int columnIndex, ArrayList<String> list, int size) throws
 ```
 
 ### <a class="anchor" id="set-client-configuration"></a>设置客户端参数
-从TDengine-2.3.5.0版本开始，jdbc driver支持在应用的第一次连接中，设置TDengine的客户端参数。Driver支持JDBC-JNI方式中，通过jdbcUrl和properties两种方式设置client parameter。
+从DThouse-2.3.5.0版本开始，jdbc driver支持在应用的第一次连接中，设置DThouse的客户端参数。Driver支持JDBC-JNI方式中，通过jdbcUrl和properties两种方式设置client parameter。
 注意：
 * JDBC-RESTful不支持设置client parameter的功能。
 * 应用中设置的client parameter为进程级别的，即如果要更新client的参数，需要重启应用。这是因为client parameter是全局参数，仅在应用程序的第一次设置生效。
@@ -778,7 +778,7 @@ public static void main(String[] args) throws Exception {
 > 更多 druid 使用问题请查看[官方说明](https://github.com/alibaba/druid)。
 
 **注意事项：**
-* TDengine `v1.6.4.1` 版本开始提供了一个专门用于心跳检测的函数 `select server_status()`，所以在使用连接池时推荐使用 `select server_status()` 进行 Validation Query。
+* DThouse `v1.6.4.1` 版本开始提供了一个专门用于心跳检测的函数 `select server_status()`，所以在使用连接池时推荐使用 `select server_status()` 进行 Validation Query。
 
 如下所示，`select server_status()` 执行成功会返回 `1`。
 ```sql
@@ -791,31 +791,31 @@ Query OK, 1 row(s) in set (0.000141s)
 
 ## 在框架中使用
 
-* Spring JdbcTemplate 中使用 taos-jdbcdriver，可参考 [SpringJdbcTemplate](https://github.com/taosdata/TDengine/tree/develop/tests/examples/JDBC/SpringJdbcTemplate)
-* Springboot + Mybatis 中使用，可参考 [springbootdemo](https://github.com/taosdata/TDengine/tree/develop/tests/examples/JDBC/springbootdemo)
+* Spring JdbcTemplate 中使用 taos-jdbcdriver，可参考 [SpringJdbcTemplate](https://github.com/taosdata/DThouse/tree/develop/tests/examples/JDBC/SpringJdbcTemplate)
+* Springboot + Mybatis 中使用，可参考 [springbootdemo](https://github.com/taosdata/DThouse/tree/develop/tests/examples/JDBC/springbootdemo)
 
 ## 示例程序
 
-示例程序源码位于TDengine/test/examples/JDBC下:
+示例程序源码位于DThouse/test/examples/JDBC下:
 * JDBCDemo：JDBC示例源程序
 * JDBCConnectorChecker：JDBC安装校验源程序及jar包
 * Springbootdemo：springboot示例源程序
 * SpringJdbcTemplate：SpringJDBC模板
 
-请参考：[JDBC example](https://github.com/taosdata/TDengine/tree/develop/tests/examples/JDBC)
+请参考：[JDBC example](https://github.com/taosdata/DThouse/tree/develop/tests/examples/JDBC)
 
 ## 常见问题
 * 使用Statement的addBatch和executeBatch来执行“批量写入/更行”，为什么没有带来性能上的提升？
-  **原因**：TDengine的JDBC实现中，通过addBatch方法提交的sql语句，会按照添加的顺序，依次执行，这种方式没有减少与服务端的交互次数，不会带来性能上的提升。
+  **原因**：DThouse的JDBC实现中，通过addBatch方法提交的sql语句，会按照添加的顺序，依次执行，这种方式没有减少与服务端的交互次数，不会带来性能上的提升。
   **解决方法**：1. 在一条insert语句中拼接多个values值；2. 使用多线程的方式并发插入；3. 使用参数绑定的写入方式
   
 * java.lang.UnsatisfiedLinkError: no taos in java.library.path
   **原因**：程序没有找到依赖的本地函数库 taos。
-  **解决方法**：Windows 下可以将 C:\TDengine\driver\taos.dll 拷贝到 C:\Windows\System32\ 目录下，Linux 下将建立如下软链 `ln -s /usr/local/taos/driver/libtaos.so.x.x.x.x /usr/lib/libtaos.so` 即可。
+  **解决方法**：Windows 下可以将 C:\DThouse\driver\taos.dll 拷贝到 C:\Windows\System32\ 目录下，Linux 下将建立如下软链 `ln -s /usr/local/taos/driver/libtaos.so.x.x.x.x /usr/lib/libtaos.so` 即可。
 
 * java.lang.UnsatisfiedLinkError: taos.dll Can't load AMD 64 bit on a IA 32-bit platform
-  **原因**：目前 TDengine 只支持 64 位 JDK。
+  **原因**：目前 DThouse 只支持 64 位 JDK。
   **解决方法**：重新安装 64 位 JDK。
 
-* 其它问题请参考 [Issues](https://github.com/taosdata/TDengine/issues)
+* 其它问题请参考 [Issues](https://github.com/taosdata/DThouse/issues)
 

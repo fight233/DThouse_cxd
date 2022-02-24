@@ -29,8 +29,8 @@ class Node:
         # self.hostName = hostName
         # self.homeDir = homeDir
         self.version = version
-        self.verName = "TDengine-enterprise-server-%s-Linux-x64.tar.gz" % self.version
-        self.installPath = "TDengine-enterprise-server-%s" % self.version
+        self.verName = "DThouse-enterprise-server-%s-Linux-x64.tar.gz" % self.version
+        self.installPath = "DThouse-enterprise-server-%s" % self.version
         # self.corePath = '/coredump'
         self.conn = Connection("{}@{}".format(username, hostIP), connect_kwargs={"password": "{}".format(password)})    
 
@@ -100,12 +100,12 @@ class oneNode:
 
     def FirestStartNode(self, id, username, IP, passwd, version):
         # get installPackage
-        verName = "TDengine-enterprise-server-%s-Linux-x64.tar.gz" % version
-        # installPath = "TDengine-enterprise-server-%s" % self.version
+        verName = "DThouse-enterprise-server-%s-Linux-x64.tar.gz" % version
+        # installPath = "DThouse-enterprise-server-%s" % self.version
         node131 = Node(131, 'ubuntu', '192.168.1.131', 'tbase125!', '2.0.20.0')
-        node131.conn.run('sshpass  -p  tbase125! scp /nas/TDengine/v%s/enterprise/%s root@192.168.1.%d:/home/chr/installtest/' % (version,verName,id))
+        node131.conn.run('sshpass  -p  tbase125! scp /nas/DThouse/v%s/enterprise/%s root@192.168.1.%d:/home/chr/installtest/' % (version,verName,id))
         node131.conn.close() 
-        # install TDengine at 192.168.103/104/141
+        # install DThouse at 192.168.103/104/141
         try:
             node = Node(id, username, IP, passwd, version)
             node.conn.run('echo "start taosd"')
@@ -125,7 +125,7 @@ class oneNode:
             logging.exception(e)
 
     def startNode(self, id, username, IP, passwd, version):
-        # start TDengine 
+        # start DThouse 
         try:
             node = Node(id, username, IP, passwd, version)
             node.conn.run('echo "restart taosd"')
@@ -146,13 +146,13 @@ class oneNode:
 
     def firstUpgradeNode(self, id, username, IP, passwd, version):
         # get installPackage
-        verName = "TDengine-enterprise-server-%s-Linux-x64.tar.gz" % version
-        # installPath = "TDengine-enterprise-server-%s" % self.version
+        verName = "DThouse-enterprise-server-%s-Linux-x64.tar.gz" % version
+        # installPath = "DThouse-enterprise-server-%s" % self.version
         node131 = Node(131, 'ubuntu', '192.168.1.131', 'tbase125!', '2.0.20.0')
         node131.conn.run('echo "upgrade cluster"')
-        node131.conn.run('sshpass  -p  tbase125! scp /nas/TDengine/v%s/enterprise/%s root@192.168.1.%d:/home/chr/installtest/' % (version,verName,id))
+        node131.conn.run('sshpass  -p  tbase125! scp /nas/DThouse/v%s/enterprise/%s root@192.168.1.%d:/home/chr/installtest/' % (version,verName,id))
         node131.conn.close() 
-        # upgrade TDengine at 192.168.103/104/141
+        # upgrade DThouse at 192.168.103/104/141
         try:
             node = Node(id, username, IP, passwd, version)
             node.conn.run('echo "start taosd"')
@@ -173,7 +173,7 @@ class oneNode:
     
     def  upgradeNode(self, id, username, IP, passwd, version):
 
-        # backCluster TDengine at 192.168.103/104/141
+        # backCluster DThouse at 192.168.103/104/141
         try:
             node = Node(id, username, IP, passwd, version)
             node.conn.run('echo "rollback taos"')

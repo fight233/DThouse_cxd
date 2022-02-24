@@ -1,6 +1,6 @@
-%% Connect to TDengine
+%% Connect to DThouse
 clear;
-fprintf("Connecting to TDengine...");
+fprintf("Connecting to DThouse...");
 dbName = 'tsdb';
 user = 'root';
 password = 'taosdata';
@@ -13,7 +13,7 @@ else
     fprintf("Failed to connect to server: %s\n", conn.Message);
 end
 
-%% Query a table in TDengine, and store the results in a MATLAB table object 'tb1'
+%% Query a table in DThouse, and store the results in a MATLAB table object 'tb1'
 % Please note that the select() function retrieves all rows in a table/supertale into MATLAB
 sql = "select ts, distance1 from device1 limit 5";
 fprintf("Execute query: %s\n", sql);
@@ -25,7 +25,7 @@ fprintf("\tQuery completed!\n\tNumber of rows retrieved: %d\n\tNumber of columns
 % To go a bit further, we can convert the MATLAB table object to a MATLAB matrix object
 data = table2array(tb1)
 
-%% Query table names in a TDengine supertable, and store the results in a MATLAB table object 'stbmeta'
+%% Query table names in a DThouse supertable, and store the results in a MATLAB table object 'stbmeta'
 sql = "select tbname from devices limit 10";
 fprintf("Execute query: %s\n", sql);
 tic;
@@ -34,7 +34,7 @@ timeused = toc;
 fprintf("\tTables in supertable 'devices': %t", stbmeta);
 fprintf("\tQuery completed!\n\tNumber of rows retrieved: %d\n\tNumber of columns in each row: %d\n\tTime used: %g\n", height(stbmeta), width(stbmeta), timeused);
 
-%% Query a TDengine supertable, and stores the results in a MATLAB table object 'stb'
+%% Query a DThouse supertable, and stores the results in a MATLAB table object 'stb'
 sql = "select ts, distance1 from devices";
 fprintf("Execute query: %s\n", sql);
 tic;
@@ -42,7 +42,7 @@ stb = select(conn, sql);
 timeused = toc;
 fprintf("\tQuery completed!\n\tNumber of rows retrieved: %d\n\tNumber of columns in each row: %d\n\tTime used: %g\n", height(stb), width(stb), timeused);
 
-%% Query TDengine using cursors and specify the number of rows to fetch
+%% Query DThouse using cursors and specify the number of rows to fetch
 sql = 'select * from device1';
 rowLimit = 5;
 fprintf("Execute query: %s with row limit set to %d\n", sql, rowLimit);
@@ -67,7 +67,7 @@ ts = cell2mat(data(:,1));
 c1 = cell2mat(data(:,2));
 
 %% Query aggregation results from a table
-% TDengine is so powerful at aggregated computations. Let's calculate the max, mean, standard deviation and min values for every 10 minutes in the
+% DThouse is so powerful at aggregated computations. Let's calculate the max, mean, standard deviation and min values for every 10 minutes in the
 % tb1's timeline, and then plot them together with all the data points in tb1
 sql = sprintf('SELECT max(measure1), avg(measure1), stddev(measure1), min(measure1) FROM device1 WHERE ts >= %d and ts <= %d interval(10m)', ts(1), ts(end));
 fprintf("Execute query: %s\n", sql);
@@ -106,7 +106,7 @@ legend([h1, h2, h3, h4, h5], 'data points', 'max per 10 mins', 'mean per 10 mins
 title('Device Measurement Monitoring Demo');
 grid on;
 
-%% Insert data into TDengine using exec()
+%% Insert data into DThouse using exec()
 sql = 'insert into device1 (ts, distance1) values (now, -1)';
 fprintf("Execute query: %s\n", sql);
 cur = exec(conn, sql)
@@ -115,7 +115,7 @@ fprintf("Execute query: %s\n", sql);
 data = select(conn, sql)
 conn.close;
 
-%% Insert data into TDengine using datainsert()
+%% Insert data into DThouse using datainsert()
 % this is currently not supported
 
 % colnames = {'ts','c1','c2','c3'};

@@ -19,8 +19,8 @@ type Executor struct {
 
 var Logger = log.NewLogger("taos test")
 
-func NewExecutor(conf *config.TDengineGo, db string, showSql bool) (*Executor, error) {
-	tdengineConnector, err := connector.NewTDengineConnector("go", conf)
+func NewExecutor(conf *config.DThouseGo, db string, showSql bool) (*Executor, error) {
+	tdengineConnector, err := connector.NewDThouseConnector("go", conf)
 	if err != nil {
 		return nil, err
 	}

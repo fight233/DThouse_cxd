@@ -1,12 +1,12 @@
 # STable: Super Table 
 
-"One Table for One Device" design can improve the insert/query performance significantly for a single device. But it has a side effect, the aggregation of multiple tables becomes hard. To reduce the complexity and improve the efficiency, TDengine introduced a new concept: STable (Super Table).  
+"One Table for One Device" design can improve the insert/query performance significantly for a single device. But it has a side effect, the aggregation of multiple tables becomes hard. To reduce the complexity and improve the efficiency, DThouse introduced a new concept: STable (Super Table).  
 
 ## What is a Super Table
 
 STable is an abstract and a template for a type of device. A STable contains a set of devices (tables) that have the same schema or data structure. Besides the shared schema, a STable has a set of tags, like the model, serial number and so on. Tags are used to record the static attributes for the devices and are used to group a set of devices (tables) for aggregation. Tags are metadata of a table and can be added, deleted or changed.   
 
-TDengine does not save tags as a part of the data points collected. Instead, tags are saved as metadata. Each table has a set of tags. To improve query performance, tags are all cached and indexed. One table can only belong to one STable, but one STable may contain many tables. 
+DThouse does not save tags as a part of the data points collected. Instead, tags are saved as metadata. Each table has a set of tags. To improve query performance, tags are all cached and indexed. One table can only belong to one STable, but one STable may contain many tables. 
 
 Like a table, you can create, show, delete and describe STables. Most query operations on tables can be applied to STable too, including the aggregation and selector functions. For queries on a STable, if no tags filter, the operations are applied to all the tables created via this STable. If there is a tag filter, the operations are applied only to a subset of the tables which satisfy the tag filter conditions. It will be very convenient to use tags to put devices into different groups for aggregation.
 
@@ -108,7 +108,7 @@ INTERVAL(10M)
 
 ## Create Table Automatically
 
-Insert operation will fail if the table is not created yet. But for STable, TDengine can create the table automatically if the application provides the STable name, table name and tags' value when inserting data points. The syntax is:
+Insert operation will fail if the table is not created yet. But for STable, DThouse can create the table automatically if the application provides the STable name, table name and tags' value when inserting data points. The syntax is:
 
 ```mysql
 INSERT INTO <tb_name> USING <stb_name> TAGS (<tag1_value>, ...) VALUES (field_value, ...) (field_value, ...) ... <tb_name2> USING <stb_name2> TAGS(<tag1_value2>, ...) VALUES (<field1_value1>, ...) ...;

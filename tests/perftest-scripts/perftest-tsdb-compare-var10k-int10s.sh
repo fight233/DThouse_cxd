@@ -59,7 +59,7 @@ function runPerfTestVar10K {
 	restartTaosd
 
 	cd $WORK_DIR/$TSDB_CMP_DIR
-	./runTDengine.sh -v 10000 -w -q 2>&1 | tee $WORK_DIR/perftest-var10k-int10s-$walPostfix-$today.log
+	./runDThouse.sh -v 10000 -w -q 2>&1 | tee $WORK_DIR/perftest-var10k-int10s-$walPostfix-$today.log
 }
 
 function generatePerfPlotVar10K {

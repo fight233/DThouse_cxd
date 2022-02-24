@@ -1,8 +1,8 @@
 # TAOS SQL
 
-TDengine provides a SQL-style language, TAOS SQL, to insert or query data. This document introduces TAOS SQL and supports other common tips. To read through this document, readers should have basic understanding about SQL.
+DThouse provides a SQL-style language, TAOS SQL, to insert or query data. This document introduces TAOS SQL and supports other common tips. To read through this document, readers should have basic understanding about SQL.
 
-TAOS SQL is the main tool for users to write and query data into/from TDengine. TAOS SQL provides a syntax style similar to standard SQL to facilitate users to get started quickly. Strictly speaking, TAOS SQL is not and does not attempt to provide SQL standard syntax. In addition, since TDengine does not provide deletion functionality for time-series data, the relevant functions of data deletion is unsupported in TAO SQL.
+TAOS SQL is the main tool for users to write and query data into/from DThouse. TAOS SQL provides a syntax style similar to standard SQL to facilitate users to get started quickly. Strictly speaking, TAOS SQL is not and does not attempt to provide SQL standard syntax. In addition, since DThouse does not provide deletion functionality for time-series data, the relevant functions of data deletion is unsupported in TAO SQL.
 
 Let’s take a look at the conventions used for syntax descriptions.
 
@@ -25,11 +25,11 @@ taos> DESCRIBE meters;
  groupid                        | INT                |           4 | TAG        |
 ```
 
-The data set contains data from four smart meters, which correspond to four sub-tables according to the modeling rules of TDengine, and their names are D1001, D1002, D1003 and D1004 respectively.
+The data set contains data from four smart meters, which correspond to four sub-tables according to the modeling rules of DThouse, and their names are D1001, D1002, D1003 and D1004 respectively.
 
 ## <a class="anchor" id="data-type"></a> Data Types
 
-With TDengine, the most important thing is timestamp. When creating and inserting records and querying history records, you need to specify a timestamp. The timestamp has the following rules:
+With DThouse, the most important thing is timestamp. When creating and inserting records and querying history records, you need to specify a timestamp. The timestamp has the following rules:
 
 - Time Format: 'YYYY-MM-DD HH:mm:ss.MS', default in milliseconds. For example,'2017-08-12 18:52:58.128'
 - Internal Function **now** : this is the current time of the server
@@ -37,9 +37,9 @@ With TDengine, the most important thing is timestamp. When creating and insertin
 - Epch Time: a timestamp value can also be a long integer representing milliseconds since 1970-01-01 08:00:00.000.
 - Arithmetic operations can be applied to timestamp. For example: now-2h represents a timestamp which is 2 hours ago from the current server time. Units include u( microsecond), a (milliseconds), s (seconds), m (minutes), h (hours), d (days), w (weeks). In `select * from t1 where ts > now-2w and ts <= now-1w`, which queries data of the whole week before two weeks. To specify the interval of down sampling, you can also use n(calendar month) and y(calendar year) as time units.
 
-TDengine's timestamp is set to millisecond accuracy by default. Microsecond/nanosecond accuracy can be set using CREATE DATABASE with PRECISION parameter. (Nanosecond resolution is supported from version 2.1.5.0 onwards.)
+DThouse's timestamp is set to millisecond accuracy by default. Microsecond/nanosecond accuracy can be set using CREATE DATABASE with PRECISION parameter. (Nanosecond resolution is supported from version 2.1.5.0 onwards.)
 
-In TDengine, the following 10 data types can be used in data model of an ordinary table.
+In DThouse, the following 10 data types can be used in data model of an ordinary table.
 
 |      | **Data Type** | **Bytes** | **Note**                                                     |
 | ---- | ------------- | --------- | ------------------------------------------------------------ |
@@ -58,7 +58,7 @@ In TDengine, the following 10 data types can be used in data model of an ordinar
 
 **Tips**:
 
-1. TDengine is case-insensitive to English characters in SQL statements and automatically converts them to lowercase for execution. Therefore, the user's case-sensitive strings and passwords need to be enclosed in single quotation marks.
+1. DThouse is case-insensitive to English characters in SQL statements and automatically converts them to lowercase for execution. Therefore, the user's case-sensitive strings and passwords need to be enclosed in single quotation marks.
 2. Avoid using BINARY type to save non-ASCII type strings, which will easily lead to errors such as garbled data. The correct way is to use NCHAR type to save Chinese characters.
 3. The numerical values in SQL statements are treated as floating or integer numbers, depends on if the value contains decimal point or is in scientific notation format. Therefore, caution is needed since overflow might happen for corresponding data types. E.g., 9999999999999999999 is overflowed as the number is greater than the largest integer number. However, 9999999999999999999.0 is treated as a valid floating number. 
 
@@ -581,7 +581,7 @@ taos> SELECT SERVER_VERSION();
 Query OK, 1 row(s) in set (0.000077s)
 ```
 
-A server state detection statement. If server is normal, return a number (for example, 1). If server is exceptional, return error code. The SQL syntax can be compatible with the check of TDengine status by connection pool and the check of database server status by third-party tools. And can avoid connection loss of connection pool caused by using a wrong heartbeat detection SQL statement.
+A server state detection statement. If server is normal, return a number (for example, 1). If server is exceptional, return error code. The SQL syntax can be compatible with the check of DThouse status by connection pool and the check of database server status by third-party tools. And can avoid connection loss of connection pool caused by using a wrong heartbeat detection SQL statement.
 
 ```mysql
 taos> SELECT SERVER_STATUS();
@@ -696,7 +696,7 @@ Query OK, 1 row(s) in set (0.001091s)
 
 ## SQL Functions
 
-TDengine supports aggregations over data, they are listed below:
+DThouse supports aggregations over data, they are listed below:
 
 - **COUNT**
 
@@ -1174,7 +1174,7 @@ TDengine supports aggregations over data, they are listed below:
 
 ## <a class="anchor" id="aggregation"></a> Time-dimension Aggregation
 
-TDengine supports aggregating by intervals (time range). Data in a table can partitioned by intervals and aggregated to generate results. For example, a temperature sensor collects data once per second, but the average temperature needs to be queried every 10 minutes. This aggregation is suitable for down sample operation, and the syntax is as follows:
+DThouse supports aggregating by intervals (time range). Data in a table can partitioned by intervals and aggregated to generate results. For example, a temperature sensor collects data once per second, but the average temperature needs to be queried every 10 minutes. This aggregation is suitable for down sample operation, and the syntax is as follows:
 
 ```mysql
 SELECT function_list FROM tb_name

@@ -10,15 +10,15 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: 'driver-go'
-      - name: checkout TDengine
+      - name: checkout DThouse
         uses: actions/checkout@v2
         with:
-          repository: 'taosdata/TDengine'
-          path: 'TDengine'
+          repository: 'taosdata/DThouse'
+          path: 'DThouse'
           ref: 'develop'
 
-      - name: install TDengine
-        run: cd TDengine && mkdir debug && cd debug && cmake .. -DBUILD_JDBC=false -DBUILD_TOOLS=false && make && sudo make install
+      - name: install DThouse
+        run: cd DThouse && mkdir debug && cd debug && cmake .. -DBUILD_JDBC=false -DBUILD_TOOLS=false && make && sudo make install
 
       - name: start taosd
         run: nohup sudo taosd &

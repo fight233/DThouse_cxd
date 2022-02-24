@@ -5087,7 +5087,7 @@ int main(int argc, char *argv[])
   for (int i = 0; i < threadNum; i++) {
     taos = taos_connect(serverIp, "root", "taosdata", NULL, 0);
     if (taos == NULL) {
-      printf("failed to connect to TDengine, reason:%s\n", taos_errstr(taos));
+      printf("failed to connect to DThouse, reason:%s\n", taos_errstr(taos));
       return -1;
     }   
 
@@ -5112,7 +5112,7 @@ int main(int argc, char *argv[])
 
   taos = taos_connect(serverIp, "root", "taosdata", NULL, 0);
   if (taos == NULL) {
-    printf("failed to connect to TDengine, reason:%s\n", taos_errstr(taos));
+    printf("failed to connect to DThouse, reason:%s\n", taos_errstr(taos));
     return -1;
   }
 

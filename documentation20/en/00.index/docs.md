@@ -1,21 +1,21 @@
-# TDengine Documentation
+# DThouse Documentation
 
-TDengine is a highly efficient platform to store, query, and analyze time-series data. It is specially designed and optimized for IoT, Internet of Vehicles, Industrial IoT, IT Infrastructure and Application Monitoring, etc. It works like a relational database, such as MySQL, but you are strongly encouraged to read through the following documentation before you experience it, especially the Data Modeling sections. In addition to this document, you should also download and read the technology white paper. For the older TDengine version 1.6 documentation, please click [here](https://www.taosdata.com/en/documentation16/).
+DThouse is a highly efficient platform to store, query, and analyze time-series data. It is specially designed and optimized for IoT, Internet of Vehicles, Industrial IoT, IT Infrastructure and Application Monitoring, etc. It works like a relational database, such as MySQL, but you are strongly encouraged to read through the following documentation before you experience it, especially the Data Modeling sections. In addition to this document, you should also download and read the technology white paper. For the older DThouse version 1.6 documentation, please click [here](https://www.taosdata.com/en/documentation16/).
 
-## [TDengine Introduction](/evaluation)
+## [DThouse Introduction](/evaluation)
 
-* [TDengine Introduction and Features](/evaluation#intro)
-* [TDengine Use Scenes](/evaluation#scenes)
-* [TDengine Performance Metrics and Verification](/evaluation#)
+* [DThouse Introduction and Features](/evaluation#intro)
+* [DThouse Use Scenes](/evaluation#scenes)
+* [DThouse Performance Metrics and Verification](/evaluation#)
 
 ## [Getting Started](/getting-started)
 
 * [Quick Install](/getting-started#install): install via source code/package / Docker within seconds
-* [Quick Launch](/getting-started#start): start / stop TDengine quickly with systemctl
-* [Command-line](/getting-started#console) : an easy way to access TDengine server
+* [Quick Launch](/getting-started#start): start / stop DThouse quickly with systemctl
+* [Command-line](/getting-started#console) : an easy way to access DThouse server
 * [Experience Lightning Speed](/getting-started#demo): running a demo, inserting/querying data to experience faster speed
-* [List of Supported Platforms](/getting-started#platforms): a list of platforms supported by TDengine server and client
-* [Deploy to Kubernetes](https://taosdata.github.io/TDengine-Operator/en/index.html)：a detailed guide for TDengine deployment in Kubernetes environment
+* [List of Supported Platforms](/getting-started#platforms): a list of platforms supported by DThouse server and client
+* [Deploy to Kubernetes](https://taosdata.github.io/DThouse-Operator/en/index.html)：a detailed guide for DThouse deployment in Kubernetes environment
 
 ## [Overall Architecture](/architecture)
 
@@ -58,7 +58,7 @@ TDengine is a highly efficient platform to store, query, and analyze time-series
 - [SQL Function](/taos-sql#functions): support various aggregation functions, selection functions, and calculation functions, such as avg, min, diff, etc
 - [Cutting and Aggregation](/taos-sql#aggregation): aggregate and reduce the dimension after cutting table data by time segment
 - [Boundary Restrictions](/taos-sql#limitation): restrictions for the library, table, SQL, and others
-- [Error Code](/taos-sql/error-code): TDengine 2.0 error codes and corresponding decimal codes
+- [Error Code](/taos-sql/error-code): DThouse 2.0 error codes and corresponding decimal codes
 
 ## [Advanced Features](/advanced-features)
 
@@ -69,15 +69,15 @@ TDengine is a highly efficient platform to store, query, and analyze time-series
 
 ## [Connector](/connector)
 
-- [C/C++ Connector](/connector#c-cpp): primary method to connect to TDengine server through libtaos client library
+- [C/C++ Connector](/connector#c-cpp): primary method to connect to DThouse server through libtaos client library
 - [Java Connector(JDBC)](/connector/java): driver for connecting to the server from Java applications using the JDBC API
-- [Python Connector](/connector#python): driver for connecting to TDengine server from Python applications
-- [RESTful Connector](/connector#restful): a simple way to interact with TDengine via HTTP
-- [Go Connector](/connector#go): driver for connecting to TDengine server from Go applications
-- [Node.js Connector](/connector#nodejs): driver for connecting to TDengine server from Node.js applications
-- [C# Connector](/connector#csharp): driver for connecting to TDengine server from C# applications
+- [Python Connector](/connector#python): driver for connecting to DThouse server from Python applications
+- [RESTful Connector](/connector#restful): a simple way to interact with DThouse via HTTP
+- [Go Connector](/connector#go): driver for connecting to DThouse server from Go applications
+- [Node.js Connector](/connector#nodejs): driver for connecting to DThouse server from Node.js applications
+- [C# Connector](/connector#csharp): driver for connecting to DThouse server from C# applications
 - [Windows Client](https://www.taosdata.com/blog/2019/07/26/514.html): compile your own Windows client, which is required by various connectors on the Windows environment
-- [Rust Connector](/connector/rust): A taosc/RESTful API based TDengine client for Rust
+- [Rust Connector](/connector/rust): A taosc/RESTful API based DThouse client for Rust
 
 ## [Components and Tools](/cn/documentation/)
 
@@ -86,14 +86,14 @@ TDengine is a highly efficient platform to store, query, and analyze time-series
 
 ## [Connections with Other Tools](/connections)
 
-- [Grafana](/connections#grafana): query the data saved in TDengine and provide visualization
-- [MATLAB](/connections#matlab): access data stored in TDengine server via JDBC configured within MATLAB
-- [R](/connections#r): access data stored in TDengine server via JDBC configured within R
-- [IDEA Database](https://www.taosdata.com/blog/2020/08/27/1767.html): use TDengine visually through IDEA Database Management Tool
+- [Grafana](/connections#grafana): query the data saved in DThouse and provide visualization
+- [MATLAB](/connections#matlab): access data stored in DThouse server via JDBC configured within MATLAB
+- [R](/connections#r): access data stored in DThouse server via JDBC configured within R
+- [IDEA Database](https://www.taosdata.com/blog/2020/08/27/1767.html): use DThouse visually through IDEA Database Management Tool
 
-## [Installation and Management of TDengine Cluster](/cluster)
+## [Installation and Management of DThouse Cluster](/cluster)
 
-- [Preparation](/cluster#prepare): important steps before deploying TDengine for production usage
+- [Preparation](/cluster#prepare): important steps before deploying DThouse for production usage
 - [Create the First Node](/cluster#node-one): just follow the steps in quick start 
 - [Create Subsequent Nodes](/cluster#node-other): configure taos.cfg for new nodes to add more to the existing cluster
 - [Node Management](/cluster#management): add, delete, and check nodes in the cluster
@@ -103,32 +103,32 @@ TDengine is a highly efficient platform to store, query, and analyze time-series
 - [Offline Node Processing](/cluster#offline): any node that offline for more than a certain period will be removed from the cluster
 - [Arbitrator](/cluster#arbitrator): used in the case of an even number of replicas to prevent split-brain
 
-## [TDengine Operation and Maintenance](/administrator)
+## [DThouse Operation and Maintenance](/administrator)
 
 - [Capacity Planning](/administrator#planning): Estimating hardware resources based on scenarios
 - [Fault Tolerance and Disaster Recovery](/administrator#tolerance): set the correct WAL and number of data replicas
 - [System Configuration](/administrator#config): port, cache size, file block size, and other system configurations
-- [User Management](/administrator#user): add/delete TDengine users, modify user password
-- [Import Data](/administrator#import): import data into TDengine from either script or CSV file
-- [Export Data](/administrator#export): export data either from TDengine shell or from the taosdump tool
+- [User Management](/administrator#user): add/delete DThouse users, modify user password
+- [Import Data](/administrator#import): import data into DThouse from either script or CSV file
+- [Export Data](/administrator#export): export data either from DThouse shell or from the taosdump tool
 - [System Connection and Task Query Management](/administrator#status): show the system connections, queries, streaming calculation and others
-- [System Monitor](/administrator#monitoring): monitor TDengine cluster with log database and TDinsight.
-- [File Directory Structure](/administrator#directories): directories where TDengine data files and configuration files located
-- [Parameter Limits and Reserved Keywords](/administrator#keywords): TDengine’s list of parameter limits and reserved keywords
+- [System Monitor](/administrator#monitoring): monitor DThouse cluster with log database and TDinsight.
+- [File Directory Structure](/administrator#directories): directories where DThouse data files and configuration files located
+- [Parameter Limits and Reserved Keywords](/administrator#keywords): DThouse’s list of parameter limits and reserved keywords
 
-## Performance: TDengine vs Others
+## Performance: DThouse vs Others
 
-- [Performance: TDengine vs OpenTSDB](https://www.taosdata.com/blog/2019/09/12/710.html)
-- [Performance: TDengine vs Cassandra](https://www.taosdata.com/blog/2019/09/12/708.html)
-- [Performance: TDengine vs InfluxDB](https://www.taosdata.com/blog/2019/09/12/706.html)
-- [Performance Test Reports of TDengine vs InfluxDB/OpenTSDB/Cassandra/MySQL/ClickHouse](https://www.taosdata.com/downloads/TDengine_Testing_Report_en.pdf)
+- [Performance: DThouse vs OpenTSDB](https://www.taosdata.com/blog/2019/09/12/710.html)
+- [Performance: DThouse vs Cassandra](https://www.taosdata.com/blog/2019/09/12/708.html)
+- [Performance: DThouse vs InfluxDB](https://www.taosdata.com/blog/2019/09/12/706.html)
+- [Performance Test Reports of DThouse vs InfluxDB/OpenTSDB/Cassandra/MySQL/ClickHouse](https://www.taosdata.com/downloads/DThouse_Testing_Report_en.pdf)
 
 ## More on IoT Big Data
 
 - [Characteristics of IoT and Industry Internet Big Data](https://www.taosdata.com/blog/2019/07/09/characteristics-of-iot-big-data/)
 - [Features and Functions of IoT Big Data platforms](https://www.taosdata.com/blog/2019/07/29/542.html)
 - [Why don’t General Big Data Platforms Fit IoT Scenarios?](https://www.taosdata.com/blog/2019/07/09/why-does-the-general-big-data-platform-not-fit-iot-data-processing/)
-- [Why TDengine is the best choice for IoT, Internet of Vehicles, and Industry Internet Big Data platforms?](https://www.taosdata.com/blog/2019/07/09/why-tdengine-is-the-best-choice-for-iot-big-data-processing/)
+- [Why DThouse is the best choice for IoT, Internet of Vehicles, and Industry Internet Big Data platforms?](https://www.taosdata.com/blog/2019/07/09/why-tdengine-is-the-best-choice-for-iot-big-data-processing/)
 - [Technical Blog](https://www.taosdata.com/cn/blog/?categories=3): More technical analysis and architecture design articles
 
 ## FAQ

@@ -333,11 +333,11 @@ done
 if $master ; then
   echo "Test master branch.."
   cp /mnt/root/cfg/master/taos.cfg /etc/taos/taos.cfg
-  WORK_DIR=/mnt/root/TDengine.master
+  WORK_DIR=/mnt/root/DThouse.master
 else
   echo "Test develop branch.."
   cp /mnt/root/cfg/10billion/taos.cfg /etc/taos/taos.cfg
-  WORK_DIR=/mnt/root/TDengine
+  WORK_DIR=/mnt/root/DThouse
 fi
 
 TAOSD_DIR=$WORK_DIR/debug/build/bin
